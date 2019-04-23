@@ -26,7 +26,14 @@ namespace ProjectEye.Core
 
         private int timed = 0;
 
+        /// <summary>
+        /// 倒计时更改时发生
+        /// </summary>
         public event TakeEventHandler TimeChanged;
+        /// <summary>
+        /// 休息结束时发生
+        /// </summary>
+        public event TakeEventHandler TakeCompleted;
         public Take()
         {
             //初始化计时器
@@ -48,6 +55,7 @@ namespace ProjectEye.Core
             tipWindow.Hide();
             timer.Stop();
             timed = TakeTime;
+            OnTakeCompleted();
         }
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -64,6 +72,10 @@ namespace ProjectEye.Core
         private void OnTimeChanged()
         {
             TimeChanged?.Invoke(this, timed);
+        }
+        private void OnTakeCompleted()
+        {
+            TakeCompleted?.Invoke(this, 0);
         }
     }
 }

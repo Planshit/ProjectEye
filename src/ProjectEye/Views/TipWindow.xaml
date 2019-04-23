@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectEye.Views"
         mc:Ignorable="d"
-        Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="False" WindowState="Maximized" WindowStyle="None" Visibility="Hidden" AllowsTransparency="True" Width="0" Height="0"
+        Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowState="Maximized" WindowStyle="None" Visibility="Hidden" AllowsTransparency="True" Width="0" Height="0"
         Opacity=".97"
         >
     <Grid>

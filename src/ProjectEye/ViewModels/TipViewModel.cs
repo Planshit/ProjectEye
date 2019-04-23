@@ -23,6 +23,12 @@ namespace ProjectEye.ViewModels
 
             take = new Take();
             take.TimeChanged += new TakeEventHandler(timeChanged);
+            take.TakeCompleted += new TakeEventHandler(takeCompleted);
+        }
+
+        private void takeCompleted(object sender, int timed)
+        {
+            Init();
         }
 
         private void Init()
@@ -45,10 +51,7 @@ namespace ProjectEye.ViewModels
         private void timeChanged(object sender, int timed)
         {
             CountDown = timed;
-            if (CountDown <= 0)
-            {
-                Init();
-            }
+
         }
     }
 }
