@@ -1,0 +1,56 @@
+﻿<Window x:Class="ProjectEye.Views.TipWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectEye.Views"
+        mc:Ignorable="d"
+        Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="False" WindowState="Maximized" WindowStyle="None" Visibility="Hidden" AllowsTransparency="True" Width="0" Height="0"
+        Opacity=".97"
+        >
+    <Grid>
+        <!--休息提示UI-->
+        <Grid VerticalAlignment="Center"
+              Width="400"
+              >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="2.5*"/>
+                <RowDefinition Height="2.5*"/>
+                <RowDefinition Height="2.5*"/>
+            </Grid.RowDefinitions>
+            <Image Source="/ProjectEye;component/Resources/undraw_not_found_60pq.png" Height="160"
+                   HorizontalAlignment="Center"
+                   />
+            <TextBlock FontSize="20"
+                   Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   Margin="0,10"
+                   TextWrapping="Wrap"
+                   Foreground="#45435b">您已持续用眼20分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！</TextBlock>
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button 
+                
+                Command="{Binding takeCommand}"
+                Content="好的"
+                Visibility="{Binding TakeButtonVisibility}"/>
+                <Button 
+                Style="{DynamicResource Black}"
+                Command="{Binding busyCommand}"
+                Content="暂时不"
+                Visibility="{Binding TakeButtonVisibility}"
+                    Margin="10,0,0,0"/>
+            </StackPanel>
+
+            <TextBlock
+                FontSize="50"
+                FontWeight="Bold"
+                Grid.Row="3"
+                HorizontalAlignment="Center"
+                Text="{Binding CountDown}"
+                Visibility="{Binding CountDownVisibility}"/>
+        </Grid>
+    </Grid>
+</Window>
