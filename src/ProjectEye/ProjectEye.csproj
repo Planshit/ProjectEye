@@ -86,6 +86,7 @@
     <Compile Include="Core\Service\ResetService.cs" />
     <Compile Include="Core\Service\ServiceCollection.cs" />
     <Compile Include="Core\ResetEventHandler.cs" />
+    <Compile Include="Core\Service\SoundService.cs" />
     <Compile Include="Core\Service\TrayService.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="Core\WindowManager.cs" />
@@ -147,6 +148,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\dizzy.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\relentless.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

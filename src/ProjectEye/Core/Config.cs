@@ -8,5 +8,7 @@ namespace ProjectEye.Core
     public class Config
     {
         public static bool NoReset { get; set; } = false;
+        public static bool Sound { get; set; } = true;
+
     }
 }

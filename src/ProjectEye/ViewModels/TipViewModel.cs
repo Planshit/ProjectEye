@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace ProjectEye.ViewModels
 {
@@ -17,19 +18,31 @@ namespace ProjectEye.ViewModels
         public Command busyCommand { get; set; }
 
         private readonly ResetService reset;
-        public TipViewModel(ResetService reset)
-        {
-            resetCommand = new Command(new Action<object>(resetCommand_action));
-            busyCommand = new Command(new Action<object>(busyCommand_action));
+        private readonly SoundService sound;
 
+
+        public TipViewModel(ResetService reset, SoundService sound)
+        {
             this.reset = reset;
             this.reset.TimeChanged += new ResetEventHandler(timeChanged);
             this.reset.ResetCompleted += new ResetEventHandler(resetCompleted);
+
+            this.sound = sound;
+            resetCommand = new Command(new Action<object>(resetCommand_action));
+            busyCommand = new Command(new Action<object>(busyCommand_action));
+
+
         }
 
         private void resetCompleted(object sender, int timed)
         {
+            //休息结束
             Init();
+            //播放提示音
+            if (Config.Sound)
+            {
+                sound.Play();
+            }
         }
 
         private void Init()
@@ -47,7 +60,8 @@ namespace ProjectEye.ViewModels
         }
         private void busyCommand_action(object obj)
         {
-            reset.End();
+            var tipWindow = WindowManager.Get("TipWindow");
+            tipWindow.Hide();
         }
         private void timeChanged(object sender, int timed)
         {

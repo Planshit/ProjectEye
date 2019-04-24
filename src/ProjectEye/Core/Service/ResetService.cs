@@ -54,7 +54,7 @@ namespace ProjectEye.Core.Service
             timed = TakeTime;
             timer.Start();
         }
-        public void End()
+        private void End()
         {
             tipWindow.Hide();
             timer.Stop();

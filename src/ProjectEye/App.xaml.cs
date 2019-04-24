@@ -18,13 +18,22 @@ namespace ProjectEye
     public partial class App : Application
     {
         private readonly ServiceCollection serviceCollection;
+        private System.Threading.Mutex mutex;
         public App()
         {
+            bool ret;
+            mutex = new System.Threading.Mutex(true, "projecteye", out ret);
+
+            if (!ret)
+            {
+                App.Current.Shutdown();
+            }
             serviceCollection = new ServiceCollection();
             serviceCollection.AddInstance(this);
             serviceCollection.Add<MainService>();
             serviceCollection.Add<TrayService>();
             serviceCollection.Add<ResetService>();
+            serviceCollection.Add<SoundService>();
 
             WindowManager.serviceCollection = serviceCollection;
             serviceCollection.Initialize();
