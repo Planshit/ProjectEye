@@ -1,10 +1,13 @@
 ﻿using ProjectEye.Core;
+using ProjectEye.Core.Service;
 using ProjectEye.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 
 namespace ProjectEye
@@ -14,33 +17,19 @@ namespace ProjectEye
     /// </summary>
     public partial class App : Application
     {
-        private readonly Main main;
-        private readonly Tray tray;
+        private readonly ServiceCollection serviceCollection;
         public App()
         {
+            serviceCollection = new ServiceCollection();
+            serviceCollection.AddInstance(this);
+            serviceCollection.Add<MainService>();
+            serviceCollection.Add<TrayService>();
+            serviceCollection.Add<ResetService>();
 
-            //创建提示窗口
-            var tipWindow = WindowManager.CreateWindow("TipWindow");
-            tipWindow.DataContext = new TipViewModel();
-           
-            main = new Main();
-            tray = new Tray();
-            
-            Startup += new StartupEventHandler(startup);
-            Exit += new ExitEventHandler(exit);
+            WindowManager.serviceCollection = serviceCollection;
+            serviceCollection.Initialize();
+
         }
 
-        private void exit(object sender, ExitEventArgs e)
-        {
-            tray.Remove();
-
-            main.Stop();
-            
-        }
-
-        private void startup(object sender, StartupEventArgs e)
-        {
-            main.Run();
-        }
     }
 }

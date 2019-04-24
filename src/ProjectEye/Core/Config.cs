@@ -5,5 +5,8 @@ using System.Text;
 
 namespace ProjectEye.Core
 {
-    public delegate void TakeEventHandler(object sender, int timed);
+    public class Config
+    {
+        public static bool NoReset { get; set; } = false;
+    }
 }

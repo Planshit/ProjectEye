@@ -1,4 +1,5 @@
 ﻿using ProjectEye.Core;
+using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,21 @@ namespace ProjectEye.ViewModels
         /// <summary>
         /// 休息命令
         /// </summary>
-        public Command takeCommand { get; set; }
+        public Command resetCommand { get; set; }
         public Command busyCommand { get; set; }
 
-        private readonly Take take;
-        public TipViewModel()
+        private readonly ResetService reset;
+        public TipViewModel(ResetService reset)
         {
-            takeCommand = new Command(new Action<object>(takeCommand_action));
+            resetCommand = new Command(new Action<object>(resetCommand_action));
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
-            take = new Take();
-            take.TimeChanged += new TakeEventHandler(timeChanged);
-            take.TakeCompleted += new TakeEventHandler(takeCompleted);
+            this.reset = reset;
+            this.reset.TimeChanged += new ResetEventHandler(timeChanged);
+            this.reset.ResetCompleted += new ResetEventHandler(resetCompleted);
         }
 
-        private void takeCompleted(object sender, int timed)
+        private void resetCompleted(object sender, int timed)
         {
             Init();
         }
@@ -38,15 +39,15 @@ namespace ProjectEye.ViewModels
             TakeButtonVisibility = System.Windows.Visibility.Visible;
         }
 
-        private void takeCommand_action(object obj)
+        private void resetCommand_action(object obj)
         {
             CountDownVisibility = System.Windows.Visibility.Visible;
             TakeButtonVisibility = System.Windows.Visibility.Hidden;
-            take.Start();
+            reset.Start();
         }
         private void busyCommand_action(object obj)
         {
-            take.End();
+            reset.End();
         }
         private void timeChanged(object sender, int timed)
         {

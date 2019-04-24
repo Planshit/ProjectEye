@@ -6,9 +6,9 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace ProjectEye.Core
+namespace ProjectEye.Core.Service
 {
-    public class Take
+    public class ResetService : IService
     {
         /// <summary>
         /// 计时器
@@ -17,7 +17,7 @@ namespace ProjectEye.Core
         /// <summary>
         /// 提示窗口
         /// </summary>
-        private readonly Window tipWindow;
+        private Window tipWindow;
 
         /// <summary>
         /// 休息时间
@@ -29,17 +29,21 @@ namespace ProjectEye.Core
         /// <summary>
         /// 倒计时更改时发生
         /// </summary>
-        public event TakeEventHandler TimeChanged;
+        public event ResetEventHandler TimeChanged;
         /// <summary>
         /// 休息结束时发生
         /// </summary>
-        public event TakeEventHandler TakeCompleted;
-        public Take()
+        public event ResetEventHandler ResetCompleted;
+        public ResetService()
         {
             //初始化计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0, 0, 1);
+            
+        }
+        public void Init()
+        {
             tipWindow = WindowManager.Get("TipWindow");
         }
         /// <summary>
@@ -55,7 +59,7 @@ namespace ProjectEye.Core
             tipWindow.Hide();
             timer.Stop();
             timed = TakeTime;
-            OnTakeCompleted();
+            OnResetCompleted();
         }
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -73,9 +77,11 @@ namespace ProjectEye.Core
         {
             TimeChanged?.Invoke(this, timed);
         }
-        private void OnTakeCompleted()
+        private void OnResetCompleted()
         {
-            TakeCompleted?.Invoke(this, 0);
+            ResetCompleted?.Invoke(this, 0);
         }
+
+       
     }
 }

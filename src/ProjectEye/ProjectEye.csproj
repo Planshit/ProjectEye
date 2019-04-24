@@ -80,10 +80,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Main.cs" />
-    <Compile Include="Core\Take.cs" />
-    <Compile Include="Core\TakeEventHandler.cs" />
-    <Compile Include="Core\Tray.cs" />
+    <Compile Include="Core\Config.cs" />
+    <Compile Include="Core\Service\IService.cs" />
+    <Compile Include="Core\Service\MainService.cs" />
+    <Compile Include="Core\Service\ResetService.cs" />
+    <Compile Include="Core\Service\ServiceCollection.cs" />
+    <Compile Include="Core\ResetEventHandler.cs" />
+    <Compile Include="Core\Service\TrayService.cs" />
+    <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Models\TipModel.cs" />
     <Compile Include="Models\UINotifyPropertyChanged.cs" />
@@ -140,6 +144,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\dizzy.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

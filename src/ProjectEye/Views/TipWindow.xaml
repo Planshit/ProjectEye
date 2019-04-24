@@ -33,7 +33,7 @@
                         HorizontalAlignment="Center">
                 <Button 
                 
-                Command="{Binding takeCommand}"
+                Command="{Binding resetCommand}"
                 Content="好的"
                 Visibility="{Binding TakeButtonVisibility}"/>
                 <Button 
