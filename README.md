@@ -7,7 +7,9 @@
 
 程序非常精简，只有一个全屏提示窗口，和一个托盘图标。每20分钟会弹出全屏提示窗口（可跳过）提醒你该休息了，休息结束后有提示音（可在托盘菜单关闭）。有时候可能你需要长时间不间断工作，暂时不希望Project Eye打扰到你，可以在托盘菜单选择 “不要提醒”，直到你重新取消后才会继续。
 
-![tipwindow](https://raw.githubusercontent.com/Planshit/ProjectEye/master/screenshot/Snipaste_2019-04-25_09-57-21.jpg)
+<p align="center">
+  <img alt="tipwindow" src="https://raw.githubusercontent.com/Planshit/ProjectEye/master/screenshot/tipwindow.jpg">
+</p>
 
 ## 20-20-20
 
