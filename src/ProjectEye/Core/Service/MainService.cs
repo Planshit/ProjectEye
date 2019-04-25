@@ -28,8 +28,8 @@ namespace ProjectEye.Core.Service
             //初始化计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = new TimeSpan(0, 20, 0);
-            //timer.Interval = new TimeSpan(0, 0, 20);
+            //timer.Interval = new TimeSpan(0, 20, 0);
+            timer.Interval = new TimeSpan(0, 0, 20);
 
 
 
