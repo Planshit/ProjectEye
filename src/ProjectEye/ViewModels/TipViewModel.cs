@@ -60,8 +60,7 @@ namespace ProjectEye.ViewModels
         }
         private void busyCommand_action(object obj)
         {
-            var tipWindow = WindowManager.Get("TipWindow");
-            tipWindow.Hide();
+            WindowManager.Hide("TipWindow");
         }
         private void timeChanged(object sender, int timed)
         {

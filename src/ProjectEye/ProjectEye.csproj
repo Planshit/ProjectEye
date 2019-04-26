@@ -81,13 +81,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Config.cs" />
+    <Compile Include="Core\Models\WindowModel.cs" />
+    <Compile Include="Core\Service\ConfigService.cs" />
     <Compile Include="Core\Service\IService.cs" />
     <Compile Include="Core\Service\MainService.cs" />
     <Compile Include="Core\Service\ResetService.cs" />
+    <Compile Include="Core\Service\ScreenService.cs" />
     <Compile Include="Core\Service\ServiceCollection.cs" />
     <Compile Include="Core\ResetEventHandler.cs" />
     <Compile Include="Core\Service\SoundService.cs" />
     <Compile Include="Core\Service\TrayService.cs" />
+    <Compile Include="Core\ShortcutHelper.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Models\TipModel.cs" />

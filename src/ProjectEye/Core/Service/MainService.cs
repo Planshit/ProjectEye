@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Threading;
 
 namespace ProjectEye.Core.Service
@@ -19,32 +20,37 @@ namespace ProjectEye.Core.Service
         /// 计时器
         /// </summary>
         private readonly DispatcherTimer timer;
-        /// <summary>
-        /// 休息提示窗口
-        /// </summary>
-        private Window tipWindow;
-        public MainService(App app)
+        private readonly ScreenService screenService;
+
+        public MainService(App app, ScreenService screenService)
         {
+            this.screenService = screenService;
             //初始化计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
-            //timer.Interval = new TimeSpan(0, 20, 0);
-            timer.Interval = new TimeSpan(0, 0, 20);
-
+            timer.Interval = new TimeSpan(0, 20, 0);
+            //timer.Interval = new TimeSpan(0, 0, 20);
 
 
             app.Exit += new ExitEventHandler(app_Exit);
         }
+      
 
 
         public void Init()
         {
-            tipWindow = WindowManager.GetCreateWindow("TipWindow");
-            tipWindow.IsVisibleChanged += new DependencyPropertyChangedEventHandler(isVisibleChanged);
+            var tipWindow = WindowManager.GetCreateWindow("TipWindow", true);
+
+            foreach (var window in tipWindow)
+            {
+                window.IsVisibleChanged += new DependencyPropertyChangedEventHandler(isVisibleChanged);
+            }
+
 
             Start();
         }
-        
+
+    
 
 
         /// <summary>
@@ -52,12 +58,9 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Exit()
         {
+            screenService.Dispose();
             DoStop();
-            var tipWindow = WindowManager.Get("TipWindow");
-            if (tipWindow != null)
-            {
-                tipWindow.Close();
-            }
+            WindowManager.Close("TipWindow");
         }
         public void Start()
         {
@@ -79,7 +82,7 @@ namespace ProjectEye.Core.Service
         private void DoStop()
         {
             timer.Stop();
-            
+
 
 
         }
@@ -90,12 +93,13 @@ namespace ProjectEye.Core.Service
         {
             if (!Config.NoReset)
             {
-                tipWindow.Show();
+                WindowManager.Show("TipWindow");
             }
         }
         private void isVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (tipWindow.IsVisible)
+            var window = sender as Window;
+            if (window.IsVisible)
             {
                 //显示提示窗口时停止计时
                 timer.Stop();

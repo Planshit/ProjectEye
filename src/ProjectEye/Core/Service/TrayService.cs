@@ -40,8 +40,41 @@ namespace ProjectEye.Core.Service
             menuItem_exit.Text = "退出";
             menuItem_exit.Click += new System.EventHandler(menuItem_exit_Click);
 
-            this.contextMenu.MenuItems.AddRange(
-                        new System.Windows.Forms.MenuItem[] { menuItem_norest, menuItem_sound, menuItem_exit });
+            //统计数据
+            System.Windows.Forms.MenuItem menuItem_data = new System.Windows.Forms.MenuItem();
+            menuItem_data.Text = "统计";
+            menuItem_data.Click += new System.EventHandler(menuItem_data_Click);
+
+            //更新
+            System.Windows.Forms.MenuItem menuItem_update = new System.Windows.Forms.MenuItem();
+            menuItem_update.Text = "更新";
+            menuItem_update.Click += new System.EventHandler(menuItem_update_Click);
+
+            //选项
+            System.Windows.Forms.MenuItem menuItem_options = new System.Windows.Forms.MenuItem();
+            menuItem_options.Text = "选项";    
+            menuItem_options.MenuItems.Add("aa");
+
+            //选项.开机启动
+            System.Windows.Forms.MenuItem menuItem_options_ = new System.Windows.Forms.MenuItem();
+            menuItem_update.Text = "更新";
+            menuItem_update.Click += new System.EventHandler(menuItem_update_Click);
+
+
+
+
+            //contextMenu.MenuItems.Add(menuItem_data);
+            //contextMenu.MenuItems.Add("-");
+            contextMenu.MenuItems.Add(menuItem_norest);
+            contextMenu.MenuItems.Add(menuItem_sound);
+            contextMenu.MenuItems.Add("-");
+            //contextMenu.MenuItems.Add(menuItem_options);
+            //contextMenu.MenuItems.Add(menuItem_update);
+            //contextMenu.MenuItems.Add("-");
+            contextMenu.MenuItems.Add(menuItem_exit);
+
+            //this.contextMenu.MenuItems.AddRange(
+            //            new System.Windows.Forms.MenuItem[] { menuItem_norest, menuItem_sound, menuItem_exit });
 
 
             notifyIcon = new System.Windows.Forms.NotifyIcon(components);
@@ -52,6 +85,18 @@ namespace ProjectEye.Core.Service
             //notifyIcon.DoubleClick += new System.EventHandler(notifyIcon_DoubleClick);
 
             app.Exit += new ExitEventHandler(app_Exit);
+        }
+
+     
+
+        private void menuItem_update_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void menuItem_data_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void menuItem_sound_Click(object sender, EventArgs e)
@@ -108,6 +153,7 @@ namespace ProjectEye.Core.Service
 
         private void app_Exit(object sender, ExitEventArgs e)
         {
+            mainService.Exit();
             Remove();
         }
 

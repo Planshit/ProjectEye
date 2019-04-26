@@ -14,10 +14,6 @@ namespace ProjectEye.Core.Service
         /// 计时器
         /// </summary>
         private readonly DispatcherTimer timer;
-        /// <summary>
-        /// 提示窗口
-        /// </summary>
-        private Window tipWindow;
 
         /// <summary>
         /// 休息时间
@@ -44,7 +40,6 @@ namespace ProjectEye.Core.Service
         }
         public void Init()
         {
-            tipWindow = WindowManager.Get("TipWindow");
         }
         /// <summary>
         /// 开始休息
@@ -56,7 +51,7 @@ namespace ProjectEye.Core.Service
         }
         private void End()
         {
-            tipWindow.Hide();
+            WindowManager.Hide("TipWindow");
             timer.Stop();
             timed = TakeTime;
             OnResetCompleted();

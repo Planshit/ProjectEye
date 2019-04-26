@@ -1,4 +1,5 @@
-﻿using ProjectEye.Core.Service;
+﻿using ProjectEye.Core.Models;
+using ProjectEye.Core.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,66 +14,272 @@ namespace ProjectEye.Core
     /// </summary>
     public class WindowManager
     {
-        private static IList<Window> windowList;
-        private static string nameSpace = "ProjectEye.Views";
+        private static IList<WindowModel> windowList;
+        private static IList<object> viewModelList;
         public static ServiceCollection serviceCollection { get; set; }
         static WindowManager()
         {
-            windowList = new List<Window>();
+            windowList = new List<WindowModel>();
+            viewModelList = new List<object>();
+            
         }
 
+        //window
+        #region 创建窗口
+        private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999)
+        {
+            var viewModel = GetCreateViewModel(name);
+            Type type = Type.GetType("ProjectEye.Views." + name);
+            Window objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
+            objWindow.Uid = name;
+            objWindow.DataContext = viewModel;
+
+            if (left > -999999)
+            {
+                objWindow.Left = left;
+            }
+            if (top > -999999)
+            {
+                objWindow.Top = top;
+            }
+            if (width > -999999)
+            {
+                objWindow.Width = width;
+            }
+            if (height > -999999)
+            {
+                objWindow.Height = height;
+            }
+            var windowModel = new WindowModel();
+            windowModel.window = objWindow;
+            windowModel.screen = screen;
+
+            windowList.Add(windowModel);
+            return objWindow;
+        }
+        /// <summary>
+        /// 在指定屏幕上创建一个window，如果已存在则会销毁重新创建
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="screen"></param>
+        /// <returns></returns>
+        public static Window CreateWindowInScreen(string name, System.Windows.Forms.Screen screen)
+        {
+            
+            //var windowModel = GetWindowModel(name, screen.DeviceName);
+            //if (windowModel != null)
+            //{
+            //    //先销毁再创建
+            //    windowModel.window.Close();
+            //    windowList.Remove(windowModel);
+            //}
+            //创建
+            var window = CreateWindow(name,
+                screen.DeviceName,
+                screen.Bounds.Left,
+                screen.Bounds.Top,
+                screen.Bounds.Width,
+                screen.Bounds.Height);
+            return window;
+        }
         /// <summary>
         /// 创建一个窗口
         /// </summary>
         /// <param name="name">窗口类名</param>
         /// <returns>成功返回窗口实例，失败返回NULL</returns>
-        public static Window CreateWindow(string name)
+        public static Window[] CreateWindow(string name, bool isMaximized)
         {
-            Type type = Type.GetType(nameSpace + "." + name);
-            Window objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
-            objWindow.Uid = name;
-            objWindow.DataContext = InvokeViewModel(name);
-            objWindow.Closed += new EventHandler(objWindow_Close);
-            windowList.Add(objWindow);
-            return objWindow;
+            int screenCount = System.Windows.Forms.Screen.AllScreens.Length;
+            var screens = System.Windows.Forms.Screen.AllScreens;
+            Window[] windows = new Window[screenCount];
+
+            for (int index = 0; index < screenCount; index++)
+            {
+                var screen = screens[index];
+                double width = -999999;
+                double height = -999999;
+                if (isMaximized)
+                {
+                    width = screen.Bounds.Width;
+                    height = screen.Bounds.Height;
+                }
+                var window = CreateWindow(name, screen.DeviceName, screen.Bounds.Left, screen.Bounds.Top, width, height);
+                windows[index] = window;
+
+            }
+            return windows;
+
         }
+        #endregion
+
+        #region 获取窗口
         /// <summary>
-        /// 通过窗口类名获取一个已经创建的窗口实例
+        /// 通过窗口类名获取已经创建的窗口实例
         /// </summary>
         /// <param name="name">窗口类名</param>
-        /// <returns>成功返回窗口实例，失败返回NULL</returns>
-        public static Window Get(string name)
+        /// <returns>成功返回窗口实例数组，失败返回NULL</returns>
+        public static Window[] GetWindows(string name)
         {
-            var window = windowList.Where(m => m.Uid == name);
+            var window = windowList.Where(m => m.window.Uid == name).Select(s => s.window);
             if (window.Count() > 0)
             {
-                return window.Single();
+                return window.ToArray();
             }
             return null;
         }
         /// <summary>
-        /// 获取窗口实例，如果没有创建则会创建
+        /// 获取窗口实例，如果没有找到则会创建
         /// </summary>
         /// <param name="name"></param>
-        /// <returns></returns>
-        public static Window GetCreateWindow(string name)
+        /// <returns>成功返回窗口实例数组</returns>
+        public static Window[] GetCreateWindow(string name, bool isMaximized)
         {
-            var window = Get(name);
+            var window = GetWindows(name);
             if (window == null)
             {
-                window = CreateWindow(name);
+                window = CreateWindow(name, isMaximized);
             }
             return window;
         }
-        private static void objWindow_Close(object sender, EventArgs e)
+        /// <summary>
+        /// 获取window通过窗口类名+屏幕（驱动名称）查找
+        /// </summary>
+        /// <param name="windowName"></param>
+        /// <param name="screen"></param>
+        /// <returns>成功只会返回window实例</returns>
+        public static Window GetWindowByScreen(string windowName, string screen)
         {
-            windowList.Remove((Window)sender);
+            var select = windowList.Where(m => m.window.Uid == windowName
+              && m.screen == screen).Select(s => s.window);
+            if (select.Count() > 0)
+            {
+                return select.Single();
+            }
+            return null;
         }
+        /// <summary>
+        /// 获取windowmodel
+        /// </summary>
+        /// <param name="windowName">窗口类名</param>
+        /// <param name="screen">屏幕</param>
+        /// <returns></returns>
+        public static WindowModel GetWindowModel(string windowName,string screen)
+        {
+            var select = windowList.Where(m => m.window.Uid == windowName
+              && m.screen == screen);
+            if (select.Count() > 0)
+            {
+                return select.Single();
+            }
+            return null;
+        }
+        #endregion
 
-        private static object InvokeViewModel(string name)
+        #region 显示窗口
+        public static void Show(string name)
+        {
+            var screens = System.Windows.Forms.Screen.AllScreens;
+            foreach (var screen in screens)
+            {
+                var window = GetWindowByScreen(name, screen.DeviceName);
+                if (window != null)
+                {
+                    window.Show();
+                }
+            }
+        }
+        #endregion
+
+        #region 关闭窗口
+        /// <summary>
+        /// 关闭窗口（所有显示器）
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static int Close(string name)
+        {
+            var windows = GetWindows(name);
+            if (windows == null)
+            {
+                return 0;
+            }
+
+            foreach (var window in windows)
+            {
+                window.Close();
+
+            }
+            RemoveViewModel(name);
+            RemoveWindow(name);
+            return windows.Length;
+        }
+        #endregion
+
+        #region 隐藏窗口
+        public static int Hide(string name)
+        {
+            var windows = GetWindows(name);
+            if (windows == null)
+            {
+                return 0;
+            }
+
+            foreach (var window in windows)
+            {
+                window.Hide();
+            }
+            return windows.Length;
+        }
+        #endregion
+
+        #region 移除窗口实例
+        private static void RemoveWindow(string name)
+        {
+            var select = windowList.Where(m => m.window.Uid == name).ToList();
+            foreach (var windowModel in select)
+            {
+                windowList.Remove(windowModel);
+            }
+        }
+        #endregion
+
+        #region 在所有显示器中刷新一个窗口
+        /// <summary>
+        /// 在所有显示器中刷新一个窗口，如果在某个显示器中没有实例则会创建。跳过主显示器。
+        /// </summary>
+        /// <param name="name"></param>
+        public static void UpdateAllScreensWindow(string name)
+        {
+            var screens = System.Windows.Forms.Screen.AllScreens;
+            var mainScreen = System.Windows.Forms.Screen.PrimaryScreen;
+            foreach (var screen in screens)
+            {
+                //跳过主显示器
+                if (mainScreen != screen)
+                {
+                    var window = GetWindowByScreen(name, screen.DeviceName);
+                    if (window != null)
+                    {
+                        window.Left = screen.Bounds.Left;
+                        window.Top = screen.Bounds.Top;
+                        window.Width = screen.Bounds.Width;
+                        window.Height = screen.Bounds.Height;
+                    }
+                    else
+                    {
+                        CreateWindowInScreen(name, screen);
+                    }
+                }
+            }
+        }
+        #endregion
+
+        //viewmodel
+        #region 创建viewmodel实例
+        private static object CreateViewModel(string windowName)
         {
             string nameSpace = "ProjectEye.ViewModels";
-            string viewModelName = name.Replace("Window", "ViewModel");
+            string viewModelName = windowName.Replace("Window", "ViewModel");
             Type type = Type.GetType(nameSpace + "." + viewModelName);
             var constructorInfoObj = type.GetConstructors()[0];
             var constructorParameters = constructorInfoObj.GetParameters();
@@ -90,7 +297,47 @@ namespace ProjectEye.Core
             }
             ConstructorInfo ctor = type.GetConstructor(types);
             object instance = ctor.Invoke(objs);
+            viewModelList.Add(instance);
             return instance;
         }
+        #endregion
+
+        #region 获取viewmodel实例
+        private static object GetViewModel(string windowName)
+        {
+            string viewModelName = windowName.Replace("Window", "ViewModel");
+            var select = viewModelList.Where(m => m.GetType().Name == viewModelName);
+            if (select.Count() > 0)
+            {
+                return select.Single();
+            }
+            return null;
+        }
+        #endregion
+
+        #region 获取viewmodel实例，不存在时创建
+        private static object GetCreateViewModel(string windowName)
+        {
+            var viewModel = GetViewModel(windowName);
+            if (viewModel == null)
+            {
+                viewModel = CreateViewModel(windowName);
+            }
+            return viewModel;
+        }
+        #endregion
+
+        #region 移除viewmodel实例
+        private static void RemoveViewModel(string windowName)
+        {
+            var viewModel = GetViewModel(windowName);
+            if (viewModel != null)
+            {
+                viewModelList.Remove(viewModel);
+            }
+        }
+        #endregion
+
+
     }
 }
