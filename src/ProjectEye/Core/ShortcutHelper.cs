@@ -35,13 +35,29 @@ namespace ProjectEye.Core
         /// <summary>
         /// 设置开机启动
         /// </summary>
-        /// <param name="create"></param>
+        /// <param name="startup"></param>
         /// <returns></returns>
-        public static bool SetStartup(bool create = true)
+        public static bool SetStartup(bool startup = true)
         {
-            return CreateShortcut(Path.Combine(
+            string path = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.Startup),
-                    "Project Eye.lnk"), "");
+                    "Project Eye.lnk");
+            if (startup)
+            {
+                if (File.Exists(path))
+                {
+                    return true;
+                }
+                return CreateShortcut(path, "");
+            }
+            else
+            {
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+                return true;
+            }
         }
         /// <summary>
         /// 创建桌面快捷方式

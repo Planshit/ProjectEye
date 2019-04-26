@@ -21,20 +21,22 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private readonly DispatcherTimer timer;
         private readonly ScreenService screenService;
-
-        public MainService(App app, ScreenService screenService)
+        private readonly ConfigService config;
+        public MainService(App app, ScreenService screenService, ConfigService configService)
         {
             this.screenService = screenService;
+            this.config = configService;
             //初始化计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0, 20, 0);
-            //timer.Interval = new TimeSpan(0, 0, 20);
-
+#if DEBUG
+            timer.Interval = new TimeSpan(0, 0, 20);
+#endif
 
             app.Exit += new ExitEventHandler(app_Exit);
         }
-      
+
 
 
         public void Init()
@@ -50,7 +52,7 @@ namespace ProjectEye.Core.Service
             Start();
         }
 
-    
+
 
 
         /// <summary>
@@ -91,7 +93,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
-            if (!Config.NoReset)
+            if (!config.options.general.noreset)
             {
                 WindowManager.Show("TipWindow");
             }

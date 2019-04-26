@@ -80,7 +80,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Config.cs" />
+    <Compile Include="Core\Models\Options\GeneralModel.cs" />
+    <Compile Include="Core\Models\Options\OptionsModel.cs" />
     <Compile Include="Core\Models\WindowModel.cs" />
     <Compile Include="Core\Service\ConfigService.cs" />
     <Compile Include="Core\Service\IService.cs" />
@@ -94,10 +95,16 @@
     <Compile Include="Core\ShortcutHelper.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
     <Compile Include="Core\WindowManager.cs" />
+    <Compile Include="Core\XmlExtensions.cs" />
+    <Compile Include="Models\OptionsModel.cs" />
     <Compile Include="Models\TipModel.cs" />
     <Compile Include="Models\UINotifyPropertyChanged.cs" />
     <Compile Include="ViewModels\Command.cs" />
+    <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\TipViewModel.cs" />
+    <Compile Include="Views\OptionsWindow.xaml.cs">
+      <DependentUpon>OptionsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TipWindow.xaml.cs">
       <DependentUpon>TipWindow.xaml</DependentUpon>
     </Compile>
@@ -109,6 +116,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\OptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TipWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

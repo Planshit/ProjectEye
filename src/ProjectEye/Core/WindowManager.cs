@@ -21,19 +21,24 @@ namespace ProjectEye.Core
         {
             windowList = new List<WindowModel>();
             viewModelList = new List<object>();
-            
+
         }
 
         //window
         #region 创建窗口
         private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999)
         {
+            //var selectWindow = GetWindowByScreen(name, screen);
+            //if (selectWindow != null)
+            //{
+            //    return selectWindow;
+            //}
             var viewModel = GetCreateViewModel(name);
             Type type = Type.GetType("ProjectEye.Views." + name);
             Window objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
             objWindow.Uid = name;
             objWindow.DataContext = viewModel;
-
+            objWindow.Closed += new EventHandler(window_closed);
             if (left > -999999)
             {
                 objWindow.Left = left;
@@ -57,15 +62,18 @@ namespace ProjectEye.Core
             windowList.Add(windowModel);
             return objWindow;
         }
+
+
+
         /// <summary>
-        /// 在指定屏幕上创建一个window，如果已存在则会销毁重新创建
+        /// 在指定显示器上创建一个window（默认在主显示器）
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="screen"></param>
+        /// <param name="name">窗口类名</param>
+        /// <param name="screen">显示器</param>
         /// <returns></returns>
-        public static Window CreateWindowInScreen(string name, System.Windows.Forms.Screen screen)
+        public static Window CreateWindowInScreen(string name, System.Windows.Forms.Screen screen = null, bool isMaximized = false)
         {
-            
+
             //var windowModel = GetWindowModel(name, screen.DeviceName);
             //if (windowModel != null)
             //{
@@ -74,19 +82,33 @@ namespace ProjectEye.Core
             //    windowList.Remove(windowModel);
             //}
             //创建
+
+            double left = -999999, top = -999999, width = -999999, height = -999999;
+            if (screen == null)
+            {
+                screen = System.Windows.Forms.Screen.PrimaryScreen;
+            }
+            if (isMaximized)
+            {
+                left = screen.Bounds.Left;
+                top = screen.Bounds.Top;
+                width = screen.Bounds.Width;
+                height = screen.Bounds.Height;
+            }
             var window = CreateWindow(name,
                 screen.DeviceName,
-                screen.Bounds.Left,
-                screen.Bounds.Top,
-                screen.Bounds.Width,
-                screen.Bounds.Height);
+                left,
+                top,
+                width,
+                height);
             return window;
         }
         /// <summary>
-        /// 创建一个窗口
+        /// 在所有显示器中创建一个窗口
         /// </summary>
         /// <param name="name">窗口类名</param>
-        /// <returns>成功返回窗口实例，失败返回NULL</returns>
+        /// <param name="isMaximized">是否全屏</param>
+        /// <returns></returns>
         public static Window[] CreateWindow(string name, bool isMaximized)
         {
             int screenCount = System.Windows.Forms.Screen.AllScreens.Length;
@@ -142,7 +164,7 @@ namespace ProjectEye.Core
             return window;
         }
         /// <summary>
-        /// 获取window通过窗口类名+屏幕（驱动名称）查找
+        /// 获取window通过窗口类名+显示器（驱动名称）查找
         /// </summary>
         /// <param name="windowName"></param>
         /// <param name="screen"></param>
@@ -151,7 +173,7 @@ namespace ProjectEye.Core
         {
             var select = windowList.Where(m => m.window.Uid == windowName
               && m.screen == screen).Select(s => s.window);
-            if (select.Count() > 0)
+            if (select.Count() == 1)
             {
                 return select.Single();
             }
@@ -161,9 +183,9 @@ namespace ProjectEye.Core
         /// 获取windowmodel
         /// </summary>
         /// <param name="windowName">窗口类名</param>
-        /// <param name="screen">屏幕</param>
+        /// <param name="screen">显示器</param>
         /// <returns></returns>
-        public static WindowModel GetWindowModel(string windowName,string screen)
+        public static WindowModel GetWindowModel(string windowName, string screen)
         {
             var select = windowList.Where(m => m.window.Uid == windowName
               && m.screen == screen);
@@ -248,7 +270,7 @@ namespace ProjectEye.Core
         /// 在所有显示器中刷新一个窗口，如果在某个显示器中没有实例则会创建。跳过主显示器。
         /// </summary>
         /// <param name="name"></param>
-        public static void UpdateAllScreensWindow(string name)
+        public static void UpdateAllScreensWindow(string name, bool isMaximized)
         {
             var screens = System.Windows.Forms.Screen.AllScreens;
             var mainScreen = System.Windows.Forms.Screen.PrimaryScreen;
@@ -267,10 +289,19 @@ namespace ProjectEye.Core
                     }
                     else
                     {
-                        CreateWindowInScreen(name, screen);
+                        CreateWindowInScreen(name, screen, isMaximized);
                     }
                 }
             }
+        }
+        #endregion
+
+        //window event
+        #region 窗口被关闭event
+        private static void window_closed(object sender, EventArgs e)
+        {
+            var window = sender as Window;
+            Close(window.Uid);
         }
         #endregion
 

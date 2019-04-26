@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectEye.Core.Models.Options;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,71 +12,59 @@ namespace ProjectEye.Core.Service
     public class ConfigService : IService
     {
         private readonly string configPath;
-        private XmlDocument xmlDocument;
+        private readonly XmlExtensions xmlExtensions;
+        public OptionsModel options { get; set; }
+        /// <summary>
+        /// 配置文件被修改时发生
+        /// </summary>
+        public event EventHandler Changed;
         public ConfigService()
         {
             configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.xml");
-            xmlDocument = new XmlDocument();
+            xmlExtensions = new XmlExtensions(configPath);
             Init();
         }
         public void Init()
         {
             if (File.Exists(configPath))
             {
-                xmlDocument.Load(configPath);
+                var obj = xmlExtensions.ToModel(typeof(OptionsModel));
+                if (obj != null)
+                {
+                    options = obj as OptionsModel;
+                }
             }
             else
             {
                 CreateDefaultConfig();
-                xmlDocument.Load(configPath);
             }
-            //XmlSerializer
+            //每次启动都把不提醒重置
+            options.general.noreset = false;
         }
-        public string Get(string name)
+        public bool Save()
         {
-
-            var nodes = name.Split('.');
-
-            XmlElement element = xmlDocument.DocumentElement;
-            foreach (var nodeName in nodes)
+            if (options != null)
             {
-                element = element[nodeName];
+                Changed?.Invoke(options, null);
+
+                return xmlExtensions.Save(options);
             }
-            return element.InnerText;
+            return false;
         }
         /// <summary>
         /// 创建默认配置文件
         /// </summary>
         private void CreateDefaultConfig()
         {
-            XmlElement rootElement = xmlDocument.CreateElement("config");
-
-            XmlElement generalElement = xmlDocument.CreateElement("general");
-
-            //开机启动
-            XmlElement startupElement = xmlDocument.CreateElement("startup");
-            startupElement.InnerText = "true";
-
-            //不休息
-            XmlElement noresetElement = xmlDocument.CreateElement("noreset");
-            noresetElement.InnerText = "false";
-
-            //统计数据
-            XmlElement dataElement = xmlDocument.CreateElement("data");
-            dataElement.InnerText = "false";
-
-            //提示音
-            XmlElement soundElement = xmlDocument.CreateElement("sound");
-            soundElement.InnerText = "true";
-
-            generalElement.AppendChild(startupElement);
-            generalElement.AppendChild(noresetElement);
-            generalElement.AppendChild(dataElement);
-            generalElement.AppendChild(soundElement);
-
-            rootElement.AppendChild(generalElement);
-            xmlDocument.AppendChild(rootElement);
-            xmlDocument.Save(configPath);
+            options = new OptionsModel();
+            options.general = new GeneralModel();
+            options.general.data = false;
+            options.general.noreset = false;
+            options.general.sound = true;
+            options.general.startup = false;
+            xmlExtensions.Save(options);
         }
+
+
     }
 }

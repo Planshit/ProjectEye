@@ -19,15 +19,18 @@ namespace ProjectEye.ViewModels
 
         private readonly ResetService reset;
         private readonly SoundService sound;
+        private readonly ConfigService config;
 
-
-        public TipViewModel(ResetService reset, SoundService sound)
+        public TipViewModel(ResetService reset, 
+            SoundService sound,
+            ConfigService config)
         {
             this.reset = reset;
             this.reset.TimeChanged += new ResetEventHandler(timeChanged);
             this.reset.ResetCompleted += new ResetEventHandler(resetCompleted);
 
             this.sound = sound;
+            this.config = config;
             resetCommand = new Command(new Action<object>(resetCommand_action));
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
@@ -39,7 +42,7 @@ namespace ProjectEye.ViewModels
             //休息结束
             Init();
             //播放提示音
-            if (Config.Sound)
+            if (config.options.general.sound)
             {
                 sound.Play();
             }

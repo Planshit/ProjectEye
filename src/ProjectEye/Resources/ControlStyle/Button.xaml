@@ -3,7 +3,9 @@
                     xmlns:local="clr-namespace:ProjectEye.Resources.ControlStyle">
     <!-- 普通按钮 -->
 
-    <Style TargetType="Button">
+    <Style 
+        x:Key="Green"
+        TargetType="Button">
         <Setter Property="SnapsToDevicePixels"
           Value="true" />
         <Setter Property="OverridesDefaultStyle"

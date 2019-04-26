@@ -1,4 +1,5 @@
 ﻿using ProjectEye.Core;
+using ProjectEye.Core.Models.Options;
 using ProjectEye.Core.Service;
 using ProjectEye.ViewModels;
 using System;
@@ -27,22 +28,28 @@ namespace ProjectEye
 
             if (!ret)
             {
-                App.Current.Shutdown();
+                //App.Current.Shutdown();
             }
             serviceCollection = new ServiceCollection();
             serviceCollection.AddInstance(this);
-            //serviceCollection.Add<ConfigService>();
+            serviceCollection.Add<ConfigService>();
             serviceCollection.Add<ScreenService>();
             serviceCollection.Add<MainService>();
             serviceCollection.Add<TrayService>();
             serviceCollection.Add<ResetService>();
             serviceCollection.Add<SoundService>();
-            
+
 
             WindowManager.serviceCollection = serviceCollection;
             serviceCollection.Initialize();
 
 
+            XmlExtensions xml = new XmlExtensions("test.xml");
+            //OptionsModel model = new OptionsModel();
+            //model.general = new GeneralModel();
+            //xml.Add(model);
+            var obj = xml.ToModel(typeof(OptionsModel));
+            OptionsModel model = new OptionsModel();
         }
 
     }

@@ -19,20 +19,26 @@ namespace ProjectEye.Core.Service
         private System.ComponentModel.IContainer components;
         private readonly App app;
         private readonly MainService mainService;
-        public TrayService(App app, MainService mainService)
+        private readonly ConfigService config;
+        //托盘菜单项
+        private System.Windows.Forms.MenuItem menuItem_norest;
+        private System.Windows.Forms.MenuItem menuItem_sound;
+        public TrayService(App app, MainService mainService, ConfigService config)
         {
             this.app = app;
-
             this.mainService = mainService;
+            this.config = config;
+            this.config.Changed += new EventHandler(config_Changed);
+
             components = new System.ComponentModel.Container();
             contextMenu = new System.Windows.Forms.ContextMenu();
-            //不休息
-            System.Windows.Forms.MenuItem menuItem_norest = new System.Windows.Forms.MenuItem();
+            //不要提醒我
+            menuItem_norest = new System.Windows.Forms.MenuItem();
             menuItem_norest.Text = "不要提醒我";
             menuItem_norest.Click += new System.EventHandler(menuItem_norest_Click);
             //声音提示
-            System.Windows.Forms.MenuItem menuItem_sound = new System.Windows.Forms.MenuItem();
-            menuItem_sound.Checked = true;
+            menuItem_sound = new System.Windows.Forms.MenuItem();
+            menuItem_sound.Checked = config.options.general.sound;
             menuItem_sound.Text = "提示音";
             menuItem_sound.Click += new System.EventHandler(menuItem_sound_Click);
             //退出菜单项
@@ -43,22 +49,15 @@ namespace ProjectEye.Core.Service
             //统计数据
             System.Windows.Forms.MenuItem menuItem_data = new System.Windows.Forms.MenuItem();
             menuItem_data.Text = "统计";
-            menuItem_data.Click += new System.EventHandler(menuItem_data_Click);
+            //menuItem_data.Click += new System.EventHandler(menuItem_data_Click);
 
-            //更新
-            System.Windows.Forms.MenuItem menuItem_update = new System.Windows.Forms.MenuItem();
-            menuItem_update.Text = "更新";
-            menuItem_update.Click += new System.EventHandler(menuItem_update_Click);
+
 
             //选项
             System.Windows.Forms.MenuItem menuItem_options = new System.Windows.Forms.MenuItem();
-            menuItem_options.Text = "选项";    
-            menuItem_options.MenuItems.Add("aa");
+            menuItem_options.Text = "选项";
+            menuItem_options.Click += new EventHandler(menuItem_options_Click);
 
-            //选项.开机启动
-            System.Windows.Forms.MenuItem menuItem_options_ = new System.Windows.Forms.MenuItem();
-            menuItem_update.Text = "更新";
-            menuItem_update.Click += new System.EventHandler(menuItem_update_Click);
 
 
 
@@ -68,9 +67,9 @@ namespace ProjectEye.Core.Service
             contextMenu.MenuItems.Add(menuItem_norest);
             contextMenu.MenuItems.Add(menuItem_sound);
             contextMenu.MenuItems.Add("-");
-            //contextMenu.MenuItems.Add(menuItem_options);
+            contextMenu.MenuItems.Add(menuItem_options);
             //contextMenu.MenuItems.Add(menuItem_update);
-            //contextMenu.MenuItems.Add("-");
+            contextMenu.MenuItems.Add("-");
             contextMenu.MenuItems.Add(menuItem_exit);
 
             //this.contextMenu.MenuItems.AddRange(
@@ -87,23 +86,27 @@ namespace ProjectEye.Core.Service
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
-     
-
-        private void menuItem_update_Click(object sender, EventArgs e)
+        private void config_Changed(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            menuItem_norest.Checked = config.options.general.noreset;
+            menuItem_sound.Checked = config.options.general.sound;
+
         }
 
-        private void menuItem_data_Click(object sender, EventArgs e)
+        private void menuItem_options_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            WindowManager.CreateWindowInScreen("OptionsWindow");
+            WindowManager.Show("OptionsWindow");
         }
+
+
 
         private void menuItem_sound_Click(object sender, EventArgs e)
         {
             var item = sender as System.Windows.Forms.MenuItem;
             item.Checked = !item.Checked;
-            Config.Sound = item.Checked;
+            config.options.general.sound = item.Checked;
+            config.Save();
         }
 
         public void Init()
@@ -115,7 +118,7 @@ namespace ProjectEye.Core.Service
         {
             var item = sender as System.Windows.Forms.MenuItem;
             item.Checked = !item.Checked;
-            Config.NoReset = item.Checked;
+            config.options.general.noreset = item.Checked;
             if (item.Checked)
             {
                 //不要提醒

@@ -10,7 +10,7 @@ namespace ProjectEye.Core.Service
 {
     /// <summary>
     /// 屏幕监听服务
-    /// 用于处理插拔显示器时创建和刷新窗口
+    /// 用于处理插拔显示器时创建和刷新提示窗口
     /// </summary>
     public class ScreenService : IService
     {
@@ -31,7 +31,7 @@ namespace ProjectEye.Core.Service
         private void timer_Tick(object sender, EventArgs e)
         {
             timer.Stop();
-            WindowManager.UpdateAllScreensWindow("TipWindow");
+            WindowManager.UpdateAllScreensWindow("TipWindow", true);
         }
 
         public void Init()

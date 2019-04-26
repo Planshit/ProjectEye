@@ -32,7 +32,7 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">
                 <Button 
-                
+                Style="{DynamicResource Green}"
                 Command="{Binding resetCommand}"
                 Content="好的"
                 Visibility="{Binding TakeButtonVisibility}"/>
