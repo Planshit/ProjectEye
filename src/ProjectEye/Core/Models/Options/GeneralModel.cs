@@ -28,6 +28,9 @@ namespace ProjectEye.Core.Models.Options
         /// 休息结束提示音
         /// </summary>
         public bool sound { get; set; }
-
+        /// <summary>
+        /// 离开监听
+        /// </summary>
+        public bool leavelistener { get; set; }
     }
 }

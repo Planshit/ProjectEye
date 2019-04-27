@@ -9,6 +9,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 
@@ -19,6 +20,7 @@ namespace ProjectEye
     /// </summary>
     public partial class App : Application
     {
+       
         private readonly ServiceCollection serviceCollection;
         private readonly System.Threading.Mutex mutex;
         public App()
@@ -28,11 +30,12 @@ namespace ProjectEye
 
             if (!ret)
             {
-                App.Current.Shutdown();
+                //仅允许运行一次进程
+                //App.Current.Shutdown();
             }
             serviceCollection = new ServiceCollection();
             serviceCollection.AddInstance(this);
-            //serviceCollection.Add<CacheService>();
+            serviceCollection.Add<CacheService>();
             serviceCollection.Add<ConfigService>();
             serviceCollection.Add<ScreenService>();
             serviceCollection.Add<MainService>();
@@ -43,7 +46,11 @@ namespace ProjectEye
 
             WindowManager.serviceCollection = serviceCollection;
             serviceCollection.Initialize();
+
+          
+          
         }
 
+      
     }
 }

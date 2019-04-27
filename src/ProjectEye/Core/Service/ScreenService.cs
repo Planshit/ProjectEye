@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -15,6 +16,7 @@ namespace ProjectEye.Core.Service
     public class ScreenService : IService
     {
         private const int WM_DISPLAYCHANGE = 0x007e;
+        private const int ga = 0x020A;
         private readonly DispatcherTimer timer;
         private HwndSource source;
         private readonly HwndSourceHook hwndSourceHook;

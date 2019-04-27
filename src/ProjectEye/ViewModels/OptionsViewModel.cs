@@ -19,9 +19,11 @@ namespace ProjectEye.ViewModels
         public Command inkCommand { get; set; }
 
         private readonly ConfigService config;
-        public OptionsViewModel(ConfigService config)
+        private readonly MainService mainService;
+        public OptionsViewModel(ConfigService config,MainService mainService)
         {
             this.config = config;
+            this.mainService = mainService;
             Model = new OptionsModel();
             Model.data = config.options;
             applyCommand = new Command(new Action<object>(applyCommand_action));
@@ -55,6 +57,15 @@ namespace ProjectEye.ViewModels
                 if (!ShortcutHelper.SetStartup(config.options.general.startup))
                 {
                     msg = "选项已成功更新。但是开机启动选项可能未生效。";
+                }
+                //处理离开监听开关
+                if (config.options.general.leavelistener)
+                {
+                    mainService.OpenLeaveListener();
+                }
+                else
+                {
+                    mainService.CloseLeaveListener();
                 }
             }
             MessageBox.Show(msg, "提示");
