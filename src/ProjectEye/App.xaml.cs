@@ -28,10 +28,11 @@ namespace ProjectEye
 
             if (!ret)
             {
-                //App.Current.Shutdown();
+                App.Current.Shutdown();
             }
             serviceCollection = new ServiceCollection();
             serviceCollection.AddInstance(this);
+            //serviceCollection.Add<CacheService>();
             serviceCollection.Add<ConfigService>();
             serviceCollection.Add<ScreenService>();
             serviceCollection.Add<MainService>();
@@ -42,14 +43,6 @@ namespace ProjectEye
 
             WindowManager.serviceCollection = serviceCollection;
             serviceCollection.Initialize();
-
-
-            XmlExtensions xml = new XmlExtensions("test.xml");
-            //OptionsModel model = new OptionsModel();
-            //model.general = new GeneralModel();
-            //xml.Add(model);
-            var obj = xml.ToModel(typeof(OptionsModel));
-            OptionsModel model = new OptionsModel();
         }
 
     }
