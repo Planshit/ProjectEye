@@ -27,7 +27,7 @@
                    HorizontalAlignment="Center"
                    Margin="0,10"
                    TextWrapping="Wrap"
-                   Foreground="#45435b">您已持续用眼20分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！</TextBlock>
+                   Foreground="#45435b">您已持续用眼<Run Text="{Binding WarnTime}"/>分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！</TextBlock>
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">

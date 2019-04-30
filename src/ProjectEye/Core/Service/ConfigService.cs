@@ -63,6 +63,7 @@ namespace ProjectEye.Core.Service
             options.general.sound = true;
             options.general.startup = false;
             options.general.leavelistener = false;
+            options.general.warntime = 20;
 
             xmlExtensions.Save(options);
         }

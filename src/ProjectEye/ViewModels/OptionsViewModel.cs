@@ -67,6 +67,8 @@ namespace ProjectEye.ViewModels
                 {
                     mainService.CloseLeaveListener();
                 }
+                //处理休息间隔调整
+                mainService.SetWarnTime(config.options.general.warntime);
             }
             MessageBox.Show(msg, "提示");
         }

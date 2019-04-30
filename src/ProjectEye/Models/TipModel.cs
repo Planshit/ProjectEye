@@ -8,6 +8,19 @@ namespace ProjectEye.Models
 {
     public class TipModel : UINotifyPropertyChanged
     {
+        private int WarnTime_ = 20;
+        /// <summary>
+        /// 提醒间隔时间
+        /// </summary>
+        public int WarnTime
+        {
+            get { return WarnTime_; }
+            set
+            {
+                WarnTime_ = value;
+                OnPropertyChanged("WarnTime");
+            }
+        }
         private int CountDown_ = 20;
         /// <summary>
         /// 倒计时

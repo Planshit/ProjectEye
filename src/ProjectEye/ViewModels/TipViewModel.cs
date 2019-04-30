@@ -21,7 +21,7 @@ namespace ProjectEye.ViewModels
         private readonly SoundService sound;
         private readonly ConfigService config;
 
-        public TipViewModel(ResetService reset, 
+        public TipViewModel(ResetService reset,
             SoundService sound,
             ConfigService config)
         {
@@ -31,10 +31,23 @@ namespace ProjectEye.ViewModels
 
             this.sound = sound;
             this.config = config;
+            this.config.Changed += config_Changed;
             resetCommand = new Command(new Action<object>(resetCommand_action));
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
+            LoadConfig();
+        }
+        //加载配置
+        private void LoadConfig()
+        {
+            WarnTime = config.options.general.warntime;
+        }
 
+        //配置文件被修改时
+        private void config_Changed(object sender, EventArgs e)
+        {
+            //更新提醒时间
+            WarnTime = config.options.general.warntime;
         }
 
         private void resetCompleted(object sender, int timed)

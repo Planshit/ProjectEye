@@ -29,36 +29,41 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private readonly DispatcherTimer back_timer;
 
-        private readonly ScreenService screenService;
+        private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
         public MainService(App app,
-            ScreenService screenService,
-            ConfigService configService,
+            ScreenService screen,
+            ConfigService config,
             CacheService cache)
         {
-            this.screenService = screenService;
-            this.config = configService;
+            this.screen = screen;
+            this.config = config;
             this.cache = cache;
 
             //初始化用眼计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = new TimeSpan(0, 20, 0);
-#if DEBUG
-            timer.Interval = new TimeSpan(0, 0, 20);
-#endif
-
+            timer.Interval = new TimeSpan(0, config.options.general.warntime, 0);
             //初始化离开检测计时器
             leave_timer = new DispatcherTimer();
             leave_timer.Tick += new EventHandler(leave_timer_Tick);
             leave_timer.Interval = new TimeSpan(0, 5, 0);
-
             //初始化回来检测计时器
             back_timer = new DispatcherTimer();
             back_timer.Tick += new EventHandler(back_timer_Tick);
             back_timer.Interval = new TimeSpan(0, 1, 0);
 
+
+            /****调试模式代码****/
+#if DEBUG
+            //60秒提示休息
+            timer.Interval = new TimeSpan(0, 1, 0);
+            //20秒表示离开
+            leave_timer.Interval = new TimeSpan(0, 0, 20);
+            //每10秒检测回来
+            back_timer.Interval = new TimeSpan(0, 0, 10);
+#endif
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
@@ -66,7 +71,7 @@ namespace ProjectEye.Core.Service
         {
             if (IsCursorPosChanged())
             {
-                //Debug.WriteLine("用户回来了");
+                Debug.WriteLine("用户回来了");
                 //鼠标变化，停止计时器
                 back_timer.Stop();
                 leave_timer.Start();
@@ -79,7 +84,7 @@ namespace ProjectEye.Core.Service
         {
             if (IsUserLeave())
             {
-                //Debug.WriteLine("用户离开了");
+                Debug.WriteLine("用户离开了");
                 //用户可能是离开电脑了
                 leave_timer.Stop();
                 //启动back timer监听鼠标状态
@@ -112,7 +117,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Exit()
         {
-            screenService.Dispose();
+            screen.Dispose();
             DoStop();
             WindowManager.Close("TipWindow");
         }
@@ -148,6 +153,28 @@ namespace ProjectEye.Core.Service
             {
                 timer.Start();
             }
+        }
+        /// <summary>
+        /// 设置提醒间隔时间并重新启动休息计时
+        /// </summary>
+        /// <param name="minutes"></param>
+        public void SetWarnTime(int minutes)
+        {
+            if (timer.Interval.TotalMinutes != minutes)
+            {
+                Debug.WriteLine(timer.Interval.TotalMinutes + "," + minutes);
+                timer.Interval = new TimeSpan(0, minutes, 0);
+                ReStart();
+            }
+        }
+        /// <summary>
+        /// 重新启动休息计时
+        /// </summary>
+        private void ReStart()
+        {
+            Debug.WriteLine("重新启动休息计时");
+            DoStop();
+            DoStart();
         }
         private void DoStart()
         {

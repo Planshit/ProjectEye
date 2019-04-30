@@ -32,5 +32,9 @@ namespace ProjectEye.Core.Models.Options
         /// 离开监听
         /// </summary>
         public bool leavelistener { get; set; }
+        /// <summary>
+        /// 提醒间隔时间（单位：分钟）
+        /// </summary>
+        public int warntime { get; set; }
     }
 }
