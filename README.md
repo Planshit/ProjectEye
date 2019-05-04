@@ -32,3 +32,13 @@ Runtime:[.NET Framework 4.0+](https://www.microsoft.com/zh-cn/download/details.a
 ## 开发计划
 
 开发计划会从Issues里的提交筛选，并按提交时间顺序进行排期。在没有Issue时我可能会把自己的想法列入，所有（将）进行的计划都会更新到 [TODO](https://github.com/Planshit/ProjectEye/blob/master/todo.md) 这里。如果你有任何建议或意见请在Issues里提交，我会仔细查看并及时反馈。我希望Project Eye能成为一个很棒的健康软件。😉
+
+## 所有功能
+
+- 全屏休息提醒弹窗
+- 提醒间隔时间设置
+- 休息结束提示音
+- 开机自启动
+- 免打扰开关
+- 离开监听
+- 多个扩展显示器支持
