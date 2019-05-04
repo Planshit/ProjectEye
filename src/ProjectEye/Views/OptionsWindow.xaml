@@ -12,9 +12,9 @@
         <TabControl Margin="0,0,0,33">
             <TabItem Header="常规">
                 <StackPanel Margin="5">
-                    <CheckBox Content="开机自启动" IsChecked="{Binding Model.data.general.startup}"/>
-                    <CheckBox Content="休息结束提示音" IsChecked="{Binding Model.data.general.sound}" Margin="0,10,0,0"/>
-                    <CheckBox Content="离开监听" IsChecked="{Binding Model.data.general.leavelistener}" Margin="0,10,0,0"/>
+                    <CheckBox Content="开机自启动" IsChecked="{Binding Model.data.general.startup}" Cursor="Hand"/>
+                    <CheckBox Content="休息结束提示音" IsChecked="{Binding Model.data.general.sound}" Margin="0,10,0,0" Cursor="Hand"/>
+                    <CheckBox Content="离开监听(beta)" IsChecked="{Binding Model.data.general.leavelistener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>
                     <!--<CheckBox Content="数据统计（并不会联网上传）" IsChecked="{Binding Model.data.general.data}" Margin="0,10,0,0"/>-->
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -25,7 +25,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0">提醒间隔</TextBlock>
-                        <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.data.general.warntime}" ToolTip="滑动后可用键盘方向键微调"/>
+                        <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.data.general.warntime}" ToolTip="方向键或鼠标点两侧微调"/>
                         <TextBlock Text="{Binding Model.data.general.warntime}"
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"/>
@@ -43,17 +43,18 @@
                     <Image Source="/ProjectEye;component/Resources/sunglasses.ico" Height="30" HorizontalAlignment="Left"/>
                     <TextBlock TextWrapping="Wrap" Text="Project Eye"
                                Margin="0,5,0,0"/>
-                    <TextBlock TextWrapping="Wrap" Text="版本号：1.0.2"
-                               Margin="0,5,0,0"/>
+                    <TextBlock TextWrapping="Wrap"
+                               Margin="0,5,0,0">版本号：<Hyperlink Command="{Binding openurlCommand}"
+                                      CommandParameter="{Binding Model.versionlink}" ToolTip="查看版本更新内容"><Run Text="{Binding Model.version}"/></Hyperlink></TextBlock>
                     <TextBlock TextWrapping="Wrap" Text="一个默默在暗中保护你眼睛的软件"
                                Margin="0,5,0,0"/>
                     <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
                         开源：<Hyperlink Command="{Binding openurlCommand}"
-                                      CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
+                                      CommandParameter="https://github.com/Planshit/ProjectEye" ToolTip="open source!">https://github.com/Planshit/ProjectEye</Hyperlink>
                     </TextBlock>
                     <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
                         反馈：<Hyperlink  Command="{Binding openurlCommand}"
-                                      CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
+                                      CommandParameter="https://github.com/Planshit/ProjectEye/issues" ToolTip="有什么建议请在这里提交">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                     </TextBlock>
 
                 </StackPanel>

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 
@@ -20,12 +21,15 @@ namespace ProjectEye.ViewModels
 
         private readonly ConfigService config;
         private readonly MainService mainService;
-        public OptionsViewModel(ConfigService config,MainService mainService)
+        public OptionsViewModel(ConfigService config, MainService mainService)
         {
             this.config = config;
             this.mainService = mainService;
             Model = new OptionsModel();
             Model.data = config.options;
+            string[] version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
+            Model.version = version[0] + "." + version[1] + "." + version[2];
+
             applyCommand = new Command(new Action<object>(applyCommand_action));
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
             inkCommand = new Command(new Action<object>(inkCommand_action));

@@ -15,26 +15,26 @@ namespace ProjectEye.Core.Models.Options
         /// <summary>
         /// 开机启动
         /// </summary>
-        public bool startup { get; set; }
+        public bool startup { get; set; } = false;
         /// <summary>
         /// 不要提醒
         /// </summary>
-        public bool noreset { get; set; }
+        public bool noreset { get; set; } = false;
         /// <summary>
         /// 统计数据
         /// </summary>
-        public bool data { get; set; }
+        public bool data { get; set; } = false;
         /// <summary>
         /// 休息结束提示音
         /// </summary>
-        public bool sound { get; set; }
+        public bool sound { get; set; } = true;
         /// <summary>
         /// 离开监听
         /// </summary>
-        public bool leavelistener { get; set; }
+        public bool leavelistener { get; set; } = false;
         /// <summary>
         /// 提醒间隔时间（单位：分钟）
         /// </summary>
-        public int warntime { get; set; }
+        public int warntime { get; set; } = 20;
     }
 }
