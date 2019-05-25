@@ -312,6 +312,11 @@ namespace ProjectEye.Core
             string nameSpace = "ProjectEye.ViewModels";
             string viewModelName = windowName.Replace("Window", "ViewModel");
             Type type = Type.GetType(nameSpace + "." + viewModelName);
+            if (type == null)
+            {
+                //找不到对应的ViewModel
+                return null;
+            }
             var constructorInfoObj = type.GetConstructors()[0];
             var constructorParameters = constructorInfoObj.GetParameters();
             int constructorParametersLength = constructorParameters.Length;

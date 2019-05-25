@@ -21,14 +21,21 @@ namespace ProjectEye.ViewModels
 
         private readonly ConfigService config;
         private readonly MainService mainService;
-        public OptionsViewModel(ConfigService config, MainService mainService)
+        private readonly SystemResourcesService systemResources;
+
+        public OptionsViewModel(ConfigService config, 
+            MainService mainService,
+            SystemResourcesService systemResources)
         {
             this.config = config;
             this.mainService = mainService;
+            this.systemResources = systemResources;
             Model = new OptionsModel();
-            Model.data = config.options;
+            Model.Data = config.options;
+            Model.Themes = systemResources.Themes;
             string[] version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
-            Model.version = version[0] + "." + version[1] + "." + version[2];
+            Model.Version = version[0] + "." + version[1] + "." + version[2];
+
 
             applyCommand = new Command(new Action<object>(applyCommand_action));
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
@@ -58,12 +65,12 @@ namespace ProjectEye.ViewModels
             {
                 msg = "选项已成功更新";
                 //处理开机启动
-                if (!ShortcutHelper.SetStartup(config.options.general.startup))
+                if (!ShortcutHelper.SetStartup(config.options.General.Startup))
                 {
                     msg = "选项已成功更新。但是开机启动选项可能未生效。";
                 }
                 //处理离开监听开关
-                if (config.options.general.leavelistener)
+                if (config.options.General.LeaveListener)
                 {
                     mainService.OpenLeaveListener();
                 }
@@ -72,7 +79,7 @@ namespace ProjectEye.ViewModels
                     mainService.CloseLeaveListener();
                 }
                 //处理休息间隔调整
-                mainService.SetWarnTime(config.options.general.warntime);
+                mainService.SetWarnTime(config.options.General.WarnTime);
             }
             MessageBox.Show(msg, "提示");
         }

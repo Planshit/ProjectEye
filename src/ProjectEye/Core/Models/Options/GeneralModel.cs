@@ -9,32 +9,32 @@ namespace ProjectEye.Core.Models.Options
     /// <summary>
     /// 通用设置模型
     /// </summary>
-    [XmlRootAttribute("general")]
+    [XmlRootAttribute("General")]
     public class GeneralModel
     {
         /// <summary>
         /// 开机启动
         /// </summary>
-        public bool startup { get; set; } = false;
+        public bool Startup { get; set; } = false;
         /// <summary>
         /// 不要提醒
         /// </summary>
-        public bool noreset { get; set; } = false;
+        public bool Noreset { get; set; } = false;
         /// <summary>
         /// 统计数据
         /// </summary>
-        public bool data { get; set; } = false;
+        public bool Data { get; set; } = false;
         /// <summary>
         /// 休息结束提示音
         /// </summary>
-        public bool sound { get; set; } = true;
+        public bool Sound { get; set; } = true;
         /// <summary>
         /// 离开监听
         /// </summary>
-        public bool leavelistener { get; set; } = false;
+        public bool LeaveListener { get; set; } = false;
         /// <summary>
         /// 提醒间隔时间（单位：分钟）
         /// </summary>
-        public int warntime { get; set; } = 20;
+        public int WarnTime { get; set; } = 20;
     }
 }

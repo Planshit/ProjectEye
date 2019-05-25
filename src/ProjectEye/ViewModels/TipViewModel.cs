@@ -40,14 +40,14 @@ namespace ProjectEye.ViewModels
         //加载配置
         private void LoadConfig()
         {
-            WarnTime = config.options.general.warntime;
+            WarnTime = config.options.General.WarnTime;
         }
 
         //配置文件被修改时
         private void config_Changed(object sender, EventArgs e)
         {
             //更新提醒时间
-            WarnTime = config.options.general.warntime;
+            WarnTime = config.options.General.WarnTime;
         }
 
         private void resetCompleted(object sender, int timed)
@@ -55,7 +55,7 @@ namespace ProjectEye.ViewModels
             //休息结束
             Init();
             //播放提示音
-            if (config.options.general.sound)
+            if (config.options.General.Sound)
             {
                 sound.Play();
             }

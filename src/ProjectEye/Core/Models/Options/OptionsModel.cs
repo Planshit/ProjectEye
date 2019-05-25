@@ -6,12 +6,17 @@ using System.Xml.Serialization;
 
 namespace ProjectEye.Core.Models.Options
 {
-    [XmlRootAttribute("options")]
+    [XmlRootAttribute("Options")]
     public class OptionsModel
     {
         /// <summary>
         /// 通用设置
         /// </summary>
-        public GeneralModel general { get; set; }
+        public GeneralModel General { get; set; }
+
+        /// <summary>
+        /// 外观
+        /// </summary>
+        public StyleModel Style { get; set; }
     }
 }
