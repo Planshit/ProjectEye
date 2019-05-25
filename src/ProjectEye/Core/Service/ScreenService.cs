@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project1.UI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace ProjectEye.Core.Service
             hookWindow.Height = 0;
             hookWindow.ShowInTaskbar = false;
             hookWindow.WindowStyle = WindowStyle.None;
-            hookWindow.WindowState = WindowState.Minimized;
+            //hookWindow.WindowState = WindowState.Minimized;
             hookWindow.Visibility = Visibility.Hidden;
             hookWindow.SourceInitialized += new EventHandler(hookWindow_SourceInitialized);
             hookWindow.Show();

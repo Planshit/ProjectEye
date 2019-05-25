@@ -38,7 +38,7 @@ namespace ProjectEye.Core.Service
             menuItem_norest.Click += new System.EventHandler(menuItem_norest_Click);
             //声音提示
             menuItem_sound = new System.Windows.Forms.MenuItem();
-            menuItem_sound.Checked = config.options.general.sound;
+            menuItem_sound.Checked = config.options.General.Sound;
             menuItem_sound.Text = "提示音";
             menuItem_sound.Click += new System.EventHandler(menuItem_sound_Click);
             //退出菜单项
@@ -88,8 +88,8 @@ namespace ProjectEye.Core.Service
 
         private void config_Changed(object sender, EventArgs e)
         {
-            menuItem_norest.Checked = config.options.general.noreset;
-            menuItem_sound.Checked = config.options.general.sound;
+            menuItem_norest.Checked = config.options.General.Noreset;
+            menuItem_sound.Checked = config.options.General.Sound;
 
         }
 
@@ -105,7 +105,7 @@ namespace ProjectEye.Core.Service
         {
             var item = sender as System.Windows.Forms.MenuItem;
             item.Checked = !item.Checked;
-            config.options.general.sound = item.Checked;
+            config.options.General.Sound = item.Checked;
             config.Save();
         }
 
@@ -118,7 +118,7 @@ namespace ProjectEye.Core.Service
         {
             var item = sender as System.Windows.Forms.MenuItem;
             item.Checked = !item.Checked;
-            config.options.general.noreset = item.Checked;
+            config.options.General.Noreset = item.Checked;
             if (item.Checked)
             {
                 //不要提醒

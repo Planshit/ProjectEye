@@ -6,6 +6,9 @@ using System.Text;
 
 namespace ProjectEye.Core.Service
 {
+    /// <summary>
+    /// 内存缓存 Service
+    /// </summary>
     public class CacheService : IService
     {
         private readonly ObjectCache cache;

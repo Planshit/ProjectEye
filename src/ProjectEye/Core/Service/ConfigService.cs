@@ -9,6 +9,9 @@ using System.Xml.Serialization;
 
 namespace ProjectEye.Core.Service
 {
+    /// <summary>
+    /// 配置文件  Service
+    /// </summary>
     public class ConfigService : IService
     {
         private readonly string configPath;
@@ -33,13 +36,17 @@ namespace ProjectEye.Core.Service
                 {
                     options = obj as OptionsModel;
                 }
+                else
+                {
+                    CreateDefaultConfig();
+                }
             }
             else
             {
                 CreateDefaultConfig();
             }
             //每次启动都把不提醒重置
-            options.general.noreset = false;
+            options.General.Noreset = false;
         }
         public bool Save()
         {
@@ -57,13 +64,16 @@ namespace ProjectEye.Core.Service
         private void CreateDefaultConfig()
         {
             options = new OptionsModel();
-            options.general = new GeneralModel();
-            options.general.data = false;
-            options.general.noreset = false;
-            options.general.sound = true;
-            options.general.startup = false;
-            options.general.leavelistener = false;
-            options.general.warntime = 20;
+            options.General = new GeneralModel();
+            options.General.Data = false;
+            options.General.Noreset = false;
+            options.General.Sound = true;
+            options.General.Startup = false;
+            options.General.LeaveListener = false;
+            options.General.WarnTime = 20;
+
+            options.Style = new StyleModel();
+            options.Style.Theme = new ThemeModel();
 
             xmlExtensions.Save(options);
         }

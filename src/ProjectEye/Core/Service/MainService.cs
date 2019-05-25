@@ -12,7 +12,7 @@ using System.Windows.Threading;
 namespace ProjectEye.Core.Service
 {
     /// <summary>
-    /// 
+    /// Main Service
     /// </summary>
     public class MainService : IService
     {
@@ -44,7 +44,7 @@ namespace ProjectEye.Core.Service
             //初始化用眼计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = new TimeSpan(0, config.options.general.warntime, 0);
+            timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
             //初始化离开检测计时器
             leave_timer = new DispatcherTimer();
             leave_timer.Tick += new EventHandler(leave_timer_Tick);
@@ -57,8 +57,8 @@ namespace ProjectEye.Core.Service
 
             /****调试模式代码****/
 #if DEBUG
-            //60秒提示休息
-            timer.Interval = new TimeSpan(0, 1, 0);
+            //30秒提示休息
+            timer.Interval = new TimeSpan(0, 0, 30);
             //20秒表示离开
             leave_timer.Interval = new TimeSpan(0, 0, 20);
             //每10秒检测回来
@@ -96,13 +96,13 @@ namespace ProjectEye.Core.Service
 
         public void Init()
         {
+
             var tipWindow = WindowManager.GetCreateWindow("TipWindow", true);
 
             foreach (var window in tipWindow)
             {
                 window.IsVisibleChanged += new DependencyPropertyChangedEventHandler(isVisibleChanged);
             }
-
             //记录鼠标坐标
             SaveCursorPos();
 
@@ -180,7 +180,7 @@ namespace ProjectEye.Core.Service
         {
             //休息提醒
             timer.Start();
-            if (config.options.general.leavelistener)
+            if (config.options.General.LeaveListener)
             {
                 //离开检测
                 leave_timer.Start();
@@ -200,7 +200,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
-            if (!config.options.general.noreset)
+            if (!config.options.General.Noreset)
             {
                 WindowManager.Show("TipWindow");
             }
