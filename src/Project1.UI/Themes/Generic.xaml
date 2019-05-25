@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Project1.UI.Controls"
+                    >
+   
+
+    <ResourceDictionary.MergedDictionaries>
+        
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIWindow.xaml" />
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIButton.xaml" />
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIInput.xaml" />
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIProcessBar.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIIcon.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIChart.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+   
+</ResourceDictionary>

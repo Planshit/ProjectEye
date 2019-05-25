@@ -1,0 +1,220 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Project1.UI.Controls"
+                    xmlns:cmd="clr-namespace:Project1.UI.Controls.Commands"
+                    xmlns:converter="clr-namespace:Project1.UI.Controls.Converters"
+                    >
+    <converter:Project1UIIconToUnicodeConverter x:Key="IconToUnicodeConverter"/>
+
+    <Style TargetType="{x:Type controls:Project1UIInput}">
+        <Setter Property="SnapsToDevicePixels"
+          Value="True" />
+
+        <Setter Property="KeyboardNavigation.TabNavigation"
+          Value="None" />
+
+        <Setter Property="VerticalContentAlignment"
+          Value="Center" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource InputFocusedBorderBrush}" />
+        <Setter Property="FocusVisualStyle"
+          Value="{x:Null}" />
+        <Setter Property="Width"
+          Value="120" />
+        <Setter Property="Height"
+          Value="23" />
+        <Setter Property="TextWrapping"
+          Value="NoWrap" />
+        <Setter Property="IconSize" Value="15" />
+        <Setter Property="BorderThickness" Value="{DynamicResource InputThickness}"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Foreground" Value="{DynamicResource InputForeground}"/>
+
+        <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:Project1UIInput}">
+                    <Border Name="Border"
+                            Padding="{TemplateBinding Padding}"
+                            CornerRadius="{TemplateBinding CornerRadius}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            BorderBrush="{TemplateBinding BorderBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                     x:Name="Icon"
+                                   
+                                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
+                                <TextBlock
+                               
+                                
+                                        Text="{TemplateBinding Icon,Converter={StaticResource IconToUnicodeConverter}}" 
+                                        Foreground="{DynamicResource InputIconForeground}"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                
+                                        FontFamily="/Project1.UI;component/Assets/IconFonts/#Segoe MDL2 Assets"
+                                        FontSize="{TemplateBinding IconSize}"
+                                    x:Name="IconTextBlock"
+                                       />
+                            </Border>
+
+                            <Button
+                                x:Name="ClearButton"
+                                ToolTip="清空输入"
+                                Visibility="Collapsed"
+                                Grid.Column="3"
+                                Focusable="False"
+                               Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                                    
+                                                    Style="{DynamicResource WindowSystemButton}"
+                                                    Content="&#xE894;"
+                                                    Command="{x:Static cmd:Project1UIInputCommands.ClearTextCommand}"/>
+                            <ScrollViewer
+                               
+                        x:Name="PART_ContentHost" Grid.Column="1"
+                                Panel.ZIndex="2"
+                                Margin="5,0"
+                               />
+                            <TextBlock x:Name="Placeholder"
+                                        Panel.ZIndex="1"
+                                       FontSize="{TemplateBinding FontSize}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       Grid.Column="1"
+                                       Text="{TemplateBinding Placeholder}"
+                                       Visibility="Collapsed"
+                                       Foreground="{DynamicResource InputIconForeground}"
+                                       Margin="5,0"
+                                       />
+                            <!--文件夹选择打开按钮-->
+                            <Button
+                                ToolTip="选择文件夹"
+                                x:Name="FolderButton"
+                              
+                                Grid.Column="4"
+                                Command="{x:Static cmd:Project1UIInputCommands.CommonOpenFileDialog}"
+                                Focusable="False"
+                                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                Style="{DynamicResource WindowSystemButton}"
+                                
+                               
+                                
+                                                    >
+                                <TextBlock Text="&#xE710;" />
+                            </Button>
+                        </Grid>
+
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+
+                        <!--样式-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsReadOnly" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource InputEnterBorderBrush}"/>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="True" />
+                                <Condition Property="IsReadOnly" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource InputFocusedBorderBrush}"/>
+
+
+                        </MultiTrigger>
+
+                        <!--显示清除按钮-->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="True" />
+                                <Condition Property="IsReadOnly" Value="False" />
+                                <Condition Property="IconAlignment" Value="Left" />
+
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ClearButton" Property="Visibility" Value="Visible"/>
+
+
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsFocused" Value="True" />
+                                <Condition Property="IsReadOnly" Value="False" />
+                                <Condition Property="IconAlignment" Value="Right" />
+
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="ClearButton" Property="Visibility" Value="Visible"/>
+
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed"/>
+
+                        </MultiTrigger>
+
+                        <!--输入框类型判断-->
+                        <Trigger Property="Type" Value="Text">
+                            <Setter TargetName="FolderButton" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="Type" Value="FileSelect">
+                            <Setter TargetName="FolderButton" Property="ToolTip" Value="选择文件" />
+                        </Trigger>
+                        <Trigger Property="Type" Value="FolderSelect">
+                            <Setter TargetName="FolderButton" Property="ToolTip" Value="选择文件夹" />
+                        </Trigger>
+                        <!--图标位置判断-->
+                        <Trigger Property="IconAlignment" Value="Left">
+                            <Setter TargetName="Icon" Property="Grid.Column" Value="0" />
+                        </Trigger>
+                        <Trigger Property="IconAlignment" Value="Right">
+                            <Setter TargetName="Icon" Property="Grid.Column" Value="2" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="#bbbbbe" />
+
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#bbbbbe" />
+                        </Trigger>
+
+                        <!--数据判断-->
+                        <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource Mode=Self}}" Value="">
+                            <Setter TargetName="ClearButton" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="Icon" Property="Visibility" Value="Visible"/>
+
+                            <Setter TargetName="Placeholder" Property="Visibility" Value="Visible"/>
+
+                        </DataTrigger>
+
+                        <!--禁用时-->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource DisableBrush}" />
+                            <Setter Property="Foreground" TargetName="Placeholder" Value="{DynamicResource DisableBrush}" />
+                            <Setter Property="Foreground" TargetName="IconTextBlock" Value="{DynamicResource DisableBrush}" />
+                            <Setter Property="Foreground" TargetName="FolderButton" Value="{DynamicResource DisableBrush}" />
+
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource DisableBrush}" />
+                        </Trigger>
+
+                        <!--没有设置图标-->
+                        <Trigger Property="Icon" Value="Null">
+                            <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
+
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>
