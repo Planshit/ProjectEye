@@ -1,9 +1,9 @@
 ﻿using Project1.UI.Controls;
-using ProjectEye.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,13 +16,14 @@ using System.Windows.Shapes;
 namespace ProjectEye.Views
 {
     /// <summary>
-    /// OptionsWindow.xaml 的交互逻辑
+    /// StatisticWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class OptionsWindow : Project1UIWindow
+    public partial class StatisticWindow : Project1UIWindow
     {
-        public OptionsWindow()
+        public StatisticWindow()
         {
             InitializeComponent();
+           
         }
     }
 }

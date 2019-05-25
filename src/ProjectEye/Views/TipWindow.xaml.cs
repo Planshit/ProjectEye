@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project1.UI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace ProjectEye.Views
     /// <summary>
     /// TipWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class TipWindow : Window
+    public partial class TipWindow : Project1UIWindow
     {
         public TipWindow()
         {

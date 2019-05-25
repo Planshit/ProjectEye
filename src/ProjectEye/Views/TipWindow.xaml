@@ -1,9 +1,10 @@
-﻿<Window x:Class="ProjectEye.Views.TipWindow"
+﻿<ui:Project1UIWindow x:Class="ProjectEye.Views.TipWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectEye.Views"
+        xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
         Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStyle="None" Visibility="Hidden" AllowsTransparency="True" Width="100" Height="100"
         Opacity=".97"
@@ -19,7 +20,7 @@
                 <RowDefinition Height="2.5*"/>
                 <RowDefinition Height="2.5*"/>
             </Grid.RowDefinitions>
-            <Image Source="/ProjectEye;component/Resources/undraw_not_found_60pq.png" Height="160"
+            <Image Style="{DynamicResource TipImage}" Height="160"
                    HorizontalAlignment="Center"
                    />
             <TextBlock FontSize="20"
@@ -31,26 +32,35 @@
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">
-                <Button 
-                Style="{DynamicResource Green}"
+                <ui:Project1UIButton 
                 Command="{Binding resetCommand}"
                 Content="好的"
-                Visibility="{Binding TakeButtonVisibility}"/>
-                <Button 
-                Style="{DynamicResource Black}"
+                Visibility="{Binding TakeButtonVisibility}"
+                    Width="110"
+                    Height="45"
+                    FontSize="14"
+                    Cursor="Hand"/>
+                <ui:Project1UIButton 
+                Style="{DynamicResource basic}"
                 Command="{Binding busyCommand}"
                 Content="暂时不"
                 Visibility="{Binding TakeButtonVisibility}"
-                    Margin="10,0,0,0"/>
+                    Margin="10,0,0,0"
+                    Width="110"
+                    Height="45"
+                    FontSize="14"
+                    Cursor="Hand"/>
             </StackPanel>
 
+            <!--倒计时秒数-->
             <TextBlock
                 FontSize="50"
                 FontWeight="Bold"
                 Grid.Row="3"
                 HorizontalAlignment="Center"
                 Text="{Binding CountDown}"
-                Visibility="{Binding CountDownVisibility}"/>
+                Visibility="{Binding CountDownVisibility}"
+                />
         </Grid>
     </Grid>
-</Window>
+</ui:Project1UIWindow>

@@ -1,21 +1,21 @@
-﻿<Window x:Class="ProjectEye.Views.OptionsWindow"
+﻿<ui:Project1UIWindow x:Class="ProjectEye.Views.OptionsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectEye.Views"
+        xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
         Title="选项" Height="300" Width="400"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/ProjectEye;component/Resources/sunglasses.ico">
     <Grid Margin="5">
         <TabControl Margin="0,0,0,33">
             <TabItem Header="常规">
                 <StackPanel Margin="5">
-                    <CheckBox Content="开机自启动" IsChecked="{Binding Model.data.general.startup}" Cursor="Hand"/>
-                    <CheckBox Content="休息结束提示音" IsChecked="{Binding Model.data.general.sound}" Margin="0,10,0,0" Cursor="Hand"/>
-                    <CheckBox Content="离开监听(beta)" IsChecked="{Binding Model.data.general.leavelistener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>
-                    <!--<CheckBox Content="数据统计（并不会联网上传）" IsChecked="{Binding Model.data.general.data}" Margin="0,10,0,0"/>-->
+                    <CheckBox Content="开机自启动" IsChecked="{Binding Model.Data.General.Startup}" Cursor="Hand"/>
+                    <CheckBox Content="休息结束提示音" IsChecked="{Binding Model.Data.General.Sound}" Margin="0,10,0,0" Cursor="Hand"/>
+                    <CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>
+                    <!--<CheckBox Content="数据统计（并不会联网上传）" IsChecked="{Binding Model.Data.General.data}" Margin="0,10,0,0"/>-->
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -25,8 +25,8 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0">提醒间隔</TextBlock>
-                        <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.data.general.warntime}" ToolTip="方向键或鼠标点两侧微调"/>
-                        <TextBlock Text="{Binding Model.data.general.warntime}"
+                        <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="方向键或鼠标点两侧微调"/>
+                        <TextBlock Text="{Binding Model.Data.General.WarnTime}"
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"/>
                         <TextBlock Text="分钟"
@@ -35,9 +35,29 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <!--<TabItem Header="提醒规则">
-                <Grid Background="#FFE5E5E5"/>
-            </TabItem>-->
+            <TabItem Header="外观">
+                <StackPanel Margin="5">
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">主题</TextBlock>
+                        <ComboBox 
+                            Name="cb" Grid.Column="1" 
+                                  ItemsSource="{Binding Model.Themes}"
+                                  DisplayMemberPath="DisplayName"
+                                  SelectedItem="{Binding Model.Data.Style.Theme}"
+                            SelectedValue="{Binding Model.Data.Style.Theme.ThemeName}"
+                            SelectedValuePath="ThemeName"
+                                 />
+                        
+
+                    </Grid>
+                </StackPanel>
+            </TabItem>
             <TabItem Header="关于">
                 <StackPanel Margin="5">
                     <Image Source="/ProjectEye;component/Resources/sunglasses.ico" Height="30" HorizontalAlignment="Left"/>
@@ -45,7 +65,7 @@
                                Margin="0,5,0,0"/>
                     <TextBlock TextWrapping="Wrap"
                                Margin="0,5,0,0">版本号：<Hyperlink Command="{Binding openurlCommand}"
-                                      CommandParameter="{Binding Model.versionlink}" ToolTip="查看版本更新内容"><Run Text="{Binding Model.version}"/></Hyperlink></TextBlock>
+                                      CommandParameter="{Binding Model.VersionLink}" ToolTip="查看版本更新内容"><Run Text="{Binding Model.Version}"/></Hyperlink></TextBlock>
                     <TextBlock TextWrapping="Wrap" Text="一个默默在暗中保护你眼睛的软件"
                                Margin="0,5,0,0"/>
                     <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
@@ -63,18 +83,27 @@
         <StackPanel Orientation="Horizontal"
                      HorizontalAlignment="Right"
             VerticalAlignment="Bottom">
-            <Button 
+            <ui:Project1UIButton 
             Command="{Binding inkCommand}"
             Content="创建桌面图标"
             MinHeight="23"
-            MinWidth="75"/>
-            <Button 
+            MinWidth="85"
+                Style="{DynamicResource basic}"/>
+            <!--<Button 
             Command="{Binding applyCommand}"
             Content="应用"
             MinHeight="23"
             MinWidth="75"
-                Margin="10,0,0,0"/>
+                Margin="10,0,0,0"/>-->
+            <ui:Project1UIButton 
+            Command="{Binding applyCommand}"
+            Content="应用"
+            MinHeight="23"
+            MinWidth="75"
+                Margin="10,0,0,0"
+                Icon="Null"/>
         </StackPanel>
+       
 
     </Grid>
-</Window>
+</ui:Project1UIWindow>

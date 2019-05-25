@@ -1,0 +1,36 @@
+﻿<ui:Project1UIWindow x:Class="ProjectEye.Views.StatisticWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectEye.Views"
+        xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+        mc:Ignorable="d"
+        Title="StatisticWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="9*"/>
+
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="近7天用眼数据统计" HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Margin="25,0,0,0"
+                   FontSize="14"
+                   FontWeight="Bold"/>
+        <TabControl Margin="10" Grid.Row="1">
+            <TabItem Header="用眼情况">
+                <ui:Project1UIChart Margin="15"/>
+            </TabItem>
+            <TabItem Header="休息情况">
+                <ui:Project1UIChart Margin="15"/>
+            </TabItem>
+            <TabItem Header="跳过情况">
+                <ui:Project1UIChart Margin="15"/>
+            </TabItem>
+        </TabControl>
+
+
+
+    </Grid>
+</ui:Project1UIWindow>
