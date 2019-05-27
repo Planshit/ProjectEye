@@ -23,6 +23,7 @@ namespace ProjectEye.Core.Service
         //托盘菜单项
         private System.Windows.Forms.MenuItem menuItem_norest;
         private System.Windows.Forms.MenuItem menuItem_sound;
+        private System.Windows.Forms.MenuItem menuItem_Statistic;
         public TrayService(App app, MainService mainService, ConfigService config)
         {
             this.app = app;
@@ -46,11 +47,7 @@ namespace ProjectEye.Core.Service
             menuItem_exit.Text = "退出";
             menuItem_exit.Click += new System.EventHandler(menuItem_exit_Click);
 
-            //统计数据
-            System.Windows.Forms.MenuItem menuItem_data = new System.Windows.Forms.MenuItem();
-            menuItem_data.Text = "统计";
-            //menuItem_data.Click += new System.EventHandler(menuItem_data_Click);
-
+           
 
 
             //选项
@@ -58,12 +55,16 @@ namespace ProjectEye.Core.Service
             menuItem_options.Text = "选项";
             menuItem_options.Click += new EventHandler(menuItem_options_Click);
 
+            //查看数据统计
+            menuItem_Statistic = new System.Windows.Forms.MenuItem();
+            menuItem_Statistic.Text = "查看数据统计";
+            menuItem_Statistic.Click += new EventHandler(menuItem_menuItem_Statistic_Click);
+            menuItem_Statistic.Visible = config.options.General.Data;
 
 
 
-
-            //contextMenu.MenuItems.Add(menuItem_data);
-            //contextMenu.MenuItems.Add("-");
+            contextMenu.MenuItems.Add(menuItem_Statistic);
+            contextMenu.MenuItems.Add("-");
             contextMenu.MenuItems.Add(menuItem_norest);
             contextMenu.MenuItems.Add(menuItem_sound);
             contextMenu.MenuItems.Add("-");
@@ -86,11 +87,17 @@ namespace ProjectEye.Core.Service
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
+        private void menuItem_menuItem_Statistic_Click(object sender, EventArgs e)
+        {
+            WindowManager.CreateWindowInScreen("StatisticWindow");
+            WindowManager.Show("StatisticWindow");
+        }
+
         private void config_Changed(object sender, EventArgs e)
         {
             menuItem_norest.Checked = config.options.General.Noreset;
             menuItem_sound.Checked = config.options.General.Sound;
-
+            menuItem_Statistic.Visible = config.options.General.Data;
         }
 
         private void menuItem_options_Click(object sender, EventArgs e)
