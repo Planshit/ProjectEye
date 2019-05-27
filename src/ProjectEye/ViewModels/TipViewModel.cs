@@ -15,15 +15,19 @@ namespace ProjectEye.ViewModels
         /// 休息命令
         /// </summary>
         public Command resetCommand { get; set; }
+        /// <summary>
+        /// 跳过命令
+        /// </summary>
         public Command busyCommand { get; set; }
 
         private readonly ResetService reset;
         private readonly SoundService sound;
         private readonly ConfigService config;
-
+        private readonly StatisticService statistic;
         public TipViewModel(ResetService reset,
             SoundService sound,
-            ConfigService config)
+            ConfigService config,
+            StatisticService statistic)
         {
             this.reset = reset;
             this.reset.TimeChanged += new ResetEventHandler(timeChanged);
@@ -35,6 +39,7 @@ namespace ProjectEye.ViewModels
             resetCommand = new Command(new Action<object>(resetCommand_action));
             busyCommand = new Command(new Action<object>(busyCommand_action));
 
+            this.statistic = statistic;
             LoadConfig();
         }
         //加载配置
@@ -73,10 +78,18 @@ namespace ProjectEye.ViewModels
             CountDownVisibility = System.Windows.Visibility.Visible;
             TakeButtonVisibility = System.Windows.Visibility.Hidden;
             reset.Start();
+            if (config.options.General.Data)
+            {
+                statistic.Update(StatisticType.ResetTime, 20);
+            }
         }
         private void busyCommand_action(object obj)
         {
             WindowManager.Hide("TipWindow");
+            if (config.options.General.Data)
+            {
+                statistic.Update(StatisticType.SkipCount, 1);
+            }
         }
         private void timeChanged(object sender, int timed)
         {
