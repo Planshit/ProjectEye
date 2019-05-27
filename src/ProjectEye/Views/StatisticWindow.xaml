@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:ProjectEye.Views"
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
-        Title="StatisticWindow" Height="450" Width="800">
+        Title="数据统计" Height="450" Width="800"
+                     WindowStartupLocation="CenterScreen" Icon="/ProjectEye;component/Resources/sunglasses.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -20,17 +21,43 @@
                    FontWeight="Bold"/>
         <TabControl Margin="10" Grid.Row="1">
             <TabItem Header="用眼情况">
-                <ui:Project1UIChart Margin="15"/>
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="9*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="小时"/>
+                    <ui:Project1UIChart Grid.Row="1" Data="{Binding Mode=TwoWay,Path=Data.Working}"
+                                    Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
+                                    Label="小时"/>
+                </Grid>
+                
             </TabItem>
             <TabItem Header="休息情况">
-                <ui:Project1UIChart Margin="15"/>
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="9*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="分钟"/>
+                    <ui:Project1UIChart Grid.Row="1" Data="{Binding Mode=TwoWay,Path=Data.Reset}"
+                                    Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
+                                    Label="分钟"/>
+                </Grid>
             </TabItem>
             <TabItem Header="跳过情况">
-                <ui:Project1UIChart Margin="15"/>
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="9*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="次"/>
+                    <ui:Project1UIChart Grid.Row="1" Data="{Binding Mode=TwoWay,Path=Data.Skip}"
+                                    Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
+                                    Label="次"/>
+                </Grid>
             </TabItem>
         </TabControl>
-
-
 
     </Grid>
 </ui:Project1UIWindow>

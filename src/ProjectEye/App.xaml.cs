@@ -31,15 +31,27 @@ namespace ProjectEye
             //必须按优先级依次添加
             serviceCollection = new ServiceCollection();
             serviceCollection.AddInstance(this);
+            //数据统计
+            serviceCollection.Add<StatisticService>();
+            //系统资源
             serviceCollection.Add<SystemResourcesService>();
+            //内存缓存
             serviceCollection.Add<CacheService>();
+            //配置文件
             serviceCollection.Add<ConfigService>();
+            //主题
             serviceCollection.Add<ThemeService>();
+            //扩展显示器
             serviceCollection.Add<ScreenService>();
+            //主要
             serviceCollection.Add<MainService>();
+            //托盘
             serviceCollection.Add<TrayService>();
+            //休息
             serviceCollection.Add<ResetService>();
+            //声音
             serviceCollection.Add<SoundService>();
+            
 
 
             WindowManager.serviceCollection = serviceCollection;
@@ -78,9 +90,6 @@ namespace ProjectEye
         {
             //初始化所有服务
             serviceCollection.Initialize();
-
-            WindowManager.GetCreateWindow("StatisticWindow",false)[0].Show();
-
         }
         #endregion
     }

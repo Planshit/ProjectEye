@@ -12,7 +12,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Project1UIChart}">
-                    <Canvas x:Name="root"></Canvas>
+                    <Canvas x:Name="root">
+                       
+                    </Canvas>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

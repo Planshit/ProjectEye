@@ -16,6 +16,8 @@ namespace ProjectEye.Core.Service
     {
         private readonly string configPath;
         private readonly XmlExtensions xmlExtensions;
+        //存放文件夹
+        private readonly string dir = "Data";
         public OptionsModel options { get; set; }
         /// <summary>
         /// 配置文件被修改时发生
@@ -23,7 +25,9 @@ namespace ProjectEye.Core.Service
         public event EventHandler Changed;
         public ConfigService()
         {
-            configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.xml");
+            configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                dir,
+                "config.xml");
             xmlExtensions = new XmlExtensions(configPath);
             Init();
         }

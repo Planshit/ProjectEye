@@ -32,14 +32,18 @@ namespace ProjectEye.Core.Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
+        private readonly StatisticService statistic;
+
         public MainService(App app,
             ScreenService screen,
             ConfigService config,
-            CacheService cache)
+            CacheService cache,
+            StatisticService statistic)
         {
             this.screen = screen;
             this.config = config;
             this.cache = cache;
+            this.statistic = statistic;
 
             //初始化用眼计时器
             timer = new DispatcherTimer();
@@ -195,6 +199,8 @@ namespace ProjectEye.Core.Service
             back_timer.Stop();
 
         }
+
+        #region 显示休息提示窗口
         /// <summary>
         /// 显示休息提示窗口
         /// </summary>
@@ -205,6 +211,9 @@ namespace ProjectEye.Core.Service
                 WindowManager.Show("TipWindow");
             }
         }
+        #endregion
+
+        #region 提示窗口显示时 Event
         private void isVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var window = sender as Window;
@@ -219,17 +228,29 @@ namespace ProjectEye.Core.Service
                 timer.Start();
             }
         }
+        #endregion
+
+        #region 用眼到达设定时间 Event
         private void timer_Tick(object sender, EventArgs e)
         {
-
+            if (config.options.General.Data)
+            {
+                //数据统计
+                statistic.Update(StatisticType.WorkingTime, config.options.General.WarnTime);
+                statistic.Save();
+            }
             ShowTipWindow();
         }
+        #endregion
 
+        #region 程序退出 Event
         private void app_Exit(object sender, ExitEventArgs e)
         {
             Exit();
         }
+        #endregion
 
+        #region 保存光标坐标
         /// <summary>
         /// 保存光标坐标
         /// </summary>
@@ -238,6 +259,9 @@ namespace ProjectEye.Core.Service
             Win32APIHelper.GetCursorPos(out Point point);
             cache["CursorPos"] = point.ToString();
         }
+        #endregion
+
+        #region 指示光标是否变化了
         /// <summary>
         /// 指示光标是否变化了
         /// </summary>
@@ -252,6 +276,9 @@ namespace ProjectEye.Core.Service
             }
             return !(beforePos.ToString() == point.ToString());
         }
+        #endregion
+
+        #region 指示用户是否离开了电脑
         /// <summary>
         /// 指示用户是否离开了电脑
         /// </summary>
@@ -266,5 +293,7 @@ namespace ProjectEye.Core.Service
             }
             return false;
         }
+
+        #endregion
     }
 }

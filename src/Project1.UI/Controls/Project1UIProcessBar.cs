@@ -131,6 +131,7 @@ namespace Project1.UI.Controls
 
         public override void OnApplyTemplate()
         {
+            
             base.OnApplyTemplate();
             var rootGrid = GetTemplateChild("Root") as Grid;
             if (rootGrid != null)

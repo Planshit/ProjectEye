@@ -30,13 +30,18 @@ namespace ProjectEye.Core.Service
         /// 休息结束时发生
         /// </summary>
         public event ResetEventHandler ResetCompleted;
-        public ResetService()
+
+        private readonly StatisticService statistic;
+        private readonly ConfigService config;
+        public ResetService(StatisticService statistic, ConfigService config)
         {
+            this.statistic = statistic;
+            this.config = config;
             //初始化计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0, 0, 1);
-            
+
         }
         public void Init()
         {
@@ -49,12 +54,16 @@ namespace ProjectEye.Core.Service
             timed = TakeTime;
             timer.Start();
         }
+        /// <summary>
+        /// 休息结束
+        /// </summary>
         private void End()
         {
             WindowManager.Hide("TipWindow");
             timer.Stop();
             timed = TakeTime;
             OnResetCompleted();
+            
         }
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -77,6 +86,6 @@ namespace ProjectEye.Core.Service
             ResetCompleted?.Invoke(this, 0);
         }
 
-       
+
     }
 }
