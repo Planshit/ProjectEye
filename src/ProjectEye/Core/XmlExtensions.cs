@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,9 @@ namespace ProjectEye.Core
                 XmlReader xmlReader = XmlReader.Create(file);
                 if (serializer.CanDeserialize(xmlReader))
                 {
-                    return serializer.Deserialize(xmlReader);
+                    var des= serializer.Deserialize(xmlReader);
+                    xmlReader.Dispose();
+                    return des;
                 }
                 else
                 {
@@ -40,14 +43,20 @@ namespace ProjectEye.Core
         {
             try
             {
+                string dir = Path.GetDirectoryName(file);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
                 XmlSerializer serializer = new XmlSerializer(data.GetType());
                 TextWriter writer = new StreamWriter(file);
                 serializer.Serialize(writer, data);
                 writer.Close();
                 return true;
             }
-            catch
+            catch(Exception ec)
             {
+                Debug.WriteLine(ec);
                 return false;
             }
         }
