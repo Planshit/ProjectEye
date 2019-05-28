@@ -256,7 +256,8 @@
                                Placement="Bottom"
                                Margin="0"
                                IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                               >
                             <Grid Margin="4" MinWidth="{Binding ElementName=MainGrid,Path=ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Grid.Effect>
                                     <DropShadowEffect ShadowDepth="0" BlurRadius="11" Opacity="0.1"/>
@@ -264,7 +265,7 @@
 
 
                                 <Border x:Name="DropDownBorder"
-                                        Background="White"
+                                        Background="{DynamicResource WindowBackground}"
                                         BorderBrush="{DynamicResource ThemeBrush}"
                                         BorderThickness="1"
                                         Margin="0">

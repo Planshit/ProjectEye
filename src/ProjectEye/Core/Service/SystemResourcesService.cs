@@ -16,13 +16,13 @@ namespace ProjectEye.Core.Service
             Themes = new List<ThemeModel>();
             Themes.Add(new ThemeModel()
             {
-                DisplayName = "默认",
+                DisplayName = "默认（Yellow）",
                 ThemeName = "Default",
                 ThemeColor = "#ffc83d"
             });
             Themes.Add(new ThemeModel()
             {
-                DisplayName="深色",
+                DisplayName = "暗色（Dark）",
                 ThemeName = "Dark",
                 ThemeColor = "Black"
             });

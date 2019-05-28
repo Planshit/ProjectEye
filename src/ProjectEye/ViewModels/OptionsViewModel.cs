@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProjectEye.ViewModels
@@ -18,18 +19,24 @@ namespace ProjectEye.ViewModels
         public Command applyCommand { get; set; }
         public Command openurlCommand { get; set; }
         public Command inkCommand { get; set; }
+        public Command soundTestCommand { get; set; }
 
         private readonly ConfigService config;
         private readonly MainService mainService;
         private readonly SystemResourcesService systemResources;
-
-        public OptionsViewModel(ConfigService config, 
+        private readonly SoundService sound;
+        private readonly ThemeService theme;
+        public OptionsViewModel(ConfigService config,
             MainService mainService,
-            SystemResourcesService systemResources)
+            SystemResourcesService systemResources,
+            SoundService sound,
+            ThemeService theme)
         {
             this.config = config;
             this.mainService = mainService;
             this.systemResources = systemResources;
+            this.sound = sound;
+            this.theme = theme;
             Model = new OptionsModel();
             Model.Data = config.options;
             Model.Themes = systemResources.Themes;
@@ -40,10 +47,28 @@ namespace ProjectEye.ViewModels
             applyCommand = new Command(new Action<object>(applyCommand_action));
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
             inkCommand = new Command(new Action<object>(inkCommand_action));
+            soundTestCommand = new Command(new Action<object>(soundTestCommand_actionAsync));
         }
 
+        private void soundTestCommand_actionAsync(object obj)
+        {
+            if (!string.IsNullOrEmpty(config.options.General.SoundPath))
+            {
+                bool resultTest = sound.Test(config.options.General.SoundPath);
+                if (resultTest)
+                {
+                    MessageBox.Show("音效已被正确加载！", "提示");
+                }
+                else
+                {
+                    MessageBox.Show("音效不能被加载！", "警告");
+                }
+            }
+
+        }
         private void inkCommand_action(object obj)
         {
+
             string msg = "创建桌面快捷方式失败！";
             if (ShortcutHelper.CreateDesktopShortcut())
             {
@@ -80,6 +105,8 @@ namespace ProjectEye.ViewModels
                 }
                 //处理休息间隔调整
                 mainService.SetWarnTime(config.options.General.WarnTime);
+                //处理主题切换
+                theme.SetTheme(config.options.Style.Theme.ThemeName);
             }
             MessageBox.Show(msg, "提示");
         }

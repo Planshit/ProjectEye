@@ -15,6 +15,10 @@ namespace Project1.UI.Controls
     public class Project1UIInput : TextBox
     {
         /// <summary>
+        /// 文件扩展名，仅在Type为文件选择对话框时有效
+        /// </summary>
+        public string ExtNames { get; set; }
+        /// <summary>
         /// 输入框圆角半径
         /// </summary>
         public CornerRadius CornerRadius
@@ -58,7 +62,7 @@ namespace Project1.UI.Controls
         public static readonly DependencyProperty IconAlignmentProperty =
             DependencyProperty.Register("IconAlignment", typeof(HorizontalAlignment), typeof(Project1UIInput));
 
-      
+
         public string Placeholder
         {
             get { return (string)GetValue(PlaceholderProperty); }
@@ -129,7 +133,8 @@ namespace Project1.UI.Controls
             {
                 System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
 
-
+                openFileDialog.CheckPathExists = true;
+                openFileDialog.Filter = ExtNames;
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     Text = openFileDialog.FileName;
@@ -139,7 +144,7 @@ namespace Project1.UI.Controls
             }
             if (Type == Project1UIInputType.FolderSelect)
             {
-                System.Windows.Forms.FolderBrowserDialog  folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();  //选择文件夹
+                System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();  //选择文件夹
 
 
                 if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)

@@ -36,5 +36,10 @@ namespace ProjectEye.Core.Models.Options
         /// 提醒间隔时间（单位：分钟）
         /// </summary>
         public int WarnTime { get; set; } = 20;
+        /// <summary>
+        /// 休息结束提示音效文件路径，为空时使用默认
+        /// </summary>
+        public string SoundPath { get; set; } = "";
+
     }
 }

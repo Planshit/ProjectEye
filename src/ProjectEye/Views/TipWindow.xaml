@@ -20,6 +20,7 @@
                 <RowDefinition Height="2.5*"/>
                 <RowDefinition Height="2.5*"/>
             </Grid.RowDefinitions>
+            
             <Image Style="{DynamicResource TipImage}" Height="160"
                    HorizontalAlignment="Center"
                    />

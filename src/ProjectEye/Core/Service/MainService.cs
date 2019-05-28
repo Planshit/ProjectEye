@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Interop;
@@ -28,12 +29,22 @@ namespace ProjectEye.Core.Service
         /// 回来检测计时器
         /// </summary>
         private readonly DispatcherTimer back_timer;
+        /// <summary>
+        /// 繁忙检测，用于检测用户在休息提示界面是否超时不操作
+        /// </summary>
+        private readonly DispatcherTimer busy_timer;
 
         private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
         private readonly StatisticService statistic;
 
+        #region win32
+        //[DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        //public static extern IntPtr GetForegroundWindow();
+        //[DllImport("user32", SetLastError = true)]
+        //public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+        #endregion
         public MainService(App app,
             ScreenService screen,
             ConfigService config,
@@ -57,7 +68,10 @@ namespace ProjectEye.Core.Service
             back_timer = new DispatcherTimer();
             back_timer.Tick += new EventHandler(back_timer_Tick);
             back_timer.Interval = new TimeSpan(0, 1, 0);
-
+            //初始化繁忙计时器
+            busy_timer = new DispatcherTimer();
+            busy_timer.Tick += new EventHandler(busy_timer_Tick);
+            busy_timer.Interval = new TimeSpan(0, 0, 20);
 
             /****调试模式代码****/
 #if DEBUG
@@ -69,6 +83,19 @@ namespace ProjectEye.Core.Service
             back_timer.Interval = new TimeSpan(0, 0, 10);
 #endif
             app.Exit += new ExitEventHandler(app_Exit);
+        }
+
+        private void busy_timer_Tick(object sender, EventArgs e)
+        {
+            Debug.WriteLine("用户超过20秒未处理");
+            //用户超过20秒未处理，关闭窗口
+            WindowManager.Hide("TipWindow");
+            if (config.options.General.LeaveListener)
+            {
+                //如果打开离开监听则进入离开状态
+                OnLeave();
+            }
+            busy_timer.Stop();
         }
 
         private void back_timer_Tick(object sender, EventArgs e)
@@ -88,12 +115,7 @@ namespace ProjectEye.Core.Service
         {
             if (IsUserLeave())
             {
-                Debug.WriteLine("用户离开了");
-                //用户可能是离开电脑了
-                leave_timer.Stop();
-                //启动back timer监听鼠标状态
-                back_timer.Start();
-                timer.Stop();
+                OnLeave();
             }
             SaveCursorPos();
         }
@@ -111,11 +133,37 @@ namespace ProjectEye.Core.Service
             SaveCursorPos();
 
             Start();
+
         }
+        #region 结束繁忙超时监听
+        /// <summary>
+        /// 结束繁忙超时监听
+        /// </summary>
+        public void StopBusyListener()
+        {
+            if (busy_timer.IsEnabled)
+            {
+                busy_timer.Stop();
+            }
+        }
+        #endregion
 
+        #region 进入离开状态
+        /// <summary>
+        /// 进入离开状态
+        /// </summary>
+        public void OnLeave()
+        {
+            Debug.WriteLine("用户离开了");
+            //用户可能是离开电脑了
+            leave_timer.Stop();
+            //启动back timer监听鼠标状态
+            back_timer.Start();
+            timer.Stop();
+        }
+        #endregion
 
-
-
+        #region 停止主进程。退出程序时调用
         /// <summary>
         /// 停止主进程。退出程序时调用
         /// </summary>
@@ -125,10 +173,16 @@ namespace ProjectEye.Core.Service
             DoStop();
             WindowManager.Close("TipWindow");
         }
+        #endregion
+
+        #region 启动计时
         public void Start()
         {
             DoStart();
         }
+        #endregion
+
+        #region 暂停计时
         /// <summary>
         /// 暂停
         /// </summary>
@@ -136,6 +190,9 @@ namespace ProjectEye.Core.Service
         {
             DoStop();
         }
+        #endregion
+
+        #region 打开离开监听
         /// <summary>
         /// 打开离开监听
         /// </summary>
@@ -146,6 +203,9 @@ namespace ProjectEye.Core.Service
                 leave_timer.Start();
             }
         }
+        #endregion
+
+        #region 关闭离开监听
         /// <summary>
         /// 关闭离开监听
         /// </summary>
@@ -158,6 +218,9 @@ namespace ProjectEye.Core.Service
                 timer.Start();
             }
         }
+        #endregion
+
+        #region 设置提醒间隔时间并重新启动休息计时
         /// <summary>
         /// 设置提醒间隔时间并重新启动休息计时
         /// </summary>
@@ -171,6 +234,9 @@ namespace ProjectEye.Core.Service
                 ReStart();
             }
         }
+        #endregion
+
+        #region 重新启动计时
         /// <summary>
         /// 重新启动休息计时
         /// </summary>
@@ -180,6 +246,10 @@ namespace ProjectEye.Core.Service
             DoStop();
             DoStart();
         }
+
+        #endregion
+
+        #region 启动计时实际操作
         private void DoStart()
         {
             //休息提醒
@@ -190,6 +260,9 @@ namespace ProjectEye.Core.Service
                 leave_timer.Start();
             }
         }
+        #endregion
+
+        #region 停止计时实际操作
         private void DoStop()
         {
             timer.Stop();
@@ -199,6 +272,7 @@ namespace ProjectEye.Core.Service
             back_timer.Stop();
 
         }
+        #endregion
 
         #region 显示休息提示窗口
         /// <summary>
@@ -206,8 +280,14 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
+            //IntPtr h = GetForegroundWindow();
+            //Debug.WriteLine("获取窗口：" + h);
+            //StringBuilder title = new StringBuilder(256);
+            //GetWindowText(h, title, title.Capacity);
+            //Debug.WriteLine("窗口标题："+title);
             if (!config.options.General.Noreset)
             {
+                busy_timer.Start();
                 WindowManager.Show("TipWindow");
             }
         }

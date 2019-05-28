@@ -8,14 +8,38 @@
         mc:Ignorable="d"
         Title="选项" Height="300" Width="400"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/ProjectEye;component/Resources/sunglasses.ico">
+    <ui:Project1UIWindow.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
+        </Style>
+    </ui:Project1UIWindow.Resources>
     <Grid Margin="5">
         <TabControl Margin="0,0,0,33">
             <TabItem Header="常规">
                 <StackPanel Margin="5">
                     <CheckBox Content="开机自启动" IsChecked="{Binding Model.Data.General.Startup}" Cursor="Hand"/>
                     <CheckBox Content="休息结束提示音" IsChecked="{Binding Model.Data.General.Sound}" Margin="0,10,0,0" Cursor="Hand"/>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>
+
+                        <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.General.SoundPath}" Width="auto" Placeholder="留空为默认音效"
+                                            Type="FileSelect"
+                                            ExtNames=".wav文件|*.wav"/>
+                        <ui:Project1UIButton Grid.Column="2"
+                                             Margin="5,0,0,0"
+                                             Content="测试"
+                                             Command="{Binding soundTestCommand}"
+                                             Style="{DynamicResource basic}"/>
+                    </Grid>
                     <CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>
-                    <CheckBox Content="数据统计" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"/>
+                    <CheckBox Content="数据统计" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
+                              ToolTip="开启后在托盘菜单可看到“查看数据统计”选项"/>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -24,14 +48,17 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0">提醒间隔</TextBlock>
+                                   Margin="0,0,10,0"
+                                   VerticalAlignment="Center">提醒间隔</TextBlock>
                         <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="方向键或鼠标点两侧微调"/>
                         <TextBlock Text="{Binding Model.Data.General.WarnTime}"
                                    Grid.Column="2"
-                                   HorizontalAlignment="Right"/>
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"/>
                         <TextBlock Text="分钟"
                                    Grid.Column="3"
-                                   HorizontalAlignment="Left"/>
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"/>
                     </Grid>
                 </StackPanel>
             </TabItem>
@@ -53,7 +80,7 @@
                             SelectedValue="{Binding Model.Data.Style.Theme.ThemeName}"
                             SelectedValuePath="ThemeName"
                                  />
-                        
+
 
                     </Grid>
                 </StackPanel>
@@ -103,7 +130,7 @@
                 Margin="10,0,0,0"
                 Icon="Null"/>
         </StackPanel>
-       
+
 
     </Grid>
 </ui:Project1UIWindow>

@@ -3,7 +3,7 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xmlns:m="clr-namespace:System.Media;assembly=System"
                     >
-    <s:String x:Key="ThemeName">Default</s:String>
+    <s:String x:Key="ThemeName">Dark</s:String>
     <!--【主题颜色】-->
     <Color x:Key="ThemeColor">#ffc83d</Color>
 
@@ -15,7 +15,7 @@
     <!--辅助颜色-->
     <Color x:Key="SubColor">#F8F9FB</Color>
     <!--文字颜色-->
-    <Color x:Key="FontColor">#333333</Color>
+    <Color x:Key="FontColor">white</Color>
     <!--按钮文字颜色-->
     <Color x:Key="ButtonColor">white</Color>
     <!--控件边框颜色-->
@@ -30,8 +30,7 @@
 
 
     <Style x:Key="TipImage" TargetType="Image">
-
-        <Setter Property="Source" Value="/ProjectEye;component/Resources/Themes/Default/Images/tipImage.png"/>
+        <Setter Property="Source" Value="/ProjectEye;component/Resources/Themes/Dark/Images/tipImage.png"/>
     </Style>
     <!--【通用笔刷】-->
     <!--主题颜色笔刷-->
@@ -55,7 +54,7 @@
     <!--窗口边框颜色-->
     <SolidColorBrush x:Key="WindowBorderBrush" Color="{DynamicResource ThemeColor}" />
     <!--窗口背景颜色-->
-    <SolidColorBrush x:Key="WindowBackground" Color="White" />
+    <SolidColorBrush x:Key="WindowBackground" Color="Black" />
     <!--窗口边框-->
     <Thickness x:Key="WindowBorderThickness">1</Thickness>
     <!--窗口标题栏高度-->

@@ -33,7 +33,8 @@ namespace ProjectEye.Core.Service
 
         private readonly StatisticService statistic;
         private readonly ConfigService config;
-        public ResetService(StatisticService statistic, ConfigService config)
+        public ResetService(StatisticService statistic,
+            ConfigService config)
         {
             this.statistic = statistic;
             this.config = config;
@@ -43,6 +44,9 @@ namespace ProjectEye.Core.Service
             timer.Interval = new TimeSpan(0, 0, 1);
 
         }
+
+
+
         public void Init()
         {
         }
@@ -63,7 +67,7 @@ namespace ProjectEye.Core.Service
             timer.Stop();
             timed = TakeTime;
             OnResetCompleted();
-            
+
         }
         private void timer_Tick(object sender, EventArgs e)
         {
