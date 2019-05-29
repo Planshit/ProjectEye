@@ -35,7 +35,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle x:Name="Ellipse" Fill="{DynamicResource ThemeBrush}" Stroke="{DynamicResource ThemeBrush}">
+                    <Rectangle x:Name="Ellipse" Fill="#00D4A0" Stroke="#00D4A0">
                        
                        
                         <VisualStateManager.VisualStateGroups>
@@ -50,7 +50,7 @@
                                     <Storyboard>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Ellipse">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="#3476ab" />
+                                         Value="#FF10EEB7" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

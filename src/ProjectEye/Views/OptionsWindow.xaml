@@ -50,7 +50,7 @@
                         <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0"
                                    VerticalAlignment="Center">提醒间隔</TextBlock>
-                        <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="方向键或鼠标点两侧微调"/>
+                        <Slider Grid.Column="1" Maximum="420" Minimum="5" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="方向键或鼠标点两侧微调"/>
                         <TextBlock Text="{Binding Model.Data.General.WarnTime}"
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"

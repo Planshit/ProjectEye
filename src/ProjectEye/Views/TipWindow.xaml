@@ -34,6 +34,7 @@
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">
                 <ui:Project1UIButton 
+                    Style="{DynamicResource tip_yes}"
                 Command="{Binding resetCommand}"
                 Content="好的"
                 Visibility="{Binding TakeButtonVisibility}"
@@ -41,8 +42,8 @@
                     Height="45"
                     FontSize="14"
                     Cursor="Hand"/>
-                <ui:Project1UIButton 
-                Style="{DynamicResource basic}"
+                <ui:Project1UIButton
+                Style="{DynamicResource tip_no}"
                 Command="{Binding busyCommand}"
                 Content="暂时不"
                 Visibility="{Binding TakeButtonVisibility}"

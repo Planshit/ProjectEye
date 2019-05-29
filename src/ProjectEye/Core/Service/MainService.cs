@@ -20,19 +20,19 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 用眼计时器
         /// </summary>
-        private readonly DispatcherTimer timer;
+        private DispatcherTimer timer;
         /// <summary>
         /// 离开检测计时器
         /// </summary>
-        private readonly DispatcherTimer leave_timer;
+        private DispatcherTimer leave_timer;
         /// <summary>
         /// 回来检测计时器
         /// </summary>
-        private readonly DispatcherTimer back_timer;
+        private DispatcherTimer back_timer;
         /// <summary>
         /// 繁忙检测，用于检测用户在休息提示界面是否超时不操作
         /// </summary>
-        private readonly DispatcherTimer busy_timer;
+        private DispatcherTimer busy_timer;
 
         private readonly ScreenService screen;
         private readonly ConfigService config;
@@ -56,32 +56,7 @@ namespace ProjectEye.Core.Service
             this.cache = cache;
             this.statistic = statistic;
 
-            //初始化用眼计时器
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
-            //初始化离开检测计时器
-            leave_timer = new DispatcherTimer();
-            leave_timer.Tick += new EventHandler(leave_timer_Tick);
-            leave_timer.Interval = new TimeSpan(0, 5, 0);
-            //初始化回来检测计时器
-            back_timer = new DispatcherTimer();
-            back_timer.Tick += new EventHandler(back_timer_Tick);
-            back_timer.Interval = new TimeSpan(0, 1, 0);
-            //初始化繁忙计时器
-            busy_timer = new DispatcherTimer();
-            busy_timer.Tick += new EventHandler(busy_timer_Tick);
-            busy_timer.Interval = new TimeSpan(0, 0, 20);
-
-            /****调试模式代码****/
-#if DEBUG
-            //30秒提示休息
-            timer.Interval = new TimeSpan(0, 0, 30);
-            //20秒表示离开
-            leave_timer.Interval = new TimeSpan(0, 0, 20);
-            //每10秒检测回来
-            back_timer.Interval = new TimeSpan(0, 0, 10);
-#endif
+            
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
@@ -115,13 +90,57 @@ namespace ProjectEye.Core.Service
         {
             if (IsUserLeave())
             {
+                //用户离开了电脑
                 OnLeave();
+                if (config.options.General.Data)
+                {
+                    //持久化统计数据
+                    statistic.Save();
+                    Debug.WriteLine("持久化统计数据");
+                }
+            }
+            else
+            {
+                //记录数据
+                if (config.options.General.Data)
+                {
+                    //数据统计
+                    statistic.Update(StatisticType.WorkingTime, 5);
+                    Debug.WriteLine("记录用眼时长 +5");
+                }
             }
             SaveCursorPos();
         }
 
         public void Init()
         {
+            //初始化用眼计时器
+            timer = new DispatcherTimer();
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
+            //初始化离开检测计时器
+            leave_timer = new DispatcherTimer();
+            leave_timer.Tick += new EventHandler(leave_timer_Tick);
+            leave_timer.Interval = new TimeSpan(0, 5, 0);
+            //初始化回来检测计时器
+            back_timer = new DispatcherTimer();
+            back_timer.Tick += new EventHandler(back_timer_Tick);
+            back_timer.Interval = new TimeSpan(0, 1, 0);
+            //初始化繁忙计时器
+            busy_timer = new DispatcherTimer();
+            busy_timer.Tick += new EventHandler(busy_timer_Tick);
+            busy_timer.Interval = new TimeSpan(0, 0, 30);
+
+            /****调试模式代码****/
+#if DEBUG
+            //30秒提示休息
+            timer.Interval = new TimeSpan(0, 0, 30);
+            //20秒表示离开
+            leave_timer.Interval = new TimeSpan(0, 0, 20);
+            //每10秒检测回来
+            back_timer.Interval = new TimeSpan(0, 0, 10);
+#endif
+
 
             var tipWindow = WindowManager.GetCreateWindow("TipWindow", true);
 
@@ -315,9 +334,9 @@ namespace ProjectEye.Core.Service
         {
             if (config.options.General.Data)
             {
-                //数据统计
-                statistic.Update(StatisticType.WorkingTime, config.options.General.WarnTime);
+                //持久化统计数据
                 statistic.Save();
+                Debug.WriteLine("持久化统计数据");
             }
             ShowTipWindow();
         }

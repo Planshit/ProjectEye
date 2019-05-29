@@ -3,9 +3,9 @@
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xmlns:m="clr-namespace:System.Media;assembly=System"
                     >
-    <s:String x:Key="ThemeName">Default</s:String>
+    <s:String x:Key="ThemeName">Classic</s:String>
     <!--【主题颜色】-->
-    <Color x:Key="ThemeColor">#ffc83d</Color>
+    <Color x:Key="ThemeColor">#00D4A0</Color>
 
     <!--蓝色-->
     <!--<Color x:Key="ThemeColor">#0078d4</Color>-->
@@ -31,7 +31,7 @@
 
     <Style x:Key="TipImage" TargetType="Image">
 
-        <Setter Property="Source" Value="/ProjectEye;component/Resources/Themes/Default/Images/tipImage.png"/>
+        <Setter Property="Source" Value="/ProjectEye;component/Resources/Themes/Classic/Images/tipImage.png"/>
     </Style>
     <!--【通用笔刷】-->
     <!--主题颜色笔刷-->
@@ -68,7 +68,7 @@
     <!--按钮默认字体颜色-->
     <SolidColorBrush x:Key="ButtonForeground" Color="{DynamicResource ButtonColor}"/>
     <!--按钮默认边框颜色-->
-    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#ffb803"/>
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#00D4A0"/>
     <!--按钮默认边框-->
     <Thickness x:Key="ButtonThickness">1</Thickness>
     <!--按钮默认圆角幅度-->
@@ -82,7 +82,7 @@
     <!--按钮按下背景颜色-->
     <SolidColorBrush x:Key="ButtonPressedBackground" Color="{DynamicResource ThemeColor}"/>
     <!--按钮经过颜色-->
-    <Color x:Key="ButtonHoverColor">#ffb803</Color>
+    <Color x:Key="ButtonHoverColor">#FF10EEB7</Color>
 
     <!--【输入框】-->
     <!--默认边框颜色-->
@@ -120,5 +120,5 @@
 
 
     <!--按钮经过颜色-->
-    <Color x:Key="BasicButtonHoverColor">#ffb803</Color>
+    <Color x:Key="BasicButtonHoverColor">#00D4A0</Color>
 </ResourceDictionary>

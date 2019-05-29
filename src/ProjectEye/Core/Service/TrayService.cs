@@ -31,59 +31,7 @@ namespace ProjectEye.Core.Service
             this.config = config;
             this.config.Changed += new EventHandler(config_Changed);
 
-            components = new System.ComponentModel.Container();
-            contextMenu = new System.Windows.Forms.ContextMenu();
-            //不要提醒我
-            menuItem_norest = new System.Windows.Forms.MenuItem();
-            menuItem_norest.Text = "不要提醒我";
-            menuItem_norest.Click += new System.EventHandler(menuItem_norest_Click);
-            //声音提示
-            menuItem_sound = new System.Windows.Forms.MenuItem();
-            menuItem_sound.Checked = config.options.General.Sound;
-            menuItem_sound.Text = "提示音";
-            menuItem_sound.Click += new System.EventHandler(menuItem_sound_Click);
-            //退出菜单项
-            System.Windows.Forms.MenuItem menuItem_exit = new System.Windows.Forms.MenuItem();
-            menuItem_exit.Text = "退出";
-            menuItem_exit.Click += new System.EventHandler(menuItem_exit_Click);
-
-           
-
-
-            //选项
-            System.Windows.Forms.MenuItem menuItem_options = new System.Windows.Forms.MenuItem();
-            menuItem_options.Text = "选项";
-            menuItem_options.Click += new EventHandler(menuItem_options_Click);
-
-            //查看数据统计
-            menuItem_Statistic = new System.Windows.Forms.MenuItem();
-            menuItem_Statistic.Text = "查看数据统计";
-            menuItem_Statistic.Click += new EventHandler(menuItem_menuItem_Statistic_Click);
-            menuItem_Statistic.Visible = config.options.General.Data;
-
-
-
-            contextMenu.MenuItems.Add(menuItem_Statistic);
-            contextMenu.MenuItems.Add("-");
-            contextMenu.MenuItems.Add(menuItem_norest);
-            contextMenu.MenuItems.Add(menuItem_sound);
-            contextMenu.MenuItems.Add("-");
-            contextMenu.MenuItems.Add(menuItem_options);
-            //contextMenu.MenuItems.Add(menuItem_update);
-            contextMenu.MenuItems.Add("-");
-            contextMenu.MenuItems.Add(menuItem_exit);
-
-            //this.contextMenu.MenuItems.AddRange(
-            //            new System.Windows.Forms.MenuItem[] { menuItem_norest, menuItem_sound, menuItem_exit });
-
-
-            notifyIcon = new System.Windows.Forms.NotifyIcon(components);
-            UpdateIcon("sunglasses");
-            notifyIcon.ContextMenu = contextMenu;
-            notifyIcon.Text = "Project Eye";
-            notifyIcon.Visible = true;
-            //notifyIcon.DoubleClick += new System.EventHandler(notifyIcon_DoubleClick);
-
+            
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
@@ -118,6 +66,59 @@ namespace ProjectEye.Core.Service
 
         public void Init()
         {
+            components = new System.ComponentModel.Container();
+            contextMenu = new System.Windows.Forms.ContextMenu();
+            //不要提醒我
+            menuItem_norest = new System.Windows.Forms.MenuItem();
+            menuItem_norest.Text = "不要提醒我";
+            menuItem_norest.Click += new System.EventHandler(menuItem_norest_Click);
+            //声音提示
+            menuItem_sound = new System.Windows.Forms.MenuItem();
+            menuItem_sound.Checked = config.options.General.Sound;
+            menuItem_sound.Text = "提示音";
+            menuItem_sound.Click += new System.EventHandler(menuItem_sound_Click);
+            //退出菜单项
+            System.Windows.Forms.MenuItem menuItem_exit = new System.Windows.Forms.MenuItem();
+            menuItem_exit.Text = "退出";
+            menuItem_exit.Click += new System.EventHandler(menuItem_exit_Click);
+
+
+
+
+            //选项
+            System.Windows.Forms.MenuItem menuItem_options = new System.Windows.Forms.MenuItem();
+            menuItem_options.Text = "选项";
+            menuItem_options.Click += new EventHandler(menuItem_options_Click);
+
+            //查看数据统计
+            menuItem_Statistic = new System.Windows.Forms.MenuItem();
+            menuItem_Statistic.Text = "查看数据统计";
+            menuItem_Statistic.Click += new EventHandler(menuItem_menuItem_Statistic_Click);
+            menuItem_Statistic.Visible = config.options.General.Data;
+
+#if DEBUG
+            contextMenu.MenuItems.Add("Debug...");
+#endif
+            contextMenu.MenuItems.Add(menuItem_Statistic);
+            contextMenu.MenuItems.Add(menuItem_options);
+            contextMenu.MenuItems.Add("-");
+            contextMenu.MenuItems.Add(menuItem_norest);
+            contextMenu.MenuItems.Add(menuItem_sound);
+            contextMenu.MenuItems.Add("-");
+
+            //contextMenu.MenuItems.Add(menuItem_update);
+            contextMenu.MenuItems.Add(menuItem_exit);
+
+            //this.contextMenu.MenuItems.AddRange(
+            //            new System.Windows.Forms.MenuItem[] { menuItem_norest, menuItem_sound, menuItem_exit });
+
+
+            notifyIcon = new System.Windows.Forms.NotifyIcon(components);
+            UpdateIcon("sunglasses");
+            notifyIcon.ContextMenu = contextMenu;
+            notifyIcon.Text = "Project Eye";
+            notifyIcon.Visible = true;
+            //notifyIcon.DoubleClick += new System.EventHandler(notifyIcon_DoubleClick);
 
         }
 

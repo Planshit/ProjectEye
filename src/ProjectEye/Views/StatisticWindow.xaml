@@ -8,6 +8,11 @@
         mc:Ignorable="d"
         Title="数据统计" Height="450" Width="800"
                      WindowStartupLocation="CenterScreen" Icon="/ProjectEye;component/Resources/sunglasses.ico">
+    <ui:Project1UIWindow.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
+        </Style>
+    </ui:Project1UIWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>

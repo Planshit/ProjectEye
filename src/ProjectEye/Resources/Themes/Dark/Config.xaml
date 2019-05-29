@@ -5,7 +5,7 @@
                     >
     <s:String x:Key="ThemeName">Dark</s:String>
     <!--【主题颜色】-->
-    <Color x:Key="ThemeColor">#ffc83d</Color>
+    <Color x:Key="ThemeColor">#2f6ea5</Color>
 
     <!--蓝色-->
     <!--<Color x:Key="ThemeColor">#0078d4</Color>-->
@@ -56,7 +56,7 @@
     <!--窗口背景颜色-->
     <SolidColorBrush x:Key="WindowBackground" Color="Black" />
     <!--窗口边框-->
-    <Thickness x:Key="WindowBorderThickness">1</Thickness>
+    <Thickness x:Key="WindowBorderThickness">0</Thickness>
     <!--窗口标题栏高度-->
     <s:Double x:Key="WindowTitleBarHeight">30</s:Double>
 
@@ -67,7 +67,7 @@
     <!--按钮默认字体颜色-->
     <SolidColorBrush x:Key="ButtonForeground" Color="{DynamicResource ButtonColor}"/>
     <!--按钮默认边框颜色-->
-    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#ffb803"/>
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="{DynamicResource ThemeColor}"/>
     <!--按钮默认边框-->
     <Thickness x:Key="ButtonThickness">1</Thickness>
     <!--按钮默认圆角幅度-->
@@ -81,7 +81,7 @@
     <!--按钮按下背景颜色-->
     <SolidColorBrush x:Key="ButtonPressedBackground" Color="{DynamicResource ThemeColor}"/>
     <!--按钮经过颜色-->
-    <Color x:Key="ButtonHoverColor">#ffb803</Color>
+    <Color x:Key="ButtonHoverColor">#3476ab</Color>
 
     <!--【输入框】-->
     <!--默认边框颜色-->
@@ -119,5 +119,5 @@
 
 
     <!--按钮经过颜色-->
-    <Color x:Key="BasicButtonHoverColor">#ffb803</Color>
+    <Color x:Key="BasicButtonHoverColor">#3476ab</Color>
 </ResourceDictionary>

@@ -16,6 +16,7 @@ namespace ProjectEye.Core.Service
     {
         private readonly string configPath;
         private readonly XmlExtensions xmlExtensions;
+        private readonly SystemResourcesService systemResources;
         //存放文件夹
         private readonly string dir = "Data";
         public OptionsModel options { get; set; }
@@ -23,13 +24,14 @@ namespace ProjectEye.Core.Service
         /// 配置文件被修改时发生
         /// </summary>
         public event EventHandler Changed;
-        public ConfigService()
+        public ConfigService(SystemResourcesService systemResources)
         {
+            this.systemResources = systemResources;
             configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 dir,
                 "config.xml");
             xmlExtensions = new XmlExtensions(configPath);
-            Init();
+            //Init();
         }
         public void Init()
         {
@@ -77,7 +79,7 @@ namespace ProjectEye.Core.Service
             options.General.WarnTime = 20;
 
             options.Style = new StyleModel();
-            options.Style.Theme = new ThemeModel();
+            options.Style.Theme = systemResources.Themes[1];
 
             xmlExtensions.Save(options);
         }
