@@ -121,10 +121,10 @@ namespace ProjectEye.Core.Service
             switch (type)
             {
                 case StatisticType.WorkingTime:
-                    todayStatistic.WorkingTime += Math.Round(((double)value) / 60, 1);
+                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + ((double)value) / 60, 1);
                     break;
                 case StatisticType.ResetTime:
-                    todayStatistic.ResetTime += Math.Round(((double)value) / 60, 1);
+                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + ((double)value) / 60, 1);
                     break;
                 case StatisticType.SkipCount:
                     todayStatistic.SkipCount += value;
