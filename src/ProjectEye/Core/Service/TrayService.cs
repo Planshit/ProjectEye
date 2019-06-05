@@ -143,7 +143,7 @@ namespace ProjectEye.Core.Service
         }
 
 
-        private void Remove()
+        public void Remove()
         {
             notifyIcon.Visible = false;
             if (components != null)

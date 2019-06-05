@@ -6,10 +6,12 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace ProjectEyeUp
+namespace ProjectEye.Core.Net
 {
-
-    public class HttpDownloader
+    /// <summary>
+    /// http文件下载
+    /// </summary>
+    public class HttpDownload
     {
         /// <summary>
         /// 文件网络路径
@@ -35,7 +37,7 @@ namespace ProjectEyeUp
         public event HttpDownloaderEventHandler StartEvent;
 
         public delegate void HttpDownloaderEventHandler(object sender, object value);
-        public HttpDownloader(string httpUrl, string savePath)
+        public HttpDownload(string httpUrl, string savePath)
         {
             this.httpUrl = httpUrl;
             this.savePath = savePath;

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ProjectEyeUp
+namespace ProjectEye.Models
 {
-    public class DataModel : UINotifyPropertyChanged
+    public class UpdateModel : UINotifyPropertyChanged
     {
         private bool PlayProcess_ = false;
         public bool PlayProcess
@@ -16,12 +16,27 @@ namespace ProjectEyeUp
             set { PlayProcess_ = value; OnPropertyChanged(); }
         }
 
-        private Visibility UpVisibility_ = Visibility.Hidden;
+        private Visibility UpVisibility_ = Visibility.Collapsed;
 
         public Visibility UpVisibility
         {
             get { return UpVisibility_; }
             set { UpVisibility_ = value; OnPropertyChanged(); }
+        }
+
+        private Visibility OpenUrlVisibility_ = Visibility.Collapsed;
+
+        public Visibility OpenUrlVisibility
+        {
+            get { return OpenUrlVisibility_; }
+            set { OpenUrlVisibility_ = value; OnPropertyChanged(); }
+        }
+        private Visibility InstallVisibility_ = Visibility.Collapsed;
+
+        public Visibility InstallVisibility
+        {
+            get { return InstallVisibility_; }
+            set { InstallVisibility_ = value; OnPropertyChanged(); }
         }
 
         private string Tip_ = "正在获取版本信息";

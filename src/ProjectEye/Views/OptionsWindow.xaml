@@ -92,7 +92,7 @@
                                Margin="0,5,0,0"/>
                     <TextBlock TextWrapping="Wrap"
                                Margin="0,5,0,0">版本号：<Hyperlink Command="{Binding openurlCommand}"
-                                      CommandParameter="{Binding Model.VersionLink}" ToolTip="查看版本更新内容"><Run Text="{Binding Model.Version}"/></Hyperlink></TextBlock>
+                                      CommandParameter="{Binding Model.VersionLink}" ToolTip="查看版本更新内容"><Run Text="{Binding Model.Version}"/></Hyperlink> <Hyperlink Command="{Binding updateCommand}">检查更新</Hyperlink></TextBlock>
                     <TextBlock TextWrapping="Wrap" Text="一个默默在暗中保护你眼睛的软件"
                                Margin="0,5,0,0"/>
                     <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">

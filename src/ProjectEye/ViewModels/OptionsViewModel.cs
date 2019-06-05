@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -20,7 +21,7 @@ namespace ProjectEye.ViewModels
         public Command openurlCommand { get; set; }
         public Command inkCommand { get; set; }
         public Command soundTestCommand { get; set; }
-
+        public Command updateCommand { get; set; }
         private readonly ConfigService config;
         private readonly MainService mainService;
         private readonly SystemResourcesService systemResources;
@@ -48,6 +49,25 @@ namespace ProjectEye.ViewModels
             openurlCommand = new Command(new Action<object>(openurlCommand_action));
             inkCommand = new Command(new Action<object>(inkCommand_action));
             soundTestCommand = new Command(new Action<object>(soundTestCommand_actionAsync));
+            updateCommand = new Command(new Action<object>(updateCommand_action));
+
+        }
+
+        private void updateCommand_action(object obj)
+        {
+            WindowManager.CreateWindowInScreen("UpdateWindow");
+            WindowManager.Show("UpdateWindow");
+         
+            //            string savePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            //                "Update",
+            //                "Download",
+            //                "ProjectEye.zip");
+            //            string outPath = AppDomain.CurrentDomain.BaseDirectory;
+            //#if DEBUG
+            //            Model.Version = "1.0.3";
+            //#endif
+
+            
         }
 
         private void soundTestCommand_actionAsync(object obj)

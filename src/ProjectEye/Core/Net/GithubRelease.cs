@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ProjectEyeUp
+namespace ProjectEye.Core.Net
 {
-    public class Updater
+    public class GithubRelease
     {
         public class VersionInfo
         {
@@ -55,7 +55,7 @@ namespace ProjectEyeUp
         public event UpdaterEventHandler RequestCompleteEvent;
         public event UpdaterEventHandler RequestErrorEvent;
         public delegate void UpdaterEventHandler(object sender, object value);
-        public Updater(string githubUrl, string nowVersion)
+        public GithubRelease(string githubUrl, string nowVersion)
         {
             this.githubUrl = githubUrl;
             this.nowVersion = nowVersion;
@@ -65,7 +65,7 @@ namespace ProjectEyeUp
         {
             return !(nowVersion == Info.Version);
         }
-        public void Request()
+        public void GetRequest()
         {
             new Thread(requestThread).Start();
         }
