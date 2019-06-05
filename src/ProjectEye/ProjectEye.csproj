@@ -413,5 +413,8 @@
   <ItemGroup>
     <Resource Include="Resources\Themes\Classic\Images\tipImage.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hammer-and-wrench_1f6e0.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
