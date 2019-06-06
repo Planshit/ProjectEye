@@ -17,6 +17,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="9*"/>
+            <RowDefinition Height="auto"/>
 
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="近7天用眼数据统计" HorizontalAlignment="Left"
@@ -36,7 +37,7 @@
                                     Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
                                     Label="小时"/>
                 </Grid>
-                
+
             </TabItem>
             <TabItem Header="休息情况">
                 <Grid Margin="15">
@@ -63,6 +64,6 @@
                 </Grid>
             </TabItem>
         </TabControl>
-
+        <TextBlock Grid.Row="2" Text="*由于统计机制问题，数据精度会有上下小浮动的情况" VerticalAlignment="Center" Margin="10,0,10,10"/>
     </Grid>
 </ui:Project1UIWindow>
