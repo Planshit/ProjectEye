@@ -37,15 +37,25 @@
                 <ui:Project1UIButton Content="安装更新" Visibility="{Binding InstallVisibility}" Command="{Binding installCommand}"/>
             </StackPanel>
         </Grid>
-        <Image Source="/ProjectEye;component/Resources/hammer-and-wrench_1f6e0.png" Panel.ZIndex="-1" Width="80" Opacity=".5" RenderTransformOrigin="0.5,0.5">
+        <Image x:Name="img" Source="/ProjectEye;component/Resources/gear_2699.png" Panel.ZIndex="-1" Width="80" Height="80" Opacity=".5" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
-                    <ScaleTransform ScaleX="1.05"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
+                    <RotateTransform Angle="0"/>
                 </TransformGroup>
             </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard RepeatBehavior="Forever">
+                            <DoubleAnimation 
+                Storyboard.TargetName="img"
+                Storyboard.TargetProperty="RenderTransform.Children[0].Angle"
+                From="0" To="360" Duration="0:0:15" />
+                            
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
         </Image>
     </Grid>
 </ui:Project1UIWindow>
