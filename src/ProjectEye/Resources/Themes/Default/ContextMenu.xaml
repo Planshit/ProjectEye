@@ -12,7 +12,7 @@
 
                     <Border x:Name="Border"
                                 Background="White"
-                                BorderBrush="{DynamicResource ThemeBrush}"
+                                BorderBrush="#c4c4c4"
                                 BorderThickness="1"
                                 Padding="0"
                                 Margin="10"
@@ -31,5 +31,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

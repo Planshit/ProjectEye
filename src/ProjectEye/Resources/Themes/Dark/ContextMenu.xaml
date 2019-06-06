@@ -3,7 +3,7 @@
                     >
     <!--#region 右键菜单样式-->
     <Style  TargetType="{x:Type ContextMenu}">
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="Black"/>
         <!--<Setter Property="BorderBrush" Value="{DynamicResource FluentBorderBrush}"/>-->
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Template">
@@ -12,7 +12,7 @@
 
                     <Border x:Name="Border"
                                 Background="White"
-                                BorderBrush="{DynamicResource ThemeBrush}"
+                                BorderBrush="#c4c4c4"
                                 BorderThickness="1"
                                 Padding="0"
                                 Margin="10"
@@ -31,5 +31,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>

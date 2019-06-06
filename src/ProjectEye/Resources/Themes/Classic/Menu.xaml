@@ -35,15 +35,16 @@
         <Setter Property="Height"
           Value="1" />
         <Setter Property="Margin"
-          Value="30,0,5,0" />
+          Value="35,0,5,0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Border BorderThickness="1">
+                    <!--<Border BorderThickness="1">
                         <Border.BorderBrush>
-                            <SolidColorBrush Color="#ccc"/>
+                            <SolidColorBrush Color="#FFDEDEDE"/>
                         </Border.BorderBrush>
-                    </Border>
+                    </Border>-->
+                    <Rectangle Fill="#FFDEDEDE"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -155,12 +156,12 @@
         <Border x:Name="Border"
          Background="White"
                     MinWidth="150"
-                    Padding="0,4">
+                    Padding="0,6">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"
+                    <ColumnDefinition Width="20"
                           SharedSizeGroup="Icon" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
                     <ColumnDefinition Width="Auto"
                           SharedSizeGroup="Shortcut" />
                     <ColumnDefinition Width="13" />
@@ -171,56 +172,21 @@
                                       
                                       HorizontalAlignment="Center"
                         ContentSource="Icon" />
-                <Border x:Name="Check"
-              Width="13"
-              Height="13"
-              Visibility="Collapsed"
-              Margin="6,0,6,0"
-              BorderThickness="1">
-                    <Border.BorderBrush>
-                        <LinearGradientBrush StartPoint="0,0"
-                               EndPoint="0,1">
-                            <LinearGradientBrush.GradientStops>
-                                <GradientStopCollection>
-                                    <GradientStop Color="{DynamicResource BorderLightColor}"
-                              Offset="0.0" />
-                                    <GradientStop Color="{DynamicResource BorderDarkColor}"
-                              Offset="1.0" />
-                                </GradientStopCollection>
-                            </LinearGradientBrush.GradientStops>
-                        </LinearGradientBrush>
-
-                    </Border.BorderBrush>
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0"
-                               EndPoint="0,1">
-                            <LinearGradientBrush.GradientStops>
-                                <GradientStopCollection>
-                                    <GradientStop Color="{DynamicResource ControlLightColor}" />
-                                    <GradientStop Color="{DynamicResource ControlMediumColor}"
-                              Offset="1.0" />
-                                </GradientStopCollection>
-                            </LinearGradientBrush.GradientStops>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Path x:Name="CheckMark"
-              Width="7"
-              Height="7"
-              Visibility="Hidden"
-              SnapsToDevicePixels="False"
-              StrokeThickness="2"
-              Data="M 0 0 L 7 7 M 0 7 L 7 0">
-                        <Path.Stroke>
-                            <SolidColorBrush Color="{DynamicResource GlyphColor}" />
-                        </Path.Stroke>
-                    </Path>
-                </Border>
+                <Rectangle x:Name="CheckMark"
+                           Grid.Column="1"
+                           Fill="{DynamicResource ThemeBrush}"
+                           Width="5"
+                           Height="5"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Visibility="Hidden"
+                           SnapsToDevicePixels="True"/>
                 <ContentPresenter x:Name="HeaderHost"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         ContentSource="Header"
                         RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
-                 Grid.Column="2"
+                 Grid.Column="3"
                                FontWeight="Normal"
                  Text="{TemplateBinding InputGestureText}"
                  Margin="0"
@@ -243,15 +209,7 @@
               Property="Visibility"
               Value="Visible" />
             </Trigger>
-            <Trigger Property="IsCheckable"
-             Value="true">
-                <Setter TargetName="Check"
-              Property="Visibility"
-              Value="Visible" />
-                <Setter TargetName="Icon"
-              Property="Visibility"
-              Value="Hidden" />
-            </Trigger>
+           
             <Trigger Property="IsHighlighted"
              Value="true">
                 <Setter Property="Background"
@@ -314,7 +272,7 @@
             VerticalAlignment="Center"
             Data="M 0 0 L 0 7 L 4 3.5 Z">
                     <Path.Fill>
-                        <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                        <SolidColorBrush Color="{DynamicResource ThemeColor}" />
                     </Path.Fill>
                 </Path>
                 <Popup x:Name="Popup"
