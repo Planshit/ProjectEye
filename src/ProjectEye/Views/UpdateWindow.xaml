@@ -37,6 +37,15 @@
                 <ui:Project1UIButton Content="安装更新" Visibility="{Binding InstallVisibility}" Command="{Binding installCommand}"/>
             </StackPanel>
         </Grid>
-        <Image Source="/ProjectEye;component/Resources/hammer-and-wrench_1f6e0.png" Panel.ZIndex="-1" Width="80" Opacity=".5"/>
+        <Image Source="/ProjectEye;component/Resources/hammer-and-wrench_1f6e0.png" Panel.ZIndex="-1" Width="80" Opacity=".5" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1.05"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
     </Grid>
 </ui:Project1UIWindow>
