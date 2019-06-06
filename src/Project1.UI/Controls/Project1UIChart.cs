@@ -111,41 +111,14 @@ namespace Project1.UI.Controls
         /// 画布
         /// </summary>
         private Canvas rootCanvas;
-        /// <summary>
-        /// 动画容器
-        /// </summary>
-        private Storyboard storyboard;
-        /// <summary>
-        /// 缩放对象
-        /// </summary>
-        private ScaleTransform scaleTransform;
-        /// <summary>
-        /// 动画
-        /// </summary>
-        private DoubleAnimation doubleAnimation;
         #endregion
 
         public Project1UIChart()
         {
             DefaultStyleKey = typeof(Project1UIChart);
 
-            //动画
-            storyboard = new Storyboard();
-            scaleTransform = new ScaleTransform();
-            doubleAnimation = new DoubleAnimation();
-            doubleAnimation.From = 1;
-            doubleAnimation.To = 1.2;
-            doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.5));
-
-
-            
-            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("(RenderTransform).(TransformGroup).(ScaleTransform.ScaleX)"));
-
-            storyboard.Children.Add(doubleAnimation);
-
             //计算图表数据
             CalculateChartValue();
-
         }
 
         public override void OnApplyTemplate()
@@ -155,12 +128,10 @@ namespace Project1.UI.Controls
         }
         protected override void OnRender(DrawingContext drawingContext)
         {
-
-            DrawBasicGrid(drawingContext);
-            DrawDataGrid(drawingContext);
-            DrawDataPoint(drawingContext);
-            DrawDataPointLinkLine(drawingContext);
-
+                DrawBasicGrid(drawingContext);
+                DrawDataGrid(drawingContext);
+                DrawDataPoint(drawingContext);
+                DrawDataPointLinkLine(drawingContext);
         }
 
         #region 绘制文字函数
@@ -511,35 +482,82 @@ namespace Project1.UI.Controls
             if (rootCanvas != null)
             {
                 var dataPoint = new Ellipse();
-                //dataPoint.StrokeThickness = 2;
 
-                //var strokeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(UIDefaultSetting.DefaultThemeColor));
-                //strokeColor.Opacity = .5;
-                //dataPoint.Stroke = strokeColor;
                 dataPoint.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(UIDefaultSetting.DefaultThemeColor));
+                
                 dataPoint.Width = 8;
                 dataPoint.Height = 8;
-                TranslateTransform t = new TranslateTransform();
-                t.X = point.X - (dataPoint.Width / 2);
-                t.Y = point.Y - (dataPoint.Height / 2);
+
+                //中心位置
+                double centerX = point.X - (dataPoint.Width / 2);
+                double centerY = point.Y - (dataPoint.Height / 2);
+
+                //坐标对象
+                var translateTransform = new TranslateTransform();
+                translateTransform.X = centerX;
+                translateTransform.Y = centerY;
+
+                //缩放对象
+                var scaleTransform = new ScaleTransform();
+                scaleTransform.ScaleX = 1;
+                scaleTransform.ScaleY = 1;
+                scaleTransform.CenterX = centerX + (dataPoint.Width / 2);
+                scaleTransform.CenterY = centerY + (dataPoint.Width / 2);
+
                 var transformGroup = new TransformGroup();
-                transformGroup.Children.Add(t);
+                transformGroup.Children.Add(translateTransform);
                 transformGroup.Children.Add(scaleTransform);
+
+                //动画
+                var storyboard = new Storyboard();
+
+                storyboard.Completed += (e, c) =>
+                {
+                    Debug.WriteLine("complete");
+                };
+                var doubleAnimation = new DoubleAnimation();
+                doubleAnimation.To = 1.5;
+                doubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(.1));
+                var doubleAnimation2 = new DoubleAnimation();
+                doubleAnimation2.To = 1.5;
+                doubleAnimation2.Duration = new Duration(TimeSpan.FromSeconds(.1));
+                var doubleAnimation_Opcatify = new DoubleAnimation();
+                doubleAnimation_Opcatify.To = .7;
+                doubleAnimation_Opcatify.Duration = new Duration(TimeSpan.FromSeconds(.1));
 
                 dataPoint.RenderTransform = transformGroup;
                 dataPoint.Cursor = Cursors.Hand;
                 dataPoint.ToolTip = data + " " + Label;
-                //dataPoint.MouseEnter += DataPoint_MouseEnter;
 
+                //设置动画对象
                 Storyboard.SetTarget(doubleAnimation, dataPoint);
+                Storyboard.SetTarget(doubleAnimation2, dataPoint);
+                Storyboard.SetTarget(doubleAnimation_Opcatify, dataPoint);
+
+                Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("RenderTransform.Children[1].ScaleX"));
+                Storyboard.SetTargetProperty(doubleAnimation2, new PropertyPath("RenderTransform.Children[1].ScaleY"));
+                Storyboard.SetTargetProperty(doubleAnimation_Opcatify, new PropertyPath("Opacity"));
+                //鼠标滑入滑出时处理动画播放停止
+                dataPoint.MouseEnter += (e, c) =>
+                {
+                    storyboard.Begin();
+                };
+                dataPoint.MouseLeave += (e, c) =>
+                {
+                    storyboard.Stop();
+                };
+
+                //添加动画到故事板
+                storyboard.Children.Add(doubleAnimation);
+                storyboard.Children.Add(doubleAnimation2);
+                storyboard.Children.Add(doubleAnimation_Opcatify);
+
                 rootCanvas.Children.Add(dataPoint);
+
             }
         }
 
-        private void DataPoint_MouseEnter(object sender, MouseEventArgs e)
-        {
-            storyboard.Begin();
-        }
+
         #endregion
         #endregion
 
