@@ -419,5 +419,8 @@
   <ItemGroup>
     <Resource Include="Resources\gear_2699.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\sleeping.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
