@@ -142,6 +142,7 @@ namespace ProjectEye.ViewModels
         private void Updater_RequestErrorEvent(object sender, object value)
         {
             PlayProcess = false;
+            Tip = "无法获取版本信息，请重试或检查网络";
             MessageBox.Show("无法获取到版本信息，请尝试重启应用程序后再试！", "错误");
         }
 
