@@ -39,6 +39,19 @@ namespace ProjectEye.Core.Service
             this.config.Changed += new EventHandler(config_Changed);
 
             app.Exit += new ExitEventHandler(app_Exit);
+            mainService.OnLeaveEvent += MainService_OnLeaveEvent;
+            mainService.OnComeBackEvent += MainService_OnComeBackEvent;
+
+        }
+
+        private void MainService_OnComeBackEvent(object service, int msg)
+        {
+            UpdateIcon("sunglasses");
+        }
+
+        private void MainService_OnLeaveEvent(object service, int msg)
+        {
+            UpdateIcon("sleeping");
         }
 
         #region Init

@@ -34,16 +34,31 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private DispatcherTimer busy_timer;
 
+        #region Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
         private readonly CacheService cache;
         private readonly StatisticService statistic;
+        #endregion
 
         #region win32
         //[DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         //public static extern IntPtr GetForegroundWindow();
         //[DllImport("user32", SetLastError = true)]
         //public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+        #endregion
+
+        #region Event
+        public delegate void MainEventHandler(object service, int msg);
+        /// <summary>
+        /// 用户离开时发生
+        /// </summary>
+        public event MainEventHandler OnLeaveEvent;
+        /// <summary>
+        /// 用户回来时发生
+        /// </summary>
+        public event MainEventHandler OnComeBackEvent;
+
         #endregion
         public MainService(App app,
             ScreenService screen,
@@ -82,6 +97,8 @@ namespace ProjectEye.Core.Service
                 back_timer.Stop();
                 leave_timer.Start();
                 timer.Start();
+                //事件响应
+                OnComeBackEvent?.Invoke(this, 0);
             }
             SaveCursorPos();
         }
@@ -179,6 +196,9 @@ namespace ProjectEye.Core.Service
             //启动back timer监听鼠标状态
             back_timer.Start();
             timer.Stop();
+            //事件响应
+            OnLeaveEvent?.Invoke(this, 0);
+
         }
         #endregion
 
