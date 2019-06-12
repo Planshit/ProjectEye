@@ -32,6 +32,12 @@ namespace ProjectEye.Core.Service
                 ThemeName = "Dark",
                 ThemeColor = "Black"
             });
+            Themes.Add(new ThemeModel()
+            {
+                DisplayName = "黑色（Black）",
+                ThemeName = "Black",
+                ThemeColor = "#000"
+            });
         }
     }
 }

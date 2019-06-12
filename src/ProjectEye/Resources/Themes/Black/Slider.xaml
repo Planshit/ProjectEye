@@ -1,0 +1,196 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:c="clr-namespace:ProjectEye.Resources.Converters">
+    <!--滑块样式，仅处理横向样式-->
+    <Style x:Key="SliderButtonStyle"
+       TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+        <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+        <Setter Property="IsTabStop"
+          Value="false" />
+        <Setter Property="Focusable"
+          Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SliderThumbStyle"
+       TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+        <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+        <Setter Property="Height"
+          Value="14" />
+        <Setter Property="Width"
+          Value="14" />
+       
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle x:Name="Ellipse" Fill="#000" Stroke="#000">
+                       
+                       
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.2" />
+                                    <VisualTransition GeneratedDuration="0"
+                                  To="Pressed" />
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Ellipse">
+                                            <EasingColorKeyFrame KeyTime="0"
+                                         Value="#999" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <!--<VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
+                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                Storyboard.TargetName="Ellipse">
+                                            <EasingColorKeyFrame KeyTime="0"
+                                         Value="Black" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>-->
+                                <!--<VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).
+                    (GradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                Storyboard.TargetName="Ellipse">
+                                            <EasingColorKeyFrame KeyTime="0"
+                                         Value="White" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>-->
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Rectangle>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Template when the orientation of the Slider is Horizontal.-->
+    <ControlTemplate x:Key="HorizontalSlider"
+                 TargetType="{x:Type Slider}">
+        <ControlTemplate.Resources>
+            <c:SliderValueToWidthConver x:Key="SliderValueToWidthConver"/>
+        </ControlTemplate.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"
+                     MinHeight="{TemplateBinding MinHeight}" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TickBar x:Name="TopTick"
+             SnapsToDevicePixels="True"
+             Placement="Top"
+             Height="4"
+             Visibility="Collapsed">
+                <TickBar.Fill>
+                    <SolidColorBrush Color="Red" />
+                </TickBar.Fill>
+            </TickBar>
+            <!--滑块值-->
+            <TextBlock x:Name="SliderValue" Width="{TemplateBinding Value}" Visibility="Collapsed"/>
+            <!--滑块最大值-->
+            <TextBlock x:Name="SliderMaxValue" Width="{TemplateBinding Maximum}" Visibility="Collapsed"/>
+            <!--滑块最大值-->
+            <TextBlock x:Name="SliderWidth" Width="{Binding RelativeSource={RelativeSource Self},
+                   Path=Parent.ActualWidth}" Visibility="Collapsed"/>
+            <Border x:Name="TrackBackground"
+            Margin="0"
+            CornerRadius="0"
+            Height="4"
+            Grid.Row="1"
+            BorderThickness="0"
+            Background="#ABADB3">
+                <Rectangle Fill="{DynamicResource ThemeBrush}" Opacity=".97" HorizontalAlignment="Left">
+                    <Rectangle.Width>
+                        <MultiBinding Converter="{StaticResource SliderValueToWidthConver}">
+                            <Binding ElementName="SliderValue" Path="Width"/>
+                            <Binding ElementName="SliderMaxValue" Path="Width"/>
+                            <Binding ElementName="SliderWidth" Path="Width"/>
+                        </MultiBinding>
+                    </Rectangle.Width>
+                </Rectangle>
+            </Border>
+            <Track Grid.Row="1"
+           x:Name="PART_Track">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderButtonStyle}"
+                      Command="Slider.DecreaseLarge" />
+                </Track.DecreaseRepeatButton>
+                <Track.Thumb>
+                    <Thumb Style="{StaticResource SliderThumbStyle}" />
+                </Track.Thumb>
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton Style="{StaticResource SliderButtonStyle}"
+                      Command="Slider.IncreaseLarge" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+            <TickBar x:Name="BottomTick"
+             SnapsToDevicePixels="True"
+             Grid.Row="2"
+             Fill="{TemplateBinding Foreground}"
+             Placement="Bottom"
+             Height="4"
+             Visibility="Collapsed" />
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="TickPlacement"
+             Value="TopLeft">
+                <Setter TargetName="TopTick"
+              Property="Visibility"
+              Value="Visible" />
+            </Trigger>
+            <Trigger Property="TickPlacement"
+             Value="BottomRight">
+                <Setter TargetName="BottomTick"
+              Property="Visibility"
+              Value="Visible" />
+            </Trigger>
+            <Trigger Property="TickPlacement"
+             Value="Both">
+                <Setter TargetName="TopTick"
+              Property="Visibility"
+              Value="Visible" />
+                <Setter TargetName="BottomTick"
+              Property="Visibility"
+              Value="Visible" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type Slider}">
+        <Setter Property="SnapsToDevicePixels"
+          Value="true" />
+        <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+        <Style.Triggers>
+            <Trigger Property="Orientation"
+             Value="Horizontal">
+                <Setter Property="MinWidth"
+              Value="104" />
+                <Setter Property="MinHeight"
+              Value="21" />
+                <Setter Property="Template"
+              Value="{StaticResource HorizontalSlider}" />
+            </Trigger>
+            
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>
