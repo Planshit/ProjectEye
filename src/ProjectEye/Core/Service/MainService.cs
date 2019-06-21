@@ -102,6 +102,12 @@ namespace ProjectEye.Core.Service
                 timer.Start();
                 //事件响应
                 OnComeBackEvent?.Invoke(this, 0);
+                if (config.options.General.Data)
+                {
+                    statistic.useEyeStartTime = DateTime.Now;
+                    //启动用眼计时
+                    useeye_timer.Start();
+                }
             }
             SaveCursorPos();
         }
@@ -202,6 +208,9 @@ namespace ProjectEye.Core.Service
             timer.Stop();
             //事件响应
             OnLeaveEvent?.Invoke(this, 0);
+
+            //停止用眼计时
+            useeye_timer.Stop();
 
         }
         #endregion
@@ -327,7 +336,7 @@ namespace ProjectEye.Core.Service
 
             back_timer.Stop();
 
-            
+
         }
         #endregion
 
