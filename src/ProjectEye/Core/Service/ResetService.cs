@@ -31,12 +31,9 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public event ResetEventHandler ResetCompleted;
 
-        private readonly StatisticService statistic;
         private readonly ConfigService config;
-        public ResetService(StatisticService statistic,
-            ConfigService config)
+        public ResetService(ConfigService config)
         {
-            this.statistic = statistic;
             this.config = config;
             //初始化计时器
             timer = new DispatcherTimer();

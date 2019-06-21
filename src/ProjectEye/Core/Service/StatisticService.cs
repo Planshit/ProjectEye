@@ -45,6 +45,8 @@ namespace ProjectEye.Core.Service
         private StatisticListModel statisticList;
         //今日数据
         private StatisticModel todayStatistic;
+        //用眼开始时间
+        public DateTime useEyeStartTime { get; set; }
 
         public StatisticService(App app)
         {
@@ -81,6 +83,8 @@ namespace ProjectEye.Core.Service
 
             }
             this.todayStatistic = Find(DateTime.Now.Date);
+            //开始计时
+            useEyeStartTime = DateTime.Now;
         }
 
         #region 加载统计数据
@@ -116,18 +120,18 @@ namespace ProjectEye.Core.Service
         /// </summary>
         /// <param name="type">统计类型</param>
         /// <param name="value">增加的值(可以为负数)</param>
-        public void Add(StatisticType type, int value)
+        public void Add(StatisticType type, double value)
         {
             switch (type)
             {
                 case StatisticType.WorkingTime:
-                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + ((double)value) / 60, 1);
+                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + value / 60, 1);
                     break;
                 case StatisticType.ResetTime:
-                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + ((double)value) / 60, 1);
+                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 1);
                     break;
                 case StatisticType.SkipCount:
-                    todayStatistic.SkipCount += value;
+                    todayStatistic.SkipCount += (int)value;
                     break;
             }
         }
@@ -217,5 +221,41 @@ namespace ProjectEye.Core.Service
         }
         #endregion
 
+        #region 计算获得用眼时长
+        /// <summary>
+        /// 计算获得用眼时长
+        /// </summary>
+        /// <returns>返回开始统计到当前的总分钟数</returns>
+        public double GetCalculateUseEyeMinutes()
+        {
+            if (useEyeStartTime != null)
+            {
+                TimeSpan tsStart = new TimeSpan(useEyeStartTime.Ticks);
+                TimeSpan tsEnd = new TimeSpan(DateTime.Now.Ticks);
+                return tsStart.Subtract(tsEnd).Duration().TotalMinutes;
+
+            }
+            return 0;
+        }
+        #endregion
+
+        #region 统计用眼时长数据
+        /// <summary>
+        /// 统计用眼时长数据
+        /// </summary>
+        public void StatisticUseEyeData()
+        {
+            double use = GetCalculateUseEyeMinutes();
+            if (use > 0)
+            {
+                Debug.WriteLine("用眼时长 +" + use + " 分钟");
+                //增加统计
+                Add(StatisticType.WorkingTime, use);
+                //重置时间
+                useEyeStartTime = DateTime.Now;
+            }
+
+        }
+        #endregion
     }
 }

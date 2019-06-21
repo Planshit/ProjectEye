@@ -33,7 +33,10 @@ namespace ProjectEye.Core.Service
         /// 繁忙检测，用于检测用户在休息提示界面是否超时不操作
         /// </summary>
         private DispatcherTimer busy_timer;
-
+        /// <summary>
+        /// 用眼计时，用于定时统计和保存用户的用眼时长
+        /// </summary>
+        private DispatcherTimer useeye_timer;
         #region Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
@@ -71,7 +74,7 @@ namespace ProjectEye.Core.Service
             this.cache = cache;
             this.statistic = statistic;
 
-            
+
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
@@ -109,22 +112,6 @@ namespace ProjectEye.Core.Service
             {
                 //用户离开了电脑
                 OnLeave();
-                if (config.options.General.Data)
-                {
-                    //持久化统计数据
-                    statistic.Save();
-                    Debug.WriteLine("持久化统计数据");
-                }
-            }
-            else
-            {
-                //记录数据
-                if (config.options.General.Data)
-                {
-                    //数据统计
-                    statistic.Add(StatisticType.WorkingTime, 5);
-                    Debug.WriteLine("记录用眼时长 +5");
-                }
             }
             SaveCursorPos();
         }
@@ -147,7 +134,10 @@ namespace ProjectEye.Core.Service
             busy_timer = new DispatcherTimer();
             busy_timer.Tick += new EventHandler(busy_timer_Tick);
             busy_timer.Interval = new TimeSpan(0, 0, 30);
-
+            //初始化用眼统计计时器
+            useeye_timer = new DispatcherTimer();
+            useeye_timer.Tick += new EventHandler(useeye_timer_Tick);
+            useeye_timer.Interval = new TimeSpan(0, 30, 0);
             /****调试模式代码****/
 #if DEBUG
             //30秒提示休息
@@ -156,6 +146,7 @@ namespace ProjectEye.Core.Service
             leave_timer.Interval = new TimeSpan(0, 0, 20);
             //每10秒检测回来
             back_timer.Interval = new TimeSpan(0, 0, 10);
+            useeye_timer.Interval = new TimeSpan(0, 1, 0);
 #endif
 
 
@@ -171,6 +162,19 @@ namespace ProjectEye.Core.Service
             Start();
 
         }
+
+        #region 到达统计时间
+        private void useeye_timer_Tick(object sender, EventArgs e)
+        {
+            Debug.WriteLine("统计用眼时长");
+            //更新用眼时长
+            statistic.StatisticUseEyeData();
+            //数据持久化
+            statistic.Save();
+
+        }
+        #endregion
+
         #region 结束繁忙超时监听
         /// <summary>
         /// 结束繁忙超时监听
@@ -208,6 +212,14 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Exit()
         {
+            if (config.options.General.Data)
+            {
+                //更新用眼时长
+                statistic.StatisticUseEyeData();
+                //数据持久化
+                statistic.Save();
+            }
+
             screen.Dispose();
             DoStop();
             WindowManager.Close("TipWindow");
@@ -298,6 +310,11 @@ namespace ProjectEye.Core.Service
                 //离开检测
                 leave_timer.Start();
             }
+            if (config.options.General.Data)
+            {
+                //用眼统计
+                useeye_timer.Start();
+            }
         }
         #endregion
 
@@ -310,6 +327,7 @@ namespace ProjectEye.Core.Service
 
             back_timer.Stop();
 
+            
         }
         #endregion
 
@@ -352,12 +370,6 @@ namespace ProjectEye.Core.Service
         #region 用眼到达设定时间 Event
         private void timer_Tick(object sender, EventArgs e)
         {
-            if (config.options.General.Data)
-            {
-                //持久化统计数据
-                statistic.Save();
-                Debug.WriteLine("持久化统计数据");
-            }
             ShowTipWindow();
         }
         #endregion
