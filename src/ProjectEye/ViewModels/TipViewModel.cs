@@ -88,7 +88,7 @@ namespace ProjectEye.ViewModels
             reset.Start();
             if (config.options.General.Data)
             {
-                statistic.Update(StatisticType.ResetTime, 20);
+                statistic.Add(StatisticType.ResetTime, 20);
             }
         }
         private void busyCommand_action(object obj)
@@ -97,7 +97,7 @@ namespace ProjectEye.ViewModels
             WindowManager.Hide("TipWindow");
             if (config.options.General.Data)
             {
-                statistic.Update(StatisticType.SkipCount, 1);
+                statistic.Add(StatisticType.SkipCount, 1);
             }
         }
         private void timeChanged(object sender, int timed)

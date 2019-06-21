@@ -116,7 +116,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         /// <param name="type">统计类型</param>
         /// <param name="value">增加的值(可以为负数)</param>
-        public void Update(StatisticType type, int value)
+        public void Add(StatisticType type, int value)
         {
             switch (type)
             {

@@ -122,7 +122,7 @@ namespace ProjectEye.Core.Service
                 if (config.options.General.Data)
                 {
                     //数据统计
-                    statistic.Update(StatisticType.WorkingTime, 5);
+                    statistic.Add(StatisticType.WorkingTime, 5);
                     Debug.WriteLine("记录用眼时长 +5");
                 }
             }
