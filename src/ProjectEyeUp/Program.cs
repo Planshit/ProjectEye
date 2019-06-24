@@ -23,15 +23,25 @@ namespace ProjectEyeUp
         {
             if (args.Length != 2)
             {
+                Console.WriteLine("请从选项中进行安装更新，按任意键退出！");
+                Console.ReadKey();
                 return;
             }
             try
             {
+                args[0] = args[0].Replace("\"", "");
+                args[1] = args[1].Replace("\"", "");
+
+                Console.WriteLine(args[0]);
+                Console.WriteLine(args[1]);
+
                 ExtractZipFile(args[0], args[1]);
                 string mainExe = Path.Combine(args[1],
                     "ProjectEye.exe");
                 Process.Start(mainExe);
                 File.Delete(args[0]);
+                Console.WriteLine("程序升级完毕，请按任意键退出！");
+                Console.ReadKey();
             }
             catch (Exception ec)
             {

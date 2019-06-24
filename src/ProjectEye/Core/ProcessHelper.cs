@@ -16,7 +16,7 @@ namespace ProjectEye.Core
                 string arguments = "";
                 foreach (string arg in args)
                 {
-                    arguments += $"{arg} ";
+                    arguments += $"\"{arg}\" ";
                 }
                 arguments = arguments.Trim();
                 Process process = new Process();
@@ -30,7 +30,7 @@ namespace ProjectEye.Core
                 Debug.WriteLine(ex);
                 return false;
             }
-            
+
         }
     }
 }
