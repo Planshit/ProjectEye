@@ -11,7 +11,7 @@
     <Grid>
         <Grid Panel.ZIndex="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
 
@@ -32,7 +32,7 @@
             <ui:Project1UIProcessBar 
             Margin="10"
             Grid.Row="1" Width="auto" IsPlay="{Binding PlayProcess}" PointColor="{DynamicResource ThemeBrush}"/>
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="2" Margin="10">
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="2" Margin="10,0">
                 <ui:Project1UIButton Content="下载更新" Visibility="{Binding UpVisibility}" Command="{Binding updateCommand}"/>
                 <ui:Project1UIButton Content="安装更新" Visibility="{Binding InstallVisibility}" Command="{Binding installCommand}"/>
             </StackPanel>
