@@ -50,7 +50,7 @@
                             <DoubleAnimation 
                 Storyboard.TargetName="img"
                 Storyboard.TargetProperty="RenderTransform.Children[0].Angle"
-                From="0" To="360" Duration="0:0:15" />
+                From="0" To="360" Duration="0:0:59" />
                             
                         </Storyboard>
                     </BeginStoryboard>
