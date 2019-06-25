@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Resources;
+using System.Windows.Threading;
 
 namespace ProjectEye.Core.Service
 {
@@ -18,7 +19,7 @@ namespace ProjectEye.Core.Service
     {
         //托盘图标
         private System.Windows.Forms.NotifyIcon notifyIcon;
-      
+
         //Service
         private readonly App app;
         private readonly MainService mainService;
@@ -31,6 +32,12 @@ namespace ProjectEye.Core.Service
         private MenuItem menuItem_Statistic;
         private MenuItem menuItem_Options;
         private MenuItem menuItem_Quit;
+
+        private MenuItem menuItem_NoReset_OneHour;
+        private MenuItem menuItem_NoReset_TwoHour;
+        private MenuItem menuItem_NoReset_Forver;
+        private MenuItem menuItem_NoReset_Off;
+
         public TrayService(App app, MainService mainService, ConfigService config)
         {
             this.app = app;
@@ -73,13 +80,32 @@ namespace ProjectEye.Core.Service
             menuItem_Options.Header = "选项";
             menuItem_Options.Click += menuItem_Options_Click;
 
+
             menuItem_NoReset = new MenuItem();
             menuItem_NoReset.Header = "不要提醒我";
-            menuItem_NoReset.Click += menuItem_NoRest_Click;
+
+            menuItem_NoReset_OneHour = new MenuItem();
+            menuItem_NoReset_OneHour.Header = "1小时";
+            menuItem_NoReset_OneHour.Click += MenuItem_NoReset_OneHour_Click;
+            menuItem_NoReset_TwoHour = new MenuItem();
+            menuItem_NoReset_TwoHour.Header = "2小时";
+            menuItem_NoReset_TwoHour.Click += MenuItem_NoReset_TwoHour_Click;
+            menuItem_NoReset_Forver = new MenuItem();
+            menuItem_NoReset_Forver.Header = "直到下次启动";
+            menuItem_NoReset_Forver.Click += MenuItem_NoReset_Forver_Click;
+            menuItem_NoReset_Off = new MenuItem();
+            menuItem_NoReset_Off.Header = "关闭";
+            menuItem_NoReset_Off.IsChecked = true;
+            menuItem_NoReset_Off.Click += MenuItem_NoReset_Off_Click;
+
+            menuItem_NoReset.Items.Add(menuItem_NoReset_OneHour);
+            menuItem_NoReset.Items.Add(menuItem_NoReset_TwoHour);
+            menuItem_NoReset.Items.Add(menuItem_NoReset_Forver);
+            menuItem_NoReset.Items.Add(menuItem_NoReset_Off);
 
             menuItem_Sound = new MenuItem();
             menuItem_Sound.Header = "提示音";
-            menuItem_Sound.IsChecked= config.options.General.Sound;
+            menuItem_Sound.IsChecked = config.options.General.Sound;
             menuItem_Sound.Click += menuItem_Sound_Click;
 
             menuItem_Quit = new MenuItem();
@@ -102,6 +128,34 @@ namespace ProjectEye.Core.Service
             notifyIcon.Text = "Project Eye";
             notifyIcon.Visible = true;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
+        }
+
+        private void MenuItem_NoReset_Off_Click(object sender, RoutedEventArgs e)
+        {
+            SetNoReset(-1);
+            var item = sender as MenuItem;
+            item.IsChecked = true;
+        }
+
+        private void MenuItem_NoReset_Forver_Click(object sender, RoutedEventArgs e)
+        {
+            SetNoReset(0);
+            var item = sender as MenuItem;
+            item.IsChecked = true;
+        }
+
+        private void MenuItem_NoReset_TwoHour_Click(object sender, RoutedEventArgs e)
+        {
+            SetNoReset(2);
+            var item = sender as MenuItem;
+            item.IsChecked = true;
+        }
+
+        private void MenuItem_NoReset_OneHour_Click(object sender, RoutedEventArgs e)
+        {
+            SetNoReset(1);
+            var item = sender as MenuItem;
+            item.IsChecked = true;
         }
         #endregion
 
@@ -147,25 +201,6 @@ namespace ProjectEye.Core.Service
             }
         }
 
-        private void menuItem_NoRest_Click(object sender, EventArgs e)
-        {
-            var item = sender as MenuItem;
-            item.IsChecked = !item.IsChecked;
-            config.options.General.Noreset = item.IsChecked;
-            if (item.IsChecked)
-            {
-                //不要提醒
-                UpdateIcon("dizzy");
-                mainService.Pause();
-            }
-            else
-            {
-                //继续
-                UpdateIcon("sunglasses");
-                mainService.Start();
-
-            }
-        }
 
 
         private void menuItem_Exit_Click(object sender, EventArgs e)
@@ -190,6 +225,49 @@ namespace ProjectEye.Core.Service
             Uri iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
             StreamResourceInfo info = Application.GetResourceStream(iconUri);
             notifyIcon.Icon = new Icon(info.Stream);
+        }
+        /// <summary>
+        /// 设置不提醒操作
+        /// </summary>
+        /// <param name="hour">-1时关闭；0打开；大于0则在到达设定的值（小时）后重新启动</param>
+        private void SetNoReset(int hour)
+        {
+            menuItem_NoReset_OneHour.IsChecked = false;
+            menuItem_NoReset_TwoHour.IsChecked = false;
+            menuItem_NoReset_Forver.IsChecked = false;
+            menuItem_NoReset_Off.IsChecked = false;
+            menuItem_NoReset.IsChecked = true;
+            UpdateIcon("dizzy");
+            if (hour == -1)
+            {
+                //关闭
+                menuItem_NoReset.IsChecked = false;
+                menuItem_NoReset.IsChecked = false;
+
+                mainService.Start();
+                UpdateIcon("sunglasses");
+
+            }
+            else if (hour == 0)
+            {
+                //直到下次启动
+                menuItem_NoReset.IsChecked = true;
+                mainService.Pause();
+            }
+            else
+            {
+                //指定计时
+                menuItem_NoReset.IsChecked = true;
+                mainService.Pause();
+                var timer = new DispatcherTimer();
+                timer.Interval = new TimeSpan(hour, 0, 0);
+                timer.Tick += (e, c) =>
+                {
+                    menuItem_NoReset.IsChecked = false;
+                    mainService.Start();
+                    UpdateIcon("sunglasses");
+                };
+            }
         }
         #endregion
     }

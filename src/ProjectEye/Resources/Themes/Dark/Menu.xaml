@@ -243,34 +243,46 @@
                  TargetType="{x:Type MenuItem}">
         <Border x:Name="Border"
           BorderThickness="0"
-                    Padding="{DynamicResource MenuItemPadding}">
+                MinWidth="150"
+                    Padding="0,6">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"
+                    <ColumnDefinition Width="20"
                           SharedSizeGroup="Icon" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto"
-                          SharedSizeGroup="Shortcut" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="Auto" />
+
                     <ColumnDefinition Width="13" />
                 </Grid.ColumnDefinitions>
                 <ContentPresenter x:Name="Icon"
                         Margin="6,0,6,0"
                         VerticalAlignment="Center"
                         ContentSource="Icon" />
+                <Rectangle x:Name="CheckMark"
+                           Grid.Column="1"
+                           Fill="{DynamicResource ThemeBrush}"
+                           Width="5"
+                           Height="5"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           Visibility="Hidden"
+                           SnapsToDevicePixels="True"/>
                 <ContentPresenter x:Name="HeaderHost"
-                        Grid.Column="1"
+                        Grid.Column="2"
                         ContentSource="Header"
-                        RecognizesAccessKey="True" />
-                <TextBlock x:Name="InputGestureText"
+                        RecognizesAccessKey="True" 
+                                  Margin="0,0,0,0"/>
+                <!--<TextBlock x:Name="InputGestureText"
                  Grid.Column="2"
                  Text="{TemplateBinding InputGestureText}"
                  Margin="0"
                                FontWeight="Normal"
-                 DockPanel.Dock="Right" />
+                 DockPanel.Dock="Right" />-->
                 <Path Grid.Column="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Data="M 0 0 L 0 7 L 4 3.5 Z">
+            Data="M 0 0 L 0 7 L 4 3.5 Z"
+                      Margin="10,0,0,0">
                     <Path.Fill>
                         <SolidColorBrush Color="{DynamicResource ThemeColor}" />
                     </Path.Fill>
@@ -310,40 +322,21 @@
               Property="Visibility"
               Value="Collapsed" />
             </Trigger>
+            <Trigger Property="IsChecked"
+             Value="true">
+                <Setter TargetName="CheckMark"
+              Property="Visibility"
+              Value="Visible" />
+            </Trigger>
             <Trigger Property="IsHighlighted"
              Value="true">
-
                 <Setter Property="Background"
-              TargetName="Border" Value="#212121">
-                    <!--<Setter.Value>
-                            <LinearGradientBrush EndPoint="0.5,1"
-                               StartPoint="0.5,0">
-                                <GradientStop Color="Transparent"
-                          Offset="0" />
-                                <GradientStop Color="{DynamicResource ControlMouseOverColor}"
-                          Offset="1" />
-                            </LinearGradientBrush>
-                        </Setter.Value>-->
+              TargetName="Border" Value="{DynamicResource ControlEnterBackgroundBrush}">
                 </Setter>
-                <!--<Setter Property="BorderBrush"
-              TargetName="Border">
-                        <Setter.Value>
-                            <LinearGradientBrush EndPoint="0.5,1"
-                               StartPoint="0.5,0">
-                                <GradientStop Color="{DynamicResource BorderMediumColor}"
-                          Offset="0" />
-                                <GradientStop Color="Transparent"
-                          Offset="1" />
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>-->
             </Trigger>
             <Trigger SourceName="Popup"
              Property="AllowsTransparency"
              Value="True">
-                <!--<Setter TargetName="SubmenuBorder"
-              Property="CornerRadius"
-              Value="4" />-->
                 <Setter TargetName="SubmenuBorder"
               Property="Padding"
               Value="0" />
@@ -351,7 +344,6 @@
             <Trigger Property="IsEnabled"
              Value="false">
                 <Setter Property="Foreground" Value="#ccc">
-
                 </Setter>
             </Trigger>
         </ControlTemplate.Triggers>
