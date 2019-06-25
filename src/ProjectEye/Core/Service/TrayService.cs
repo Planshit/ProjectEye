@@ -38,6 +38,7 @@ namespace ProjectEye.Core.Service
         private MenuItem menuItem_NoReset_Forver;
         private MenuItem menuItem_NoReset_Off;
 
+        private DispatcherTimer noresetTimer;
         public TrayService(App app, MainService mainService, ConfigService config)
         {
             this.app = app;
@@ -128,38 +129,33 @@ namespace ProjectEye.Core.Service
             notifyIcon.Text = "Project Eye";
             notifyIcon.Visible = true;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
+
+            noresetTimer = new DispatcherTimer();
         }
 
+
+        #endregion
+
+        #region Events
         private void MenuItem_NoReset_Off_Click(object sender, RoutedEventArgs e)
         {
-            SetNoReset(-1);
-            var item = sender as MenuItem;
-            item.IsChecked = true;
+            OnNoResetAction(sender, -1);
         }
 
         private void MenuItem_NoReset_Forver_Click(object sender, RoutedEventArgs e)
         {
-            SetNoReset(0);
-            var item = sender as MenuItem;
-            item.IsChecked = true;
+            OnNoResetAction(sender, 0);
         }
 
         private void MenuItem_NoReset_TwoHour_Click(object sender, RoutedEventArgs e)
         {
-            SetNoReset(2);
-            var item = sender as MenuItem;
-            item.IsChecked = true;
+            OnNoResetAction(sender, 2);
         }
 
         private void MenuItem_NoReset_OneHour_Click(object sender, RoutedEventArgs e)
         {
-            SetNoReset(1);
-            var item = sender as MenuItem;
-            item.IsChecked = true;
+            OnNoResetAction(sender, 1);
         }
-        #endregion
-
-        #region Events
         private void menuItem_Statistic_Click(object sender, EventArgs e)
         {
             WindowManager.CreateWindowInScreen("StatisticWindow");
@@ -237,13 +233,12 @@ namespace ProjectEye.Core.Service
             menuItem_NoReset_Forver.IsChecked = false;
             menuItem_NoReset_Off.IsChecked = false;
             menuItem_NoReset.IsChecked = true;
+            noresetTimer.Stop();
             UpdateIcon("dizzy");
             if (hour == -1)
             {
                 //关闭
                 menuItem_NoReset.IsChecked = false;
-                menuItem_NoReset.IsChecked = false;
-
                 mainService.Start();
                 UpdateIcon("sunglasses");
 
@@ -259,14 +254,24 @@ namespace ProjectEye.Core.Service
                 //指定计时
                 menuItem_NoReset.IsChecked = true;
                 mainService.Pause();
-                var timer = new DispatcherTimer();
-                timer.Interval = new TimeSpan(hour, 0, 0);
-                timer.Tick += (e, c) =>
+                
+                noresetTimer.Interval = new TimeSpan(hour, 0, 0);
+                noresetTimer.Tick += (e, c) =>
                 {
-                    menuItem_NoReset.IsChecked = false;
-                    mainService.Start();
-                    UpdateIcon("sunglasses");
+                    SetNoReset(-1);
+                    menuItem_NoReset_Off.IsChecked = true;
+                    noresetTimer.Stop();
                 };
+                noresetTimer.Start();
+            }
+        }
+        private void OnNoResetAction(object sender, int hour)
+        {
+            var item = sender as MenuItem;
+            if (!item.IsChecked)
+            {
+                SetNoReset(hour);
+                item.IsChecked = true;
             }
         }
         #endregion
