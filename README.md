@@ -1,6 +1,6 @@
 # Project Eye
 
-[![releases](https://img.shields.io/badge/releases-1.0.6-00D4A0.svg)](https://github.com/Planshit/ProjectEye/releases)
+[![releases](https://img.shields.io/badge/releases-1.0.7-00D4A0.svg)](https://github.com/Planshit/ProjectEye/releases)
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
