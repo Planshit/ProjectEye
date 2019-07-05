@@ -71,6 +71,8 @@ namespace Project1.UI.Controls
 
         public string Label { get; set; }
 
+        public double MaxData { get; set; } = 0;
+
         #region 私有属性
         /// <summary>
         /// Y轴最大值 
@@ -228,6 +230,10 @@ namespace Project1.UI.Controls
             if (max < 10)
             {
                 max = 10;
+            }
+            if (MaxData != 0)
+            {
+                max = MaxData;
             }
             //将最大值转为偶数
             max = Math.Round(max / 2, MidpointRounding.AwayFromZero) * 2;
