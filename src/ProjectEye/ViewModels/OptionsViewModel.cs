@@ -22,6 +22,8 @@ namespace ProjectEye.ViewModels
         public Command inkCommand { get; set; }
         public Command soundTestCommand { get; set; }
         public Command updateCommand { get; set; }
+        public Command showWindowCommand { get; set; }
+
         private readonly ConfigService config;
         private readonly MainService mainService;
         private readonly SystemResourcesService systemResources;
@@ -50,7 +52,13 @@ namespace ProjectEye.ViewModels
             inkCommand = new Command(new Action<object>(inkCommand_action));
             soundTestCommand = new Command(new Action<object>(soundTestCommand_actionAsync));
             updateCommand = new Command(new Action<object>(updateCommand_action));
+            showWindowCommand = new Command(new Action<object>(showWindowCommand_action));
+        }
 
+        private void showWindowCommand_action(object obj)
+        {
+            WindowManager.CreateWindowInScreen(obj.ToString());
+            WindowManager.Show(obj.ToString());
         }
 
         private void updateCommand_action(object obj)

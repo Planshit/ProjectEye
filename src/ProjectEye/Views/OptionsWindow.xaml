@@ -85,6 +85,18 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="实验室">
+                <StackPanel Margin="10">
+                    <ui:Project1UIButton 
+            Command="{Binding showWindowCommand}"
+                        CommandParameter="EyesTestWindow"
+            Content="视力测试"
+            Height="23"
+            Width="85"
+                Style="{DynamicResource basic}"
+                        HorizontalAlignment="Left"/>
+                </StackPanel>
+            </TabItem>
             <TabItem Header="关于">
                 <StackPanel Margin="10">
                     <Image Source="/ProjectEye;component/Resources/sunglasses.ico" Height="30" HorizontalAlignment="Left"/>

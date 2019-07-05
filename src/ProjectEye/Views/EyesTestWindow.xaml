@@ -1,0 +1,85 @@
+﻿<ui:Project1UIWindow x:Class="ProjectEye.Views.EyesTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectEye.Views"
+        mc:Ignorable="d"
+        xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+        Title="视力测试Beta" Height="550" Width="900">
+    <Grid>
+        <TabControl Margin="10" Grid.Row="1">
+            <TabItem Header="测试">
+                <Grid>
+                    <Grid Margin="20" Visibility="{Binding ScoreVisibility}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Margin="10" FontSize="16" FontWeight="Bold" TextWrapping="Wrap">测试已完成，本次分数：<Run Text="{Binding Score}"/>/6</TextBlock>
+                            <TextBlock Margin="10" TextWrapping="Wrap" Text="{Binding ScoreInfo}"></TextBlock>
+                            <ui:Project1UIButton 
+            Command="{Binding EndCommand}"
+            Content="结束"
+            MinHeight="40"
+            MinWidth="120"
+                            Margin="10"
+                />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Margin="20" Visibility="{Binding InfoVisibility}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Margin="10" FontSize="14" FontWeight="Bold" TextWrapping="Wrap">请了解：Project Eye的视力测试并不是近/远视力的标准测试！因受屏幕分辨率影响每台显示器的测试结果均不同，仅作为当前显示器对于您自己当前视力的一种简单测试。</TextBlock>
+                            <TextBlock Margin="10" FontSize="14" FontWeight="Bold" TextWrapping="Wrap">开始测试前的准备：请将眼睛与屏幕的距离保持在70-80厘米，如果你没有测量工具，可以使用手肘到手腕两倍的距离。</TextBlock>
+                            <ui:Project1UIButton 
+            Command="{Binding ShowTestCommand}"
+            Content="我准备好了"
+            MinHeight="40"
+            MinWidth="120"
+                            Margin="10"
+                />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Visibility="{Binding TestVisibility}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="7*"/>
+                            <RowDefinition Height="3*"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                            <TextBlock FontSize="{Binding FontSize}">PROJECT EYE</TextBlock>
+
+                        </Grid>
+                        <StackPanel HorizontalAlignment="Center"  Grid.Row="1">
+                            <TextBlock FontSize="16" FontWeight="Bold" HorizontalAlignment="Center">是否能识别屏幕中间的文字？</TextBlock>
+                            <StackPanel Orientation="Horizontal" Margin="20">
+                                <ui:Project1UIButton 
+            Command="{Binding TestCommand}"
+                                    CommandParameter="0"
+            Content="能"
+            MinHeight="40"
+            MinWidth="120"
+                            Margin="10"
+                />
+                                <ui:Project1UIButton 
+            Command="{Binding TestCommand}"
+                                    CommandParameter="1"
+            Content="不能"
+            MinHeight="40"
+            MinWidth="120"
+                            Margin="10"
+                                    Style="{DynamicResource basic}"
+                />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="以往的数据">
+                <ui:Project1UIChart Margin="10" Data="{Binding Mode=TwoWay,Path=EyesData}"
+                                    Labels="{Binding Mode=TwoWay,Path=Labels}"
+                                    Label="分"/>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</ui:Project1UIWindow>

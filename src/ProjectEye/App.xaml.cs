@@ -51,7 +51,8 @@ namespace ProjectEye
             serviceCollection.Add<ResetService>();
             //声音
             serviceCollection.Add<SoundService>();
-            
+            serviceCollection.Add<EyesTestService>();
+
 
 
             WindowManager.serviceCollection = serviceCollection;
