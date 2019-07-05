@@ -43,8 +43,6 @@ namespace Project1.UI.Controls
             var chart = (d as Project1UIChart);
             if (chart != null)
             {
-                //计算图表数据
-                chart.CalculateChartValue();
                 //重绘图表
                 chart.InvalidateVisual();
             }
