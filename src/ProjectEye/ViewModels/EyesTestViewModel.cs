@@ -151,6 +151,7 @@ namespace ProjectEye.ViewModels
                     ScoreInfo = "您的视力水平非常健康！请注意保护眼睛。";
                     break;
             }
+            ScoreInfo += "评测不准确？请到Github提Issues，帮助改进测试结果。";
         }
     }
 }
