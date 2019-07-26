@@ -242,9 +242,10 @@
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}"
                  TargetType="{x:Type MenuItem}">
         <Border x:Name="Border"
-          BorderThickness="0"
+                BorderThickness="0"
                 MinWidth="150"
-                    Padding="0,6">
+                Padding="0,6"
+                Background="Black">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"
@@ -331,7 +332,7 @@
             <Trigger Property="IsHighlighted"
              Value="true">
                 <Setter Property="Background"
-              TargetName="Border" Value="{DynamicResource ControlEnterBackgroundBrush}">
+              TargetName="Border" Value="#212121">
                 </Setter>
             </Trigger>
             <Trigger SourceName="Popup"
