@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         Title="视力测试Beta" Height="550" Width="900">
+    <ui:Project1UIWindow.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
+        </Style>
+    </ui:Project1UIWindow.Resources>
     <Grid>
         <TabControl Margin="10" Grid.Row="1">
             <TabItem Header="测试">
