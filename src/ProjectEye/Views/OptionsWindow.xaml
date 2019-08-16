@@ -85,7 +85,7 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="实验室">
+            <TabItem Header="实验室" Visibility="Collapsed">
                 <StackPanel Margin="10">
                     <ui:Project1UIButton 
             Command="{Binding showWindowCommand}"

@@ -22,11 +22,11 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="近7天用眼数据统计" HorizontalAlignment="Left"
                    VerticalAlignment="Center"
-                   Margin="25,0,0,0"
+                   Margin="20,0,0,0"
                    FontSize="14"
                    FontWeight="Bold"/>
         <TabControl Margin="10" Grid.Row="1">
-            <TabItem Header="用眼情况">
+            <TabItem Header="用眼">
                 <Grid Margin="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -39,7 +39,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="休息情况">
+            <TabItem Header="休息">
                 <Grid Margin="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -51,7 +51,7 @@
                                     Label="分钟"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="跳过情况">
+            <TabItem Header="跳过">
                 <Grid Margin="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -64,6 +64,5 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <TextBlock Grid.Row="2" Text="*由于统计机制问题，数据精度会有上下小浮动的情况" VerticalAlignment="Center" Margin="10,0,10,10"/>
     </Grid>
 </ui:Project1UIWindow>
