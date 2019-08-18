@@ -104,7 +104,7 @@ namespace ProjectEye.Core.Service
                 OnComeBackEvent?.Invoke(this, 0);
                 if (config.options.General.Data)
                 {
-                    statistic.useEyeStartTime = DateTime.Now;
+                    statistic.ResetStatisticTime();
                     //启动用眼计时
                     useeye_timer.Start();
                 }

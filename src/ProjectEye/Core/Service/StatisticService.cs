@@ -46,7 +46,7 @@ namespace ProjectEye.Core.Service
         //今日数据
         private StatisticModel todayStatistic;
         //用眼开始时间
-        public DateTime useEyeStartTime { get; set; }
+        private DateTime useEyeStartTime { get; set; }
 
         public StatisticService(App app)
         {
@@ -84,7 +84,7 @@ namespace ProjectEye.Core.Service
             }
             this.todayStatistic = Find(DateTime.Now.Date);
             //开始计时
-            useEyeStartTime = DateTime.Now;
+            ResetStatisticTime();
         }
 
         #region 加载统计数据
@@ -125,10 +125,10 @@ namespace ProjectEye.Core.Service
             switch (type)
             {
                 case StatisticType.WorkingTime:
-                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + value / 60, 1);
+                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + value / 60, 2);
                     break;
                 case StatisticType.ResetTime:
-                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 1);
+                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 2);
                     break;
                 case StatisticType.SkipCount:
                     todayStatistic.SkipCount += (int)value;
@@ -230,10 +230,7 @@ namespace ProjectEye.Core.Service
         {
             if (useEyeStartTime != null)
             {
-                TimeSpan tsStart = new TimeSpan(useEyeStartTime.Ticks);
-                TimeSpan tsEnd = new TimeSpan(DateTime.Now.Ticks);
-                return tsStart.Subtract(tsEnd).Duration().TotalMinutes;
-
+                return DateTime.Now.Subtract(useEyeStartTime).TotalMinutes;
             }
             return 0;
         }
@@ -251,10 +248,19 @@ namespace ProjectEye.Core.Service
                 Debug.WriteLine("用眼时长 +" + use + " 分钟");
                 //增加统计
                 Add(StatisticType.WorkingTime, use);
-                //重置时间
-                useEyeStartTime = DateTime.Now;
+                //重置统计时间
+                ResetStatisticTime();
             }
+        }
+        #endregion
 
+        #region 重置统计时间
+        /// <summary>
+        /// 重置统计时间
+        /// </summary>
+        public void ResetStatisticTime()
+        {
+            useEyeStartTime = DateTime.Now;
         }
         #endregion
     }
