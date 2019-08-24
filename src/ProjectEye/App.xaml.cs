@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -26,10 +27,18 @@ namespace ProjectEye
         private System.Threading.Mutex mutex;
         public App()
         {
+            serviceCollection = new ServiceCollection();
+        }
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            //全局异常捕获
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+            //重复运行确认
             ReRunCheck();
 
             //必须按优先级依次添加
-            serviceCollection = new ServiceCollection();
             serviceCollection.AddInstance(this);
             //数据统计
             serviceCollection.Add<StatisticService>();
@@ -52,14 +61,34 @@ namespace ProjectEye
             //声音
             serviceCollection.Add<SoundService>();
             serviceCollection.Add<EyesTestService>();
-
-
-
             WindowManager.serviceCollection = serviceCollection;
+            //初始化所有服务
+            serviceCollection.Initialize();
+        }
 
-
-            Startup += new StartupEventHandler(onStartup);
-
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            string errorMsg;
+            try
+            {
+                string error_path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                    "Log",
+                    $"error_{DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss")}.log");
+                string dir = Path.GetDirectoryName(error_path);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                File.WriteAllText(error_path, $"{e.Exception.ToString()}");
+                errorMsg = "程序发生了不可预料的错误，已经将错误报告保存在程序运行目录Log文件夹下，请将错误内容提供给我们。";
+            }
+            catch
+            {
+                errorMsg = "程序发生了不可预料的错误，但是无法记录，请将以下错误截图提供给我们：\r\n" + e.Exception.ToString();
+            }
+            MessageBox.Show(errorMsg, "错误提示，程序即将退出", MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
+            this.Shutdown();
         }
 
         #region 重复运行确认
@@ -70,7 +99,6 @@ namespace ProjectEye
         {
             bool ret;
             mutex = new System.Threading.Mutex(true, "projecteye", out ret);
-
             if (!ret)
             {
 #if !DEBUG
@@ -81,17 +109,5 @@ namespace ProjectEye
         }
         #endregion
 
-        #region onStartup
-        /// <summary>
-        /// onStartup
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void onStartup(object sender, StartupEventArgs e)
-        {
-            //初始化所有服务
-            serviceCollection.Initialize();
-        }
-        #endregion
     }
 }
