@@ -25,6 +25,11 @@ namespace ProjectEye
 
         private readonly ServiceCollection serviceCollection;
         private System.Threading.Mutex mutex;
+        public delegate void AppEventHandler();
+        /// <summary>
+        /// 服务初始化完成时发生
+        /// </summary>
+        public event AppEventHandler OnServiceInitialized;
         public App()
         {
             serviceCollection = new ServiceCollection();
@@ -64,6 +69,7 @@ namespace ProjectEye
             WindowManager.serviceCollection = serviceCollection;
             //初始化所有服务
             serviceCollection.Initialize();
+            OnServiceInitialized?.Invoke();
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

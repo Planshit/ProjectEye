@@ -80,7 +80,7 @@ namespace ProjectEye.Core.Service
 
             options.Style = new StyleModel();
             options.Style.Theme = systemResources.Themes[1];
-
+            options.Style.TipContent = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
             xmlExtensions.Save(options);
         }
 

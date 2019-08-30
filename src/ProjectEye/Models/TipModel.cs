@@ -8,17 +8,17 @@ namespace ProjectEye.Models
 {
     public class TipModel : UINotifyPropertyChanged
     {
-        private int WarnTime_ = 20;
+        private string TipContent_;
         /// <summary>
-        /// 提醒间隔时间
+        /// 提醒文本
         /// </summary>
-        public int WarnTime
+        public string TipContent
         {
-            get { return WarnTime_; }
+            get { return TipContent_; }
             set
             {
-                WarnTime_ = value;
-                OnPropertyChanged("WarnTime");
+                TipContent_ = value;
+                OnPropertyChanged();
             }
         }
         private int CountDown_ = 20;
