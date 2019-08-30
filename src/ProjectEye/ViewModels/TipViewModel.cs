@@ -67,6 +67,10 @@ namespace ProjectEye.ViewModels
         private void LoadConfig()
         {
             tipContent = config.options.Style.TipContent;
+            if (string.IsNullOrEmpty(tipContent))
+            {
+                tipContent = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
+            }
         }
 
         //配置文件被修改时
