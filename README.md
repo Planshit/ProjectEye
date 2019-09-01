@@ -1,9 +1,5 @@
 # Project Eye
 
-[![releases](https://img.shields.io/badge/releases-1.0.9-00D4A0.svg)](https://github.com/Planshit/ProjectEye/releases)
-[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)
-[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
-
 一个基于 20-20-20 规则的用眼休息提醒软件（Windows），使用C# WPF编写。
 
 软件免安装且不污染注册表，默认每隔20分钟弹出一个覆盖全屏幕的提示窗口提醒你该休息了，休息结束后会发出提示音（可关闭和自定义）。当然，如果你觉得每20分钟提醒一次过于频繁，可以在选项中更改，但从健康上来说还是建议你保持默认。祝你心明眼亮。
@@ -14,7 +10,7 @@
 
 ## 什么是20-20-20规则
 
-即每 **20** 分钟，将注意力集中在至少 **20** 英尺（ **6** 米）远的地方 **20** 秒。
+即每 **20** 分钟，将注意力集中在至少 **20** 英尺（ **6** 米）远的地方 **20** 秒。遵循这个规则可以有效地缓解你的用眼疲劳，保护你的视力健康。
 
 [参考资料：https://opto.ca/health-library/the-20-20-20-rule](https://opto.ca/health-library/the-20-20-20-rule)
 
