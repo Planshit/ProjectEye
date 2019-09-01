@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ProjectEye.ViewModels
 {
@@ -27,14 +28,15 @@ namespace ProjectEye.ViewModels
         private readonly ConfigService config;
         private readonly StatisticService statistic;
         private readonly MainService main;
-
+        private readonly KeyboardShortcutsService keyboardShortcuts;
         private string tipContent;
         public TipViewModel(ResetService reset,
             SoundService sound,
             ConfigService config,
             StatisticService statistic,
             MainService main,
-            App app)
+            App app,
+            KeyboardShortcutsService keyboardShortcuts)
         {
             this.reset = reset;
             this.reset.TimeChanged += new ResetEventHandler(timeChanged);
@@ -51,6 +53,7 @@ namespace ProjectEye.ViewModels
             this.statistic = statistic;
 
             this.main = main;
+            this.keyboardShortcuts = keyboardShortcuts;
 
             app.OnServiceInitialized += App_OnServiceInitialized;
 
@@ -70,6 +73,15 @@ namespace ProjectEye.ViewModels
             if (string.IsNullOrEmpty(tipContent))
             {
                 tipContent = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
+            }
+            //创建快捷键命令
+            if (!string.IsNullOrEmpty(config.options.KeyboardShortcuts.Reset))
+            {
+                keyboardShortcuts.Set(config.options.KeyboardShortcuts.Reset, resetCommand);
+            }
+            if (!string.IsNullOrEmpty(config.options.KeyboardShortcuts.NoReset))
+            {
+                keyboardShortcuts.Set(config.options.KeyboardShortcuts.NoReset, busyCommand);
             }
         }
 
@@ -137,7 +149,6 @@ namespace ProjectEye.ViewModels
                  .Distinct();
             foreach (string variable in variableArray)
             {
-                Debug.WriteLine(variable);
                 string replace = "";
                 switch (variable)
                 {
@@ -186,12 +197,23 @@ namespace ProjectEye.ViewModels
             foreach (var window in windows)
             {
                 window.Activated += Window_Activated;
+                window.KeyDown += Window_KeyDown;
             }
+        }
+
+
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            //处理执行快捷键命令
+            keyboardShortcuts.Execute(e);
         }
 
         private void Window_Activated(object sender, EventArgs e)
         {
             TipContent = ParseTipContent(tipContent);
+            var window = (sender as Window);
+            window.Focus();
         }
     }
 }

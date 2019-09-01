@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStyle="None" Visibility="Hidden" AllowsTransparency="True" Width="100" Height="100"
         Opacity=".97"
+        InputMethod.IsInputMethodEnabled="False"
         >
     <Grid>
         <!--休息提示UI-->
@@ -41,7 +42,8 @@
                     Width="110"
                     Height="45"
                     FontSize="14"
-                    Cursor="Hand"/>
+                    Cursor="Hand"
+                    Focusable="False"/>
                 <ui:Project1UIButton
                 Style="{DynamicResource tip_no}"
                 Command="{Binding busyCommand}"
@@ -51,7 +53,8 @@
                     Width="110"
                     Height="45"
                     FontSize="14"
-                    Cursor="Hand"/>
+                    Cursor="Hand"
+                    Focusable="False"/>
             </StackPanel>
 
             <!--倒计时秒数-->
