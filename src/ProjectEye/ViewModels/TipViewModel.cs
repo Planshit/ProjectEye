@@ -165,20 +165,32 @@ namespace ProjectEye.ViewModels
                         replace = DateTime.Now.ToString("yyyy");
                         break;
                     case "{M}":
-                        //年
+                        //月
                         replace = DateTime.Now.ToString("MM");
                         break;
                     case "{d}":
-                        //年
+                        //日
                         replace = DateTime.Now.ToString("dd");
                         break;
                     case "{H}":
-                        //年
+                        //时
                         replace = DateTime.Now.ToString("HH");
                         break;
                     case "{m}":
-                        //年
+                        //分
                         replace = DateTime.Now.ToString("mm");
+                        break;
+                    case "{twt}":
+                        //今日用眼时长
+                        replace = statistic.GetTodayData().WorkingTime.ToString();
+                        break;
+                    case "{trt}":
+                        //今日休息时长
+                        replace = statistic.GetTodayData().ResetTime.ToString();
+                        break;
+                    case "{tsc}":
+                        //今日跳过次数
+                        replace = statistic.GetTodayData().SkipCount.ToString();
                         break;
                 }
                 if (!string.IsNullOrEmpty(replace))

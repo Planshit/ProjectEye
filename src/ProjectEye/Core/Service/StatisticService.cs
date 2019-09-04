@@ -263,5 +263,12 @@ namespace ProjectEye.Core.Service
             useEyeStartTime = DateTime.Now;
         }
         #endregion
+
+        #region 获取今日数据
+        public StatisticModel GetTodayData()
+        {
+            return todayStatistic;
+        }
+        #endregion
     }
 }

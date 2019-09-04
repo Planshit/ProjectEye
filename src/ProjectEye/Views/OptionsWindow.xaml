@@ -100,7 +100,7 @@
                                 Type="Text"
                                 Height="40"
                                 VerticalContentAlignment="Top"/>
-                            <TextBlock Text="支持变量：{t}用眼时长，{time}当前时间，{y}年，{M}月，{d}日，{H}时，{m}分" Foreground="#FF838383" TextWrapping="Wrap"/>
+                            <TextBlock Text="支持变量：{t}提醒间隔，{time}当前时间，{y}年，{M}月，{d}日，{H}时，{m}分，{twt}今日用眼总时长，{trt}今日休息总时长，{tsc}今日跳过次数" Foreground="#FF838383" TextWrapping="Wrap"/>
                         </StackPanel>
 
 
