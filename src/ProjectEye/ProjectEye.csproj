@@ -110,6 +110,7 @@
     <Compile Include="Core\Service\IService.cs" />
     <Compile Include="Core\Service\KeyboardShortcutsService.cs" />
     <Compile Include="Core\Service\MainService.cs" />
+    <Compile Include="Core\Service\PreAlertService.cs" />
     <Compile Include="Core\Service\ResetService.cs" />
     <Compile Include="Core\Service\ScreenService.cs" />
     <Compile Include="Core\Service\ServiceCollection.cs" />

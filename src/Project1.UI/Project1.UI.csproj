@@ -61,6 +61,7 @@
     <Compile Include="Controls\Project1UIProcessBar.cs" />
     <Compile Include="Controls\Project1UIButton.cs" />
     <Compile Include="Controls\Project1UIInput.cs" />
+    <Compile Include="Controls\Project1UIToast.cs" />
     <Compile Include="Controls\Project1UIWindow.cs" />
     <Compile Include="Controls\Commands\Project1UIInputCommands.cs" />
     <Compile Include="Controls\Commands\Project1UIWindowCommands.cs" />
@@ -200,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Project1UIToast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Project1UIChart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -240,6 +245,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\sunglasses.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

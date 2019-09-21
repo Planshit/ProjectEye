@@ -1,4 +1,5 @@
-﻿using ProjectEye.ViewModels;
+﻿using Project1.UI.Controls;
+using ProjectEye.ViewModels;
 using ProjectEye.Views;
 using System;
 using System.Collections.Generic;
@@ -74,7 +75,10 @@ namespace ProjectEye.Core.Service
             this.cache = cache;
             this.statistic = statistic;
 
-
+            app.OnServiceInitialized += () =>
+            {
+                new Project1UIToast().Alert("休息提醒", "这是一条通知", "即将进入休息", 3, new string[] { "好的", "暂时不" });
+            };
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
