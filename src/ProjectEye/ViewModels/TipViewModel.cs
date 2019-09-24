@@ -29,6 +29,7 @@ namespace ProjectEye.ViewModels
         private readonly StatisticService statistic;
         private readonly MainService main;
         private readonly KeyboardShortcutsService keyboardShortcuts;
+        private readonly PreAlertService preAlert;
         private string tipContent;
         public TipViewModel(ResetService reset,
             SoundService sound,
@@ -36,7 +37,8 @@ namespace ProjectEye.ViewModels
             StatisticService statistic,
             MainService main,
             App app,
-            KeyboardShortcutsService keyboardShortcuts)
+            KeyboardShortcutsService keyboardShortcuts,
+            PreAlertService preAlert)
         {
             this.reset = reset;
             this.reset.TimeChanged += new ResetEventHandler(timeChanged);
@@ -54,7 +56,7 @@ namespace ProjectEye.ViewModels
 
             this.main = main;
             this.keyboardShortcuts = keyboardShortcuts;
-
+            this.preAlert = preAlert;
             app.OnServiceInitialized += App_OnServiceInitialized;
 
             LoadConfig();
@@ -100,6 +102,8 @@ namespace ProjectEye.ViewModels
             {
                 sound.Play();
             }
+            //重启计时
+            main.ReStart();
         }
 
         private void Init()
@@ -123,6 +127,7 @@ namespace ProjectEye.ViewModels
         private void busyCommand_action(object obj)
         {
             main.StopBusyListener();
+            main.ReStart();
             WindowManager.Hide("TipWindow");
             if (config.options.General.Data)
             {
@@ -226,6 +231,21 @@ namespace ProjectEye.ViewModels
             TipContent = ParseTipContent(tipContent);
             var window = (sender as Window);
             window.Focus();
+            PreAlertDispose();
+        }
+        /// <summary>
+        /// 预提醒处理
+        /// </summary>
+        private void PreAlertDispose()
+        {
+            if (config.options.Style.IsPreAlert)
+            {
+                if(preAlert.PreAlertAction== PreAlertAction.Goto && config.options.Style.IsPreAlertAutoAction)
+                {
+                    //进入休息
+                    resetCommand_action(null);
+                }
+            }
         }
     }
 }

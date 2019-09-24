@@ -38,6 +38,10 @@ namespace ProjectEye.Core.Service
         /// 用眼计时，用于定时统计和保存用户的用眼时长
         /// </summary>
         private DispatcherTimer useeye_timer;
+        /// <summary>
+        /// 预提醒操作
+        /// </summary>
+        private PreAlertAction preAlertAction;
         #region Service
         private readonly ScreenService screen;
         private readonly ConfigService config;
@@ -62,7 +66,14 @@ namespace ProjectEye.Core.Service
         /// 用户回来时发生
         /// </summary>
         public event MainEventHandler OnComeBackEvent;
-
+        /// <summary>
+        /// 计时器重启时发生
+        /// </summary>
+        public event MainEventHandler OnReStartTimer;
+        /// <summary>
+        /// 到达休息时间时发生（不管是否进入休息状态）
+        /// </summary>
+        public event MainEventHandler OnReset;
         #endregion
         public MainService(App app,
             ScreenService screen,
@@ -74,25 +85,26 @@ namespace ProjectEye.Core.Service
             this.config = config;
             this.cache = cache;
             this.statistic = statistic;
-
-            app.OnServiceInitialized += () =>
-            {
-                new Project1UIToast().Alert("休息提醒", "这是一条通知", "即将进入休息", 3, new string[] { "好的", "暂时不" });
-            };
             app.Exit += new ExitEventHandler(app_Exit);
         }
 
         private void busy_timer_Tick(object sender, EventArgs e)
         {
             Debug.WriteLine("用户超过20秒未处理");
-            //用户超过20秒未处理，关闭窗口
+            //用户超过20秒未处理
+            busy_timer.Stop();
+            //关闭窗口
             WindowManager.Hide("TipWindow");
             if (config.options.General.LeaveListener)
             {
                 //如果打开离开监听则进入离开状态
                 OnLeave();
             }
-            busy_timer.Stop();
+            else
+            {
+                ReStart();
+            }
+
         }
 
         private void back_timer_Tick(object sender, EventArgs e)
@@ -159,7 +171,7 @@ namespace ProjectEye.Core.Service
             useeye_timer.Interval = new TimeSpan(0, 1, 0);
 #endif
 
-
+            //在所有屏幕上创建全屏提示窗口
             var tipWindow = WindowManager.GetCreateWindow("TipWindow", true);
 
             foreach (var window in tipWindow)
@@ -304,11 +316,12 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 重新启动休息计时
         /// </summary>
-        private void ReStart()
+        public void ReStart()
         {
             Debug.WriteLine("重新启动休息计时");
             DoStop();
             DoStart();
+            OnReStartTimer?.Invoke(this, 0);
         }
 
         #endregion
@@ -350,15 +363,19 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
-            //IntPtr h = GetForegroundWindow();
-            //Debug.WriteLine("获取窗口：" + h);
-            //StringBuilder title = new StringBuilder(256);
-            //GetWindowText(h, title, title.Capacity);
-            //Debug.WriteLine("窗口标题："+title);
-            if (!config.options.General.Noreset)
+            Debug.WriteLine(preAlertAction);
+            if (config.options.Style.IsPreAlert && preAlertAction == PreAlertAction.Break)
             {
-                busy_timer.Start();
-                WindowManager.Show("TipWindow");
+                Debug.WriteLine("预提醒设置了跳过本次");
+                statistic.Add(StatisticType.SkipCount, 1);
+            }
+            else
+            {
+                if (!config.options.General.Noreset)
+                {
+                    busy_timer.Start();
+                    WindowManager.Show("TipWindow");
+                }
             }
         }
         #endregion
@@ -384,6 +401,7 @@ namespace ProjectEye.Core.Service
         private void timer_Tick(object sender, EventArgs e)
         {
             ShowTipWindow();
+            OnReset?.Invoke(this, 0);
         }
         #endregion
 
@@ -438,6 +456,13 @@ namespace ProjectEye.Core.Service
             return false;
         }
 
+        #endregion
+
+        #region 设置预提醒状态
+        public void SetPreAlertAction(PreAlertAction preAlertAction)
+        {
+            this.preAlertAction = preAlertAction;
+        }
         #endregion
     }
 }

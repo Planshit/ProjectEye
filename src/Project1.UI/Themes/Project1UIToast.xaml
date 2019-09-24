@@ -10,13 +10,13 @@
         <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Width" Value="384" />
-        <Setter Property="Height" Value="160" />
+        <Setter Property="Height" Value="170" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="WindowStyle" Value="None" />
         <Setter Property="ShowInTaskbar" Value="False" />
         <Setter Property="Topmost" Value="True" />
-        <Setter Property="Visibility" Value="Collapsed" />
+        <!--<Setter Property="Visibility" Value="Collapsed" />-->
 
         <Setter Property="Template">
             <Setter.Value>
@@ -29,7 +29,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="45"/>
                             </Grid.RowDefinitions>
                             <!--header-->
                             <Grid Grid.Row="0">
@@ -38,15 +38,16 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <!--icon-->
-                                <Image Grid.Column="0" Source="/Project1.UI;component/Assets/Images/sunglasses.png" Width="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <Image Grid.Column="0" Source="{TemplateBinding Icon}" Width="15" VerticalAlignment="Center" HorizontalAlignment="Center" />
 
 
-                                <TextBlock Grid.Column="1" Text="{TemplateBinding Title}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+                                <TextBlock Grid.Column="1" Text="{TemplateBinding Title}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"
+                                           Foreground="{DynamicResource FontBrush}"/>
                             </Grid>
                             <!--content-->
                             <StackPanel Margin="48,0,0,0" Grid.Row="1">
-                                <TextBlock  Text="{TemplateBinding Subtitle}" FontSize="14" FontWeight="Bold"/>
-                                <TextBlock Margin="0,5,0,0" Text="{TemplateBinding Message}" FontSize="14"/>
+                                <TextBlock  Text="{TemplateBinding Subtitle}" FontSize="14" FontWeight="Bold" Foreground="{DynamicResource FontBrush}"/>
+                                <TextBlock TextWrapping="Wrap" Margin="0,5,10,0" Text="{TemplateBinding Message}" FontSize="14" Foreground="#888888"/>
                             </StackPanel>
                             <!--buttons-->
                             <StackPanel x:Name="buttonsPanel" Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10">

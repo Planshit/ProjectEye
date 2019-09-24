@@ -30,7 +30,10 @@ namespace ProjectEye.Core.Service
         /// 休息结束时发生
         /// </summary>
         public event ResetEventHandler ResetCompleted;
-
+        /// <summary>
+        /// 进入休息状态时发生
+        /// </summary>
+        public event ResetEventHandler ResetStart;
         private readonly ConfigService config;
         public ResetService(ConfigService config)
         {
@@ -54,6 +57,7 @@ namespace ProjectEye.Core.Service
         {
             timed = TakeTime;
             timer.Start();
+            ResetStart?.Invoke(this, timed);
         }
         /// <summary>
         /// 休息结束

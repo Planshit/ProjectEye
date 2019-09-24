@@ -67,6 +67,9 @@ namespace ProjectEye
             serviceCollection.Add<SoundService>();
             //快捷键
             serviceCollection.Add<KeyboardShortcutsService>();
+            //预提醒
+            serviceCollection.Add<PreAlertService>();
+
             WindowManager.serviceCollection = serviceCollection;
             //初始化所有服务
             serviceCollection.Initialize();
