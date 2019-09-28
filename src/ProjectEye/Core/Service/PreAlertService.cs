@@ -110,12 +110,31 @@ namespace ProjectEye.Core.Service
             main.OnReset += Main_OnReset;
             main.OnLeaveEvent += Main_OnLeaveEvent;
             main.OnComeBackEvent += Main_OnComeBackEvent;
+            main.OnPause += Main_OnPause;
+            main.OnStart += Main_OnStart;
             config.Changed += Config_Changed;
             reset.ResetStart += Reset_ResetStart;
             reset.ResetCompleted += Reset_ResetCompleted;
 
             preAlertTimer = new DispatcherTimer();
             preAlertTimer.Tick += new EventHandler(preAlertTimer_Tick);
+        }
+
+        private void Main_OnStart(object service, int msg)
+        {
+            if (config.options.Style.IsPreAlert)
+            {
+                InitPreAlert();
+            }
+            
+        }
+
+        private void Main_OnPause(object service, int msg)
+        {
+            if (config.options.Style.IsPreAlert && preAlertTimer.IsEnabled)
+            {
+                preAlertTimer.Stop();
+            }
         }
 
         private void Main_OnComeBackEvent(object service, int msg)
