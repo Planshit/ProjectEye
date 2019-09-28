@@ -74,6 +74,14 @@ namespace ProjectEye.Core.Service
         /// 到达休息时间时发生（不管是否进入休息状态）
         /// </summary>
         public event MainEventHandler OnReset;
+        /// <summary>
+        /// 计时器停止时发生
+        /// </summary>
+        public event MainEventHandler OnPause;
+        /// <summary>
+        /// 计时器启动时发生
+        /// </summary>
+        public event MainEventHandler OnStart;
         #endregion
         public MainService(App app,
             ScreenService screen,
@@ -341,6 +349,7 @@ namespace ProjectEye.Core.Service
                 //用眼统计
                 useeye_timer.Start();
             }
+            OnStart?.Invoke(this, 0);
         }
         #endregion
 
@@ -353,7 +362,7 @@ namespace ProjectEye.Core.Service
 
             back_timer.Stop();
 
-
+            OnPause?.Invoke(this, 0);
         }
         #endregion
 
