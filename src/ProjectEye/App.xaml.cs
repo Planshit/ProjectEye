@@ -65,7 +65,11 @@ namespace ProjectEye
             serviceCollection.Add<ResetService>();
             //声音
             serviceCollection.Add<SoundService>();
-            serviceCollection.Add<EyesTestService>();
+            //快捷键
+            serviceCollection.Add<KeyboardShortcutsService>();
+            //预提醒
+            serviceCollection.Add<PreAlertService>();
+
             WindowManager.serviceCollection = serviceCollection;
             //初始化所有服务
             serviceCollection.Initialize();

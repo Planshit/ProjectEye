@@ -43,6 +43,7 @@ namespace ProjectEye.ViewModels
             Model = new OptionsModel();
             Model.Data = config.options;
             Model.Themes = systemResources.Themes;
+            Model.PreAlertActions = systemResources.PreAlertActions;
             string[] version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
 
@@ -65,7 +66,7 @@ namespace ProjectEye.ViewModels
         {
             WindowManager.CreateWindowInScreen("UpdateWindow");
             WindowManager.Show("UpdateWindow");
-         
+
             //            string savePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             //                "Update",
             //                "Download",
@@ -75,7 +76,7 @@ namespace ProjectEye.ViewModels
             //            Model.Version = "1.0.3";
             //#endif
 
-            
+
         }
 
         private void soundTestCommand_actionAsync(object obj)

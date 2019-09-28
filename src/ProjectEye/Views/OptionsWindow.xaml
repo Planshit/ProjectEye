@@ -39,7 +39,7 @@
                     </Grid>
                     <CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>
                     <CheckBox Content="数据统计" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
-                              ToolTip="开启后在托盘菜单可看到“查看数据统计”选项"/>
+                              ToolTip="开启后在托盘菜单可看到查看数据统计选项"/>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -50,7 +50,7 @@
                         <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0"
                                    VerticalAlignment="Center">提醒间隔</TextBlock>
-                        <Slider Grid.Column="1" Maximum="420" Minimum="5" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="方向键或鼠标点两侧微调"/>
+                        <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="方向键或鼠标点两侧微调"/>
                         <TextBlock Text="{Binding Model.Data.General.WarnTime}"
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"
@@ -63,16 +63,17 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="显示">
-                <StackPanel Margin="10">
-                    <Grid Margin="0,10,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="3*"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
+                <ScrollViewer>
+                    <StackPanel Margin="10">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0" VerticalAlignment="Center">主题皮肤</TextBlock>
-                        <ComboBox 
+                            <ComboBox 
                             Name="cb" Grid.Column="1" 
                                   ItemsSource="{Binding Model.Themes}"
                                   DisplayMemberPath="DisplayName"
@@ -82,16 +83,16 @@
                                  />
 
 
-                    </Grid>
-                    <Grid Margin="0,10,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
+                        </Grid>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0" VerticalAlignment="Top">自定义提示文字</TextBlock>
-                        <StackPanel Grid.Column="1">
-                            <ui:Project1UIInput
+                            <StackPanel Grid.Column="1">
+                                <ui:Project1UIInput
                                 AcceptsReturn="True"
                                 TextWrapping="Wrap"
                                 Text="{Binding Model.Data.Style.TipContent}"
@@ -100,10 +101,148 @@
                                 Type="Text"
                                 Height="40"
                                 VerticalContentAlignment="Top"/>
-                            <TextBlock Text="支持变量：{t}用眼时长，{time}当前时间，{y}年，{M}月，{d}日，{H}时，{m}分" Foreground="#FF838383" TextWrapping="Wrap"/>
-                        </StackPanel>
+                                <TextBlock Text="支持变量：{t}提醒间隔，{time}当前时间，{y}年，{M}月，{d}日，{H}时，{m}分，{twt}今日用眼总时长，{trt}今日休息总时长，{tsc}今日跳过次数" Foreground="#FF838383" TextWrapping="Wrap"/>
+                            </StackPanel>
 
 
+                        </Grid>
+                        <CheckBox Content="休息预提醒" IsChecked="{Binding Model.IsPreAlert,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="在即将进入休息时右上角弹出一个休息预提醒通知"/>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
+                            <!--预提醒配置-->
+                            <StackPanel>
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Top">预提醒提前时间</TextBlock>
+
+                                    <Grid Grid.Column="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Slider Grid.Column="0" Maximum="60" Minimum="3" SmallChange="1" Value="{Binding Model.Data.Style.PreAlertTime}" ToolTip="方向键或鼠标点两侧微调"/>
+                                        <TextBlock Grid.Column="2">
+                                            <Run Text="{Binding Model.Data.Style.PreAlertTime}"/>秒
+                                        </TextBlock>
+                                    </Grid>
+                                </Grid>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="3*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">预提醒不操作时</TextBlock>
+                                    <ComboBox 
+                             Grid.Column="1" 
+                                  ItemsSource="{Binding Model.PreAlertActions}"
+                                  DisplayMemberPath="DisplayName"
+                                  SelectedItem="{Binding Model.Data.Style.PreAlertAction}"
+                            SelectedValue="{Binding Model.Data.Style.PreAlertAction.Value}"
+                            SelectedValuePath="Value"
+                                 />
+
+
+                                </Grid>
+                                <CheckBox Content="休息界面自动操作" IsChecked="{Binding Model.Data.Style.IsPreAlertAutoAction}" Cursor="Hand" Margin="0,10,0,0" ToolTip="在进入全屏休息状态时自动开始计时，不再二次确认"/>
+                                <CheckBox Content="预提醒通知提示音" IsChecked="{Binding Model.Data.Style.IsPreAlertSound}" Cursor="Hand" Margin="0,10,0,0"/>
+                                <!--预提醒的弹窗内容配置-->
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">预提醒图标</TextBlock>
+
+                                    <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Style.PreAlertIcon}" Width="auto" Placeholder="留空为默认图标"
+                                            Type="FileSelect"
+                                            ExtNames=".jpg文件|*.jpg|.png文件|*.png"/>
+                                </Grid>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">预提醒主标题</TextBlock>
+
+                                    <ui:Project1UIInput
+                                Text="{Binding Model.Data.Style.PreAlertTitle}"
+                                Width="auto"
+                                Placeholder=""
+                                Type="Text"
+                                VerticalContentAlignment="Center"
+                                            Grid.Column="1"/>
+
+                                </Grid>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">预提醒副标题</TextBlock>
+
+                                    <ui:Project1UIInput
+                                Text="{Binding Model.Data.Style.PreAlertSubtitle}"
+                                Width="auto"
+                                Placeholder=""
+                                Type="Text"
+                                VerticalContentAlignment="Center"
+                                            Grid.Column="1"/>
+
+                                </Grid>
+                                <Grid Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Top">预提醒内容</TextBlock>
+                                    <StackPanel Grid.Column="1">
+                                        <ui:Project1UIInput
+                                AcceptsReturn="True"
+                                TextWrapping="Wrap"
+                                Text="{Binding Model.Data.Style.PreAlertMessage}"
+                                Width="auto"
+                                Placeholder="支持回车换行"
+                                Type="Text"
+                                Height="40"
+                                VerticalContentAlignment="Top"/>
+                                        <TextBlock Text="支持变量：{t}休息剩余秒数，{twt}今日用眼总时长，{trt}今日休息总时长，{tsc}今日跳过次数" Foreground="#FF838383" TextWrapping="Wrap"/>
+                                    </StackPanel>
+
+
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="快捷键">
+                <StackPanel Margin="10">
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">提醒界面（好的）</TextBlock>
+                        <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.Reset,Mode=TwoWay}"/>
+                    </Grid>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">提醒界面（暂时不）</TextBlock>
+                        <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.NoReset,Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
             </TabItem>
@@ -137,7 +276,10 @@
                         反馈：<Hyperlink  Command="{Binding openurlCommand}"
                                       CommandParameter="https://github.com/Planshit/ProjectEye/issues" ToolTip="有什么建议请在这里提交">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                     </TextBlock>
-
+                    <TextBlock TextWrapping="Wrap" Margin="0,5,0,0">
+                        开发者：<Hyperlink  Command="{Binding openurlCommand}"
+                                      CommandParameter="http://thelittlepandaisbehind.com" ToolTip=": )">http://thelittlepandaisbehind.com</Hyperlink>
+                    </TextBlock>
                 </StackPanel>
             </TabItem>
         </TabControl>

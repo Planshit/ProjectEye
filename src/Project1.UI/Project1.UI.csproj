@@ -56,10 +56,12 @@
     <Compile Include="Controls\Enums\Project1UIInputType.cs" />
     <Compile Include="Controls\Project1UIChart.cs" />
     <Compile Include="Controls\Project1UIIcon.cs" />
+    <Compile Include="Controls\Project1UIKeyboardInput.cs" />
     <Compile Include="Controls\Project1UIListView.cs" />
     <Compile Include="Controls\Project1UIProcessBar.cs" />
     <Compile Include="Controls\Project1UIButton.cs" />
     <Compile Include="Controls\Project1UIInput.cs" />
+    <Compile Include="Controls\Project1UIToast.cs" />
     <Compile Include="Controls\Project1UIWindow.cs" />
     <Compile Include="Controls\Commands\Project1UIInputCommands.cs" />
     <Compile Include="Controls\Commands\Project1UIWindowCommands.cs" />
@@ -199,7 +201,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\Project1UIToast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Project1UIChart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Project1UIKeyboardInput.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -235,6 +245,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\sunglasses.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

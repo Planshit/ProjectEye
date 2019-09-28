@@ -92,8 +92,10 @@
     </ApplicationDefinition>
     <Compile Include="Core\AudioHelper.cs" />
     <Compile Include="Core\BusyVerdictHelper.cs" />
+    <Compile Include="Core\Models\Options\ComboxModel.cs" />
     <Compile Include="Core\Models\Options\GeneralModel.cs" />
     <Compile Include="Core\Models\Options\OptionsModel.cs" />
+    <Compile Include="Core\Models\Options\KeyboardShortcutModel.cs" />
     <Compile Include="Core\Models\Options\StyleModel.cs" />
     <Compile Include="Core\Models\Options\ThemeModel.cs" />
     <Compile Include="Core\Models\EyesTest\EyesTestListModel.cs" />
@@ -107,7 +109,9 @@
     <Compile Include="Core\Service\CacheService.cs" />
     <Compile Include="Core\Service\ConfigService.cs" />
     <Compile Include="Core\Service\IService.cs" />
+    <Compile Include="Core\Service\KeyboardShortcutsService.cs" />
     <Compile Include="Core\Service\MainService.cs" />
+    <Compile Include="Core\Service\PreAlertService.cs" />
     <Compile Include="Core\Service\ResetService.cs" />
     <Compile Include="Core\Service\ScreenService.cs" />
     <Compile Include="Core\Service\ServiceCollection.cs" />

@@ -1,8 +1,10 @@
 ﻿using ProjectEye.Core.Models.Options;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -51,6 +53,7 @@ namespace ProjectEye.Core.Service
             {
                 CreateDefaultConfig();
             }
+            CheckOptions();
             //每次启动都把不提醒重置
             options.General.Noreset = false;
         }
@@ -81,9 +84,49 @@ namespace ProjectEye.Core.Service
             options.Style = new StyleModel();
             options.Style.Theme = systemResources.Themes[1];
             options.Style.TipContent = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
+
+            options.KeyboardShortcuts = new KeyboardShortcutModel();
             xmlExtensions.Save(options);
         }
+        private void CheckOptions()
+        {
+            System.Reflection.PropertyInfo[] properties = options.GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
 
+            foreach (System.Reflection.PropertyInfo item in properties)
+            {
+                string name = item.Name;
+                object value = item.GetValue(options, null);
+                if (value == null)
+                {
+                    //配置项不存在时创建
+
+                    //var constructorInfoObj = item.PropertyType.GetConstructors()[0];
+                    //var constructorParameters = constructorInfoObj.GetParameters();
+                    //int constructorParametersLength = constructorParameters.Length;
+                    Type[] types = new Type[0];
+                    object[] objs = new object[0];
+                    //for (int i = 0; i < constructorParametersLength; i++)
+                    //{
+                    //    string typeFullName = constructorParameters[i].ParameterType.FullName;
+                    //    Type t = Type.GetType(typeFullName);
+                    //    types[i] = t;
+                    //}
+                    ConstructorInfo ctor = item.PropertyType.GetConstructor(types);
+                    object instance = ctor.Invoke(objs);
+                    item.SetValue(options, instance);
+                }
+                Debug.WriteLine(string.Format("{0}:{1},", name, value));
+
+                //if (item.PropertyType.IsValueType || item.PropertyType.Name.StartsWith("String"))
+                //{
+                //    tStr += string.Format("{0}:{1},", name, value);
+                //}
+                //else
+                //{
+                //    getProperties(value);
+                //}
+            }
+        }
 
     }
 }

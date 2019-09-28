@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ProjectEye.ViewModels
 {
@@ -27,14 +28,17 @@ namespace ProjectEye.ViewModels
         private readonly ConfigService config;
         private readonly StatisticService statistic;
         private readonly MainService main;
-
+        private readonly KeyboardShortcutsService keyboardShortcuts;
+        private readonly PreAlertService preAlert;
         private string tipContent;
         public TipViewModel(ResetService reset,
             SoundService sound,
             ConfigService config,
             StatisticService statistic,
             MainService main,
-            App app)
+            App app,
+            KeyboardShortcutsService keyboardShortcuts,
+            PreAlertService preAlert)
         {
             this.reset = reset;
             this.reset.TimeChanged += new ResetEventHandler(timeChanged);
@@ -51,7 +55,8 @@ namespace ProjectEye.ViewModels
             this.statistic = statistic;
 
             this.main = main;
-
+            this.keyboardShortcuts = keyboardShortcuts;
+            this.preAlert = preAlert;
             app.OnServiceInitialized += App_OnServiceInitialized;
 
             LoadConfig();
@@ -71,6 +76,15 @@ namespace ProjectEye.ViewModels
             {
                 tipContent = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
             }
+            //创建快捷键命令
+            if (!string.IsNullOrEmpty(config.options.KeyboardShortcuts.Reset))
+            {
+                keyboardShortcuts.Set(config.options.KeyboardShortcuts.Reset, resetCommand);
+            }
+            if (!string.IsNullOrEmpty(config.options.KeyboardShortcuts.NoReset))
+            {
+                keyboardShortcuts.Set(config.options.KeyboardShortcuts.NoReset, busyCommand);
+            }
         }
 
         //配置文件被修改时
@@ -88,6 +102,8 @@ namespace ProjectEye.ViewModels
             {
                 sound.Play();
             }
+            //重启计时
+            main.ReStart();
         }
 
         private void Init()
@@ -111,6 +127,7 @@ namespace ProjectEye.ViewModels
         private void busyCommand_action(object obj)
         {
             main.StopBusyListener();
+            main.ReStart();
             WindowManager.Hide("TipWindow");
             if (config.options.General.Data)
             {
@@ -137,7 +154,6 @@ namespace ProjectEye.ViewModels
                  .Distinct();
             foreach (string variable in variableArray)
             {
-                Debug.WriteLine(variable);
                 string replace = "";
                 switch (variable)
                 {
@@ -154,20 +170,32 @@ namespace ProjectEye.ViewModels
                         replace = DateTime.Now.ToString("yyyy");
                         break;
                     case "{M}":
-                        //年
+                        //月
                         replace = DateTime.Now.ToString("MM");
                         break;
                     case "{d}":
-                        //年
+                        //日
                         replace = DateTime.Now.ToString("dd");
                         break;
                     case "{H}":
-                        //年
+                        //时
                         replace = DateTime.Now.ToString("HH");
                         break;
                     case "{m}":
-                        //年
+                        //分
                         replace = DateTime.Now.ToString("mm");
+                        break;
+                    case "{twt}":
+                        //今日用眼时长
+                        replace = statistic.GetTodayData().WorkingTime.ToString();
+                        break;
+                    case "{trt}":
+                        //今日休息时长
+                        replace = statistic.GetTodayData().ResetTime.ToString();
+                        break;
+                    case "{tsc}":
+                        //今日跳过次数
+                        replace = statistic.GetTodayData().SkipCount.ToString();
                         break;
                 }
                 if (!string.IsNullOrEmpty(replace))
@@ -186,12 +214,38 @@ namespace ProjectEye.ViewModels
             foreach (var window in windows)
             {
                 window.Activated += Window_Activated;
+                window.KeyDown += Window_KeyDown;
             }
+        }
+
+
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            //处理执行快捷键命令
+            keyboardShortcuts.Execute(e);
         }
 
         private void Window_Activated(object sender, EventArgs e)
         {
             TipContent = ParseTipContent(tipContent);
+            var window = (sender as Window);
+            window.Focus();
+            PreAlertDispose();
+        }
+        /// <summary>
+        /// 预提醒处理
+        /// </summary>
+        private void PreAlertDispose()
+        {
+            if (config.options.Style.IsPreAlert)
+            {
+                if(preAlert.PreAlertAction== PreAlertAction.Goto && config.options.Style.IsPreAlertAutoAction)
+                {
+                    //进入休息
+                    resetCommand_action(null);
+                }
+            }
         }
     }
 }
