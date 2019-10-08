@@ -68,7 +68,7 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             LoadStatisticData();
-            ClearBefore7Data();
+
             var todayStatistic = Find(DateTime.Now.Date);
             if (todayStatistic == null)
             {
@@ -82,6 +82,8 @@ namespace ProjectEye.Core.Service
                 statisticList.Data.Add(todayStatistic);
 
             }
+            ClearBefore7Data();
+
             this.todayStatistic = Find(DateTime.Now.Date);
             //开始计时
             ResetStatisticTime();
@@ -160,7 +162,11 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ClearBefore7Data()
         {
-            statisticList.Data.RemoveAll(m => m.Date.Date < DateTime.Now.AddDays(-7).Date);
+            if (statisticList.Data.Count > 7)
+            {
+                //只保留最近7天的数据
+                statisticList.Data.RemoveRange(0, statisticList.Data.Count - 7);
+            }
             xml.Save(statisticList);
         }
         #endregion
