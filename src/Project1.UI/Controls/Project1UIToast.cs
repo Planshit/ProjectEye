@@ -80,6 +80,7 @@ namespace Project1.UI.Controls
             Left = SystemParameters.PrimaryScreenWidth;
             Top = 0;
             SetIcon("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
+            ShowActivated = false;
         }
 
         /// <summary>
