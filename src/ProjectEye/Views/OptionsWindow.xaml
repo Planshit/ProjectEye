@@ -246,18 +246,79 @@
                     </Grid>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="实验室" Visibility="Collapsed">
-                <StackPanel Margin="10">
-                    <ui:Project1UIButton 
-            Command="{Binding showWindowCommand}"
-                        CommandParameter="EyesTestWindow"
-            Content="视力测试"
-            Height="23"
-            Width="85"
-                Style="{DynamicResource basic}"
-                        HorizontalAlignment="Left"/>
-                </StackPanel>
+            <TabItem Header="行为">
+                <ScrollViewer>
+                    <StackPanel Margin="10">
+                        <CheckBox Content="在进行全屏工作时跳过休息" IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,0,0,0"/>
+                        <CheckBox Content="启用进程勿扰" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="启用后当进程列表中的某项在运行中时将跳过休息"/>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Model.BreakProgressListVisibility}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="150"/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="100"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:Project1UIInput
+                                    Name="breakProcessTextbox"
+                                Width="auto"
+                                Placeholder="输入进程名（非进程标题，不带.exe）"
+                                Type="Text"
+                                    MinHeight="23"
+                                VerticalContentAlignment="Center"/>
+                                <ui:Project1UIButton 
+                                Grid.Column="1"
+            Command="{Binding addBreackProcessCommand}"
+                                    CommandParameter="{Binding ElementName=breakProcessTextbox,Path=Text}"
+            Content="添加"
+            MinHeight="23"
+            MinWidth="85"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                Style="{DynamicResource basic}"/>
+                            </Grid>
+                            <ListView
+            Grid.Row="1"
+            ItemsSource="{Binding Model.Data.Behavior.BreakProgressList,Mode=TwoWay}"
+            SelectionMode="Single"
+                                SelectedItem="{Binding Model.SelectedItem}"
+                                Name="breakProcessListView"
+           >
+
+                                <ListView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="移除所选项"  Command="{Binding removeBreackProcessCommand}"/>
+                                    </ContextMenu>
+                                </ListView.ContextMenu>
+
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.Columns>
+                                            <GridViewColumn Width="{Binding ElementName=breakProcessListView,Path=ActualWidth}">
+                                                <GridViewColumn.Header>
+                                                    <TextBlock Text="进程" HorizontalAlignment="Left" Width="{Binding ElementName=breakProcessListView,Path=ActualWidth}"/>
+                                                </GridViewColumn.Header>
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Width="auto">
+                                                            <TextBlock Text="{Binding}" HorizontalAlignment="Left" Width="{Binding ElementName=breakProcessListView,Path=ActualWidth}"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                        </GridView.Columns>
+
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
+
             <TabItem Header="关于">
                 <StackPanel Margin="10">
                     <Image Source="/ProjectEye;component/Resources/sunglasses.ico" Height="30" HorizontalAlignment="Left"/>

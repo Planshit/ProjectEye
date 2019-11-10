@@ -46,7 +46,7 @@ namespace ProjectEye.Models
             }
 
         }
-
+        public string SelectedItem { get; set; }
         public List<ThemeModel> Themes { get; set; }
         public List<ComboxModel> PreAlertActions { get; set; }
 
@@ -67,8 +67,30 @@ namespace ProjectEye.Models
         {
             get
             {
-                
+
                 return Data.Style.IsPreAlert ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public bool IsBreakProgressList
+        {
+            get
+            {
+                return Data.Behavior.IsBreakProgressList;
+            }
+            set
+            {
+                Data.Behavior.IsBreakProgressList = value;
+                OnPropertyChanged();
+                OnPropertyChanged("PreAlertConfigVisibility");
+            }
+        }
+        public Visibility BreakProgressListVisibility
+        {
+            get
+            {
+
+                return Data.Behavior.IsBreakProgressList ? Visibility.Visible : Visibility.Collapsed;
             }
         }
     }

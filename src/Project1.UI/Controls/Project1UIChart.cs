@@ -124,8 +124,6 @@ namespace Project1.UI.Controls
         public Project1UIChart()
         {
             DefaultStyleKey = typeof(Project1UIChart);
-
-
         }
 
         public override void OnApplyTemplate()
@@ -200,11 +198,11 @@ namespace Project1.UI.Controls
             }
             dc.Pop();
         }
-        private void Draw(DrawingContext dc, Point start, Point end, string color = "#dad9d9")
+        private void Draw(DrawingContext dc, Point start, Point end, string color = "#dad9d9", double thickness = 1)
         {
             Pen _pen = new Pen();
             _pen.Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
-            _pen.Thickness = 1;
+            _pen.Thickness = thickness;
 
             DrawSnappedLinesBetweenPoints(dc, _pen, 1, new[]
             {
@@ -522,7 +520,7 @@ namespace Project1.UI.Controls
                     Color = (Color)ColorConverter.ConvertFromString(startcolor),
                     Offset = 0
                 });
-                
+
                 brush.GradientStops.Add(new GradientStop()
                 {
                     Color = (Color)ColorConverter.ConvertFromString(endcolor),
@@ -649,7 +647,7 @@ namespace Project1.UI.Controls
                 {
                     var startPoint = DataPoints[i];
                     var endPoint = DataPoints[i + 1];
-                    Draw(dc, startPoint, endPoint, UIDefaultSetting.DefaultThemeColor);
+                    Draw(dc, startPoint, endPoint, UIDefaultSetting.DefaultThemeColor,2);
                 }
             }
         }
