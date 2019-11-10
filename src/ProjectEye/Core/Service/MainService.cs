@@ -372,15 +372,18 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ShowTipWindow()
         {
-            Debug.WriteLine(preAlertAction);
             if (config.options.Style.IsPreAlert && preAlertAction == PreAlertAction.Break)
             {
-                Debug.WriteLine("预提醒设置了跳过本次");
+                //预提醒设置跳过
                 statistic.Add(StatisticType.SkipCount, 1);
             }
             else
             {
-                if (!config.options.General.Noreset)
+                if (isBreakReset())
+                {
+                    statistic.Add(StatisticType.SkipCount, 1);
+                }
+                else
                 {
                     busy_timer.Start();
                     WindowManager.Show("TipWindow");
@@ -471,6 +474,51 @@ namespace ProjectEye.Core.Service
         public void SetPreAlertAction(PreAlertAction preAlertAction)
         {
             this.preAlertAction = preAlertAction;
+        }
+        #endregion
+
+        #region 是否跳过本次休息
+        /// <summary>
+        /// 是否跳过本次休息
+        /// </summary>
+        /// <returns>true跳过，false不跳过</returns>
+        public bool isBreakReset()
+        {
+            if (!config.options.General.Noreset)
+            {
+                //0.全屏跳过判断
+                if (config.options.Behavior.IsFullScreenBreak)
+                {
+                    var info = Win32APIHelper.GetFocusWindowInfo();
+                    if (info.IsFullScreen)
+                    {
+                        return true;
+                    }
+                }
+
+                //1.进程跳过判断
+                if (config.options.Behavior.IsBreakProgressList)
+                {
+                    Process[] processes = Process.GetProcesses();
+                    foreach (Process process in processes)
+                    {
+                        try
+                        {
+                            if (config.options.Behavior.BreakProgressList.Contains(process.ProcessName))
+                            {
+                                return true;
+                            }
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+
+                return false;
+            }
+
+            return true;
         }
         #endregion
     }

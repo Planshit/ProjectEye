@@ -126,7 +126,7 @@ namespace ProjectEye.Core.Service
             {
                 InitPreAlert();
             }
-            
+
         }
 
         private void Main_OnPause(object service, int msg)
@@ -226,45 +226,56 @@ namespace ProjectEye.Core.Service
         {
             //到达预提醒时间弹出通知
             Debug.WriteLine(DateTime.Now.ToString());
-            preAlertHasTime = config.options.Style.PreAlertTime - 1;
 
-            //通知数据模型
-            var toastModel = new PreAlertModel();
-            ParseModel(toastModel);
-
-            //通知弹窗
-            var toast = new Project1UIToast();
-            if (config.options.Style.PreAlertIcon != "")
+            if (main.isBreakReset())
             {
-                toast.SetIcon(config.options.Style.PreAlertIcon);
+                //跳过本次
+                SetPreAlertAction(PreAlertAction.Break);
             }
-            toast.OnAutoHide += Toast_OnAutoHide;
-            toast.OnButtonClick += Toast_OnButtonClick;
-            toast.Alert(toastModel, config.options.Style.PreAlertTime,
-                new string[] {
+            else
+            {
+                //预提醒弹出
+
+                preAlertHasTime = config.options.Style.PreAlertTime - 1;
+
+                //通知数据模型
+                var toastModel = new PreAlertModel();
+                ParseModel(toastModel);
+
+                //通知弹窗
+                var toast = new Project1UIToast();
+                if (config.options.Style.PreAlertIcon != "")
+                {
+                    toast.SetIcon(config.options.Style.PreAlertIcon);
+                }
+                toast.OnAutoHide += Toast_OnAutoHide;
+                toast.OnButtonClick += Toast_OnButtonClick;
+                toast.Alert(toastModel, config.options.Style.PreAlertTime,
+                    new string[] {
                     "好的",
                     "跳过本次"
-                });
+                    });
 
-            //播放通知提示音
-            if (config.options.Style.IsPreAlertSound)
-            {
-                sound.Play();
-            }
-
-            //计时器
-            var timer = new DispatcherTimer();
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Tick += (ee, cc) =>
-            {
-                preAlertHasTime--;
-                ParseModel(toastModel);
-                if (preAlertHasTime <= 0)
+                //播放通知提示音
+                if (config.options.Style.IsPreAlertSound)
                 {
-                    timer.Stop();
+                    sound.Play();
                 }
-            };
-            timer.Start();
+
+                //计时器
+                var timer = new DispatcherTimer();
+                timer.Interval = new TimeSpan(0, 0, 1);
+                timer.Tick += (ee, cc) =>
+                {
+                    preAlertHasTime--;
+                    ParseModel(toastModel);
+                    if (preAlertHasTime <= 0)
+                    {
+                        timer.Stop();
+                    }
+                };
+                timer.Start();
+            }
         }
 
         /// <summary>

@@ -23,6 +23,8 @@ namespace ProjectEye.ViewModels
         public Command soundTestCommand { get; set; }
         public Command updateCommand { get; set; }
         public Command showWindowCommand { get; set; }
+        public Command addBreackProcessCommand { get; set; }
+        public Command removeBreackProcessCommand { get; set; }
 
         private readonly ConfigService config;
         private readonly MainService mainService;
@@ -54,6 +56,32 @@ namespace ProjectEye.ViewModels
             soundTestCommand = new Command(new Action<object>(soundTestCommand_actionAsync));
             updateCommand = new Command(new Action<object>(updateCommand_action));
             showWindowCommand = new Command(new Action<object>(showWindowCommand_action));
+            addBreackProcessCommand = new Command(new Action<object>(addBreackProcessCommand_action));
+            removeBreackProcessCommand = new Command(new Action<object>(removeBreackProcessCommand_action));
+        }
+        /// <summary>
+        /// 移除进程命令
+        /// </summary>
+        /// <param name="obj"></param>
+        private void removeBreackProcessCommand_action(object obj)
+        {
+            Model.Data.Behavior.BreakProgressList.Remove(Model.SelectedItem);
+        }
+
+        /// <summary>
+        /// 添加跳过进程命令
+        /// </summary>
+        /// <param name="obj"></param>
+        private void addBreackProcessCommand_action(object obj)
+        {
+            if (Model.Data.Behavior.BreakProgressList.Contains(obj.ToString()))
+            {
+                MessageBox.Show("进程已存在！", "提示");
+            }
+            else
+            {
+                Model.Data.Behavior.BreakProgressList.Add(obj.ToString());
+            }
         }
 
         private void showWindowCommand_action(object obj)
