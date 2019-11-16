@@ -86,6 +86,8 @@ namespace ProjectEye.Core.Service
             options.Style.TipContent = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
 
             options.KeyboardShortcuts = new KeyboardShortcutModel();
+
+            options.Behavior = new BehaviorModel();
             xmlExtensions.Save(options);
         }
         private void CheckOptions()
