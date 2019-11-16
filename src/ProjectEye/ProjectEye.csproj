@@ -138,6 +138,7 @@
     <Compile Include="ViewModels\AsyncCommand.cs" />
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="ViewModels\EyesTestViewModel.cs" />
+    <Compile Include="ViewModels\TipViewDesignViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\StatisticViewModel.cs" />
@@ -153,6 +154,9 @@
     </Compile>
     <Compile Include="Views\TipWindow.xaml.cs">
       <DependentUpon>TipWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TipWindowDesign.xaml.cs">
+      <DependentUpon>TipWindowDesign.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateWindow.xaml.cs">
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
@@ -436,6 +440,10 @@
     <Page Include="Views\TipWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TipWindowDesign.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UpdateWindow.xaml">
       <SubType>Designer</SubType>

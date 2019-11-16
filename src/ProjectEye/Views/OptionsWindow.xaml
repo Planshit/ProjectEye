@@ -68,6 +68,20 @@
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">全屏提示界面</TextBlock>
+                            <ui:Project1UIButton Grid.Column="1"
+                                             Content="自定义"
+                                             Command="{Binding openWindowCommand}"
+                                                 CommandParameter="TipWindowDesign"
+                                                 HorizontalAlignment="Left"
+                                             Style="{DynamicResource basic}"/>
+                        </Grid>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="3*"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>

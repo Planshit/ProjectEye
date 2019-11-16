@@ -11,6 +11,13 @@
         InputMethod.IsInputMethodEnabled="False" WindowState="Maximized"
         >
     <Grid>
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
+            <ui:Project1UIButton 
+                                             Content="退出"
+                                             Command="{Binding commonCommand}"
+                                                 CommandParameter="quit"
+                                             Style="{DynamicResource basic}"/>
+        </Grid>
         <!--休息提示UI-->
         <Grid VerticalAlignment="Center"
               Width="400"
@@ -21,7 +28,7 @@
                 <RowDefinition Height="2.5*"/>
                 <RowDefinition Height="2.5*"/>
             </Grid.RowDefinitions>
-            
+
             <Image Style="{DynamicResource TipImage}" Height="160"
                    HorizontalAlignment="Center"
                    />
@@ -30,7 +37,7 @@
                    HorizontalAlignment="Center"
                    Margin="0,10"
                    TextWrapping="Wrap"
-                   Foreground="#45435b" Text="{Binding TipContent}"/>
+                   Foreground="#45435b" Text="这是显示的文本"/>
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">
@@ -63,8 +70,7 @@
                 FontWeight="Bold"
                 Grid.Row="3"
                 HorizontalAlignment="Center"
-                Text="{Binding CountDown}"
-                Visibility="{Binding CountDownVisibility}"
+                Text="20"
                 />
         </Grid>
     </Grid>
