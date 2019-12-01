@@ -1,4 +1,5 @@
 ﻿using ProjectEye.Core;
+using ProjectEye.Core.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,13 @@ namespace ProjectEye.ViewModels
 {
     public class TipViewDesignViewModel
     {
+        private readonly ConfigService config;
         public Command commonCommand { get; set; }
-        public TipViewDesignViewModel()
+        public string TipText { get; set; }
+        public TipViewDesignViewModel(ConfigService config)
         {
+            this.config = config;
+            TipText = config.options.Style.TipContent;
             commonCommand = new Command(new Action<object>(commonCommand_action));
         }
 
@@ -20,7 +25,7 @@ namespace ProjectEye.ViewModels
             switch (obj.ToString())
             {
                 case "quit":
-                    WindowManager.Close("TipViewDesign");
+                    WindowManager.Close("TipViewDesignWindow");
                     break;
             }
         }

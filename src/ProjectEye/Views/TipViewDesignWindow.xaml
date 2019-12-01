@@ -1,9 +1,11 @@
-﻿<ui:Project1UIWindow x:Class="ProjectEye.Views.TipWindowDesign"
+﻿<ui:Project1UIWindow x:Class="ProjectEye.Views.TipViewDesignWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectEye.Views"
+                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
         Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStyle="None" Visibility="Visible" AllowsTransparency="True" Width="100" Height="100"
@@ -32,12 +34,14 @@
             <Image Style="{DynamicResource TipImage}" Height="160"
                    HorizontalAlignment="Center"
                    />
-            <TextBlock FontSize="20"
-                   Grid.Row="1"
+            <ui:Project1UIDesignContainer  Grid.Row="1"
                    HorizontalAlignment="Center"
-                   Margin="0,10"
+                   Margin="0,10">
+                <TextBlock FontSize="20"
+                  
                    TextWrapping="Wrap"
-                   Foreground="#45435b" Text="这是显示的文本"/>
+                   Foreground="#45435b" Text="{Binding TipText}"></TextBlock>
+            </ui:Project1UIDesignContainer>
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">

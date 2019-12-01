@@ -75,7 +75,7 @@
                             <ui:Project1UIButton Grid.Column="1"
                                              Content="自定义"
                                              Command="{Binding openWindowCommand}"
-                                                 CommandParameter="TipWindowDesign"
+                                                 CommandParameter="TipViewDesignWindow"
                                                  HorizontalAlignment="Left"
                                              Style="{DynamicResource basic}"/>
                         </Grid>

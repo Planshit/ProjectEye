@@ -155,8 +155,8 @@
     <Compile Include="Views\TipWindow.xaml.cs">
       <DependentUpon>TipWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TipWindowDesign.xaml.cs">
-      <DependentUpon>TipWindowDesign.xaml</DependentUpon>
+    <Compile Include="Views\TipViewDesignWindow.xaml.cs">
+      <DependentUpon>TipViewDesignWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateWindow.xaml.cs">
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
@@ -441,7 +441,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TipWindowDesign.xaml">
+    <Page Include="Views\TipViewDesignWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

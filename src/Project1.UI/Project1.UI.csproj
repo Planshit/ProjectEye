@@ -56,6 +56,7 @@
     <Compile Include="Controls\Enums\Project1UIInputType.cs" />
     <Compile Include="Controls\Project1UIChart.cs" />
     <Compile Include="Controls\Project1UIIcon.cs" />
+    <Compile Include="Controls\Project1UIDesignContainer.cs" />
     <Compile Include="Controls\Project1UIKeyboardInput.cs" />
     <Compile Include="Controls\Project1UIListView.cs" />
     <Compile Include="Controls\Project1UIProcessBar.cs" />
@@ -198,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Project1UIDesignContainer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

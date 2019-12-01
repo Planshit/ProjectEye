@@ -17,9 +17,9 @@ namespace ProjectEye.Views
     /// <summary>
     /// TipWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class TipWindowDesign : Project1UIWindow
+    public partial class TipViewDesignWindow : Project1UIWindow
     {
-        public TipWindowDesign()
+        public TipViewDesignWindow()
         {
             InitializeComponent();
         }
