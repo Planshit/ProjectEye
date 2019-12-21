@@ -14,7 +14,7 @@
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIChart.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIKeyboardInput.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIToast.xaml"/>
-        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIDesignContainer.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIDesignItem.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
    

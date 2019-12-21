@@ -8,11 +8,24 @@
 
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
-        Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStyle="None" Visibility="Visible" AllowsTransparency="True" Width="100" Height="100"
+        Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStyle="None" Visibility="Visible" AllowsTransparency="True"
         Opacity=".97"
         InputMethod.IsInputMethodEnabled="False" WindowState="Maximized"
         >
     <Grid>
+        <ui:Project1UIDesignContainer>
+            <ui:Project1UIDesignItem>
+                <Grid Background="Black" Width="100" Height="100"></Grid>
+            </ui:Project1UIDesignItem>
+
+            <ui:Project1UIDesignItem>
+                <Image Style="{DynamicResource TipImage}" Height="160"
+                   HorizontalAlignment="Center"
+                   />
+            </ui:Project1UIDesignItem>
+
+
+        </ui:Project1UIDesignContainer>
         <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
             <ui:Project1UIButton 
                                              Content="退出"
@@ -21,7 +34,7 @@
                                              Style="{DynamicResource basic}"/>
         </Grid>
         <!--休息提示UI-->
-        <Grid VerticalAlignment="Center"
+        <!--<Grid VerticalAlignment="Center"
               Width="400"
               >
             <Grid.RowDefinitions>
@@ -34,14 +47,7 @@
             <Image Style="{DynamicResource TipImage}" Height="160"
                    HorizontalAlignment="Center"
                    />
-            <ui:Project1UIDesignContainer  Grid.Row="1"
-                   HorizontalAlignment="Center"
-                   Margin="0,10">
-                <TextBlock FontSize="20"
-                  
-                   TextWrapping="Wrap"
-                   Foreground="#45435b" Text="{Binding TipText}"></TextBlock>
-            </ui:Project1UIDesignContainer>
+
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">
@@ -68,7 +74,9 @@
                     Focusable="False"/>
             </StackPanel>
 
-            <!--倒计时秒数-->
+            -->
+        <!--倒计时秒数-->
+        <!--
             <TextBlock
                 FontSize="50"
                 FontWeight="Bold"
@@ -76,6 +84,6 @@
                 HorizontalAlignment="Center"
                 Text="20"
                 />
-        </Grid>
+        </Grid>-->
     </Grid>
 </ui:Project1UIWindow>

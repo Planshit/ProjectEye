@@ -52,9 +52,12 @@
   <ItemGroup>
     <Compile Include="Controls\Converters\Project1UIIconToUnicodeConverter.cs" />
     <Compile Include="Controls\Enums\Project1UIButtonType.cs" />
+    <Compile Include="Controls\Enums\ControlPoint.cs" />
     <Compile Include="Controls\Enums\Project1UIIconType.cs" />
     <Compile Include="Controls\Enums\Project1UIInputType.cs" />
+    <Compile Include="Controls\Models\DesignItemModel.cs" />
     <Compile Include="Controls\Project1UIChart.cs" />
+    <Compile Include="Controls\Project1UIDesignItem.cs" />
     <Compile Include="Controls\Project1UIIcon.cs" />
     <Compile Include="Controls\Project1UIDesignContainer.cs" />
     <Compile Include="Controls\Project1UIKeyboardInput.cs" />
@@ -68,6 +71,7 @@
     <Compile Include="Controls\Commands\Project1UIWindowCommands.cs" />
     <Compile Include="Cores\UIDefaultSetting.cs" />
     <Compile Include="Cores\Theme.cs" />
+    <Compile Include="Cores\UINotifyPropertyChanged.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Cores\Project1UIColor.cs" />
     <Compile Include="Cores\IconFonts.cs" />
@@ -202,7 +206,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Project1UIDesignContainer.xaml">
+    <Page Include="Themes\Project1UIDesignItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -248,9 +252,7 @@
   <ItemGroup>
     <Resource Include="Assets\Themes\Pink\Resources\sakura.jpg" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Assets\Images\sunglasses.png" />
   </ItemGroup>

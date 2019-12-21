@@ -520,6 +520,9 @@
   <ItemGroup>
     <Resource Include="Resources\Themes\Black\Images\tipImage.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Snipaste_2019-12-16_10-20-56.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.5.0.6\build\Fody.targets" Condition="Exists('packages\Fody.5.0.6\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
