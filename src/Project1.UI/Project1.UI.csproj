@@ -57,6 +57,7 @@
     <Compile Include="Controls\Enums\Project1UIInputType.cs" />
     <Compile Include="Controls\Models\DesignItemModel.cs" />
     <Compile Include="Controls\Project1UIChart.cs" />
+    <Compile Include="Controls\Project1UIColorSelect.cs" />
     <Compile Include="Controls\Project1UIDesignItem.cs" />
     <Compile Include="Controls\Project1UIIcon.cs" />
     <Compile Include="Controls\Project1UIDesignContainer.cs" />
@@ -207,6 +208,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Project1UIDesignItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Project1UIColorSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

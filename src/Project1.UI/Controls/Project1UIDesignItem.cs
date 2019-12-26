@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -16,11 +17,50 @@ namespace Project1.UI.Controls
 {
     public class Project1UIDesignItem : ContentControl
     {
+        #region 依赖属性
+
+        #region 控件类型名称
+        public string ControlType
+        {
+            get { return (string)GetValue(ControlTypeProperty); }
+            set { SetValue(ControlTypeProperty, value); }
+        }
+        public static readonly DependencyProperty ControlTypeProperty =
+            DependencyProperty.Register("ControlType", typeof(string), typeof(Project1UIDesignItem));
+        #endregion
+
+        #region 属性编辑文字输入可见性
+        public Visibility TextInputVisibility
+        {
+            get { return (Visibility)GetValue(TextInputVisibilityProperty); }
+            set { SetValue(TextInputVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty TextInputVisibilityProperty =
+            DependencyProperty.Register("TextInputVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
+        #endregion
+
+        #region 属性编辑图片输入可见性
+        public Visibility ImageInputVisibility
+        {
+            get { return (Visibility)GetValue(ImageInputVisibilityProperty); }
+            set { SetValue(ImageInputVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty ImageInputVisibilityProperty =
+            DependencyProperty.Register("ImageInputVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
+        #endregion
+        #endregion
+
+        public bool IsAttPopupOpen { get; set; } = false;
+
         public delegate void ControlPointEventHandler(object sender, ControlPoint controlPoint);
         public event ControlPointEventHandler ControlPointMouseDown;
         public event ControlPointEventHandler ControlPointMouseUp;
 
         private DesignItemModel designItemModel;
+        /// <summary>
+        /// 属性编辑窗口
+        /// </summary>
+        private Popup attPopup;
         public Project1UIDesignItem()
         {
             this.DefaultStyleKey = typeof(Project1UIDesignItem);
@@ -32,10 +72,49 @@ namespace Project1.UI.Controls
         {
             base.OnApplyTemplate();
             var container = GetTemplateChild("Container") as Grid;
+            attPopup = GetTemplateChild("popup") as Popup;
             if (container != null)
             {
                 CreateControlPoints(container);
+                this.MouseDoubleClick += OnPopupOpen;
+                ControlType = TypeOfName(Content.GetType());
             }
+        }
+
+        private string TypeOfName(Type type)
+        {
+            string res = "未知";
+            switch (type.Name.ToLower())
+            {
+                case "border":
+                    res = "矩形色块";
+                    break;
+                case "image":
+                    res = "图片";
+                    ImageInputVisibility = Visibility.Visible;
+                    break;
+                case "textblock":
+                    res = "文字";
+                    TextInputVisibility = Visibility.Visible;
+
+                    break;
+            }
+            return res;
+        }
+        private void OnPopupOpen(object sender, MouseButtonEventArgs e)
+        {
+            IsAttPopupOpen = true;
+            attPopup.IsOpen = true;
+            this.MouseDown += OnPopupClose;
+        }
+
+        private void OnPopupClose(object sender, MouseButtonEventArgs e)
+        {
+            IsAttPopupOpen = false;
+
+            attPopup.IsOpen = false;
+            this.MouseDown -= OnPopupClose;
+
         }
 
         protected override void OnMouseEnter(MouseEventArgs e)
@@ -70,15 +149,15 @@ namespace Project1.UI.Controls
                 point.CaptureMouse();
                 ControlPointMouseDown?.Invoke(this, controlPoint);
             };
-            point.MouseUp += (s, e) =>
+
+            point.MouseLeave += (s, e) =>
             {
-                point.ReleaseMouseCapture();
-                ControlPointMouseUp?.Invoke(this, controlPoint);
+                if (e.LeftButton == MouseButtonState.Released)
+                {
+                    point.ReleaseMouseCapture();
+                    ControlPointMouseUp?.Invoke(this, controlPoint);
+                }
             };
-            //point.MouseLeave += (s, e) =>
-            //{
-            //    ControlPointMouseUp?.Invoke(this, controlPoint);
-            //};
             Binding binding = new Binding()
             {
                 Source = designItemModel,

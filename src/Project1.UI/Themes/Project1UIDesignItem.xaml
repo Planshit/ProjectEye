@@ -7,7 +7,7 @@
 
 
     <Style TargetType="{x:Type controls:Project1UIDesignItem}">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="#0C6495ED" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <!--<Setter Property="Width"
           Value="120" />
@@ -21,7 +21,130 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Project1UIDesignItem}">
-                    <Grid x:Name="Container">
+                    <Grid x:Name="Container" Background="{TemplateBinding Background}">
+                        <!--<Border 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Top" 
+                            Margin="0,-30,0,0"
+                            Height="30"
+                            Width="100"
+                            Background="#6495ED">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="{TemplateBinding ControlType}" Foreground="White"/>
+                        </Border>-->
+                        <Popup x:Name="popup" Placement="MousePoint" Width="259" MaxHeight="281" Height="auto" AllowsTransparency="True">
+                            <Border BorderBrush="#ccc" BorderThickness="1" Background="White" Margin="5">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="5" Opacity="0.3"  ShadowDepth="0"/>
+                                </Border.Effect>
+                                <Grid Margin="10,5,10,10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="属性编辑面板" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <ScrollViewer Grid.Row="1">
+                                        <StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="类型" VerticalAlignment="Center"/>
+                                                <TextBlock 
+                                                    Text="{TemplateBinding ControlType}" 
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Left" 
+                                                    VerticalAlignment="Center"
+                                                    />
+                                                <!--背景色-->
+                                                <TextBlock 
+                                                    Text="背景颜色"
+                                                    Grid.Row="1" 
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,10,0,0"
+                                                    />
+                                                <controls:Project1UIColorSelect 
+                                                    Width="20" 
+                                                    Height="20" 
+                                                    Grid.Column="1" 
+                                                    HorizontalAlignment="Left" 
+                                                    Grid.Row="1" 
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,10,0,0"/>
+                                                <!--边框色-->
+                                                <TextBlock Text="边宽颜色" 
+                                                           Grid.Row="2" 
+                                                           VerticalAlignment="Center" 
+                                                           Margin="0,10,0,0"/>
+                                                <controls:Project1UIColorSelect 
+                                                    Width="20" 
+                                                    Height="20" 
+                                                    Grid.Column="1" 
+                                                    HorizontalAlignment="Left" 
+                                                    Grid.Row="2"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,10,0,0"/>
+                                                <!--文字-->
+                                                <TextBlock 
+                                                    Text="文字" 
+                                                    Grid.Row="3" 
+                                                    VerticalAlignment="Top" 
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding TextInputVisibility}"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="40" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="3"
+                                                    VerticalAlignment="Top"
+                                                    AcceptsReturn="True"
+                                                    TextWrapping="Wrap"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding TextInputVisibility}"
+                                                    />
+                                                <!--透明度-->
+                                                <TextBlock Text="透明度" Grid.Row="4" VerticalAlignment="Top" Margin="0,10,0,0"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="4"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    />
+                                                <!--图片选择-->
+                                                <TextBlock 
+                                                    Text="图片" Grid.Row="5" 
+                                                    VerticalAlignment="Top" 
+                                                    Margin="0,10,0,0" 
+                                                    Visibility="{TemplateBinding ImageInputVisibility}"/>
+                                                <controls:Project1UIInput 
+                                                    Type="FileSelect"
+                                                    ExtNames="jpg图片|*.jpg|png透明图片|*.png"
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="5"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding ImageInputVisibility}"/>
+                                            </Grid>
+
+
+                                        </StackPanel>
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                        </Popup>
                         <Border
                         x:Name="Border"
                         BorderBrush="Transparent"

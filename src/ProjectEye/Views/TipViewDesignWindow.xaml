@@ -14,13 +14,12 @@
         >
     <Grid>
         <ui:Project1UIDesignContainer>
-            <ui:Project1UIDesignItem>
-                <Grid Background="Black" Width="100" Height="100"></Grid>
+            <ui:Project1UIDesignItem Width="100" Height="100">
+                <TextBlock/>
             </ui:Project1UIDesignItem>
 
             <ui:Project1UIDesignItem>
-                <Image Style="{DynamicResource TipImage}" Height="160"
-                   HorizontalAlignment="Center"
+                <Image Style="{DynamicResource TipImage}"
                    />
             </ui:Project1UIDesignItem>
 
