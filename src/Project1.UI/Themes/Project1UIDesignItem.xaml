@@ -9,10 +9,10 @@
     <Style TargetType="{x:Type controls:Project1UIDesignItem}">
         <Setter Property="Background" Value="#0C6495ED" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
-        <!--<Setter Property="Width"
-          Value="120" />
+        <Setter Property="Width"
+          Value="{Binding Width,Mode=TwoWay}" />
         <Setter Property="Height"
-          Value="23" />-->
+          Value="{Binding Height,Mode=TwoWay}" />
         <!--<Setter Property="BorderThickness" Value="{DynamicResource InputThickness}"/>-->
         <!--<Setter Property="Foreground" Value="{DynamicResource InputForeground}"/>-->
         <!--<Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>-->
@@ -22,6 +22,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Project1UIDesignItem}">
                     <Grid x:Name="Container" Background="{TemplateBinding Background}">
+
                         <!--<Border 
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Top" 
@@ -54,49 +55,89 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
+
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
 
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Text="类型" VerticalAlignment="Center"/>
                                                 <TextBlock 
-                                                    Text="{TemplateBinding ControlType}" 
+                                                    Text="{TemplateBinding ItemTypeName}" 
                                                     Grid.Column="1"
                                                     HorizontalAlignment="Left" 
                                                     VerticalAlignment="Center"
                                                     />
+                                                <!--尺寸宽高-->
+                                                <TextBlock Text="宽" VerticalAlignment="Center"
+                                                           Grid.Row="1" 
+                                                            Margin="0,10,0,0"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="1"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    Text="{Binding Width,Mode=TwoWay}"
+                                                    />
+                                                <TextBlock Text="高" VerticalAlignment="Center"
+                                                           Grid.Row="2" 
+                                                            Margin="0,10,0,0"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="2"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    Text="{Binding Height,Mode=TwoWay}"
+                                                    />
                                                 <!--背景色-->
                                                 <TextBlock 
                                                     Text="背景颜色"
-                                                    Grid.Row="1" 
+                                                    Grid.Row="3" 
                                                     VerticalAlignment="Center"
                                                     Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding ColorVisibility}"
                                                     />
                                                 <controls:Project1UIColorSelect 
                                                     Width="20" 
                                                     Height="20" 
                                                     Grid.Column="1" 
                                                     HorizontalAlignment="Left" 
-                                                    Grid.Row="1" 
+                                                    Grid.Row="3" 
                                                     VerticalAlignment="Center"
-                                                    Margin="0,10,0,0"/>
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding ColorVisibility}"
+                                                    Color="{Binding Background,Mode=TwoWay}"
+                                                    />
                                                 <!--边框色-->
                                                 <TextBlock Text="边宽颜色" 
-                                                           Grid.Row="2" 
+                                                           Grid.Row="4" 
                                                            VerticalAlignment="Center" 
-                                                           Margin="0,10,0,0"/>
+                                                           Margin="0,10,0,0"
+                                                           Visibility="{TemplateBinding ColorVisibility}"/>
                                                 <controls:Project1UIColorSelect 
                                                     Width="20" 
                                                     Height="20" 
                                                     Grid.Column="1" 
                                                     HorizontalAlignment="Left" 
-                                                    Grid.Row="2"
+                                                    Grid.Row="4"
                                                     VerticalAlignment="Center"
-                                                    Margin="0,10,0,0"/>
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding ColorVisibility}"
+                                                    Color="{Binding BorderColor,Mode=TwoWay}"/>
                                                 <!--文字-->
                                                 <TextBlock 
                                                     Text="文字" 
-                                                    Grid.Row="3" 
+                                                    Grid.Row="5" 
                                                     VerticalAlignment="Top" 
                                                     Margin="0,10,0,0"
                                                     Visibility="{TemplateBinding TextInputVisibility}"/>
@@ -104,39 +145,114 @@
                                                     Width="auto"
                                                     Height="40" 
                                                     Grid.Column="1"  
-                                                    Grid.Row="3"
+                                                    Grid.Row="5"
                                                     VerticalAlignment="Top"
                                                     AcceptsReturn="True"
                                                     TextWrapping="Wrap"
                                                     Margin="0,10,0,0"
+                                                    Text="{Binding Text,Mode=TwoWay}"
                                                     Visibility="{TemplateBinding TextInputVisibility}"
                                                     />
                                                 <!--透明度-->
-                                                <TextBlock Text="透明度" Grid.Row="4" VerticalAlignment="Top" Margin="0,10,0,0"/>
+                                                <TextBlock Text="透明度" Grid.Row="6" VerticalAlignment="Top" Margin="0,10,0,0"/>
                                                 <controls:Project1UIInput  
                                                     Width="auto"
                                                     Height="25" 
                                                     Grid.Column="1"  
-                                                    Grid.Row="4"
+                                                    Grid.Row="6"
                                                     VerticalAlignment="Top"
                                                     Margin="0,10,0,0"
+                                                    Text="{Binding Opacity,Mode=TwoWay}"
                                                     />
                                                 <!--图片选择-->
                                                 <TextBlock 
-                                                    Text="图片" Grid.Row="5" 
+                                                    Text="图片" Grid.Row="7" 
                                                     VerticalAlignment="Top" 
                                                     Margin="0,10,0,0" 
                                                     Visibility="{TemplateBinding ImageInputVisibility}"/>
                                                 <controls:Project1UIInput 
                                                     Type="FileSelect"
                                                     ExtNames="jpg图片|*.jpg|png透明图片|*.png"
+                                                    x:Name="a123"
                                                     Width="auto"
                                                     Height="25" 
                                                     Grid.Column="1"  
-                                                    Grid.Row="5"
+                                                    Grid.Row="7"
                                                     VerticalAlignment="Top"
                                                     Margin="0,10,0,0"
-                                                    Visibility="{TemplateBinding ImageInputVisibility}"/>
+                                                    Visibility="{TemplateBinding ImageInputVisibility}"
+                                                    IsDisabledInput="True"
+                                                    Placeholder="{Binding Image,Mode=TwoWay}"/>
+                                                <!--按钮类型属性-->
+                                                <TextBlock Text="按钮文本" Grid.Row="8" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                           Visibility="{TemplateBinding ButtonVisibility}"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="8"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding ButtonVisibility}"
+                                                    Text="{Binding ButtonText,Mode=TwoWay}"
+                                                    />
+                                                <!--文字大小-->
+                                                <TextBlock Text="文本大小" Grid.Row="9" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                           Visibility="{TemplateBinding FontSizeVisibility}"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="9"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding FontSizeVisibility}"
+                                                    Text="{Binding FontSize,Mode=TwoWay}"
+                                                    />
+                                                <!--文字色-->
+                                                <TextBlock Text="文本颜色" 
+                                                           Grid.Row="10" 
+                                                           VerticalAlignment="Center" 
+                                                           Margin="0,10,0,0"
+                                                           Visibility="{TemplateBinding TextColorVisibility}"/>
+                                                <controls:Project1UIColorSelect 
+                                                    Width="20" 
+                                                    Height="20" 
+                                                    Grid.Column="1" 
+                                                    HorizontalAlignment="Left" 
+                                                    Grid.Row="10"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding TextColorVisibility}"
+                                                    Color="{Binding TextColor,Mode=TwoWay}"/>
+                                                <!--文字加粗-->
+                                                <TextBlock Text="文本加粗" 
+                                                           Grid.Row="11" 
+                                                           VerticalAlignment="Center" 
+                                                           Margin="0,10,0,0"
+                                                           Visibility="{TemplateBinding FontSizeVisibility}"/>
+                                                <CheckBox
+                                                    Width="20" 
+                                                    Height="20" 
+                                                    Grid.Column="1" 
+                                                    HorizontalAlignment="Left" 
+                                                    Grid.Row="11"
+                                                    VerticalAlignment="Center"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding FontSizeVisibility}"
+                                                    IsChecked="{Binding IsFontBold,Mode=TwoWay}"/>
+                                                <TextBlock Text="按钮样式" Grid.Row="12" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                           Visibility="{TemplateBinding ButtonVisibility}"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="12"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding ButtonVisibility}"
+                                                    Text="{Binding ButtonStyleName,Mode=TwoWay}"
+                                                    />
                                             </Grid>
 
 
@@ -152,8 +268,7 @@
                         >
                             <ContentPresenter 
                             RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="False"
-                                          />
+                                          SnapsToDevicePixels="False"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>

@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Project1.UI.Controls
 {
@@ -19,14 +20,24 @@ namespace Project1.UI.Controls
     {
         #region 依赖属性
 
-        #region 控件类型名称
-        public string ControlType
+        #region 元素类型
+        public DesignItemType ItemType
         {
-            get { return (string)GetValue(ControlTypeProperty); }
-            set { SetValue(ControlTypeProperty, value); }
+            get { return (DesignItemType)GetValue(ItemTypeProperty); }
+            set { SetValue(ItemTypeProperty, value); }
         }
-        public static readonly DependencyProperty ControlTypeProperty =
-            DependencyProperty.Register("ControlType", typeof(string), typeof(Project1UIDesignItem));
+        public static readonly DependencyProperty ItemTypeProperty =
+            DependencyProperty.Register("ItemType", typeof(DesignItemType), typeof(Project1UIDesignItem));
+        #endregion
+
+        #region 元素类型名称
+        public string ItemTypeName
+        {
+            get { return (string)GetValue(ItemTypeNameProperty); }
+            set { SetValue(ItemTypeNameProperty, value); }
+        }
+        public static readonly DependencyProperty ItemTypeNameProperty =
+            DependencyProperty.Register("ItemTypeName", typeof(string), typeof(Project1UIDesignItem));
         #endregion
 
         #region 属性编辑文字输入可见性
@@ -48,6 +59,46 @@ namespace Project1.UI.Controls
         public static readonly DependencyProperty ImageInputVisibilityProperty =
             DependencyProperty.Register("ImageInputVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
         #endregion
+
+        #region 属性编辑背景和边宽颜色可见性
+        public Visibility ColorVisibility
+        {
+            get { return (Visibility)GetValue(ColorVisibilityProperty); }
+            set { SetValue(ColorVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty ColorVisibilityProperty =
+            DependencyProperty.Register("ColorVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
+        #endregion
+
+        #region 属性编辑按钮可见性
+        public Visibility ButtonVisibility
+        {
+            get { return (Visibility)GetValue(ButtonVisibilityProperty); }
+            set { SetValue(ButtonVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty ButtonVisibilityProperty =
+            DependencyProperty.Register("ButtonVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
+        #endregion
+
+        #region 属性编辑文本大小可见性
+        public Visibility FontSizeVisibility
+        {
+            get { return (Visibility)GetValue(FontSizeVisibilityProperty); }
+            set { SetValue(FontSizeVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty FontSizeVisibilityProperty =
+            DependencyProperty.Register("FontSizeVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
+        #endregion
+
+        #region 属性编辑文本颜色可见性
+        public Visibility TextColorVisibility
+        {
+            get { return (Visibility)GetValue(TextColorVisibilityProperty); }
+            set { SetValue(TextColorVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty TextColorVisibilityProperty =
+            DependencyProperty.Register("TextColorVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
+        #endregion
         #endregion
 
         public bool IsAttPopupOpen { get; set; } = false;
@@ -66,7 +117,10 @@ namespace Project1.UI.Controls
             this.DefaultStyleKey = typeof(Project1UIDesignItem);
             designItemModel = new DesignItemModel();
             designItemModel.ControlPointVisibility = Visibility.Hidden;
+            this.DataContext = designItemModel;
         }
+
+
 
         public override void OnApplyTemplate()
         {
@@ -77,29 +131,184 @@ namespace Project1.UI.Controls
             {
                 CreateControlPoints(container);
                 this.MouseDoubleClick += OnPopupOpen;
-                ControlType = TypeOfName(Content.GetType());
+                //处理内容控件
+                HandleControl();
+
             }
         }
 
-        private string TypeOfName(Type type)
+        protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
         {
-            string res = "未知";
-            switch (type.Name.ToLower())
+            base.OnMouseRightButtonUp(e);
+            this.ContextMenu.IsOpen = true;
+        }
+        private void HandleControl()
+        {
+            var control = Content as FrameworkElement;
+            //control.DataContext = designItemModel;
+            control.IsHitTestVisible = false;
+            //绑定宽高
+            BindingOperations.SetBinding(control, WidthProperty, new Binding()
             {
-                case "border":
-                    res = "矩形色块";
+                Source = designItemModel,
+                Path = new PropertyPath("Width"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+            });
+            BindingOperations.SetBinding(control, HeightProperty, new Binding()
+            {
+                Source = designItemModel,
+                Path = new PropertyPath("Height"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+            });
+            BindingOperations.SetBinding(control, OpacityProperty, new Binding()
+            {
+                Source = designItemModel,
+                Path = new PropertyPath("Opacity"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+            });
+            switch (Content.GetType().Name.ToLower())
+            {
+                case "project1uibutton":
+                    ItemType = DesignItemType.Button;
+                    ItemTypeName = "按钮";
+                    ColorVisibility = Visibility.Collapsed;
+                    ButtonVisibility = Visibility.Visible;
+                    FontSizeVisibility = Visibility.Visible;
+                    designItemModel.Width = 100;
+                    designItemModel.Height = 25;
+                    designItemModel.ButtonText = "按钮";
+                    BindingOperations.SetBinding(control, Button.ContentProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("ButtonText"),
+                        Mode = BindingMode.TwoWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
+                    BindingOperations.SetBinding(control, Button.FontSizeProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("FontSize"),
+                        Mode = BindingMode.TwoWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
+                    BindingOperations.SetBinding(control, Button.FontWeightProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("FontWeight"),
+                        Mode = BindingMode.OneWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
+                    designItemModel.PropertyChanged += (s, e) =>
+                    {
+                        if (this.designItemModel.ButtonStyleName != null)
+                        {
+
+                            var res = this.TryFindResource(designItemModel.ButtonStyleName);
+                            if (res != null)
+                            {
+                                control.Style = res as Style;
+                            }
+                            else
+                            {
+                                res = this.TryFindResource("default");
+                                if (res != null)
+                                {
+                                    control.Style = res as Style;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var res = this.TryFindResource("default");
+                            if (res != null)
+                            {
+                                control.Style = res as Style;
+                            }
+                        }
+
+                    };
                     break;
                 case "image":
-                    res = "图片";
+                    ItemType = DesignItemType.Image;
+                    ItemTypeName = "图片";
                     ImageInputVisibility = Visibility.Visible;
+                    var image = control as Image;
+                    designItemModel.ImageSource = image.Source;
+                    image.Stretch = System.Windows.Media.Stretch.Fill;
+                    double imageWidth = image.Source.Width;
+                    double imageHeight = image.Source.Height;
+                    double windowWidth = (double)this.Parent.GetValue(ActualWidthProperty);
+                    double windowHeight = (double)this.Parent.GetValue(ActualHeightProperty);
+                    if (imageWidth >= windowWidth / 2)
+                    {
+                        //图像宽度超过了屏幕50%时缩放50%
+                        imageWidth = (int)(imageWidth / 2);
+                        imageHeight = (int)(imageHeight / 2);
+                    }
+
+                    designItemModel.Width = imageWidth;
+                    designItemModel.Height = imageHeight;
+                    BindingOperations.SetBinding(control, Image.SourceProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("ImageSource"),
+                        Mode = BindingMode.OneWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
                     break;
                 case "textblock":
-                    res = "文字";
+                    ItemType = DesignItemType.Text;
+                    ItemTypeName = "文本";
                     TextInputVisibility = Visibility.Visible;
+                    FontSizeVisibility = Visibility.Visible;
+                    TextColorVisibility = Visibility.Visible;
+                    designItemModel.Width = 100;
+                    designItemModel.Height = 25;
+                    designItemModel.Text = "文本";
+                    BindingOperations.SetBinding(control, TextBlock.TextProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("Text"),
+                        Mode = BindingMode.TwoWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 
+                    });
+                    BindingOperations.SetBinding(control, TextBlock.FontSizeProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("FontSize"),
+                        Mode = BindingMode.TwoWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
+                    BindingOperations.SetBinding(control, TextBlock.ForegroundProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("TextColor"),
+                        Mode = BindingMode.TwoWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
+                    BindingOperations.SetBinding(control, TextBlock.FontWeightProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("FontWeight"),
+                        Mode = BindingMode.OneWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
                     break;
             }
-            return res;
         }
         private void OnPopupOpen(object sender, MouseButtonEventArgs e)
         {
@@ -160,7 +369,7 @@ namespace Project1.UI.Controls
             };
             Binding binding = new Binding()
             {
-                Source = designItemModel,
+                //Source = designItemModel,
                 Path = new PropertyPath("ControlPointVisibility"),
                 Mode = BindingMode.TwoWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged

@@ -3,6 +3,7 @@ using Project1.UI.Controls.Commands;
 using Project1.UI.Controls.Enums;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,10 @@ namespace Project1.UI.Controls
 {
     public class Project1UIInput : TextBox
     {
+        /// <summary>
+        /// 文件选择缓存（处理popup弹出后自动重置的bug）
+        /// </summary>
+        //private string fileNameCache = string.Empty;
         /// <summary>
         /// 文件扩展名，仅在Type为文件选择对话框时有效
         /// </summary>
@@ -94,12 +99,30 @@ namespace Project1.UI.Controls
         public static readonly DependencyProperty IsAutoScrollToEndProperty =
             DependencyProperty.Register("IsAutoScrollToEnd", typeof(bool), typeof(Project1UIInput));
 
+        #region 禁止输入模式
+        public bool IsDisabledInput
+        {
+            get { return (bool)GetValue(IsDisabledInputProperty); }
+            set { SetValue(IsDisabledInputProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsDisabledInputProperty =
+            DependencyProperty.Register("IsDisabledInput", typeof(bool), typeof(Project1UIInput), new PropertyMetadata(false, new PropertyChangedCallback(OnIsDisabledInputPropertyChanged)));
+
+        private static void OnIsDisabledInputPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = (d as Project1UIInput);
+            if ((bool)e.NewValue)
+            {
+                sender.IsReadOnly = true;
+            }
+        }
+        #endregion
         public Project1UIInput()
         {
             this.DefaultStyleKey = typeof(Project1UIInput);
             this.CommandBindings.Add(new CommandBinding(Project1UIInputCommands.ClearTextCommand, OnClearTextCommand));
             this.CommandBindings.Add(new CommandBinding(Project1UIInputCommands.CommonOpenFileDialog, OnCommonOpenFileDialog));
-
         }
 
         protected override void OnTextChanged(TextChangedEventArgs e)
@@ -137,9 +160,17 @@ namespace Project1.UI.Controls
                 openFileDialog.Filter = ExtNames;
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    Text = openFileDialog.FileName;
-                    Focus();
-                    SelectionStart = Text.Length;
+                    if (IsDisabledInput)
+                    {
+                        Placeholder = openFileDialog.FileName;
+                    }
+                    else
+                    {
+                        Text = openFileDialog.FileName;
+                        Focus();
+                        SelectionStart = Text.Length;
+                    }
+                    
                 }
             }
             if (Type == Project1UIInputType.FolderSelect)

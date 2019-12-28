@@ -14,8 +14,11 @@
         >
     <Grid>
         <ui:Project1UIDesignContainer>
-            <ui:Project1UIDesignItem Width="100" Height="100">
+            <ui:Project1UIDesignItem>
                 <TextBlock/>
+            </ui:Project1UIDesignItem>
+            <ui:Project1UIDesignItem>
+                <ui:Project1UIButton Content="按钮"/>
             </ui:Project1UIDesignItem>
 
             <ui:Project1UIDesignItem>

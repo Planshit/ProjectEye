@@ -19,7 +19,7 @@
                     <Border
                         x:Name="Border"
                         Background="{TemplateBinding Color}"
-                        BorderBrush="Transparent"
+                        BorderBrush="#ccc"
                         BorderThickness="1">
 
                     </Border>
