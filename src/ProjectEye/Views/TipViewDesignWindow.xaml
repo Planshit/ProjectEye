@@ -13,27 +13,23 @@
         InputMethod.IsInputMethodEnabled="False" WindowState="Maximized"
         >
     <Grid>
-        <ui:Project1UIDesignContainer>
-            <ui:Project1UIDesignItem>
-                <TextBlock/>
-            </ui:Project1UIDesignItem>
-            <ui:Project1UIDesignItem>
-                <ui:Project1UIButton Content="按钮"/>
-            </ui:Project1UIDesignItem>
-
-            <ui:Project1UIDesignItem>
-                <Image Style="{DynamicResource TipImage}"
-                   />
-            </ui:Project1UIDesignItem>
-
+        <ui:Project1UIDesignContainer Name="Container">
 
         </ui:Project1UIDesignContainer>
         <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
-            <ui:Project1UIButton 
+            <StackPanel Orientation="Horizontal">
+                <ui:Project1UIButton 
+                                             Content="保存"
+                                             Command="{Binding saveCommand}"
+                                                 CommandParameter="{Binding ElementName=Container}"
+                                             Style="{DynamicResource basic}"/>
+                <ui:Project1UIButton 
                                              Content="退出"
                                              Command="{Binding commonCommand}"
                                                  CommandParameter="quit"
                                              Style="{DynamicResource basic}"/>
+
+            </StackPanel>
         </Grid>
         <!--休息提示UI-->
         <!--<Grid VerticalAlignment="Center"

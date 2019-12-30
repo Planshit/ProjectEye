@@ -1,4 +1,7 @@
-﻿using Project1.UI.Controls;
+﻿using Newtonsoft.Json;
+using Project1.UI.Controls;
+using Project1.UI.Controls.Models;
+using ProjectEye.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +25,8 @@ namespace ProjectEye.Views
         public TipViewDesignWindow()
         {
             InitializeComponent();
+            List<ElementModel> elements = JsonConvert.DeserializeObject<List<ElementModel>>(FileHelper.Read("UI\\main.json"));
+            Container.ImportElements(elements);
         }
     }
 }

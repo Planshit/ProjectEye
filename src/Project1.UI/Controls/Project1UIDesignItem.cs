@@ -118,6 +118,13 @@ namespace Project1.UI.Controls
             designItemModel = new DesignItemModel();
             designItemModel.ControlPointVisibility = Visibility.Hidden;
             this.DataContext = designItemModel;
+            RenderTransform = new TranslateTransform()
+            {
+                X = 0,
+                Y = 0
+            };
+            VerticalAlignment = VerticalAlignment.Top;
+            HorizontalAlignment = HorizontalAlignment.Left;
         }
 
 
@@ -180,9 +187,9 @@ namespace Project1.UI.Controls
                     ColorVisibility = Visibility.Collapsed;
                     ButtonVisibility = Visibility.Visible;
                     FontSizeVisibility = Visibility.Visible;
-                    designItemModel.Width = 100;
-                    designItemModel.Height = 25;
-                    designItemModel.ButtonText = "按钮";
+                    //designItemModel.Width = 100;
+                    //designItemModel.Height = 25;
+                    //designItemModel.ButtonText = "按钮";
                     BindingOperations.SetBinding(control, Button.ContentProperty, new Binding()
                     {
                         Source = designItemModel,
@@ -242,21 +249,25 @@ namespace Project1.UI.Controls
                     ItemTypeName = "图片";
                     ImageInputVisibility = Visibility.Visible;
                     var image = control as Image;
-                    designItemModel.ImageSource = image.Source;
-                    image.Stretch = System.Windows.Media.Stretch.Fill;
-                    double imageWidth = image.Source.Width;
-                    double imageHeight = image.Source.Height;
-                    double windowWidth = (double)this.Parent.GetValue(ActualWidthProperty);
-                    double windowHeight = (double)this.Parent.GetValue(ActualHeightProperty);
-                    if (imageWidth >= windowWidth / 2)
+                    if (image.Source != null)
                     {
-                        //图像宽度超过了屏幕50%时缩放50%
-                        imageWidth = (int)(imageWidth / 2);
-                        imageHeight = (int)(imageHeight / 2);
+                        designItemModel.ImageSource = image.Source;
+                        image.Stretch = System.Windows.Media.Stretch.Fill;
+                        double imageWidth = image.Source.Width;
+                        double imageHeight = image.Source.Height;
+                        double windowWidth = (double)this.Parent.GetValue(ActualWidthProperty);
+                        double windowHeight = (double)this.Parent.GetValue(ActualHeightProperty);
+                        if (imageWidth >= windowWidth / 2)
+                        {
+                            //图像宽度超过了屏幕50%时缩放50%
+                            imageWidth = (int)(imageWidth / 2);
+                            imageHeight = (int)(imageHeight / 2);
+                        }
+
+                        designItemModel.Width = imageWidth;
+                        designItemModel.Height = imageHeight;
                     }
 
-                    designItemModel.Width = imageWidth;
-                    designItemModel.Height = imageHeight;
                     BindingOperations.SetBinding(control, Image.SourceProperty, new Binding()
                     {
                         Source = designItemModel,
@@ -272,9 +283,9 @@ namespace Project1.UI.Controls
                     TextInputVisibility = Visibility.Visible;
                     FontSizeVisibility = Visibility.Visible;
                     TextColorVisibility = Visibility.Visible;
-                    designItemModel.Width = 100;
-                    designItemModel.Height = 25;
-                    designItemModel.Text = "文本";
+                    //designItemModel.Width = 100;
+                    //designItemModel.Height = 25;
+                    //designItemModel.Text = "文本";
                     BindingOperations.SetBinding(control, TextBlock.TextProperty, new Binding()
                     {
                         Source = designItemModel,

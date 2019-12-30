@@ -41,18 +41,13 @@ namespace Project1.UI.Controls
             this.ContextMenu = CreateContextMenu();
             this.MouseRightButtonUp += Project1UIDesignContainer_MouseRightButtonUp;
         }
+
         #region 处理元素
         private void HandleItem(Project1UIDesignItem item)
         {
             item.ControlPointMouseDown += Control_ControlPointMouseDown;
             item.ControlPointMouseUp += Control_ControlPointMouseUp;
-            item.RenderTransform = new TranslateTransform()
-            {
-                X = 0,
-                Y = 0
-            };
-            item.VerticalAlignment = VerticalAlignment.Top;
-            item.HorizontalAlignment = HorizontalAlignment.Left;
+
             item.MouseLeftButtonUp += Control_MouseLeftButtonUp;
             item.MouseMove += Control_MouseMove;
             item.MouseLeave += Control_MouseLeave;
@@ -119,11 +114,24 @@ namespace Project1.UI.Controls
             {
                 var item = new Project1UIDesignItem();
                 var element = new Project1UIButton();
-               
+
                 item.Content = element;
                 HandleItem(item);
                 this.Children.Add(item);
             };
+            //文本
+            var itemAddText = new MenuItem();
+            itemAddText.Header = "文本";
+            itemAddText.Click += (s, e) =>
+            {
+                var item = new Project1UIDesignItem();
+                var element = new TextBlock();
+                element.TextWrapping = TextWrapping.Wrap;
+                item.Content = element;
+                HandleItem(item);
+                this.Children.Add(item);
+            };
+            itemAdd.Items.Add(itemAddText);
             itemAdd.Items.Add(itemAddImage);
             itemAdd.Items.Add(itemAddButton);
 
@@ -155,17 +163,86 @@ namespace Project1.UI.Controls
         }
         #endregion
 
-        
 
-        public void test()
+        #region 获取容器中所有元素信息
+        public List<ElementModel> GetElements()
         {
+            var res = new List<ElementModel>();
             foreach (var item in this.Children)
             {
                 var control = item as Project1UIDesignItem;
                 var data = control.DataContext as DesignItemModel;
-                Debug.WriteLine(data);
+                var controlPoint = control.RenderTransform as TranslateTransform;
+                var element = new ElementModel();
+                element.Type = control.ItemType;
+                element.X = controlPoint.X;
+                element.Y = controlPoint.Y;
+                element.Width = data.Width;
+                element.Height = data.Height;
+                element.IsTextBold = data.IsFontBold;
+                element.Opacity = data.Opacity;
+                element.Style = data.ButtonStyleName;
+                element.Image = data.Image;
+                element.TextColor = data.TextColor;
+                switch (control.ItemType)
+                {
+                    case DesignItemType.Text:
+                        element.Text = data.Text;
+                        break;
+                    case DesignItemType.Button:
+                        element.Text = data.ButtonText;
+                        break;
+                }
+                res.Add(element);
+            }
+            return res;
+        }
+        #endregion
+
+        #region 加载元素信息
+        public void ImportElements(List<ElementModel> elements)
+        {
+            foreach (var element in elements)
+            {
+                var item = new Project1UIDesignItem();
+                var itemModel = item.DataContext as DesignItemModel;
+                var controlPoint = item.RenderTransform as TranslateTransform;
+                //分配共用的属性
+                itemModel.Width = element.Width;
+                itemModel.Height = element.Height;
+                itemModel.Opacity = element.Opacity;
+                controlPoint.X = element.X;
+                controlPoint.Y = element.Y;
+                //分配独有的属性
+                switch (element.Type)
+                {
+                    case DesignItemType.Button:
+                        var button = new Project1UIButton();
+                        itemModel.ButtonText = element.Text;
+                        itemModel.ButtonStyleName = element.Style;
+                        itemModel.IsFontBold = element.IsTextBold;
+                        item.Content = button;
+                        break;
+                    case DesignItemType.Image:
+                        var image = new Image();
+                        itemModel.Image = element.Image;
+                        item.Content = image;
+                        break;
+                    case DesignItemType.Text:
+                        var text = new TextBlock();
+                        itemModel.Text = element.Text;
+                        itemModel.TextColor = element.TextColor;
+                        itemModel.IsFontBold = element.IsTextBold;
+
+                        item.Content = text;
+                        break;
+
+                }
+                //将生成的元素加入设计容器界面
+                this.Children.Add(item);
             }
         }
+        #endregion
 
         #region 元素边角控制点松开
         private void Control_ControlPointMouseUp(object sender, ControlPoint controlPoint)
