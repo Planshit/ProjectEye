@@ -12,11 +12,11 @@
         Opacity=".97"
         InputMethod.IsInputMethodEnabled="False" WindowState="Maximized"
         >
-    <Grid>
-        <ui:Project1UIDesignContainer Name="Container">
+    <Grid Margin="-7">
+        <ui:Project1UIDesignContainer Name="Container" Instance="{Binding Container,Mode=TwoWay}" >
 
         </ui:Project1UIDesignContainer>
-        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0">
             <StackPanel Orientation="Horizontal">
                 <ui:Project1UIButton 
                                              Content="保存"

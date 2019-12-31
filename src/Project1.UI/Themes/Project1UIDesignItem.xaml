@@ -65,6 +65,7 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
 
                                                 </Grid.RowDefinitions>
                                                 <TextBlock Text="类型" VerticalAlignment="Center"/>
@@ -252,6 +253,19 @@
                                                     Margin="0,10,0,0"
                                                     Visibility="{TemplateBinding ButtonVisibility}"
                                                     Text="{Binding ButtonStyleName,Mode=TwoWay}"
+                                                    />
+                                                <!--按钮命令-->
+                                                <TextBlock Text="执行命令" Grid.Row="13" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                           Visibility="{TemplateBinding ButtonVisibility}"/>
+                                                <controls:Project1UIInput  
+                                                    Width="auto"
+                                                    Height="25" 
+                                                    Grid.Column="1"  
+                                                    Grid.Row="13"
+                                                    VerticalAlignment="Top"
+                                                    Margin="0,10,0,0"
+                                                    Visibility="{TemplateBinding ButtonVisibility}"
+                                                    Text="{Binding Command,Mode=TwoWay}"
                                                     />
                                             </Grid>
 

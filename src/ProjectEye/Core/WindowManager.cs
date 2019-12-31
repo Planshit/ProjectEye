@@ -1,5 +1,6 @@
 ﻿using ProjectEye.Core.Models;
 using ProjectEye.Core.Service;
+using ProjectEye.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace ProjectEye.Core
             //    return selectWindow;
             //}
             var viewModel = GetCreateViewModel(name);
+
             Type type = Type.GetType("ProjectEye.Views." + name);
             Window objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
             objWindow.Uid = name;
@@ -55,6 +57,18 @@ namespace ProjectEye.Core
             {
                 objWindow.Height = height;
             }
+
+            if (viewModel != null)
+            {
+                var basicModel = viewModel as IViewModel;
+                if (basicModel != null)
+                {
+                    basicModel.ScreenName = screen.Replace("\\", "");
+                    basicModel.WindowInstance = objWindow;
+                    basicModel.OnChanged();
+                }
+            }
+
             var windowModel = new WindowModel();
             windowModel.window = objWindow;
             windowModel.screen = screen;

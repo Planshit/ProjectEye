@@ -10,8 +10,8 @@
         Opacity=".97"
         InputMethod.IsInputMethodEnabled="False"
         >
-    <Grid>
-        <!--休息提示UI-->
+    <!--<Grid>
+        --><!--休息提示UI--><!--
         <Grid VerticalAlignment="Center"
               Width="400"
               >
@@ -57,7 +57,7 @@
                     Focusable="False"/>
             </StackPanel>
 
-            <!--倒计时秒数-->
+            --><!--倒计时秒数--><!--
             <TextBlock
                 FontSize="50"
                 FontWeight="Bold"
@@ -67,5 +67,5 @@
                 Visibility="{Binding CountDownVisibility}"
                 />
         </Grid>
-    </Grid>
+    </Grid>-->
 </ui:Project1UIWindow>

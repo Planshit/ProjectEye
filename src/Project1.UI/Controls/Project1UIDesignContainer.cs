@@ -2,6 +2,7 @@
 using Project1.UI.Controls.Commands;
 using Project1.UI.Controls.Enums;
 using Project1.UI.Controls.Models;
+using Project1.UI.Cores;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,36 +11,72 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 
 namespace Project1.UI.Controls
 {
     public class Project1UIDesignContainer : Grid
     {
+        #region 容器实例
+        public Project1UIDesignContainer Instance
+        {
+            get { return (Project1UIDesignContainer)GetValue(InstanceProperty); }
+            set { SetValue(InstanceProperty, value); }
+        }
+        public static readonly DependencyProperty InstanceProperty =
+            DependencyProperty.Register("Instance", typeof(Project1UIDesignContainer), typeof(Project1UIDesignContainer));
+        #endregion
         private bool isContextMenuOpen = false;
         private bool isItemContextMenuOpen = false;
-
+        private Popup attrPopup;
         private bool isMouseDown = false;
         private bool isControlPointDown = false;
         private Point olPoint = new Point();
         private ControlPoint controlPointType = ControlPoint.LeftTop;
+        private ContainerModel containerModel { get; set; }
         public Project1UIDesignContainer()
         {
-            this.DefaultStyleKey = typeof(Project1UIDesignContainer);
+            //this.DefaultStyleKey = typeof(Project1UIDesignContainer);
             this.Background = Brushes.White;
             Loaded += Project1UIDesignContainer_Loaded;
+            containerModel = new ContainerModel();
+            containerModel.Background = Brushes.Red;
+            containerModel.Opacity = 1;
+            //DataContext = containerModel;
+
+            BindingOperations.SetBinding(this,BackgroundProperty, new Binding()
+            {
+                Path = new PropertyPath("Background"),
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+            });
+            BindingOperations.SetBinding(this, OpacityProperty, new Binding()
+            {
+                Path = new PropertyPath("Opacity"),
+                Mode = BindingMode.OneWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+            });
         }
         private void Project1UIDesignContainer_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var item in this.Children)
-            {
-                var control = item as Project1UIDesignItem;
-                HandleItem(control);
-            }
+            Instance = this;
             this.ContextMenu = CreateContextMenu();
             this.MouseRightButtonUp += Project1UIDesignContainer_MouseRightButtonUp;
+            MouseLeftButtonDown += Project1UIDesignContainer_MouseLeftButtonDown;
+            CreateAttrWindow();
+
+        }
+
+        private void Project1UIDesignContainer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            attrPopup.IsOpen = false;
         }
 
         #region 处理元素
@@ -101,8 +138,10 @@ namespace Project1.UI.Controls
             itemAddImage.Click += (s, e) =>
             {
                 var item = new Project1UIDesignItem();
+                var data = item.DataContext as DesignItemModel;
+                data.Image = "pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png";
                 var image = new Image();
-                image.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
+                //image.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
                 item.Content = image;
                 HandleItem(item);
                 this.Children.Add(item);
@@ -113,6 +152,10 @@ namespace Project1.UI.Controls
             itemAddButton.Click += (s, e) =>
             {
                 var item = new Project1UIDesignItem();
+                var data = item.DataContext as DesignItemModel;
+                data.ButtonText = "按钮";
+                data.Width = 100;
+                data.Height = 25;
                 var element = new Project1UIButton();
 
                 item.Content = element;
@@ -125,20 +168,139 @@ namespace Project1.UI.Controls
             itemAddText.Click += (s, e) =>
             {
                 var item = new Project1UIDesignItem();
+                var data = item.DataContext as DesignItemModel;
+                data.Text = "文本";
+                data.Width = 100;
+                data.Height = 25;
                 var element = new TextBlock();
                 element.TextWrapping = TextWrapping.Wrap;
                 item.Content = element;
                 HandleItem(item);
                 this.Children.Add(item);
             };
+            //属性编辑
+            var itemAttr = new MenuItem();
+            itemAttr.Header = "属性";
+            itemAttr.Click += (s, e) =>
+            {
+                attrPopup.IsOpen = true;
+            };
             itemAdd.Items.Add(itemAddText);
             itemAdd.Items.Add(itemAddImage);
             itemAdd.Items.Add(itemAddButton);
 
             menu.Items.Add(itemAdd);
+            menu.Items.Add(itemAttr);
 
 
             return menu;
+        }
+        #endregion
+
+        #region 创建容器属性编辑窗口
+        private void CreateAttrWindow()
+        {
+            attrPopup = new Popup();
+            attrPopup.StaysOpen = false;
+            attrPopup.SetValue(ZIndexProperty, 999);
+            attrPopup.DataContext = containerModel;
+            attrPopup.Placement = PlacementMode.MousePoint;
+            attrPopup.Width = 259;
+            attrPopup.Height = 100;
+            attrPopup.AllowsTransparency = true;
+            var border = new Border();
+            border.Margin = new Thickness(5);
+            border.BorderThickness = new Thickness(1);
+            border.BorderBrush = Project1UIColor.Get("#ccc");
+            border.Background = Project1UIColor.Get("#ffffff");
+            border.Effect = new DropShadowEffect()
+            {
+                BlurRadius = 5,
+                Opacity = .3,
+                ShadowDepth = 0
+            };
+            var grid = new Grid();
+            grid.Margin = new Thickness(10, 5, 10, 10);
+            grid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = new GridLength(30)
+            });
+            grid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = GridLength.Auto
+            });
+            grid.Children.Add(new TextBlock()
+            {
+                Text = "窗口属性编辑面板",
+                FontWeight = FontWeights.Bold,
+                VerticalAlignment = VerticalAlignment.Center
+            });
+            var stackpanel = new StackPanel();
+            stackpanel.SetValue(Grid.RowProperty, 1);
+            var stackPanelGrid = new Grid();
+            stackPanelGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = new GridLength(80)
+            });
+            stackPanelGrid.ColumnDefinitions.Add(new ColumnDefinition()
+            {
+                Width = GridLength.Auto
+            });
+            stackPanelGrid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = GridLength.Auto
+            });
+            stackPanelGrid.RowDefinitions.Add(new RowDefinition()
+            {
+                Height = GridLength.Auto
+            });
+            //添加透明度属性
+            var opacityName = new TextBlock();
+            opacityName.Text = "透明度";
+            opacityName.VerticalAlignment = VerticalAlignment.Center;
+            var opacityTextBox = new Project1UIInput();
+            opacityTextBox.Height = 25;
+            opacityTextBox.VerticalAlignment = VerticalAlignment.Center;
+            opacityTextBox.SetValue(Grid.ColumnProperty, 1);
+            BindingOperations.SetBinding(opacityTextBox, Project1UIInput.TextProperty, new Binding()
+            {
+                Path = new PropertyPath("Opacity"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+            });
+            stackPanelGrid.Children.Add(opacityName);
+            stackPanelGrid.Children.Add(opacityTextBox);
+            //添加背景颜色属性
+            var backgroundName = new TextBlock();
+            backgroundName.Text = "背景颜色";
+            backgroundName.Margin = new Thickness(0, 10, 0, 0);
+            backgroundName.VerticalAlignment = VerticalAlignment.Center;
+            backgroundName.SetValue(Grid.RowProperty, 1);
+            var backgroundSelect = new Project1UIColorSelect();
+            backgroundSelect.Width = 20;
+            backgroundSelect.Height = 20;
+            backgroundSelect.Margin = new Thickness(0, 10, 0, 0);
+
+            backgroundSelect.HorizontalAlignment = HorizontalAlignment.Left;
+            backgroundSelect.VerticalAlignment = VerticalAlignment.Center;
+            backgroundSelect.SetValue(Grid.ColumnProperty, 1);
+            backgroundSelect.SetValue(Grid.RowProperty, 1);
+
+            BindingOperations.SetBinding(backgroundSelect, Project1UIColorSelect.ColorProperty, new Binding()
+            {
+                Path = new PropertyPath("Background"),
+                Mode = BindingMode.TwoWay,
+                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+            });
+            stackPanelGrid.Children.Add(backgroundName);
+            stackPanelGrid.Children.Add(backgroundSelect);
+
+            stackpanel.Children.Add(stackPanelGrid);
+            grid.Children.Add(stackpanel);
+            border.Child = grid;
+            attrPopup.Child = border;
         }
         #endregion
 
@@ -184,6 +346,7 @@ namespace Project1.UI.Controls
                 element.Style = data.ButtonStyleName;
                 element.Image = data.Image;
                 element.TextColor = data.TextColor;
+                element.FontSize = data.FontSize;
                 switch (control.ItemType)
                 {
                     case DesignItemType.Text:
@@ -191,6 +354,7 @@ namespace Project1.UI.Controls
                         break;
                     case DesignItemType.Button:
                         element.Text = data.ButtonText;
+                        element.Command = data.Command;
                         break;
                 }
                 res.Add(element);
@@ -202,44 +366,66 @@ namespace Project1.UI.Controls
         #region 加载元素信息
         public void ImportElements(List<ElementModel> elements)
         {
-            foreach (var element in elements)
+            if (elements != null)
             {
-                var item = new Project1UIDesignItem();
-                var itemModel = item.DataContext as DesignItemModel;
-                var controlPoint = item.RenderTransform as TranslateTransform;
-                //分配共用的属性
-                itemModel.Width = element.Width;
-                itemModel.Height = element.Height;
-                itemModel.Opacity = element.Opacity;
-                controlPoint.X = element.X;
-                controlPoint.Y = element.Y;
-                //分配独有的属性
-                switch (element.Type)
+                foreach (var element in elements)
                 {
-                    case DesignItemType.Button:
-                        var button = new Project1UIButton();
-                        itemModel.ButtonText = element.Text;
-                        itemModel.ButtonStyleName = element.Style;
-                        itemModel.IsFontBold = element.IsTextBold;
-                        item.Content = button;
-                        break;
-                    case DesignItemType.Image:
-                        var image = new Image();
-                        itemModel.Image = element.Image;
-                        item.Content = image;
-                        break;
-                    case DesignItemType.Text:
-                        var text = new TextBlock();
-                        itemModel.Text = element.Text;
-                        itemModel.TextColor = element.TextColor;
-                        itemModel.IsFontBold = element.IsTextBold;
+                    var item = new Project1UIDesignItem();
+                    var itemModel = item.DataContext as DesignItemModel;
+                    var controlPoint = item.RenderTransform as TranslateTransform;
+                    //分配共用的属性
+                    itemModel.Width = element.Width;
+                    itemModel.Height = element.Height;
+                    itemModel.Opacity = element.Opacity;
+                    controlPoint.X = element.X;
+                    controlPoint.Y = element.Y;
+                    //分配独有的属性
+                    switch (element.Type)
+                    {
+                        case DesignItemType.Button:
+                            var button = new Project1UIButton();
+                            if (element.Style != null)
+                            {
+                                var res = this.TryFindResource(element.Style);
+                                if (res != null)
+                                {
+                                    button.Style = res as Style;
+                                }
+                                else
+                                {
+                                    res = this.TryFindResource("default");
+                                    if (res != null)
+                                    {
+                                        button.Style = res as Style;
+                                    }
+                                }
+                            }
+                            itemModel.ButtonText = element.Text;
+                            itemModel.ButtonStyleName = element.Style;
+                            itemModel.IsFontBold = element.IsTextBold;
+                            itemModel.FontSize = element.FontSize;
+                            itemModel.Command = element.Command;
+                            item.Content = button;
+                            break;
+                        case DesignItemType.Image:
+                            var image = new Image();
+                            itemModel.Image = element.Image;
+                            item.Content = image;
+                            break;
+                        case DesignItemType.Text:
+                            var text = new TextBlock();
+                            itemModel.Text = element.Text;
+                            itemModel.TextColor = element.TextColor;
+                            itemModel.IsFontBold = element.IsTextBold;
+                            itemModel.FontSize = element.FontSize;
+                            item.Content = text;
+                            break;
 
-                        item.Content = text;
-                        break;
-
+                    }
+                    //将生成的元素加入设计容器界面
+                    HandleItem(item);
+                    this.Children.Add(item);
                 }
-                //将生成的元素加入设计容器界面
-                this.Children.Add(item);
             }
         }
         #endregion
@@ -273,7 +459,7 @@ namespace Project1.UI.Controls
         #region 鼠标坐标点击元素
         private void Control_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            attrPopup.IsOpen = false;
 
             var control = sender as Project1UIDesignItem;
 

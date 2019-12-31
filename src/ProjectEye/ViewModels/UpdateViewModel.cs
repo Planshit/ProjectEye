@@ -40,6 +40,7 @@ namespace ProjectEye.ViewModels
         public Command updateCommand { get; set; }
         public Command installCommand { get; set; }
 
+
         private readonly MainService main;
         private readonly TrayService tray;
         public UpdateViewModel(MainService main,

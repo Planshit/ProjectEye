@@ -25,8 +25,6 @@ namespace ProjectEye.Views
         public TipViewDesignWindow()
         {
             InitializeComponent();
-            List<ElementModel> elements = JsonConvert.DeserializeObject<List<ElementModel>>(FileHelper.Read("UI\\main.json"));
-            Container.ImportElements(elements);
         }
     }
 }

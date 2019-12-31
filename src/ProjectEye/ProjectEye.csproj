@@ -129,6 +129,7 @@
     <Compile Include="Core\Win32APIHelper.cs" />
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Core\XmlExtensions.cs" />
+    <Compile Include="Models\TipViewDesignModel.cs" />
     <Compile Include="Models\EyesTestModel.cs" />
     <Compile Include="Models\UpdateModel.cs" />
     <Compile Include="Models\OptionsModel.cs" />
@@ -139,11 +140,13 @@
     <Compile Include="ViewModels\AsyncCommand.cs" />
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="ViewModels\EyesTestViewModel.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModels\TipViewDesignViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\StatisticViewModel.cs" />
     <Compile Include="ViewModels\TipViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelEventHandler.cs" />
     <Compile Include="Views\EyesTestWindow.xaml.cs">
       <DependentUpon>EyesTestWindow.xaml</DependentUpon>
     </Compile>

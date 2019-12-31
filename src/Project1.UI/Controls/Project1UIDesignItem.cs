@@ -152,6 +152,7 @@ namespace Project1.UI.Controls
         private void HandleControl()
         {
             var control = Content as FrameworkElement;
+            
             //control.DataContext = designItemModel;
             control.IsHitTestVisible = false;
             //绑定宽高
@@ -187,9 +188,6 @@ namespace Project1.UI.Controls
                     ColorVisibility = Visibility.Collapsed;
                     ButtonVisibility = Visibility.Visible;
                     FontSizeVisibility = Visibility.Visible;
-                    //designItemModel.Width = 100;
-                    //designItemModel.Height = 25;
-                    //designItemModel.ButtonText = "按钮";
                     BindingOperations.SetBinding(control, Button.ContentProperty, new Binding()
                     {
                         Source = designItemModel,

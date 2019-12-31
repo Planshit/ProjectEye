@@ -57,5 +57,14 @@ namespace Project1.UI.Controls.Models
         /// 图片路径
         /// </summary>
         public string Image { get; set; }
+        /// <summary>
+        /// 字体大小
+        /// </summary>
+        public double FontSize { get; set; }
+        /// <summary>
+        /// 命令
+        /// </summary>
+        public string Command { get; set; }
+
     }
 }

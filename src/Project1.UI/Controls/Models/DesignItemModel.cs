@@ -173,8 +173,6 @@ namespace Project1.UI.Controls.Models
             set
             {
                 Text_ = value;
-                Debug.WriteLine("更新绑定:" + value);
-
                 OnPropertyChanged();
             }
         }
@@ -229,6 +227,22 @@ namespace Project1.UI.Controls.Models
             }
         }
         #endregion
+
+        #region 命令
+        public string Command_;
+        /// <summary>
+        /// 文字
+        /// </summary>
+        public string Command
+        {
+            get { return Command_; }
+            set
+            {
+                Command_ = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
         //图片类型元素属性
 
         #region 图片
@@ -266,9 +280,6 @@ namespace Project1.UI.Controls.Models
                 {
 
                 }
-
-                Debug.WriteLine("更新绑定:" + value);
-
             }
         }
         #endregion

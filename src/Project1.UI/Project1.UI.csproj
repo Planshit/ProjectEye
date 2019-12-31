@@ -56,6 +56,7 @@
     <Compile Include="Controls\Enums\ControlPoint.cs" />
     <Compile Include="Controls\Enums\Project1UIIconType.cs" />
     <Compile Include="Controls\Enums\Project1UIInputType.cs" />
+    <Compile Include="Controls\Models\ContainerModel.cs" />
     <Compile Include="Controls\Models\DesignItemModel.cs" />
     <Compile Include="Controls\Models\ElementModel.cs" />
     <Compile Include="Controls\Project1UIChart.cs" />
