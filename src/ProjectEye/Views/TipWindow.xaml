@@ -7,11 +7,14 @@
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
         Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStyle="None" Visibility="Hidden" AllowsTransparency="True" Width="100" Height="100"
-        Opacity=".97"
+        Opacity="1"
+                     Background="Transparent"
         InputMethod.IsInputMethodEnabled="False"
         >
     <!--<Grid>
-        --><!--休息提示UI--><!--
+        -->
+    <!--休息提示UI-->
+    <!--
         <Grid VerticalAlignment="Center"
               Width="400"
               >
@@ -57,7 +60,9 @@
                     Focusable="False"/>
             </StackPanel>
 
-            --><!--倒计时秒数--><!--
+            -->
+    <!--倒计时秒数-->
+    <!--
             <TextBlock
                 FontSize="50"
                 FontWeight="Bold"

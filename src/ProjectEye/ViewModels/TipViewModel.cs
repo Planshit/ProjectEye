@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Project1.UI.Controls;
 using Project1.UI.Controls.Models;
+using Project1.UI.Cores;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
+using ProjectEye.Models.UI;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -80,7 +82,7 @@ namespace ProjectEye.ViewModels
 
         private void TipViewModel_ChangedEvent()
         {
-            CreateElements();
+            CreateUI();
             WindowInstance.Activated += WindowInstance_Activated;
         }
 
@@ -108,11 +110,24 @@ namespace ProjectEye.ViewModels
             TSC = statistic.GetTodayData().SkipCount.ToString();
         }
 
-        private void CreateElements()
+        private void CreateUI()
         {
             var container = new Grid();
-            List<ElementModel> elements = JsonConvert.DeserializeObject<List<ElementModel>>(FileHelper.Read($"UI\\{ScreenName}.json"));
-            foreach (var element in elements)
+
+            var data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read($"UI\\{ScreenName}.json"));
+            if (data == null)
+            {
+                data = GetDefaultUI();
+                FileHelper.Write($"UI\\{ScreenName}.json", JsonConvert.SerializeObject(data));
+            }
+            var containerBG = new Border();
+            containerBG.Width = Double.NaN;
+            containerBG.Height = Double.NaN;
+            containerBG.SetValue(Grid.ZIndexProperty, -1);
+            containerBG.Background = data.ContainerAttr.Background;
+            containerBG.Opacity = data.ContainerAttr.Opacity;
+            container.Children.Add(containerBG);
+            foreach (var element in data.Elements)
             {
                 var ttf = new TranslateTransform()
                 {
@@ -154,7 +169,86 @@ namespace ProjectEye.ViewModels
                 }
             }
 
+
+
             WindowInstance.Content = container;
+        }
+
+        private UIDesignModel GetDefaultUI()
+        {
+            //创建默认布局
+            var data = new UIDesignModel();
+            data.ContainerAttr = new ContainerModel()
+            {
+                Background = Brushes.White,
+                Opacity = .98
+            };
+            var elements = new List<ElementModel>();
+            var tipimage = new ElementModel();
+            tipimage.Type = Project1.UI.Controls.Enums.DesignItemType.Image;
+            tipimage.Width = 272;
+            tipimage.Opacity = 1;
+            tipimage.Height = 187;
+            tipimage.Image = "pack://application:,,,/ProjectEye;component/Resources/Themes/Default/Images/tipImage.png";
+            tipimage.X = WindowInstance.Width / 2 - tipimage.Width / 2;
+            tipimage.Y = WindowInstance.Height * .24;
+
+            var tipText = new ElementModel();
+            tipText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
+            tipText.Text = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
+            tipText.Opacity = 1;
+            tipText.TextColor = Project1UIColor.Get("#45435b");
+            tipText.Width = 400;
+            tipText.Height = 50;
+            tipText.X = WindowInstance.Width / 2 - tipText.Width / 2;
+            tipText.Y = tipimage.Y + tipimage.Height + tipText.Height + 10;
+            tipText.FontSize = 20;
+
+            var restBtn = new ElementModel();
+            restBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
+            restBtn.Width = 110;
+            restBtn.Height = 45;
+            restBtn.FontSize = 14;
+            restBtn.Text = "好的";
+            restBtn.Opacity = 1;
+            restBtn.Command = "rest";
+
+            restBtn.X = WindowInstance.Width / 2 - (restBtn.Width * 2 + 10) / 2;
+            restBtn.Y = tipText.Y + tipText.Height + 20;
+
+            var breakBtn = new ElementModel();
+            breakBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
+            breakBtn.Width = 110;
+            breakBtn.Height = 45;
+            breakBtn.FontSize = 14;
+            breakBtn.Text = "暂时不";
+            breakBtn.Style = "basic";
+            breakBtn.Command = "break";
+            breakBtn.Opacity = 1;
+            breakBtn.X = WindowInstance.Width / 2 - (restBtn.Width * 2 + 10) / 2 + (restBtn.Width + 10);
+            breakBtn.Y = tipText.Y + tipText.Height + 20;
+
+            var countDownText = new ElementModel();
+            countDownText.Text = "{countdown}";
+            countDownText.FontSize = 50;
+            countDownText.IsTextBold = true;
+            countDownText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
+            countDownText.TextColor = Brushes.Black;
+            countDownText.Opacity = 1;
+            countDownText.Width = 100;
+            countDownText.Height = 60;
+            countDownText.X = WindowInstance.Width / 2 - countDownText.Width / 2;
+            countDownText.Y = restBtn.Y + restBtn.Height;
+            elements.Add(tipimage);
+            elements.Add(tipText);
+            elements.Add(restBtn);
+            elements.Add(breakBtn);
+            elements.Add(countDownText);
+
+
+            data.Elements = elements;
+
+            return data;
         }
         private Project1UIButton CreateButtonElement(ElementModel element)
         {
@@ -236,8 +330,9 @@ namespace ProjectEye.ViewModels
                 //带有变量的文本
                 var ms = Regex.Matches(element.Text, @"\{(.*?)\}");
                 int startIndex = 0;
-                foreach (Match item in ms)
+                for (int i = 0; i < ms.Count; i++)
                 {
+                    var item = ms[i];
                     string text = string.Empty;
                     if (startIndex != item.Index)
                     {
@@ -259,6 +354,11 @@ namespace ProjectEye.ViewModels
 
                     });
                     textBlock.Inlines.Add(variable);
+                    if (i == ms.Count - 1)
+                    {
+                        //最后一个
+                        textBlock.Inlines.Add(element.Text.Substring(startIndex));
+                    }
                 }
 
             }

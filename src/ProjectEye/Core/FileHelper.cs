@@ -40,5 +40,16 @@ namespace ProjectEye.Core
             }
             return string.Empty;
         }
+        /// <summary>
+        /// 在运行目录中判断文件是否存在
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static bool Exists(string path)
+        {
+            path = AppDomain.CurrentDomain.BaseDirectory + path;
+            return File.Exists(path);
+
+        }
     }
 }

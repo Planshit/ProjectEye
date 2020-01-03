@@ -38,26 +38,32 @@ namespace Project1.UI.Controls
         private bool isControlPointDown = false;
         private Point olPoint = new Point();
         private ControlPoint controlPointType = ControlPoint.LeftTop;
-        private ContainerModel containerModel { get; set; }
+        public ContainerModel containerModel { get; set; }
         public Project1UIDesignContainer()
         {
             //this.DefaultStyleKey = typeof(Project1UIDesignContainer);
-            this.Background = Brushes.White;
+            this.Background = Brushes.Transparent;
             Loaded += Project1UIDesignContainer_Loaded;
             containerModel = new ContainerModel();
-            containerModel.Background = Brushes.Red;
-            containerModel.Opacity = 1;
-            //DataContext = containerModel;
+            containerModel.Background = Brushes.White;
+            containerModel.Opacity = .8;
 
-            BindingOperations.SetBinding(this,BackgroundProperty, new Binding()
+            Border container = new Border();
+            container.Width = Double.NaN;
+            container.Height = Double.NaN;
+            container.SetValue(ZIndexProperty, -1);
+            this.Children.Add(container);
+            BindingOperations.SetBinding(container, BackgroundProperty, new Binding()
             {
+                Source = containerModel,
                 Path = new PropertyPath("Background"),
                 Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 
             });
-            BindingOperations.SetBinding(this, OpacityProperty, new Binding()
+            BindingOperations.SetBinding(container, OpacityProperty, new Binding()
             {
+                Source = containerModel,
                 Path = new PropertyPath("Opacity"),
                 Mode = BindingMode.OneWay,
                 UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -140,6 +146,8 @@ namespace Project1.UI.Controls
                 var item = new Project1UIDesignItem();
                 var data = item.DataContext as DesignItemModel;
                 data.Image = "pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png";
+                data.Width = 100;
+                data.Height = 100;
                 var image = new Image();
                 //image.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
                 item.Content = image;
@@ -206,7 +214,7 @@ namespace Project1.UI.Controls
             attrPopup.DataContext = containerModel;
             attrPopup.Placement = PlacementMode.MousePoint;
             attrPopup.Width = 259;
-            attrPopup.Height = 100;
+            attrPopup.Height = Double.NaN;
             attrPopup.AllowsTransparency = true;
             var border = new Border();
             border.Margin = new Thickness(5);
@@ -244,7 +252,7 @@ namespace Project1.UI.Controls
             });
             stackPanelGrid.ColumnDefinitions.Add(new ColumnDefinition()
             {
-                Width = GridLength.Auto
+                Width = new GridLength(1, GridUnitType.Star)
             });
             stackPanelGrid.RowDefinitions.Add(new RowDefinition()
             {
@@ -260,6 +268,7 @@ namespace Project1.UI.Controls
             opacityName.VerticalAlignment = VerticalAlignment.Center;
             var opacityTextBox = new Project1UIInput();
             opacityTextBox.Height = 25;
+            opacityTextBox.Width = Double.NaN;
             opacityTextBox.VerticalAlignment = VerticalAlignment.Center;
             opacityTextBox.SetValue(Grid.ColumnProperty, 1);
             BindingOperations.SetBinding(opacityTextBox, Project1UIInput.TextProperty, new Binding()
@@ -325,6 +334,20 @@ namespace Project1.UI.Controls
         }
         #endregion
 
+        #region 设置容器属性
+        public void SetContainerAttr(ContainerModel data)
+        {
+            containerModel.Background = data.Background;
+            containerModel.Opacity = data.Opacity;
+        }
+        #endregion
+
+        #region 获取容器的属性信息
+        public ContainerModel GetContainerAttr()
+        {
+            return this.containerModel;
+        }
+        #endregion
 
         #region 获取容器中所有元素信息
         public List<ElementModel> GetElements()
@@ -333,31 +356,35 @@ namespace Project1.UI.Controls
             foreach (var item in this.Children)
             {
                 var control = item as Project1UIDesignItem;
-                var data = control.DataContext as DesignItemModel;
-                var controlPoint = control.RenderTransform as TranslateTransform;
-                var element = new ElementModel();
-                element.Type = control.ItemType;
-                element.X = controlPoint.X;
-                element.Y = controlPoint.Y;
-                element.Width = data.Width;
-                element.Height = data.Height;
-                element.IsTextBold = data.IsFontBold;
-                element.Opacity = data.Opacity;
-                element.Style = data.ButtonStyleName;
-                element.Image = data.Image;
-                element.TextColor = data.TextColor;
-                element.FontSize = data.FontSize;
-                switch (control.ItemType)
+                if (control != null)
                 {
-                    case DesignItemType.Text:
-                        element.Text = data.Text;
-                        break;
-                    case DesignItemType.Button:
-                        element.Text = data.ButtonText;
-                        element.Command = data.Command;
-                        break;
+                    var data = control.DataContext as DesignItemModel;
+                    var controlPoint = control.RenderTransform as TranslateTransform;
+                    var element = new ElementModel();
+                    element.Type = control.ItemType;
+                    element.X = controlPoint.X;
+                    element.Y = controlPoint.Y;
+                    element.Width = data.Width;
+                    element.Height = data.Height;
+                    element.IsTextBold = data.IsFontBold;
+                    element.Opacity = data.Opacity;
+                    element.Style = data.ButtonStyleName;
+                    element.Image = data.Image;
+                    element.TextColor = data.TextColor;
+                    element.FontSize = data.FontSize;
+                    switch (control.ItemType)
+                    {
+                        case DesignItemType.Text:
+                            element.Text = data.Text;
+                            break;
+                        case DesignItemType.Button:
+                            element.Text = data.ButtonText;
+                            element.Command = data.Command;
+                            break;
+                    }
+                    res.Add(element);
                 }
-                res.Add(element);
+
             }
             return res;
         }

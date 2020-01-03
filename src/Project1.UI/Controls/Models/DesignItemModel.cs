@@ -271,8 +271,8 @@ namespace Project1.UI.Controls.Models
                 {
                     var image = new BitmapImage(new Uri(value, UriKind.RelativeOrAbsolute));
                     Image_ = value;
-                    Width = image.Width;
-                    Height = image.Height;
+                    //Width = image.Width;
+                    //Height = image.Height;
                     ImageSource = image;
                     OnPropertyChanged();
                 }

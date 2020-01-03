@@ -171,7 +171,7 @@ namespace ProjectEye.Core.Service
             /****调试模式代码****/
 #if DEBUG
             //30秒提示休息
-            timer.Interval = new TimeSpan(10, 0, 30);
+            timer.Interval = new TimeSpan(0, 0, 30);
             //20秒表示离开
             leave_timer.Interval = new TimeSpan(0, 0, 20);
             //每10秒检测回来

@@ -68,8 +68,16 @@ namespace ProjectEye.ViewModels
         /// <param name="obj"></param>
         private void openWindowCommand_action(object obj)
         {
-            WindowManager.CreateWindowInScreen(obj.ToString());
-            WindowManager.Show(obj.ToString());
+            string window = obj.ToString();
+            if (window == "TipViewDesignWindow")
+            {
+                WindowManager.CreateWindow(window, true, true);
+            }
+            else
+            {
+                WindowManager.CreateWindowInScreen(window);
+            }
+            WindowManager.Show(window);
         }
 
         /// <summary>
@@ -99,7 +107,9 @@ namespace ProjectEye.ViewModels
 
         private void showWindowCommand_action(object obj)
         {
+
             WindowManager.CreateWindowInScreen(obj.ToString());
+
             WindowManager.Show(obj.ToString());
         }
 

@@ -8,11 +8,11 @@
 
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
-        Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True" WindowStyle="None" Visibility="Visible" AllowsTransparency="True"
-        Opacity=".97"
-        InputMethod.IsInputMethodEnabled="False" WindowState="Maximized"
+        Title="TipWindow" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="False" WindowStyle="None" Visibility="Visible" AllowsTransparency="True"
+                     Background="Transparent"
+        InputMethod.IsInputMethodEnabled="False"
         >
-    <Grid Margin="-7">
+    <Grid>
         <ui:Project1UIDesignContainer Name="Container" Instance="{Binding Container,Mode=TwoWay}" >
 
         </ui:Project1UIDesignContainer>
@@ -27,7 +27,8 @@
                                              Content="退出"
                                              Command="{Binding commonCommand}"
                                                  CommandParameter="quit"
-                                             Style="{DynamicResource basic}"/>
+                                             Style="{DynamicResource basic}"
+                    Margin="10,0,0,0"/>
 
             </StackPanel>
         </Grid>

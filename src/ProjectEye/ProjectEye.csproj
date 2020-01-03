@@ -131,6 +131,7 @@
     <Compile Include="Core\XmlExtensions.cs" />
     <Compile Include="Models\TipViewDesignModel.cs" />
     <Compile Include="Models\EyesTestModel.cs" />
+    <Compile Include="Models\UI\UIDesignModel.cs" />
     <Compile Include="Models\UpdateModel.cs" />
     <Compile Include="Models\OptionsModel.cs" />
     <Compile Include="Models\StatisticModel.cs" />
