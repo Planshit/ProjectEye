@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Project1.UI.Controls"
                     >
-   
+
 
     <ResourceDictionary.MergedDictionaries>
-        
+
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIWindow.xaml" />
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIButton.xaml" />
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIInput.xaml" />
@@ -14,6 +14,8 @@
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIChart.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIKeyboardInput.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIToast.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIDesignItem.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIColorSelect.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-   
+
 </ResourceDictionary>

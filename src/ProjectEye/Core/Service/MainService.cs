@@ -1,4 +1,5 @@
-﻿using Project1.UI.Controls;
+﻿using Microsoft.Win32;
+using Project1.UI.Controls;
 using ProjectEye.ViewModels;
 using ProjectEye.Views;
 using System;
@@ -94,6 +95,24 @@ namespace ProjectEye.Core.Service
             this.cache = cache;
             this.statistic = statistic;
             app.Exit += new ExitEventHandler(app_Exit);
+            SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
+        }
+
+        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        {
+            switch (e.Mode)
+            {
+                case PowerModes.Suspend:
+                    //电脑休眠
+                    Pause();
+                    break;
+                case PowerModes.Resume:
+                    //电脑恢复
+                    Start();
+                    break;
+
+
+            }
         }
 
         private void busy_timer_Tick(object sender, EventArgs e)

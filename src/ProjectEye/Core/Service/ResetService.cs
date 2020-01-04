@@ -15,11 +15,6 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private readonly DispatcherTimer timer;
 
-        /// <summary>
-        /// 休息时间
-        /// </summary>
-        private readonly int TakeTime = 20;
-
         private int timed = 0;
 
         /// <summary>
@@ -55,7 +50,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Start()
         {
-            timed = TakeTime;
+            timed = config.options.General.RestTime;
             timer.Start();
             ResetStart?.Invoke(this, timed);
         }
@@ -66,7 +61,7 @@ namespace ProjectEye.Core.Service
         {
             WindowManager.Hide("TipWindow");
             timer.Stop();
-            timed = TakeTime;
+            timed = config.options.General.RestTime;
             OnResetCompleted();
 
         }

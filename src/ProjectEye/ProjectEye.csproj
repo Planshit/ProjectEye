@@ -92,6 +92,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\AudioHelper.cs" />
     <Compile Include="Core\BusyVerdictHelper.cs" />
+    <Compile Include="Core\FileHelper.cs" />
     <Compile Include="Core\Models\Options\ComboxModel.cs" />
     <Compile Include="Core\Models\Options\BehaviorModel.cs" />
     <Compile Include="Core\Models\Options\GeneralModel.cs" />
@@ -128,7 +129,9 @@
     <Compile Include="Core\Win32APIHelper.cs" />
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Core\XmlExtensions.cs" />
+    <Compile Include="Models\TipViewDesignModel.cs" />
     <Compile Include="Models\EyesTestModel.cs" />
+    <Compile Include="Models\UI\UIDesignModel.cs" />
     <Compile Include="Models\UpdateModel.cs" />
     <Compile Include="Models\OptionsModel.cs" />
     <Compile Include="Models\StatisticModel.cs" />
@@ -138,10 +141,13 @@
     <Compile Include="ViewModels\AsyncCommand.cs" />
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="ViewModels\EyesTestViewModel.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
+    <Compile Include="ViewModels\TipViewDesignViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\StatisticViewModel.cs" />
     <Compile Include="ViewModels\TipViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelEventHandler.cs" />
     <Compile Include="Views\EyesTestWindow.xaml.cs">
       <DependentUpon>EyesTestWindow.xaml</DependentUpon>
     </Compile>
@@ -153,6 +159,9 @@
     </Compile>
     <Compile Include="Views\TipWindow.xaml.cs">
       <DependentUpon>TipWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TipViewDesignWindow.xaml.cs">
+      <DependentUpon>TipViewDesignWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateWindow.xaml.cs">
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
@@ -436,6 +445,10 @@
     <Page Include="Views\TipWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TipViewDesignWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\UpdateWindow.xaml">
       <SubType>Designer</SubType>

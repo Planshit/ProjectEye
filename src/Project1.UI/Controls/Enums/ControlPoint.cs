@@ -6,26 +6,23 @@ using System.Threading.Tasks;
 
 namespace Project1.UI.Controls.Enums
 {
-    /// <summary>
-    /// 输入框类型
-    /// </summary>
-    public enum Project1UIInputType
+    public enum ControlPoint
     {
         /// <summary>
-        /// 文本输入框
+        /// 左上角
         /// </summary>
-        Text,
+        LeftTop,
         /// <summary>
-        /// 文件选择框
+        /// 左下角
         /// </summary>
-        FileSelect,
+        LeftBottom,
         /// <summary>
-        /// 文件夹选择框
+        /// 右上角
         /// </summary>
-        FolderSelect,
+        RightTop,
         /// <summary>
-        /// 数字输入框
+        /// 右下角
         /// </summary>
-        Number
+        RightBottom
     }
 }

@@ -99,6 +99,7 @@
                             <Button
                                 ToolTip="选择文件夹"
                                 x:Name="FolderButton"
+                                Visibility="Collapsed"
                               
                                 Grid.Column="4"
                                 Command="{x:Static cmd:Project1UIInputCommands.CommonOpenFileDialog}"
@@ -163,13 +164,15 @@
 
                         <!--输入框类型判断-->
                         <Trigger Property="Type" Value="Text">
-                            <Setter TargetName="FolderButton" Property="Visibility" Value="Collapsed" />
+                            
                         </Trigger>
                         <Trigger Property="Type" Value="FileSelect">
                             <Setter TargetName="FolderButton" Property="ToolTip" Value="选择文件" />
+                            <Setter TargetName="FolderButton" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="Type" Value="FolderSelect">
                             <Setter TargetName="FolderButton" Property="ToolTip" Value="选择文件夹" />
+                            <Setter TargetName="FolderButton" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <!--图标位置判断-->
                         <Trigger Property="IconAlignment" Value="Left">

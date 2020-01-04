@@ -1,5 +1,6 @@
 ﻿using ProjectEye.Core.Models;
 using ProjectEye.Core.Service;
+using ProjectEye.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +27,15 @@ namespace ProjectEye.Core
 
         //window
         #region 创建窗口
-        private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999)
+        private static Window CreateWindow(string name, string screen, double left = -999999, double top = -999999, double width = -999999, double height = -999999, bool newViewModel = false)
         {
             //var selectWindow = GetWindowByScreen(name, screen);
             //if (selectWindow != null)
             //{
             //    return selectWindow;
             //}
-            var viewModel = GetCreateViewModel(name);
+            var viewModel = GetCreateViewModel(name, newViewModel);
+
             Type type = Type.GetType("ProjectEye.Views." + name);
             Window objWindow = (Window)type.Assembly.CreateInstance(type.FullName);
             objWindow.Uid = name;
@@ -55,6 +57,18 @@ namespace ProjectEye.Core
             {
                 objWindow.Height = height;
             }
+
+            if (viewModel != null)
+            {
+                var basicModel = viewModel as IViewModel;
+                if (basicModel != null)
+                {
+                    basicModel.ScreenName = screen.Replace("\\", "");
+                    basicModel.WindowInstance = objWindow;
+                    basicModel.OnChanged();
+                }
+            }
+
             var windowModel = new WindowModel();
             windowModel.window = objWindow;
             windowModel.screen = screen;
@@ -71,7 +85,7 @@ namespace ProjectEye.Core
         /// <param name="name">窗口类名</param>
         /// <param name="screen">显示器</param>
         /// <returns></returns>
-        public static Window CreateWindowInScreen(string name, System.Windows.Forms.Screen screen = null, bool isMaximized = false)
+        public static Window CreateWindowInScreen(string name, System.Windows.Forms.Screen screen = null, bool isMaximized = false, bool newViewModel = false)
         {
 
             //var windowModel = GetWindowModel(name, screen.DeviceName);
@@ -100,7 +114,8 @@ namespace ProjectEye.Core
                 left,
                 top,
                 width,
-                height);
+                height,
+                newViewModel);
             return window;
         }
         /// <summary>
@@ -109,7 +124,7 @@ namespace ProjectEye.Core
         /// <param name="name">窗口类名</param>
         /// <param name="isMaximized">是否全屏</param>
         /// <returns></returns>
-        public static Window[] CreateWindow(string name, bool isMaximized)
+        public static Window[] CreateWindow(string name, bool isMaximized, bool newViewModel = false)
         {
             int screenCount = System.Windows.Forms.Screen.AllScreens.Length;
             var screens = System.Windows.Forms.Screen.AllScreens;
@@ -125,7 +140,7 @@ namespace ProjectEye.Core
                     width = screen.Bounds.Width;
                     height = screen.Bounds.Height;
                 }
-                var window = CreateWindow(name, screen.DeviceName, screen.Bounds.Left, screen.Bounds.Top, width, height);
+                var window = CreateWindow(name, screen.DeviceName, screen.Bounds.Left, screen.Bounds.Top, width, height, newViewModel);
                 windows[index] = window;
 
             }
@@ -154,12 +169,12 @@ namespace ProjectEye.Core
         /// </summary>
         /// <param name="name"></param>
         /// <returns>成功返回窗口实例数组</returns>
-        public static Window[] GetCreateWindow(string name, bool isMaximized)
+        public static Window[] GetCreateWindow(string name, bool isMaximized, bool newViewModel = false)
         {
             var window = GetWindows(name);
             if (window == null)
             {
-                window = CreateWindow(name, isMaximized);
+                window = CreateWindow(name, isMaximized, newViewModel);
             }
             return window;
         }
@@ -339,27 +354,27 @@ namespace ProjectEye.Core
         #endregion
 
         #region 获取viewmodel实例
-        private static object GetViewModel(string windowName)
+        private static List<object> GetViewModel(string windowName)
         {
             string viewModelName = windowName.Replace("Window", "ViewModel");
             var select = viewModelList.Where(m => m.GetType().Name == viewModelName);
             if (select.Count() > 0)
             {
-                return select.Single();
+                return select.ToList();
             }
             return null;
         }
         #endregion
 
         #region 获取viewmodel实例，不存在时创建
-        private static object GetCreateViewModel(string windowName)
+        private static object GetCreateViewModel(string windowName, bool newViewmodel = false)
         {
             var viewModel = GetViewModel(windowName);
-            if (viewModel == null)
+            if (viewModel == null || newViewmodel)
             {
-                viewModel = CreateViewModel(windowName);
+                return CreateViewModel(windowName);
             }
-            return viewModel;
+            return viewModel[0];
         }
         #endregion
 
@@ -369,7 +384,10 @@ namespace ProjectEye.Core
             var viewModel = GetViewModel(windowName);
             if (viewModel != null)
             {
-                viewModelList.Remove(viewModel);
+                foreach (var model in viewModel)
+                {
+                    viewModelList.Remove(model);
+                }
             }
         }
         #endregion

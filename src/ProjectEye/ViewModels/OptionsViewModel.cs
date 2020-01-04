@@ -25,6 +25,7 @@ namespace ProjectEye.ViewModels
         public Command showWindowCommand { get; set; }
         public Command addBreackProcessCommand { get; set; }
         public Command removeBreackProcessCommand { get; set; }
+        public Command openWindowCommand { get; set; }
 
         private readonly ConfigService config;
         private readonly MainService mainService;
@@ -58,7 +59,27 @@ namespace ProjectEye.ViewModels
             showWindowCommand = new Command(new Action<object>(showWindowCommand_action));
             addBreackProcessCommand = new Command(new Action<object>(addBreackProcessCommand_action));
             removeBreackProcessCommand = new Command(new Action<object>(removeBreackProcessCommand_action));
+            openWindowCommand = new Command(new Action<object>(openWindowCommand_action));
         }
+
+        /// <summary>
+        /// 打开窗口命令
+        /// </summary>
+        /// <param name="obj"></param>
+        private void openWindowCommand_action(object obj)
+        {
+            string window = obj.ToString();
+            if (window == "TipViewDesignWindow")
+            {
+                WindowManager.CreateWindow(window, true, true);
+            }
+            else
+            {
+                WindowManager.CreateWindowInScreen(window);
+            }
+            WindowManager.Show(window);
+        }
+
         /// <summary>
         /// 移除进程命令
         /// </summary>
@@ -86,7 +107,9 @@ namespace ProjectEye.ViewModels
 
         private void showWindowCommand_action(object obj)
         {
+
             WindowManager.CreateWindowInScreen(obj.ToString());
+
             WindowManager.Show(obj.ToString());
         }
 

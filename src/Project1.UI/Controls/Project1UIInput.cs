@@ -3,17 +3,52 @@ using Project1.UI.Controls.Commands;
 using Project1.UI.Controls.Enums;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Project1.UI.Controls
 {
     public class Project1UIInput : TextBox
     {
+
+        #region 最小更改值
+        public double SmallChange
+        {
+            get { return (double)GetValue(SmallChangeProperty); }
+            set { SetValue(SmallChangeProperty, value); }
+        }
+        public static readonly DependencyProperty SmallChangeProperty =
+            DependencyProperty.Register("SmallChange", typeof(double), typeof(Project1UIInput), new PropertyMetadata(0.1));
+        #endregion
+        #region 最大值
+        public double Maximum
+        {
+            get { return (double)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
+        }
+        public static readonly DependencyProperty MaximumProperty =
+            DependencyProperty.Register("Maximum", typeof(double), typeof(Project1UIInput), new PropertyMetadata(Double.MaxValue));
+        #endregion
+        #region 最小值
+        public double Minimum
+        {
+            get { return (double)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
+        }
+        public static readonly DependencyProperty MinimumProperty =
+            DependencyProperty.Register("Minimum", typeof(double), typeof(Project1UIInput), new PropertyMetadata(0.0));
+        #endregion
+        /// <summary>
+        /// 文件选择缓存（处理popup弹出后自动重置的bug）
+        /// </summary>
+        //private string fileNameCache = string.Empty;
         /// <summary>
         /// 文件扩展名，仅在Type为文件选择对话框时有效
         /// </summary>
@@ -94,20 +129,108 @@ namespace Project1.UI.Controls
         public static readonly DependencyProperty IsAutoScrollToEndProperty =
             DependencyProperty.Register("IsAutoScrollToEnd", typeof(bool), typeof(Project1UIInput));
 
+        #region 禁止输入模式
+        public bool IsDisabledInput
+        {
+            get { return (bool)GetValue(IsDisabledInputProperty); }
+            set { SetValue(IsDisabledInputProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsDisabledInputProperty =
+            DependencyProperty.Register("IsDisabledInput", typeof(bool), typeof(Project1UIInput), new PropertyMetadata(false, new PropertyChangedCallback(OnIsDisabledInputPropertyChanged)));
+
+        private static void OnIsDisabledInputPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var sender = (d as Project1UIInput);
+            if ((bool)e.NewValue)
+            {
+                sender.IsReadOnly = true;
+            }
+        }
+        #endregion
         public Project1UIInput()
         {
             this.DefaultStyleKey = typeof(Project1UIInput);
             this.CommandBindings.Add(new CommandBinding(Project1UIInputCommands.ClearTextCommand, OnClearTextCommand));
             this.CommandBindings.Add(new CommandBinding(Project1UIInputCommands.CommonOpenFileDialog, OnCommonOpenFileDialog));
 
-        }
 
+        }
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            if (Type == Project1UIInputType.Number)
+            {
+                int num = e.Delta / 120;
+                double changeNum = num * SmallChange;
+                HandledText();
+                double value = (double.Parse(Text) + changeNum);
+                if (value >= Minimum && value <= Maximum)
+                {
+                    Text = value.ToString();
+                    OnUpdateSource();
+                }
+            }
+        }
+        protected override void OnLostFocus(RoutedEventArgs e)
+        {
+            base.OnLostFocus(e);
+            HandledText();
+        }
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            if (e.Key == Key.Enter)
+            {
+                OnUpdateSource();
+                HandledText();
+            }
+        }
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
             if (IsAutoScrollToEnd)
             {
                 ScrollToEnd();
+            }
+        }
+        private void OnUpdateSource()
+        {
+            BindingExpression be = this.GetBindingExpression(TextProperty);
+            if (be != null)
+            {
+                be.UpdateSource();
+            }
+        }
+        private void HandledText()
+        {
+            if (Type == Project1UIInputType.Number)
+            {
+                var match = Regex.Match(Text, @"([0-9]{1,9}\.?[0-9]{1,9}|[0-9]{1,9})");
+                if (match.Success)
+                {
+                    Text = match.Value;
+                    if (double.Parse(Text) < 0)
+                    {
+                        Text = "0";
+                    }
+
+                    if (double.Parse(Text) > Maximum)
+                    {
+                        if (Maximum == double.MaxValue)
+                        {
+                            Text = "9999999999";
+                        }
+                        else
+                        {
+                            Text = Maximum.ToString();
+                        }
+                    }
+                }
+                else
+                {
+                    Text = "0";
+                }
             }
         }
 
@@ -137,9 +260,17 @@ namespace Project1.UI.Controls
                 openFileDialog.Filter = ExtNames;
                 if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    Text = openFileDialog.FileName;
-                    Focus();
-                    SelectionStart = Text.Length;
+                    if (IsDisabledInput)
+                    {
+                        Placeholder = openFileDialog.FileName;
+                    }
+                    else
+                    {
+                        Text = openFileDialog.FileName;
+                        Focus();
+                        SelectionStart = Text.Length;
+                    }
+
                 }
             }
             if (Type == Project1UIInputType.FolderSelect)
