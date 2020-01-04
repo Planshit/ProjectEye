@@ -22,6 +22,10 @@ namespace Project1.UI.Controls.Enums
         /// <summary>
         /// 文件夹选择框
         /// </summary>
-        FolderSelect
+        FolderSelect,
+        /// <summary>
+        /// 数字输入框
+        /// </summary>
+        Number
     }
 }

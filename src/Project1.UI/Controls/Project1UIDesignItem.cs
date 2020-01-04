@@ -112,6 +112,11 @@ namespace Project1.UI.Controls
         /// 属性编辑窗口
         /// </summary>
         private Popup attPopup;
+        /// <summary>
+        /// 属性滚动容器
+        /// </summary>
+        private ScrollViewer attrScrollViewer;
+
         public Project1UIDesignItem()
         {
             this.DefaultStyleKey = typeof(Project1UIDesignItem);
@@ -134,6 +139,7 @@ namespace Project1.UI.Controls
             base.OnApplyTemplate();
             var container = GetTemplateChild("Container") as Grid;
             attPopup = GetTemplateChild("popup") as Popup;
+            attrScrollViewer = GetTemplateChild("ScrollViewer") as ScrollViewer;
             if (container != null)
             {
                 CreateControlPoints(container);
@@ -152,7 +158,7 @@ namespace Project1.UI.Controls
         private void HandleControl()
         {
             var control = Content as FrameworkElement;
-            
+
             //control.DataContext = designItemModel;
             control.IsHitTestVisible = false;
             //绑定宽高

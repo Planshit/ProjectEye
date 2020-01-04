@@ -58,7 +58,6 @@ namespace Project1.UI.Controls
                 Source = containerModel,
                 Path = new PropertyPath("Background"),
                 Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 
             });
             BindingOperations.SetBinding(container, OpacityProperty, new Binding()
@@ -66,7 +65,6 @@ namespace Project1.UI.Controls
                 Source = containerModel,
                 Path = new PropertyPath("Opacity"),
                 Mode = BindingMode.OneWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 
             });
         }
@@ -191,6 +189,7 @@ namespace Project1.UI.Controls
             itemAttr.Header = "属性";
             itemAttr.Click += (s, e) =>
             {
+                isContextMenuOpen = true;
                 attrPopup.IsOpen = true;
             };
             itemAdd.Items.Add(itemAddText);
@@ -269,13 +268,16 @@ namespace Project1.UI.Controls
             var opacityTextBox = new Project1UIInput();
             opacityTextBox.Height = 25;
             opacityTextBox.Width = Double.NaN;
+            opacityTextBox.Type = Project1UIInputType.Number;
+            opacityTextBox.Minimum = 0;
+            opacityTextBox.Maximum = 1;
             opacityTextBox.VerticalAlignment = VerticalAlignment.Center;
             opacityTextBox.SetValue(Grid.ColumnProperty, 1);
             BindingOperations.SetBinding(opacityTextBox, Project1UIInput.TextProperty, new Binding()
             {
                 Path = new PropertyPath("Opacity"),
                 Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                UpdateSourceTrigger = UpdateSourceTrigger.Default
 
             });
             stackPanelGrid.Children.Add(opacityName);

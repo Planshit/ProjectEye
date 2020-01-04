@@ -43,7 +43,7 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock Text="属性编辑面板" FontWeight="Bold" VerticalAlignment="Center"/>
-                                    <ScrollViewer Grid.Row="1">
+                                    <ScrollViewer Grid.Row="1" x:Name="ScrollViewer">
                                         <StackPanel>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
@@ -87,6 +87,9 @@
                                                     VerticalAlignment="Top"
                                                     Margin="0,10,0,0"
                                                     Text="{Binding Width,Mode=TwoWay}"
+                                                    Type="Number"
+                                                    Minimum="1"
+                                                    SmallChange="1"
                                                     />
                                                 <TextBlock Text="高" VerticalAlignment="Center"
                                                            Grid.Row="2" 
@@ -99,6 +102,9 @@
                                                     VerticalAlignment="Top"
                                                     Margin="0,10,0,0"
                                                     Text="{Binding Height,Mode=TwoWay}"
+                                                    Type="Number"
+                                                    Minimum="1"
+                                                    SmallChange="1"
                                                     />
                                                 <!--背景色-->
                                                 <TextBlock 
@@ -164,6 +170,9 @@
                                                     VerticalAlignment="Top"
                                                     Margin="0,10,0,0"
                                                     Text="{Binding Opacity,Mode=TwoWay}"
+                                                    Type="Number"
+                                                    Minimum="0"
+                                                    Maximum="1"
                                                     />
                                                 <!--图片选择-->
                                                 <TextBlock 
@@ -209,6 +218,9 @@
                                                     Margin="0,10,0,0"
                                                     Visibility="{TemplateBinding FontSizeVisibility}"
                                                     Text="{Binding FontSize,Mode=TwoWay}"
+                                                    Type="Number"
+                                                    Minimum="1"
+                                                    SmallChange="1"
                                                     />
                                                 <!--文字色-->
                                                 <TextBlock Text="文本颜色" 
@@ -282,7 +294,8 @@
                         >
                             <ContentPresenter 
                             RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="False"/>
+                                          SnapsToDevicePixels="False"
+                                Margin="-1"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
