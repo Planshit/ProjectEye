@@ -40,6 +40,9 @@ namespace ProjectEye.Core.Models.Options
         /// 休息结束提示音效文件路径，为空时使用默认
         /// </summary>
         public string SoundPath { get; set; } = "";
-
+        /// <summary>
+        /// 休息时间（单位：秒）
+        /// </summary>
+        public int RestTime { get; set; } = 20;
     }
 }

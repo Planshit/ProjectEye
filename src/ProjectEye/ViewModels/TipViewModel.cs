@@ -101,6 +101,7 @@ namespace ProjectEye.ViewModels
 
         private void UpdateVariable()
         {
+            COUNTDOWN = config.options.General.RestTime;
             //提醒间隔变量
             T = config.options.General.WarnTime.ToString();
             //当前时间
@@ -426,7 +427,7 @@ namespace ProjectEye.ViewModels
             reset.Start();
             if (config.options.General.Data)
             {
-                statistic.Add(StatisticType.ResetTime, 20);
+                statistic.Add(StatisticType.ResetTime, config.options.General.RestTime);
             }
         }
         private void busyCommand_action(object obj)
