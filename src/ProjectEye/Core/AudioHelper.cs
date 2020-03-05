@@ -44,6 +44,7 @@ namespace ProjectEye.Core
             }
             catch (Exception ec)
             {
+                LogHelper.Warning(ec.ToString());
                 return false;
             }
         }

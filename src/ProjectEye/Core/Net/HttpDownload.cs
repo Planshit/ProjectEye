@@ -89,6 +89,8 @@ namespace ProjectEye.Core.Net
             }
             catch (Exception ec)
             {
+                LogHelper.Warning(ec.ToString());
+
                 //下载发生异常
                 ErrorEvent?.Invoke(this, ec.Message);
             }
