@@ -33,8 +33,9 @@ namespace ProjectEye.Core
                     return null;
                 }
             }
-            catch
+            catch(Exception e)
             {
+                LogHelper.Warning(e.ToString());
                 return null;
             }
 
@@ -54,9 +55,9 @@ namespace ProjectEye.Core
                 writer.Close();
                 return true;
             }
-            catch(Exception ec)
+            catch(Exception e)
             {
-                Debug.WriteLine(ec);
+                LogHelper.Warning(e.ToString());
                 return false;
             }
         }

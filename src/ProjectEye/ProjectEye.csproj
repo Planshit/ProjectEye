@@ -93,6 +93,7 @@
     <Compile Include="Core\AudioHelper.cs" />
     <Compile Include="Core\BusyVerdictHelper.cs" />
     <Compile Include="Core\FileHelper.cs" />
+    <Compile Include="Core\LogHelper.cs" />
     <Compile Include="Core\Models\Options\ComboxModel.cs" />
     <Compile Include="Core\Models\Options\BehaviorModel.cs" />
     <Compile Include="Core\Models\Options\GeneralModel.cs" />

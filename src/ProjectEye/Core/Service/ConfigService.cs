@@ -78,7 +78,7 @@ namespace ProjectEye.Core.Service
             options.General.Noreset = false;
             options.General.Sound = true;
             options.General.Startup = false;
-            options.General.LeaveListener = false;
+            options.General.LeaveListener = true;
             options.General.WarnTime = 20;
 
             options.Style = new StyleModel();

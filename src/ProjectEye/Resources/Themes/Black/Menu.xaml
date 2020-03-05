@@ -244,7 +244,8 @@
         <Border x:Name="Border"
           BorderThickness="0"
                 MinWidth="150"
-                    Padding="0,6">
+                    Padding="0,6"
+                Background="Transparent">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"

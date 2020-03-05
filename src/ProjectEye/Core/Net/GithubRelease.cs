@@ -105,6 +105,7 @@ namespace ProjectEye.Core.Net
             }
             catch (Exception ec)
             {
+                LogHelper.Warning(ec.ToString());
                 RequestErrorEvent?.Invoke(this, ec.Message);
             }
         }

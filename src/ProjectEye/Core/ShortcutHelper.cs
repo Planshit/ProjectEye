@@ -27,8 +27,9 @@ namespace ProjectEye.Core
                 shortcut.Save();
                 return true;
             }
-            catch
+            catch(Exception e)
             {
+                LogHelper.Warning(e.ToString());
                 return false;
             }
         }

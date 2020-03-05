@@ -55,8 +55,9 @@ namespace ProjectEye.ViewModels
                         Container.ImportElements(data.Elements);
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
+                    LogHelper.Warning(ex.ToString());
                     MessageBox.Show("无法加载现有UI配置文件", "错误提示");
                 }
 

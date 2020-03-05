@@ -78,9 +78,9 @@
                                              Command="{Binding soundTestCommand}"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
-                        <CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>
+                        <!--<CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>-->
                         <CheckBox Content="数据统计" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
-                              ToolTip="开启后在托盘菜单可看到查看数据统计选项"/>
+                              ToolTip="启用后在右下角托盘菜单可查看统计数据"/>
                       
                     </StackPanel>
                 </ScrollViewer>
@@ -143,7 +143,7 @@
 
 
                         </Grid>-->
-                        <CheckBox Content="休息预提醒" IsChecked="{Binding Model.IsPreAlert,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="在即将进入休息时右上角弹出一个休息预提醒通知"/>
+                        <CheckBox Content="休息预提醒" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" ToolTip="即将进入休息前在右上角弹出提示小窗口，可以进行推迟休息等操作"/>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--预提醒配置-->
                             <StackPanel>
@@ -265,20 +265,20 @@
                 <StackPanel Margin="10">
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center">提醒界面（好的）</TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center">全屏提醒界面（好的）</TextBlock>
                         <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.Reset,Mode=TwoWay}"/>
                     </Grid>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="150"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center">提醒界面（暂时不）</TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center">全屏提醒界面（暂时不）</TextBlock>
                         <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.NoReset,Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
@@ -286,7 +286,7 @@
             <TabItem Header="行为">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <CheckBox Content="在进行全屏工作时跳过休息" IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,0,0,0"/>
+                        <CheckBox Content="全屏游戏时跳过休息" ToolTip="开启后进行全屏游戏时将不会弹出任何窗口" IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,0,0,0"/>
                         <CheckBox Content="启用进程勿扰" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="启用后当进程列表中的某项在运行中时将跳过休息"/>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>

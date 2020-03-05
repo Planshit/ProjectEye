@@ -116,8 +116,7 @@ namespace ProjectEye.Core.Service
             reset.ResetStart += Reset_ResetStart;
             reset.ResetCompleted += Reset_ResetCompleted;
 
-            preAlertTimer = new DispatcherTimer();
-            preAlertTimer.Tick += new EventHandler(preAlertTimer_Tick);
+
         }
 
         private void Main_OnStart(object service, int msg)
@@ -210,12 +209,20 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void InitPreAlert()
         {
+
             isPreAlert = bool.Parse(config.options.Style.IsPreAlert.ToString());
             preAlertTime = int.Parse(config.options.Style.PreAlertTime.ToString());
-            preAlertTimer.Stop();
+            if (preAlertTimer!=null && preAlertTimer.IsEnabled)
+            {
+                preAlertTimer.Stop();
+            }
+            
+
             if (config.options.Style.IsPreAlert)
             {
                 //初始化计时器
+                preAlertTimer = new DispatcherTimer();
+                preAlertTimer.Tick += new EventHandler(preAlertTimer_Tick);
                 preAlertTimer.Interval = new TimeSpan(0, config.options.General.WarnTime - 1, 60 - config.options.Style.PreAlertTime);
                 Debug.WriteLine("预提醒将在：" + preAlertTimer.Interval.TotalSeconds);
                 preAlertTimer.Start();

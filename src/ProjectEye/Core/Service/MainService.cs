@@ -9,6 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Interop;
 using System.Windows.Threading;
 
@@ -122,15 +123,15 @@ namespace ProjectEye.Core.Service
             busy_timer.Stop();
             //关闭窗口
             WindowManager.Hide("TipWindow");
-            if (config.options.General.LeaveListener)
-            {
-                //如果打开离开监听则进入离开状态
-                OnLeave();
-            }
-            else
-            {
-                ReStart();
-            }
+            //if (config.options.General.LeaveListener)
+            //{
+            //进入离开状态
+            OnLeave();
+            //}
+            //else
+            //{
+            //    ReStart();
+            //}
 
         }
 
@@ -358,11 +359,11 @@ namespace ProjectEye.Core.Service
         {
             //休息提醒
             timer.Start();
-            if (config.options.General.LeaveListener)
-            {
-                //离开检测
-                leave_timer.Start();
-            }
+            //if (config.options.General.LeaveListener)
+            //{
+            //离开检测
+            leave_timer.Start();
+            //}
             if (config.options.General.Data)
             {
                 //用眼统计

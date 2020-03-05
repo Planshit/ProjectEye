@@ -27,7 +27,7 @@ namespace ProjectEye.Core
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                LogHelper.Warning(ex.ToString());
                 return false;
             }
 
