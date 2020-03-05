@@ -78,7 +78,7 @@
                                              Command="{Binding soundTestCommand}"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
-                        <CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>
+                        <!--<CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>-->
                         <CheckBox Content="数据统计" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
                               ToolTip="开启后在托盘菜单可看到查看数据统计选项"/>
                       

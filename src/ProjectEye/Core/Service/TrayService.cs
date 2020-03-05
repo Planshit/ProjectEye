@@ -129,7 +129,11 @@ namespace ProjectEye.Core.Service
             notifyIcon.Text = "Project Eye";
             notifyIcon.Visible = true;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
-
+            //在win10中将显示通知
+            //notifyIcon.BalloonTipTitle = "test";
+            //notifyIcon.BalloonTipText = "content";
+            //notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            //notifyIcon.ShowBalloonTip(3000);
             noresetTimer = new DispatcherTimer();
         }
 
