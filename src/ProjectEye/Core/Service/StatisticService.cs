@@ -68,27 +68,35 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             LoadStatisticData();
-
+            //创建今日数据
+            CreateTodayData();
+            //清除七天前的数据
+            ClearBefore7Data();
+            //获取今日数据
+            this.todayStatistic = Find(DateTime.Now.Date);
+            //开始计时
+            ResetStatisticTime();
+        }
+        #region 创建今日数据
+        /// <summary>
+        /// 创建今日数据模型
+        /// </summary>
+        /// <returns></returns>
+        private void CreateTodayData()
+        {
             var todayStatistic = Find(DateTime.Now.Date);
             if (todayStatistic == null)
             {
-                todayStatistic = new StatisticModel()
+                statisticList.Data.Add(new StatisticModel()
                 {
                     Date = DateTime.Now.Date,
                     WorkingTime = 0,
                     ResetTime = 0,
                     SkipCount = 0
-                };
-                statisticList.Data.Add(todayStatistic);
-
+                });
             }
-            ClearBefore7Data();
-
-            this.todayStatistic = Find(DateTime.Now.Date);
-            //开始计时
-            ResetStatisticTime();
         }
-
+        #endregion
         #region 加载统计数据
         /// <summary>
         /// 加载统计数据
@@ -124,6 +132,10 @@ namespace ProjectEye.Core.Service
         /// <param name="value">增加的值(可以为负数)</param>
         public void Add(StatisticType type, double value)
         {
+            //创建今日数据
+            CreateTodayData();
+            //获取今日数据
+            this.todayStatistic = Find(DateTime.Now.Date);
             switch (type)
             {
                 case StatisticType.WorkingTime:
