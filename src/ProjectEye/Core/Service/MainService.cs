@@ -382,6 +382,8 @@ namespace ProjectEye.Core.Service
 
             back_timer.Stop();
 
+            useeye_timer.Stop();
+
             OnPause?.Invoke(this, 0);
         }
         #endregion
