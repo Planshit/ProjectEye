@@ -170,12 +170,14 @@ namespace ProjectEye.ViewModels
                         imageElement.Stretch = Stretch.Fill;
                         try
                         {
-                            imageElement.Source = new BitmapImage(new Uri(element.Image, UriKind.RelativeOrAbsolute));
+                            //imageElement.Source = new BitmapImage(new Uri(element.Image, UriKind.RelativeOrAbsolute));
+                            imageElement.Source = BitmapImager.Load(element.Image);
 
                         }
                         catch
                         {
-                            imageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
+                            imageElement.Source = BitmapImager.Load("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
+                            //imageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
                         }
                         container.Children.Add(imageElement);
                         break;

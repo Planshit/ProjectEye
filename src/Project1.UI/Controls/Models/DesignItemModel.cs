@@ -22,7 +22,7 @@ namespace Project1.UI.Controls.Models
 
         //通用属性
         #region 宽
-        public double Width_;
+        private double Width_;
         /// <summary>
         /// 宽
         /// </summary>
@@ -38,7 +38,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 高
-        public double Height_;
+        private double Height_;
         /// <summary>
         /// 高
         /// </summary>
@@ -55,7 +55,7 @@ namespace Project1.UI.Controls.Models
 
 
         #region 背景色
-        public Brush Background_ = Brushes.Black;
+        private Brush Background_ = Brushes.Black;
         /// <summary>
         /// 背景色
         /// </summary>
@@ -71,7 +71,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 边宽色
-        public Brush BorderColor_ = Brushes.Transparent;
+        private Brush BorderColor_ = Brushes.Transparent;
         /// <summary>
         /// 边框色
         /// </summary>
@@ -87,7 +87,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 透明度
-        public double Opacity_ = 1;
+        private double Opacity_ = 1;
         /// <summary>
         /// 透明度（0~1）
         /// </summary>
@@ -103,7 +103,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 文字大小
-        public double FontSize_ = 12;
+        private double FontSize_ = 12;
         /// <summary>
         /// 文字大小
         /// </summary>
@@ -119,7 +119,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 文字色
-        public Brush TextColor_ = Brushes.Black;
+        private Brush TextColor_ = Brushes.Black;
         /// <summary>
         /// 边框色
         /// </summary>
@@ -138,14 +138,14 @@ namespace Project1.UI.Controls.Models
         /// <summary>
         /// 边框色
         /// </summary>
-        public FontWeight FontWeight
+        private FontWeight FontWeight
         {
             get { return IsFontBold ? FontWeights.Bold : FontWeights.Normal; }
         }
         #endregion
 
         #region 是否加粗
-        public bool IsFontBold_ = false;
+        private bool IsFontBold_ = false;
         /// <summary>
         /// 文字大小
         /// </summary>
@@ -163,7 +163,7 @@ namespace Project1.UI.Controls.Models
         //文本类型元素属性
 
         #region 文字
-        public string Text_;
+        private string Text_;
         /// <summary>
         /// 文字
         /// </summary>
@@ -181,7 +181,7 @@ namespace Project1.UI.Controls.Models
         //按钮类型元素属性
 
         #region 按钮文字
-        public string ButtonText_;
+        private string ButtonText_;
         /// <summary>
         /// 按钮文字
         /// </summary>
@@ -197,7 +197,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 按钮样式名
-        public string ButtonStyleName_;
+        private string ButtonStyleName_;
         /// <summary>
         /// 按钮样式名
         /// </summary>
@@ -213,7 +213,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 按钮样式
-        public Style ButtonStyle_;
+        private Style ButtonStyle_;
         /// <summary>
         /// 按钮样式名
         /// </summary>
@@ -229,7 +229,7 @@ namespace Project1.UI.Controls.Models
         #endregion
 
         #region 命令
-        public string Command_;
+        private string Command_;
         /// <summary>
         /// 文字
         /// </summary>
@@ -246,7 +246,7 @@ namespace Project1.UI.Controls.Models
         //图片类型元素属性
 
         #region 图片
-        public ImageSource ImageSource_;
+        private ImageSource ImageSource_;
         public ImageSource ImageSource
         {
             get
@@ -258,7 +258,7 @@ namespace Project1.UI.Controls.Models
                 ImageSource_ = value;
             }
         }
-        public string Image_ = "";
+        private string Image_ = "";
         /// <summary>
         /// 图片路径
         /// </summary>
@@ -269,16 +269,18 @@ namespace Project1.UI.Controls.Models
             {
                 try
                 {
-                    var image = new BitmapImage(new Uri(value, UriKind.RelativeOrAbsolute));
-                    Image_ = value;
+                    //var image = new BitmapImage(new Uri(value, UriKind.RelativeOrAbsolute));
+                    //Image_ = value;
+                    //ImageSource = image;
                     //Width = image.Width;
                     //Height = image.Height;
-                    ImageSource = image;
+                    Image_ = value;
+                    ImageSource = BitmapImager.Load(value);
                     OnPropertyChanged();
                 }
                 catch
                 {
-
+                    Debug.WriteLine(value);
                 }
             }
         }
