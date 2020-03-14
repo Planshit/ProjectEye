@@ -170,12 +170,14 @@ namespace ProjectEye.ViewModels
                         imageElement.Stretch = Stretch.Fill;
                         try
                         {
-                            imageElement.Source = new BitmapImage(new Uri(element.Image, UriKind.RelativeOrAbsolute));
+                            //imageElement.Source = new BitmapImage(new Uri(element.Image, UriKind.RelativeOrAbsolute));
+                            imageElement.Source = BitmapImager.Load(element.Image);
 
                         }
                         catch
                         {
-                            imageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
+                            imageElement.Source = BitmapImager.Load("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
+                            //imageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
                         }
                         container.Children.Add(imageElement);
                         break;
@@ -202,7 +204,7 @@ namespace ProjectEye.ViewModels
             tipimage.Width = 272;
             tipimage.Opacity = 1;
             tipimage.Height = 187;
-            tipimage.Image = "pack://application:,,,/ProjectEye;component/Resources/Themes/Default/Images/tipImage.png";
+            tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Themes/{config.options.Style.Theme.ThemeName}/Images/tipImage.png";
             tipimage.X = WindowInstance.Width / 2 - tipimage.Width / 2;
             tipimage.Y = WindowInstance.Height * .24;
 

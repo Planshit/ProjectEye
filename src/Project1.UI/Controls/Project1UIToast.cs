@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project1.UI.Cores;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -89,8 +90,9 @@ namespace Project1.UI.Controls
         /// <param name="filePath">文件绝对路径</param>
         public void SetIcon(string filePath)
         {
-            Icon = new BitmapImage(
-    new Uri(filePath));
+            //        Icon = new BitmapImage(
+            //new Uri(filePath));
+            Icon = BitmapImager.Load(filePath);
         }
 
         public override void OnApplyTemplate()

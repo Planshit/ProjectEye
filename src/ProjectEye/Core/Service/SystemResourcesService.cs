@@ -41,7 +41,12 @@ namespace ProjectEye.Core.Service
                 ThemeName = "Black",
                 ThemeColor = "#000"
             });
-
+            Themes.Add(new ThemeModel()
+            {
+                DisplayName = "蓝色",
+                ThemeName = "Blue",
+                ThemeColor = "#4F6BED"
+            });
             PreAlertActions.Add(new ComboxModel()
             {
                 DisplayName = "进入本次休息",

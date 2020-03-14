@@ -174,15 +174,6 @@ namespace ProjectEye.ViewModels
                 {
                     msg = "选项已成功更新。但是开机启动选项可能未生效。";
                 }
-                //处理离开监听开关
-                //if (config.options.General.LeaveListener)
-                //{
-                //    mainService.OpenLeaveListener();
-                //}
-                //else
-                //{
-                //    mainService.CloseLeaveListener();
-                //}
                 //处理休息间隔调整
                 mainService.SetWarnTime(config.options.General.WarnTime);
                 //处理主题切换

@@ -73,6 +73,7 @@
     <Compile Include="Controls\Project1UIWindow.cs" />
     <Compile Include="Controls\Commands\Project1UIInputCommands.cs" />
     <Compile Include="Controls\Commands\Project1UIWindowCommands.cs" />
+    <Compile Include="Cores\BitmapImager.cs" />
     <Compile Include="Cores\UIDefaultSetting.cs" />
     <Compile Include="Cores\Theme.cs" />
     <Compile Include="Cores\UINotifyPropertyChanged.cs" />

@@ -64,10 +64,10 @@ namespace ProjectEye.Core.Service
         /// 用户离开时发生
         /// </summary>
         public event MainEventHandler OnLeaveEvent;
-        /// <summary>
-        /// 用户回来时发生
-        /// </summary>
-        public event MainEventHandler OnComeBackEvent;
+        ///// <summary>
+        ///// 用户回来时发生
+        ///// </summary>
+        //public event MainEventHandler OnComeBackEvent;
         /// <summary>
         /// 计时器重启时发生
         /// </summary>
@@ -99,73 +99,7 @@ namespace ProjectEye.Core.Service
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
         }
 
-        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
-        {
-            switch (e.Mode)
-            {
-                case PowerModes.Suspend:
-                    //电脑休眠
-                    Pause();
-                    break;
-                case PowerModes.Resume:
-                    //电脑恢复
-                    Start();
-                    break;
-
-
-            }
-        }
-
-        private void busy_timer_Tick(object sender, EventArgs e)
-        {
-            Debug.WriteLine("用户超过20秒未处理");
-            //用户超过20秒未处理
-            busy_timer.Stop();
-            //关闭窗口
-            WindowManager.Hide("TipWindow");
-            //if (config.options.General.LeaveListener)
-            //{
-            //进入离开状态
-            OnLeave();
-            //}
-            //else
-            //{
-            //    ReStart();
-            //}
-
-        }
-
-        private void back_timer_Tick(object sender, EventArgs e)
-        {
-            if (IsCursorPosChanged())
-            {
-                Debug.WriteLine("用户回来了");
-                //鼠标变化，停止计时器
-                back_timer.Stop();
-                leave_timer.Start();
-                timer.Start();
-                //事件响应
-                OnComeBackEvent?.Invoke(this, 0);
-                if (config.options.General.Data)
-                {
-                    statistic.ResetStatisticTime();
-                    //启动用眼计时
-                    useeye_timer.Start();
-                }
-            }
-            SaveCursorPos();
-        }
-
-        private void leave_timer_Tick(object sender, EventArgs e)
-        {
-            if (IsUserLeave())
-            {
-                //用户离开了电脑
-                OnLeave();
-            }
-            SaveCursorPos();
-        }
-
+        #region 初始化
         public void Init()
         {
             //初始化用眼计时器
@@ -213,15 +147,75 @@ namespace ProjectEye.Core.Service
 
         }
 
+        #endregion
+
+        private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        {
+            switch (e.Mode)
+            {
+                case PowerModes.Suspend:
+                    //电脑休眠
+                    Pause();
+                    break;
+                case PowerModes.Resume:
+                    //电脑恢复
+                    Start();
+                    break;
+            }
+        }
+
+        private void busy_timer_Tick(object sender, EventArgs e)
+        {
+            Debug.WriteLine("用户超过20秒未处理");
+            //用户超过20秒未处理
+            busy_timer.Stop();
+            //关闭窗口
+            WindowManager.Hide("TipWindow");
+            //进入离开状态
+            OnLeave();
+        }
+
+        private void back_timer_Tick(object sender, EventArgs e)
+        {
+            if (IsCursorPosChanged())
+            {
+                Debug.WriteLine("用户回来了");
+                back_timer.Stop();
+                Start();
+            }
+            SaveCursorPos();
+        }
+
+        private void leave_timer_Tick(object sender, EventArgs e)
+        {
+            if (IsUserLeave())
+            {
+                //用户离开了电脑
+                OnLeave();
+            }
+            SaveCursorPos();
+        }
+
+
         #region 到达统计时间
         private void useeye_timer_Tick(object sender, EventArgs e)
         {
             Debug.WriteLine("统计用眼时长");
-            //更新用眼时长
-            statistic.StatisticUseEyeData();
-            //数据持久化
-            statistic.Save();
+            StatisticData();
 
+        }
+        #endregion
+
+        #region 统计数据
+        private void StatisticData()
+        {
+            if (config.options.General.Data)
+            {
+                //更新用眼时长
+                statistic.StatisticUseEyeData();
+                //数据持久化
+                statistic.Save();
+            }
         }
         #endregion
 
@@ -245,17 +239,13 @@ namespace ProjectEye.Core.Service
         public void OnLeave()
         {
             Debug.WriteLine("用户离开了");
-            //用户可能是离开电脑了
-            leave_timer.Stop();
+            WindowManager.Hide("TipWindow");
+            //停止所有服务
+            DoStop();
             //启动back timer监听鼠标状态
             back_timer.Start();
-            timer.Stop();
             //事件响应
             OnLeaveEvent?.Invoke(this, 0);
-
-            //停止用眼计时
-            useeye_timer.Stop();
-
         }
         #endregion
 
@@ -279,48 +269,21 @@ namespace ProjectEye.Core.Service
         }
         #endregion
 
-        #region 启动计时
+        #region 启动主服务
         public void Start()
         {
             DoStart();
         }
         #endregion
 
-        #region 暂停计时
+        #region 暂停主服务
         /// <summary>
         /// 暂停
         /// </summary>
         public void Pause()
         {
             DoStop();
-        }
-        #endregion
-
-        #region 打开离开监听
-        /// <summary>
-        /// 打开离开监听
-        /// </summary>
-        public void OpenLeaveListener()
-        {
-            if (!leave_timer.IsEnabled)
-            {
-                leave_timer.Start();
-            }
-        }
-        #endregion
-
-        #region 关闭离开监听
-        /// <summary>
-        /// 关闭离开监听
-        /// </summary>
-        public void CloseLeaveListener()
-        {
-            leave_timer.Stop();
-            back_timer.Stop();
-            if (!timer.IsEnabled)
-            {
-                timer.Start();
-            }
+            OnPause?.Invoke(this, 0);
         }
         #endregion
 
@@ -359,13 +322,13 @@ namespace ProjectEye.Core.Service
         {
             //休息提醒
             timer.Start();
-            //if (config.options.General.LeaveListener)
-            //{
-            //离开检测
+            //离开监听
             leave_timer.Start();
-            //}
+            //数据统计
             if (config.options.General.Data)
             {
+                //重置用眼计时
+                statistic.ResetStatisticTime();
                 //用眼统计
                 useeye_timer.Start();
             }
@@ -376,13 +339,19 @@ namespace ProjectEye.Core.Service
         #region 停止计时实际操作
         private void DoStop()
         {
+
+            //统计数据
+            StatisticData();
+
             timer.Stop();
 
             leave_timer.Stop();
 
             back_timer.Stop();
 
-            OnPause?.Invoke(this, 0);
+            useeye_timer.Stop();
+
+            busy_timer.Stop();
         }
         #endregion
 

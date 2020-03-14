@@ -48,11 +48,11 @@ namespace ProjectEye.Core.Service
 
             app.Exit += new ExitEventHandler(app_Exit);
             mainService.OnLeaveEvent += MainService_OnLeaveEvent;
-            mainService.OnComeBackEvent += MainService_OnComeBackEvent;
+            mainService.OnStart += MainService_OnStart; ;
 
         }
 
-        private void MainService_OnComeBackEvent(object service, int msg)
+        private void MainService_OnStart(object service, int msg)
         {
             UpdateIcon("sunglasses");
         }
@@ -222,9 +222,12 @@ namespace ProjectEye.Core.Service
         }
         private void UpdateIcon(string name)
         {
-            Uri iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
-            StreamResourceInfo info = Application.GetResourceStream(iconUri);
-            notifyIcon.Icon = new Icon(info.Stream);
+            if (notifyIcon != null)
+            {
+                Uri iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
+                StreamResourceInfo info = Application.GetResourceStream(iconUri);
+                notifyIcon.Icon = new Icon(info.Stream);
+            }
         }
         /// <summary>
         /// 设置不提醒操作
