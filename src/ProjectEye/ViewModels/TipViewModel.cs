@@ -204,7 +204,7 @@ namespace ProjectEye.ViewModels
             tipimage.Width = 272;
             tipimage.Opacity = 1;
             tipimage.Height = 187;
-            tipimage.Image = "pack://application:,,,/ProjectEye;component/Resources/Themes/Default/Images/tipImage.png";
+            tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Themes/{config.options.Style.Theme.ThemeName}/Images/tipImage.png";
             tipimage.X = WindowInstance.Width / 2 - tipimage.Width / 2;
             tipimage.Y = WindowInstance.Height * .24;
 
