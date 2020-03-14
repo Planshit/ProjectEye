@@ -109,7 +109,6 @@ namespace ProjectEye.Core.Service
             main.OnReStartTimer += Main_OnReStartTimer;
             main.OnReset += Main_OnReset;
             main.OnLeaveEvent += Main_OnLeaveEvent;
-            main.OnComeBackEvent += Main_OnComeBackEvent;
             main.OnPause += Main_OnPause;
             main.OnStart += Main_OnStart;
             config.Changed += Config_Changed;
@@ -136,13 +135,6 @@ namespace ProjectEye.Core.Service
             }
         }
 
-        private void Main_OnComeBackEvent(object service, int msg)
-        {
-            if (config.options.Style.IsPreAlert)
-            {
-                preAlertTimer.Start();
-            }
-        }
 
         private void Main_OnLeaveEvent(object service, int msg)
         {
@@ -157,8 +149,8 @@ namespace ProjectEye.Core.Service
             if (config.options.Style.IsPreAlert)
             {
                 //达到休息时间时重启预提醒
-                preAlertTimer.Stop();
-                preAlertTimer.Start();
+                preAlertTimer?.Stop();
+                preAlertTimer?.Start();
             }
         }
 
@@ -167,7 +159,7 @@ namespace ProjectEye.Core.Service
             if (config.options.Style.IsPreAlert)
             {
                 //休息结束时启动预提醒
-                preAlertTimer.Start();
+                preAlertTimer?.Start();
             }
         }
 
@@ -176,7 +168,7 @@ namespace ProjectEye.Core.Service
             if (config.options.Style.IsPreAlert)
             {
                 //休息开始时停止预提醒
-                preAlertTimer.Stop();
+                preAlertTimer?.Stop();
             }
         }
 

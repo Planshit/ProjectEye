@@ -23,7 +23,13 @@ namespace ProjectEye.Core.Service
         public SoundService(ConfigService config)
         {
             player = new SoundPlayer();
+            player.LoadCompleted += Player_LoadCompleted;
             this.config = config;
+        }
+
+        private void Player_LoadCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            player.Dispose();
         }
 
         public void Init()
@@ -86,7 +92,7 @@ namespace ProjectEye.Core.Service
                     player.SoundLocation = file;
                 }
                 player.LoadAsync();
-
+                
                 return true;
             }
             catch (Exception ec)

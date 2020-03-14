@@ -30,6 +30,7 @@ namespace ProjectEye.Core
                 }
                 else
                 {
+                    xmlReader.Dispose();
                     return null;
                 }
             }
