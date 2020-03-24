@@ -55,6 +55,14 @@ namespace ProjectEye.Core.Service
         private void MainService_OnStart(object service, int msg)
         {
             UpdateIcon("sunglasses");
+            if (contextMenu != null)
+            {
+                menuItem_NoReset_OneHour.IsChecked = false;
+                menuItem_NoReset_TwoHour.IsChecked = false;
+                menuItem_NoReset_Forver.IsChecked = false;
+                menuItem_NoReset.IsChecked = false;
+                menuItem_NoReset_Off.IsChecked = true;
+            }
         }
 
         private void MainService_OnLeaveEvent(object service, int msg)
@@ -254,14 +262,14 @@ namespace ProjectEye.Core.Service
             {
                 //直到下次启动
                 menuItem_NoReset.IsChecked = true;
-                mainService.Pause();
+                mainService.Pause(false);
             }
             else
             {
                 //指定计时
                 menuItem_NoReset.IsChecked = true;
-                mainService.Pause();
-                
+                mainService.Pause(false);
+
                 noresetTimer.Interval = new TimeSpan(hour, 0, 0);
                 noresetTimer.Tick += (e, c) =>
                 {

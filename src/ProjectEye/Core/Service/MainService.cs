@@ -278,11 +278,12 @@ namespace ProjectEye.Core.Service
 
         #region 暂停主服务
         /// <summary>
-        /// 暂停
+        /// 暂停主服务
         /// </summary>
-        public void Pause()
+        /// <param name="isStopStatistic">是否停止用眼统计，默认true</param>
+        public void Pause(bool isStopStatistic = true)
         {
-            DoStop();
+            DoStop(isStopStatistic);
             OnPause?.Invoke(this, 0);
         }
         #endregion
@@ -337,7 +338,7 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region 停止计时实际操作
-        private void DoStop()
+        private void DoStop(bool isStopStatistic = true)
         {
 
             //统计数据
@@ -349,7 +350,10 @@ namespace ProjectEye.Core.Service
 
             back_timer.Stop();
 
-            useeye_timer.Stop();
+            if (isStopStatistic)
+            {
+                useeye_timer.Stop();
+            }
 
             busy_timer.Stop();
         }
