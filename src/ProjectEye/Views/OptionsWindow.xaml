@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProjectEye.Views"
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
-        Title="选项" Height="300" Width="400"
+        Title="选项" Height="360" Width="460"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/ProjectEye;component/Resources/sunglasses.ico">
     <ui:Project1UIWindow.Resources>
         <Style TargetType="TextBlock">

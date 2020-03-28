@@ -53,12 +53,12 @@
                                     <Grid 
                                         x:Name="TitleBar"
                                         Height="{DynamicResource WindowTitleBarHeight}">
-                                        <Grid.Background>
+                                        <!--<Grid.Background>
                                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.1">
                                                 <GradientStop Color="{DynamicResource ThemeColor}" Offset="0"/>
                                                 <GradientStop Color="Transparent" Offset="1"/>
                                             </LinearGradientBrush>
-                                        </Grid.Background>
+                                        </Grid.Background>-->
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -88,7 +88,7 @@
                                         <Grid Grid.Column="2"
                                               Panel.ZIndex="3">
                                             <!--标题区域-->
-                                            <TextBlock Text="{TemplateBinding Title}" FontWeight="Bold"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{TemplateBinding Title}" FontWeight="Bold" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                                         </Grid>
                                         <Grid Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Top"

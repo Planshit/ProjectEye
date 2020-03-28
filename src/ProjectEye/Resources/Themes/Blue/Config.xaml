@@ -6,7 +6,7 @@
     <s:String x:Key="ThemeName">Blue</s:String>
     <!--【主题颜色】-->
     <Color x:Key="ThemeColor">#4f6bed</Color>
-
+    <Color x:Key="HoverColor">#FF1F3ECF</Color>
     <!--蓝色-->
     <!--<Color x:Key="ThemeColor">#0078d4</Color>-->
     <!--<Color x:Key="ThemeColor">#EA0414</Color>-->
@@ -15,7 +15,7 @@
     <!--辅助颜色-->
     <Color x:Key="SubColor">#F8F9FB</Color>
     <!--文字颜色-->
-    <Color x:Key="FontColor">#000000</Color>
+    <Color x:Key="FontColor">#201f1e</Color>
     <!--按钮文字颜色-->
     <Color x:Key="ButtonColor">white</Color>
     <!--控件边框颜色-->
@@ -40,7 +40,7 @@
     <SolidColorBrush x:Key="SubBrush" Color="{StaticResource SubColor}" />
     <!--辅助颜色笔刷-->
     <SolidColorBrush x:Key="ControlEnterBackgroundBrush" Color="{StaticResource ThemeColor}" Opacity=".1"/>
-
+    <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}" />
     <!--禁用-->
     <SolidColorBrush x:Key="DisableBrush" Color="{StaticResource DisableColor}" />
     <!--文字-->
@@ -53,13 +53,13 @@
     <SolidColorBrush x:Key="LostFocusTextBrush" Color="{StaticResource LostFocusTextColor}" />
     <!--【窗口】-->
     <!--窗口边框颜色-->
-    <SolidColorBrush x:Key="WindowBorderBrush" Color="{StaticResource ThemeColor}" />
+    <SolidColorBrush x:Key="WindowBorderBrush" Color="#ccc" />
     <!--窗口背景颜色-->
     <SolidColorBrush x:Key="WindowBackground" Color="White" />
     <!--窗口边框-->
     <Thickness x:Key="WindowBorderThickness">1</Thickness>
     <!--窗口标题栏高度-->
-    <s:Double x:Key="WindowTitleBarHeight">30</s:Double>
+    <s:Double x:Key="WindowTitleBarHeight">40</s:Double>
 
 
     <!--【按钮】-->
@@ -110,9 +110,9 @@
     <!--按钮默认背景颜色-->
     <SolidColorBrush x:Key="BasicButtonBackground" Color="White"/>
     <!--按钮默认字体颜色-->
-    <SolidColorBrush x:Key="BasicButtonForeground" Color="#292929"/>
+    <SolidColorBrush x:Key="BasicButtonForeground" Color="#323130"/>
     <!--按钮默认边框颜色-->
-    <SolidColorBrush x:Key="BasicButtonBorderBrush" Color="#ABADB3"/>
+    <SolidColorBrush x:Key="BasicButtonBorderBrush" Color="#8a8886"/>
     <!--按钮默认边框-->
     <Thickness x:Key="BasicButtonThickness">1</Thickness>
     <!--按钮默认圆角幅度-->
@@ -121,4 +121,5 @@
 
     <!--按钮经过颜色-->
     <Color x:Key="BasicButtonHoverColor">#4F6BED</Color>
+    <Color x:Key="BasicButtonHoverBackgroundColor">#f3f2f1</Color>
 </ResourceDictionary>
