@@ -5,11 +5,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace Project1.UI.Controls
 {
     public class Project1UIModal : Control
     {
+        /// <summary>
+        /// 持续时间
+        /// </summary>
+        private readonly int Duration = 3;
+        /// <summary>
+        /// 遮罩层透明度
+        /// </summary>
+        public double MaskLayerOpacity
+        {
+            get { return (double)GetValue(MaskLayerOpacityProperty); }
+            set { SetValue(MaskLayerOpacityProperty, value); }
+        }
+        public static readonly DependencyProperty MaskLayerOpacityProperty =
+            DependencyProperty.Register("MaskLayerOpacity", typeof(double), typeof(Project1UIModal), new PropertyMetadata((double)0, new PropertyChangedCallback(OnMaskLayerOpacityPropertyChanged)));
+
+        private static void OnMaskLayerOpacityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Project1UIModal obj = d as Project1UIModal;
+            if (obj != null)
+            {
+                double value = (double)e.NewValue;
+                if (value == 0)
+                {
+                    obj.Visibility = Visibility.Hidden;
+                }
+                if (value > 0 && obj.Visibility == Visibility.Hidden)
+                {
+                    obj.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
@@ -23,20 +58,51 @@ namespace Project1.UI.Controls
             set { SetValue(ShowProperty, value); }
         }
         public static readonly DependencyProperty ShowProperty =
-            DependencyProperty.Register("Show", typeof(bool), typeof(Project1UIModal), new PropertyMetadata(false, new PropertyChangedCallback(ShowPropertyChangedCallback)));
+            DependencyProperty.Register("Show", typeof(bool), typeof(Project1UIModal), new PropertyMetadata(false, new PropertyChangedCallback(OnShowPropertyChanged)));
 
-        private static void ShowPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private DispatcherTimer closeTimer;
+        private static void OnShowPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             Project1UIModal obj = d as Project1UIModal;
             if (obj != null)
             {
-                obj.Visibility = (bool)e.NewValue ? Visibility.Visible : Visibility.Hidden;
+                bool value = (bool)e.NewValue;
+                if (value)
+                {
+                    if(obj.Visibility== Visibility.Hidden)
+                    {
+                        obj.Visibility = Visibility.Visible;
+                    }
+                    obj.closeTimer.Interval = new TimeSpan(0, 0, obj.Duration);
+                    if (!obj.closeTimer.IsEnabled)
+                    {
+                        obj.closeTimer.Start();
+                    }
+                }
             }
         }
 
         public Project1UIModal()
         {
             DefaultStyleKey = typeof(Project1UIModal);
+            Visibility = Visibility.Hidden;
+            closeTimer = new DispatcherTimer();
+            closeTimer.Tick += CloseTimer_Tick;
+        }
+
+        private void CloseTimer_Tick(object sender, EventArgs e)
+        {
+            Show = false;
+        }
+
+        protected override void OnMouseDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseDown(e);
+            if (closeTimer.IsEnabled)
+            {
+                closeTimer.Stop();
+            }
+            Show = false;
         }
     }
 }

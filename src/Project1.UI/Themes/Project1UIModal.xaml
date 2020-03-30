@@ -10,6 +10,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Project1UIModal}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="ShowAnimation">
+                            <DoubleAnimation Storyboard.TargetProperty="MaskLayerOpacity" 
+                                             To=".4"  Duration="0:0:.2" />
+                        </Storyboard>
+                        <Storyboard x:Key="CloseAnimation">
+                            <DoubleAnimation Storyboard.TargetProperty="MaskLayerOpacity" To="0"  Duration="0:0:.2" />
+                        </Storyboard>
+
+                    </ControlTemplate.Resources>
                     <Grid>
                         <!--内容-->
                         <Border
@@ -18,7 +28,7 @@
                         Background="{TemplateBinding Background}"
                             CornerRadius="2"
                             Panel.ZIndex="2"
-                            Padding="5"
+                            Padding="10"
                             Margin="10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -42,10 +52,20 @@
                                           
                                               />-->
                         </Border>
-                        <Border Background="Black" Opacity=".4" Panel.ZIndex="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <Border x:Name="MaskLayer" Background="Black" Opacity="{TemplateBinding MaskLayerOpacity}" Panel.ZIndex="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
-
-
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Show" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ShowAnimation}">
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource CloseAnimation}">
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

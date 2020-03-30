@@ -14,7 +14,7 @@
         </Style>
     </ui:Project1UIWindow.Resources>
     <ui:Project1UIWindow.ExtElement>
-        <ui:Project1UIModal Show="{Binding Model.ShowModal}" Text="{Binding Model.ShowModal}"/>
+        <ui:Project1UIModal Show="{Binding Model.ShowModal,Mode=TwoWay}" Text="{Binding Model.ModalText}"/>
     </ui:Project1UIWindow.ExtElement>
     <Grid Margin="5">
 

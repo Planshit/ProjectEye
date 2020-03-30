@@ -109,7 +109,7 @@ namespace ProjectEye.Models
             }
         }
         //模态弹窗文本
-        private string ModalText_;
+        private string ModalText_="设置已更新";
         public string ModalText
         {
             get
