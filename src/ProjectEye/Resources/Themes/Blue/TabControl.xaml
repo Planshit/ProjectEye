@@ -35,7 +35,7 @@
                         <Border x:Name="Bd" CornerRadius="0"  BorderBrush="Transparent" BorderThickness="0,0,0,2" Margin="0" Padding="10,0,10,5">
 
                             <StackPanel Orientation="Horizontal">
-                                <ContentPresenter Cursor="Hand" x:Name="Content" ContentSource="Header" TextBlock.FontSize="13" TextBlock.FontWeight="Bold" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                                <ContentPresenter Cursor="Hand" x:Name="Content" ContentSource="Header" TextBlock.FontSize="14" TextBlock.Foreground="#323130" TextBlock.FontWeight="Normal" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 
                             </StackPanel>
                         </Border>
@@ -43,13 +43,14 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsSelected" Value="false">
-                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource LostFocusTextBrush}" TargetName="Content"/>
+                            <Setter Property="TextBlock.Foreground" Value="#323130" TargetName="Content"/>
                             <Setter Property="BorderBrush" TargetName="Bd" Value="{x:Null}"/>
                             <!--<Setter Property="BorderThickness" TargetName="Bd" Value="0,0,0,1"/>-->
                         </Trigger>
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="Panel.ZIndex" Value="1"/>
                             <Setter Property="TextBlock.Foreground" Value="{DynamicResource ThemeBrush}" TargetName="Content"/>
+                            <Setter Property="TextBlock.FontWeight" Value="Bold" TargetName="Content"/>
 
 
                             <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ThemeBrush}"/>
@@ -58,7 +59,9 @@
                         </Trigger>
                         <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
-                                --><!--<Condition Property="IsSelected" Value="false"/>--><!--
+                                -->
+                        <!--<Condition Property="IsSelected" Value="false"/>-->
+                        <!--
                                 <Condition Property="IsMouseOver" Value="true"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource ItemHoverBackground}"/>
@@ -107,7 +110,7 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <!--<Setter Property="Background" TargetName="Bd" Value="{StaticResource TabItemDisabledBackground}"/>-->
                             <!--<Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource TabItemDisabledBorderBrush}"/>-->
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            <Setter Property="Foreground" Value="#323130"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
