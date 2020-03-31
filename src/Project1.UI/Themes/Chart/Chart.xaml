@@ -22,27 +22,94 @@
                     </ControlTemplate.Resources>-->
                     <Grid
                         x:Name="MainContainer">
-                        <!--最大值刻度-->
-                        <Rectangle 
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid >
+                            <!--最大值标注-->
+                            <Border
+                                x:Name="MaxValueBorder"
+                                Height="50"
+                                VerticalAlignment="Top"
+                                Margin="0,-24,0,0"
+                                >
+                                <TextBlock
+                                    x:Name="MaxValueLabel"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Foreground="#9e9ea7"/>
+                            </Border>
+                            <!--平均值标注-->
+                            <Border
+                                x:Name="AverageBorder"
+                                Height="50"
+                                VerticalAlignment="Bottom"
+                                >
+                                <TextBlock
+                                    x:Name="AverageLabel"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Foreground="#9e9ea7"/>
+                            </Border>
+                            <!--底部值标注-->
+                            <Border
+                                x:Name="BottomValueBorder"
+                                Height="50"
+                                VerticalAlignment="Bottom"
+                                >
+                                <TextBlock
+                                    x:Name="BottomValueLabel"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    FontSize="14"
+                                    FontWeight="Bold"
+                                    Foreground="#9e9ea7"/>
+                            </Border>
+                        </Grid>
+                        <!--主要内容视图-->
+                        <Grid Grid.Column="1">
+                            <!--最大值刻度-->
+                            <Rectangle 
                            x:Name="MaxTick"
                             Height="2"
                             Fill="#f3f2f1"
+                            Panel.ZIndex="1"
                             VerticalAlignment="Top"
                             />
-                        <!--平均值刻度-->
-                        <Rectangle 
+                            <!--平均值刻度-->
+                            <Rectangle 
                            x:Name="AverageTick"
                             Height="2"
                             Fill="#f3f2f1"
-                            VerticalAlignment="Top"
+                            VerticalAlignment="Bottom"
                             Cursor="Hand"
+                            Panel.ZIndex="3"
                             />
-                        <StackPanel
+                            <!--底部刻度-->
+                            <Rectangle 
+                           x:Name="BottomTick"
+                            Height="2"
+                            Fill="#f3f2f1"
+                            VerticalAlignment="Bottom"
+                            Panel.ZIndex="1"
+                            />
+                            <ScrollViewer
+                                HorizontalScrollBarVisibility="Visible"
+                                >
+                                <StackPanel
                         x:Name="Container"
                         Orientation="Horizontal"
                         >
 
-                        </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
                     </Grid>
                     <!--<ControlTemplate.Triggers>-->
                     <!--<Trigger Property="Show" Value="True">

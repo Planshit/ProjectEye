@@ -29,16 +29,15 @@ namespace ProjectEye.ViewModels
             Data.Labels = statistic.GetChartLabels();
 
             chartDatas = new ObservableCollection<ChartDataModel>();
-            chartDatas.Add(new ChartDataModel()
+            int s = new Random().Next(1, 200);
+            for (int i = 0; i < 30; i++)
             {
-                Name = "1",
-                Value = 20
-            });
-            chartDatas.Add(new ChartDataModel()
-            {
-                Name = "2",
-                Value = 60
-            });
+                chartDatas.Add(new ChartDataModel()
+                {
+                    Name = i.ToString(),
+                    Value = (i + s) * (s % (i + 1)),
+                });
+            }
 
         }
 
