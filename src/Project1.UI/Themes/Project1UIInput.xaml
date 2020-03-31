@@ -21,12 +21,12 @@
         <Setter Property="Width"
           Value="120" />
         <Setter Property="Height"
-          Value="23" />
+          Value="28" />
         <Setter Property="TextWrapping"
           Value="NoWrap" />
         <Setter Property="IconSize" Value="15" />
         <Setter Property="BorderThickness" Value="{DynamicResource InputThickness}"/>
-        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="CornerRadius" Value="2"/>
         <Setter Property="Foreground" Value="{DynamicResource InputForeground}"/>
 
         <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>

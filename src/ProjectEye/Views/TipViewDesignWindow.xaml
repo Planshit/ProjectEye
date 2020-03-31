@@ -16,7 +16,7 @@
         <ui:Project1UIDesignContainer Name="Container" Instance="{Binding Container,Mode=TwoWay}" >
 
         </ui:Project1UIDesignContainer>
-        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0">
+        <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5">
             <StackPanel Orientation="Horizontal">
                 <ui:Project1UIButton 
                                              Content="保存"
@@ -27,7 +27,7 @@
                                              Content="退出"
                                              Command="{Binding commonCommand}"
                                                  CommandParameter="quit"
-                                             Style="{DynamicResource basic}"
+                                             
                     Margin="10,0,0,0"/>
 
             </StackPanel>

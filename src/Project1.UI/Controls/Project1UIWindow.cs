@@ -111,6 +111,18 @@ namespace Project1.UI.Controls
             set { SetValue(CloseVisibilityProperty, value); }
         }
         #endregion
+
+        #region 拓展内容
+        public static readonly DependencyProperty ExtElementProperty = DependencyProperty.Register("ExtElement", typeof(object), typeof(Project1UIWindow));
+        /// <summary>
+        /// 拓展内容
+        /// </summary>
+        public object ExtElement
+        {
+            get { return GetValue(ExtElementProperty); }
+            set { SetValue(ExtElementProperty, value); }
+        }
+        #endregion
         #endregion
 
         #region 2.私有属性

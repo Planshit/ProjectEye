@@ -95,13 +95,18 @@ namespace ProjectEye.ViewModels
         /// <param name="obj"></param>
         private void addBreackProcessCommand_action(object obj)
         {
-            if (Model.Data.Behavior.BreakProgressList.Contains(obj.ToString()))
+            string process = obj.ToString();
+            if (process == string.Empty)
             {
-                MessageBox.Show("进程已存在！", "提示");
+                Modal("请输入进程名称");
+            }
+            else if (Model.Data.Behavior.BreakProgressList.Contains(process))
+            {
+                Modal("进程已存在，请勿重复添加");
             }
             else
             {
-                Model.Data.Behavior.BreakProgressList.Add(obj.ToString());
+                Model.Data.Behavior.BreakProgressList.Add(process);
             }
         }
 
@@ -135,14 +140,15 @@ namespace ProjectEye.ViewModels
             if (!string.IsNullOrEmpty(config.options.General.SoundPath))
             {
                 bool resultTest = sound.Test(config.options.General.SoundPath);
-                if (resultTest)
-                {
-                    MessageBox.Show("音效已被正确加载！", "提示");
-                }
-                else
-                {
-                    MessageBox.Show("音效不能被加载！", "警告");
-                }
+                Modal(resultTest ? "音效已被正确加载" : "音效不能被加载");
+                //if (resultTest)
+                //{
+                //    MessageBox.Show("音效已被正确加载！", "提示");
+                //}
+                //else
+                //{
+                //    MessageBox.Show("音效不能被加载！", "警告");
+                //}
             }
 
         }
@@ -154,8 +160,8 @@ namespace ProjectEye.ViewModels
             {
                 msg = "创建桌面快捷方式成功！";
             }
-            MessageBox.Show(msg, "提示");
-
+            //MessageBox.Show(msg, "提示");
+            Modal(msg);
         }
 
         private void openurlCommand_action(object obj)
@@ -179,7 +185,14 @@ namespace ProjectEye.ViewModels
                 //处理主题切换
                 theme.SetTheme(config.options.Style.Theme.ThemeName);
             }
-            MessageBox.Show(msg, "提示");
+            //MessageBox.Show(msg, "提示");
+            Modal(msg);
+        }
+
+        private void Modal(string text)
+        {
+            Model.ModalText = text;
+            Model.ShowModal = true;
         }
     }
 }

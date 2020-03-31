@@ -65,6 +65,10 @@ namespace Project1.UI.Controls.Models
         /// 命令
         /// </summary>
         public string Command { get; set; }
+        /// <summary>
+        /// 文本对齐方式
+        /// </summary>
+        public int TextAlignment { get; set; }
 
     }
 }

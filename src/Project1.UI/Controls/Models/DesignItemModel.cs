@@ -1,6 +1,7 @@
 ﻿using Project1.UI.Cores;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -138,7 +139,7 @@ namespace Project1.UI.Controls.Models
         /// <summary>
         /// 边框色
         /// </summary>
-        private FontWeight FontWeight
+        public FontWeight FontWeight
         {
             get { return IsFontBold ? FontWeights.Bold : FontWeights.Normal; }
         }
@@ -174,6 +175,50 @@ namespace Project1.UI.Controls.Models
             {
                 Text_ = value;
                 OnPropertyChanged();
+            }
+        }
+        #endregion
+        #region 文字对齐方式
+        /// <summary>
+        /// 文本元素支持的文字对齐方式
+        /// </summary>
+        public ObservableCollection<DesignTextAlignment> TextAlignmentList { get; set; }
+        private DesignTextAlignment TextAlignment_;
+        /// <summary>
+        /// 文字对齐方式
+        /// </summary>
+        public DesignTextAlignment TextAlignment
+        {
+            get { return TextAlignment_; }
+            set
+            {
+                TextAlignment_ = value;
+                OnPropertyChanged();
+            }
+        }
+        /// <summary>
+        /// 文字对齐方式
+        /// </summary>
+        public TextAlignment TextALignment
+        {
+            get
+            {
+                if (TextAlignment != null)
+                {
+                    switch (TextAlignment.Value)
+                    {
+                        case 0:
+
+                            return System.Windows.TextAlignment.Left;
+                        case 1:
+
+                            return System.Windows.TextAlignment.Center;
+                        case 2:
+
+                            return System.Windows.TextAlignment.Right;
+                    }
+                }
+                return System.Windows.TextAlignment.Left;
             }
         }
         #endregion

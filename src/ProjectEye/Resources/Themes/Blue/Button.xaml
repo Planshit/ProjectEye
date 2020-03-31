@@ -102,7 +102,7 @@
 
     <!--基础按钮-->
     <Style x:Key="basic" TargetType="{x:Type controls:Project1UIButton}">
-
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="BorderThickness" Value="{DynamicResource BasicButtonThickness}" />
         <Setter Property="BorderBrush" Value="{DynamicResource BasicButtonBorderBrush}" />
         <Setter Property="Background" Value="{DynamicResource BasicButtonBackground}" />
@@ -111,9 +111,9 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Height"
-          Value="25" />
+          Value="28" />
         <Setter Property="Width"
-          Value="75" />
+          Value="90" />
         <Setter Property="IconSize" Value="12" />
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -142,15 +142,15 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                 Storyboard.TargetName="Border">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="{DynamicResource BasicButtonHoverColor}" />
+                                         Value="{DynamicResource BasicButtonHoverBackgroundColor}" />
                                         </ColorAnimationUsingKeyFrames>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Border">
+                                        <!--<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Border">
                                             <EasingColorKeyFrame KeyTime="0"
                                          Value="#4F6BED" />
-                                        </ColorAnimationUsingKeyFrames>
+                                        </ColorAnimationUsingKeyFrames>-->
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
@@ -193,7 +193,7 @@
     <!--默认按钮-->
     <Style x:Key="default" TargetType="{x:Type controls:Project1UIButton}">
 
-        <Setter Property="BorderThickness" Value="{DynamicResource ButtonThickness}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
         <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
@@ -201,10 +201,11 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Height"
-          Value="25" />
+          Value="28" />
         <Setter Property="Width"
-          Value="75" />
+          Value="90" />
         <Setter Property="IconSize" Value="12" />
+        <Setter Property="Cursor" Value="Hand" />
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
 
@@ -238,7 +239,7 @@
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                 Storyboard.TargetName="Border">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="{DynamicResource ButtonHoverColor}" />
+                                         Value="{DynamicResource HoverColor}" />
                                         </ColorAnimationUsingKeyFrames>
 
                                     </Storyboard>

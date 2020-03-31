@@ -12,7 +12,7 @@
         <Setter Property="Width"
           Value="120" />
         <Setter Property="Height"
-          Value="23" />
+          Value="28" />
         <Setter Property="BorderThickness" Value="{DynamicResource InputThickness}"/>
         <Setter Property="Foreground" Value="{DynamicResource InputForeground}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}"/>
@@ -23,6 +23,7 @@
                 <ControlTemplate TargetType="{x:Type controls:Project1UIKeyboardInput}">
                     <Border
                         x:Name="Border"
+                        CornerRadius="2"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}">

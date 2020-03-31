@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     >
 
-    
-    
+
+
     <Style x:Key="ScrollBarThumb"  
            TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle"  
@@ -16,7 +16,7 @@
                     <Grid>
                         <Rectangle  
                             x:Name="Bar"
-                            Fill="{DynamicResource ControlBorderBrush}"  
+                            Fill="#c8c6c4"  
                             RadiusX="2"  
                             RadiusY="2"/>
                     </Grid>
@@ -26,7 +26,7 @@
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
-                
+
             </Setter.Value>
         </Setter>
     </Style>
@@ -165,7 +165,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}"  
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}"  
                                 Padding="{TemplateBinding Padding}"
                                 >
@@ -190,6 +190,7 @@
                             <ScrollBar x:Name="PART_VerticalScrollBar"  
                                        HorizontalAlignment="Right"  
                                        Maximum="{TemplateBinding ScrollableHeight}"  
+                                       Opacity="0"
                                        Orientation="Vertical"  
                                       ScrollViewer.IsDeferredScrollingEnabled="True"
                                        ViewportSize="{TemplateBinding ViewportHeight}"  
@@ -206,19 +207,21 @@
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
-                    <!--SourceName="PART_VerticalScrollBar"-->
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_VerticalScrollBar" Property="Opacity" Value="1" />
                     
+                        </Trigger>
                         <EventTrigger RoutedEvent="MouseEnter"  
                                       SourceName="PART_VerticalScrollBar">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    
-                    <!--<DoubleAnimation  
+
+                                    <!--<DoubleAnimation  
                                         Storyboard.TargetName="PART_VerticalScrollBar"  
                                         Storyboard.TargetProperty="Opacity"  
                                         To="1"  
                                         Duration="0:0:0.3"/>-->
-                    
+
                                     <DoubleAnimation  
                                         Storyboard.TargetName="PART_VerticalScrollBar"  
                                         Storyboard.TargetProperty="Width"  
@@ -231,13 +234,13 @@
                                       SourceName="PART_VerticalScrollBar">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    
-                    <!--<DoubleAnimation  
+
+                                    <!--<DoubleAnimation  
                                         Storyboard.TargetName="PART_VerticalScrollBar"  
                                         Storyboard.TargetProperty="Opacity"  
                                         To="0.5"  
                                         Duration="0:0:0.3"/>-->
-                    
+
                                     <DoubleAnimation  
                                         Storyboard.TargetName="PART_VerticalScrollBar"  
                                         Storyboard.TargetProperty="Width"  

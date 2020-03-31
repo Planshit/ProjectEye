@@ -10,7 +10,7 @@
         <Setter Property="Background" Value="{DynamicResource WindowBackground}" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Width" Value="384" />
-        <Setter Property="Height" Value="170" />
+        <Setter Property="Height" Value="180" />
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="ResizeMode" Value="NoResize" />
         <Setter Property="WindowStyle" Value="None" />
@@ -29,7 +29,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="40"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="45"/>
+                                <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
                             <!--header-->
                             <Grid Grid.Row="0">
