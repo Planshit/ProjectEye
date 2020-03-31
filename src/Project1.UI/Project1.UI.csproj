@@ -50,6 +50,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\ChartControl\ChartItem.cs" />
+    <Compile Include="Controls\ChartControl\Chart.cs" />
+    <Compile Include="Controls\ChartControl\Models\ChartDataModel.cs" />
     <Compile Include="Controls\Data\TextAlignmentData.cs" />
     <Compile Include="Controls\Models\DesignTextAlignment.cs" />
     <Compile Include="Controls\Project1UIModal.cs" />
@@ -210,6 +213,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\Chart\ChartItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -219,6 +226,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Project1UIColorSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Chart\Chart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

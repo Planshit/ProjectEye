@@ -1,0 +1,78 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Project1.UI.Controls.ChartControl"
+          
+                    >
+    <Style TargetType="{x:Type controls:ChartItem}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="30" />
+        <Setter Property="ItemColor" Value="#4f6bed"/>
+        <Setter Property="Foreground" Value="#323130"/>
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:ChartItem}">
+                    <!--<ControlTemplate.Resources>
+                        <Storyboard x:Key="ShowAnimation">
+                            <DoubleAnimation Storyboard.TargetProperty="MaskLayerOpacity" 
+                                             To=".4"  Duration="0:0:.2" />
+                        </Storyboard>
+                        <Storyboard x:Key="CloseAnimation">
+                            <DoubleAnimation Storyboard.TargetProperty="MaskLayerOpacity" To="0"  Duration="0:0:.2" />
+                        </Storyboard>
+
+                    </ControlTemplate.Resources>-->
+                    <Grid Background="Transparent"
+                          Width="{TemplateBinding Width}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <Rectangle
+                            x:Name="ValueControl"
+                                RadiusX="2"
+                                RadiusY="2"
+                                Fill="{TemplateBinding ItemColor}"
+                                Width="{TemplateBinding Width}"
+                            VerticalAlignment="Bottom"
+                                />
+                        <Canvas
+                            x:Name="TextContainer"
+                            Grid.Row="1"
+                            Width="{TemplateBinding Width}"
+                            >
+                            <TextBlock
+                            
+                                VerticalAlignment="Bottom"
+                            Text="{TemplateBinding TagName}"
+                            Foreground="{TemplateBinding Foreground}"
+                            TextAlignment="Center"
+                            FontWeight="Bold"
+                            FontSize="14"
+                            Width="{TemplateBinding Width}"
+                                Canvas.Bottom="0"
+                            />
+                        </Canvas>
+
+                    </Grid>
+                    <!--<ControlTemplate.Triggers>-->
+                    <!--<Trigger Property="Show" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource ShowAnimation}">
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource CloseAnimation}">
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>-->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+</ResourceDictionary>

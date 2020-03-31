@@ -17,6 +17,8 @@
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIDesignItem.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIColorSelect.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIModal.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Chart/Chart.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Chart/ChartItem.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

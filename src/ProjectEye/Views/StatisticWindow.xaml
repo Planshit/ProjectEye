@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectEye.Views"
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+        xmlns:chart="clr-namespace:Project1.UI.Controls.ChartControl;assembly=Project1.UI"
         mc:Ignorable="d"
         Title="数据统计" Height="450" Width="800"
                      WindowStartupLocation="CenterScreen" Icon="/ProjectEye;component/Resources/sunglasses.ico">
@@ -61,6 +62,11 @@
                     <ui:Project1UIChart Grid.Row="1" Data="{Binding Mode=TwoWay,Path=Data.Skip}"
                                     Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
                                     Label="次"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="TEST">
+                <Grid Margin="15">
+                    <chart:Chart Data="{Binding chartDatas}"/>
                 </Grid>
             </TabItem>
         </TabControl>
