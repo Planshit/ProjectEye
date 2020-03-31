@@ -43,64 +43,67 @@
                                 Background="{TemplateBinding Background}"
                                 >
                             <AdornerDecorator>
-                                <Grid x:Name="WindowContent">
+                                <Grid>
+                                    <!--拓展内容-->
+                                    <ContentControl  Content="{TemplateBinding ExtElement}" Panel.ZIndex="999"/>
+                                    <Grid x:Name="WindowContent">
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="*"></RowDefinition>
 
-                                    </Grid.RowDefinitions>
+                                        </Grid.RowDefinitions>
 
-                                    <!--标题栏-->
-                                    <Grid 
+                                        <!--标题栏-->
+                                        <Grid 
                                         x:Name="TitleBar"
                                         Height="{DynamicResource WindowTitleBarHeight}">
-                                        <Grid.Background>
-                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.1">
-                                                <GradientStop Color="{DynamicResource ThemeColor}" Offset="0"/>
-                                                <GradientStop Color="Transparent" Offset="1"/>
-                                            </LinearGradientBrush>
-                                        </Grid.Background>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <Grid.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.1">
+                                                    <GradientStop Color="{DynamicResource ThemeColor}" Offset="0"/>
+                                                    <GradientStop Color="Transparent" Offset="1"/>
+                                                </LinearGradientBrush>
+                                            </Grid.Background>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
 
-                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
 
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0" WindowChrome.IsHitTestVisibleInChrome="True">
-                                            <!--LOGO区域-->
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Grid.Column="0" WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <!--LOGO区域-->
 
 
-                                            <Image Width="16" Height="16" Source="{TemplateBinding Icon}"
+                                                <Image Width="16" Height="16" Source="{TemplateBinding Icon}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
                                                    Margin="7,0"/>
-                                        </Grid>
-                                        <!--导航栏区域-->
-                                        <Grid 
+                                            </Grid>
+                                            <!--导航栏区域-->
+                                            <Grid 
                                             x:Name="NavigationViewGrid"
                                             Grid.Column="1" WindowChrome.IsHitTestVisibleInChrome="True"
                                             Panel.ZIndex="3">
-                                            <ContentControl 
+                                                <ContentControl 
                                                 x:Name="NavigationView"
                                                 VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding NavigationView}" />
-                                        </Grid>
-                                        <Grid Grid.Column="2"
+                                            </Grid>
+                                            <Grid Grid.Column="2"
                                               Panel.ZIndex="3">
-                                            <!--标题区域-->
-                                            <TextBlock Text="{TemplateBinding Title}" FontWeight="Bold"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                <!--标题区域-->
+                                                <TextBlock Text="{TemplateBinding Title}" FontWeight="Bold"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                                        </Grid>
-                                        <Grid Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                            </Grid>
+                                            <Grid Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Top"
                                               WindowChrome.IsHitTestVisibleInChrome="True"
                                               Panel.ZIndex="3">
-                                            <!--系统按钮区域-->
+                                                <!--系统按钮区域-->
 
-                                            <StackPanel Orientation="Horizontal">
-                                                <!--最小化-->
-                                                <Button
+                                                <StackPanel Orientation="Horizontal">
+                                                    <!--最小化-->
+                                                    <Button
                                                     ToolTip="最小化"
                                                     Width="34"
                                                     Height="26"
@@ -109,8 +112,8 @@
                                                     Command="{x:Static cmd:Project1UIWindowCommands.MinimizeWindowCommand}"
                                                     Visibility="{TemplateBinding MinimizeVisibility}"
                                                     />
-                                                <!--最大化-->
-                                                <Button
+                                                    <!--最大化-->
+                                                    <Button
                                                     ToolTip="最大化"
                                                     x:Name="MaximizeButton"
                                                     Width="34"
@@ -119,8 +122,8 @@
                                                     Content="&#xE922;"
                                                     Command="{x:Static cmd:Project1UIWindowCommands.MaximizeWindowCommand}"
                                                     Visibility="{TemplateBinding MaximizeVisibility}"/>
-                                                <!--还原-->
-                                                <Button
+                                                    <!--还原-->
+                                                    <Button
                                                     ToolTip="向下还原"
                                                     x:Name="RestoreButton"
                                                     Width="34"
@@ -129,8 +132,8 @@
                                                     Content="&#xE923;"
                                                     Visibility="Collapsed"
                                                     Command="{x:Static cmd:Project1UIWindowCommands.RestoreWindowCommand}"/>
-                                                <!--关闭-->
-                                                <Button
+                                                    <!--关闭-->
+                                                    <Button
                                                     ToolTip="关闭"
                                                     Width="34"
                                                     Height="26"
@@ -139,18 +142,19 @@
                                                     Command="{x:Static cmd:Project1UIWindowCommands.CloseWindowCommand}"
                                                     Visibility="{TemplateBinding CloseVisibility}"/>
 
-                                            </StackPanel>
+                                                </StackPanel>
 
 
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
 
 
 
-                                    <!--窗体内容-->
-                                    <ContentPresenter Grid.Row="1"
+                                        <!--窗体内容-->
+                                        <ContentPresenter Grid.Row="1"
                                                       Panel.ZIndex="2"/>
 
+                                    </Grid>
                                 </Grid>
                             </AdornerDecorator>
                         </Border>
@@ -176,7 +180,9 @@
                             <Setter TargetName="RestoreButton" Property="Visibility" Value="Collapsed" />
                         </Trigger>-->
                         <!--<EventTrigger RoutedEvent="Window.Loaded">
-                            --><!--窗口载入动画--><!--
+                            -->
+                        <!--窗口载入动画-->
+                        <!--
                             <BeginStoryboard Storyboard="{StaticResource Storyboardload}">
                             </BeginStoryboard>
 
@@ -192,7 +198,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    
+
     </Style>
 
 
