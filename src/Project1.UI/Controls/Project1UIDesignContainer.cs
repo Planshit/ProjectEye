@@ -1,5 +1,6 @@
 ﻿
 using Project1.UI.Controls.Commands;
+using Project1.UI.Controls.Data;
 using Project1.UI.Controls.Enums;
 using Project1.UI.Controls.Models;
 using Project1.UI.Cores;
@@ -39,6 +40,7 @@ namespace Project1.UI.Controls
         private Point olPoint = new Point();
         private ControlPoint controlPointType = ControlPoint.LeftTop;
         public ContainerModel containerModel { get; set; }
+        private TextAlignmentData textAlignmentData;
         public Project1UIDesignContainer()
         {
             //this.DefaultStyleKey = typeof(Project1UIDesignContainer);
@@ -67,6 +69,7 @@ namespace Project1.UI.Controls
                 Mode = BindingMode.OneWay,
 
             });
+            textAlignmentData = new TextAlignmentData();
         }
         private void Project1UIDesignContainer_Loaded(object sender, RoutedEventArgs e)
         {
@@ -121,9 +124,16 @@ namespace Project1.UI.Controls
             {
                 controlPoint.Y = this.ActualHeight / 2 - item.ActualHeight / 2;
             };
+            var itemAtt = new MenuItem();
+            itemAtt.Header = "属性";
+            itemAtt.Click += (s, e) =>
+            {
+                item.OpenAttPopup();
+            };
             menu.Items.Add(itemRemove);
             menu.Items.Add(itemHcenter);
             menu.Items.Add(itemVcenter);
+            menu.Items.Add(itemAtt);
 
 
             return menu;
@@ -374,6 +384,7 @@ namespace Project1.UI.Controls
                     element.Image = data.Image;
                     element.TextColor = data.TextColor;
                     element.FontSize = data.FontSize;
+                    element.TextAlignment = data.TextAlignment != null ? data.TextAlignment.Value : 0;
                     switch (control.ItemType)
                     {
                         case DesignItemType.Text:
@@ -447,6 +458,7 @@ namespace Project1.UI.Controls
                             itemModel.TextColor = element.TextColor;
                             itemModel.IsFontBold = element.IsTextBold;
                             itemModel.FontSize = element.FontSize;
+                            itemModel.TextAlignment = textAlignmentData[element.TextAlignment];
                             item.Content = text;
                             break;
 

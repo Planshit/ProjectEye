@@ -28,7 +28,7 @@
                         Background="{TemplateBinding Background}"
                             CornerRadius="2"
                             Panel.ZIndex="2"
-                            Padding="10"
+                            Padding="10,15"
                             Margin="10"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"

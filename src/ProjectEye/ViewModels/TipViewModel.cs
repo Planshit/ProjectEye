@@ -325,6 +325,20 @@ namespace ProjectEye.ViewModels
             textBlock.FontWeight = element.IsTextBold ? FontWeights.Bold : FontWeights.Normal;
             textBlock.Foreground = element.TextColor;
             textBlock.TextWrapping = TextWrapping.Wrap;
+            TextAlignment textAlignment = TextAlignment.Left;
+            switch (element.TextAlignment)
+            {
+                case 0:
+                    textAlignment = TextAlignment.Left;
+                    break;
+                case 1:
+                    textAlignment = TextAlignment.Center;
+                    break;
+                case 2:
+                    textAlignment = TextAlignment.Right;
+                    break;
+            }
+            textBlock.TextAlignment = textAlignment;
             if (!Regex.IsMatch(element.Text, @"\{(.*?)\}"))
             {
                 textBlock.Text = element.Text;

@@ -75,6 +75,7 @@
 
                             <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.General.SoundPath}" Width="auto" Placeholder="留空为默认音效"
                                             Type="FileSelect"
+                                                Icon="MusicNote"
                                             ExtNames=".wav文件|*.wav"/>
                             <ui:Project1UIButton Grid.Column="2"
                                              Margin="5,0,0,0"

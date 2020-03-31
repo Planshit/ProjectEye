@@ -1,8 +1,10 @@
-﻿using Project1.UI.Controls.Enums;
+﻿using Project1.UI.Controls.Data;
+using Project1.UI.Controls.Enums;
 using Project1.UI.Controls.Models;
 using Project1.UI.Cores;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -99,6 +101,7 @@ namespace Project1.UI.Controls
         public static readonly DependencyProperty TextColorVisibilityProperty =
             DependencyProperty.Register("TextColorVisibility", typeof(Visibility), typeof(Project1UIDesignItem), new PropertyMetadata(Visibility.Collapsed));
         #endregion
+
         #endregion
 
         public bool IsAttPopupOpen { get; set; } = false;
@@ -106,6 +109,8 @@ namespace Project1.UI.Controls
         public delegate void ControlPointEventHandler(object sender, ControlPoint controlPoint);
         public event ControlPointEventHandler ControlPointMouseDown;
         public event ControlPointEventHandler ControlPointMouseUp;
+
+
 
         private DesignItemModel designItemModel;
         /// <summary>
@@ -130,6 +135,12 @@ namespace Project1.UI.Controls
             };
             VerticalAlignment = VerticalAlignment.Top;
             HorizontalAlignment = HorizontalAlignment.Left;
+            designItemModel.TextAlignmentList = new ObservableCollection<DesignTextAlignment>();
+            TextAlignmentData textAlignmentData = new TextAlignmentData();
+            foreach(DesignTextAlignment item in textAlignmentData.ToList())
+            {
+                designItemModel.TextAlignmentList.Add(item);
+            }
         }
 
 
@@ -322,14 +333,28 @@ namespace Project1.UI.Controls
                         UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 
                     });
+                    BindingOperations.SetBinding(control, TextBlock.TextAlignmentProperty, new Binding()
+                    {
+                        Source = designItemModel,
+                        Path = new PropertyPath("TextALignment"),
+                        Mode = BindingMode.OneWay,
+                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+
+                    });
                     break;
             }
         }
-        private void OnPopupOpen(object sender, MouseButtonEventArgs e)
+
+
+        public void OpenAttPopup()
         {
             IsAttPopupOpen = true;
             attPopup.IsOpen = true;
             this.MouseDown += OnPopupClose;
+        }
+        private void OnPopupOpen(object sender, MouseButtonEventArgs e)
+        {
+            OpenAttPopup();
         }
 
         private void OnPopupClose(object sender, MouseButtonEventArgs e)

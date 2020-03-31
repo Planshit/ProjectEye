@@ -50,6 +50,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Data\TextAlignmentData.cs" />
+    <Compile Include="Controls\Models\DesignTextAlignment.cs" />
     <Compile Include="Controls\Project1UIModal.cs" />
     <Compile Include="Controls\Converters\Project1UIIconToUnicodeConverter.cs" />
     <Compile Include="Controls\Enums\DesignItemType.cs" />

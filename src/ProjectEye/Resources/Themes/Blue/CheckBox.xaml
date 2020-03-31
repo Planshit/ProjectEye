@@ -20,7 +20,8 @@
                     Height="20"
                     CornerRadius="2"
                     BorderThickness="1"
-                    BorderBrush="#323130">
+                    BorderBrush="#323130"
+                                    >
 
                                 <Grid>
                                     <Path Visibility="Collapsed"
@@ -64,7 +65,7 @@
                                 <Condition Property="IsChecked" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverCheckMark" Property="Visibility" Value="Visible"/>
-                            <!--<Setter TargetName="Border" Property="Background" Value="{DynamicResource ControlEnterBackgroundBrush}"/>-->
+                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
 
 
                         </MultiTrigger>

@@ -193,7 +193,7 @@
     <!--默认按钮-->
     <Style x:Key="default" TargetType="{x:Type controls:Project1UIButton}">
 
-        <Setter Property="BorderThickness" Value="{DynamicResource ButtonThickness}" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
         <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
         <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
@@ -239,7 +239,7 @@
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                 Storyboard.TargetName="Border">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="{DynamicResource ButtonHoverColor}" />
+                                         Value="{DynamicResource HoverColor}" />
                                         </ColorAnimationUsingKeyFrames>
 
                                     </Storyboard>

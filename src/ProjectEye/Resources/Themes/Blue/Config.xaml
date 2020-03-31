@@ -76,7 +76,7 @@
 
 
     <!--按钮经过背景颜色-->
-    <SolidColorBrush x:Key="ButtonHoverBackground" Color="{StaticResource ThemeColor}" Opacity=".95"/>
+    <SolidColorBrush x:Key="ButtonHoverBackground" Color="{StaticResource HoverColor}"/>
     <!--按钮经过字体颜色-->
     <SolidColorBrush x:Key="ButtonHoverForeground" Color="{StaticResource ThemeColor}"/>
     <!--按钮按下背景颜色-->
