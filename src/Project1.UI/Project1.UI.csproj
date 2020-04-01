@@ -53,6 +53,8 @@
     <Compile Include="Controls\ChartControl\ChartItem.cs" />
     <Compile Include="Controls\ChartControl\Chart.cs" />
     <Compile Include="Controls\ChartControl\Models\ChartDataModel.cs" />
+    <Compile Include="Controls\Converters\DoubleToStringConverter.cs" />
+    <Compile Include="Controls\Converters\StringConverter.cs" />
     <Compile Include="Controls\Data\TextAlignmentData.cs" />
     <Compile Include="Controls\Models\DesignTextAlignment.cs" />
     <Compile Include="Controls\Project1UIModal.cs" />
@@ -271,6 +273,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\IconFonts\FabExMDL2.3.36.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -9,12 +9,40 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
 namespace Project1.UI.Controls.ChartControl
 {
     public class Chart : Control
     {
+        //滚动视图依赖属性
+        #region 滚动位置
+        public double HOffset
+        {
+            get { return (double)GetValue(HOffsetProperty); }
+            set { SetValue(HOffsetProperty, value); }
+        }
+        public static readonly DependencyProperty HOffsetProperty =
+            DependencyProperty.Register("HOffset",
+                typeof(double),
+                typeof(ScrollViewer),
+                new PropertyMetadata((double)0, new PropertyChangedCallback(OnHOffsetChanged)));
+
+
+        private static void OnHOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ScrollViewer scrollViewer = d as ScrollViewer;
+            if (scrollViewer != null)
+            {
+                scrollViewer.ScrollToHorizontalOffset((double)e.NewValue);
+            }
+        }
+
+
+        #endregion
+
+        //控件依赖属性
         #region 图表数据
         /// <summary>
         /// 图表数据
@@ -70,7 +98,59 @@ namespace Project1.UI.Controls.ChartControl
 
         #endregion
 
+        #region 平均值
+        /// <summary>
+        /// 平均值
+        /// </summary>
+        public double Average
+        {
+            get { return (double)GetValue(AverageProperty); }
+            set { SetValue(AverageProperty, value); }
+        }
+        public static readonly DependencyProperty AverageProperty =
+            DependencyProperty.Register("Average",
+                typeof(double),
+                typeof(Chart),
+                new PropertyMetadata((double)0));
 
+
+        #endregion
+
+        #region 向左滚动控制按钮显示状态
+        /// <summary>
+        /// 获取或设置向左滚动控制按钮显示状态
+        /// </summary>
+        public Visibility ScrollLeftButtonVisibility
+        {
+            get { return (Visibility)GetValue(ScrollLeftButtonVisibilityProperty); }
+            set { SetValue(ScrollLeftButtonVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty ScrollLeftButtonVisibilityProperty =
+            DependencyProperty.Register("ScrollLeftButtonVisibility",
+                typeof(Visibility),
+                typeof(Chart),
+                new PropertyMetadata(Visibility.Hidden));
+
+
+        #endregion
+
+        #region 向右滚动控制按钮显示状态
+        /// <summary>
+        /// 获取或设置向右滚动控制按钮显示状态
+        /// </summary>
+        public Visibility ScrollRightButtonVisibility
+        {
+            get { return (Visibility)GetValue(ScrollRightButtonVisibilityProperty); }
+            set { SetValue(ScrollRightButtonVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty ScrollRightButtonVisibilityProperty =
+            DependencyProperty.Register("ScrollRightButtonVisibility",
+                typeof(Visibility),
+                typeof(Chart),
+                new PropertyMetadata(Visibility.Hidden));
+
+
+        #endregion
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var chart = (d as Chart);
@@ -91,6 +171,10 @@ namespace Project1.UI.Controls.ChartControl
         /// 主容器
         /// </summary>
         private Grid MainContainer;
+        /// <summary>
+        /// 项目滚动容器
+        /// </summary>
+        private ScrollViewer ItemsScrollViewer;
         /// <summary>
         /// 平均值刻度
         /// </summary>
@@ -119,17 +203,128 @@ namespace Project1.UI.Controls.ChartControl
         /// 底部值标注
         /// </summary>
         private TextBlock BottomValueLabel;
+        /// <summary>
+        /// 平均值
+        /// </summary>
+        private double averageValue;
+        /// <summary>
+        /// 平均值Y
+        /// </summary>
+        private double averageTickY;
+        /// <summary>
+        /// 平均值标注Y
+        /// </summary>
+        private double averageLabelY;
+        /// <summary>
+        /// 动画
+        /// </summary>
+        private Storyboard storyboard;
+        /// <summary>
+        /// 向左滚动按钮
+        /// </summary>
+        private Button ScrollLeftButton;
+        /// <summary>
+        /// 向右滚动按钮
+        /// </summary>
+        private Button ScrollRightButton;
+        /// <summary>
+        /// 项目容器滚动动画容器
+        /// </summary>
+        private Storyboard scrollStoryboard;
+        /// <summary>
+        /// 通用动画函数
+        /// </summary>
+        private SineEase sineEase;
+        /// <summary>
+        /// 项目容器滚动动画
+        /// </summary>
+        private DoubleAnimation scrollAnimation;
         public Chart()
         {
             DefaultStyleKey = typeof(Chart);
-
+            storyboard = new Storyboard();
+            storyboard.Duration = TimeSpan.FromSeconds(1);
+            scrollStoryboard = new Storyboard();
+            scrollStoryboard.Duration = TimeSpan.FromSeconds(1);
+            sineEase = new SineEase() { EasingMode = EasingMode.EaseIn };
+            scrollAnimation = new DoubleAnimation();
         }
 
         private void Chart_Loaded(object sender, RoutedEventArgs e)
         {
             Render();
+            if (ScrollLeftButton != null)
+            {
+                ScrollLeftButton.Click += ScrollButton_Click;
+            }
+            if (ScrollRightButton != null)
+            {
+                ScrollRightButton.Click += ScrollButton_Click;
+            }
+
+            if (ItemsScrollViewer != null)
+            {
+                ItemsScrollViewer.PreviewMouseWheel += ItemsScrollViewer_PreviewMouseWheel;
+                ItemsScrollViewer.MouseEnter += ItemsScrollViewer_MouseEnter;
+                ItemsScrollViewer.ScrollChanged += ItemsScrollViewer_ScrollChanged;
+
+            }
+            this.MouseLeave += Chart_MouseLeave;
         }
 
+
+        private void Chart_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            ScrollLeftButtonVisibility = Visibility.Hidden;
+            ScrollRightButtonVisibility = Visibility.Hidden;
+        }
+
+        private void ItemsScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            HandleScrollViewerState();
+        }
+
+        private void ItemsScrollViewer_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            HandleScrollViewerState();
+        }
+
+        #region 项目容器滚动按钮点击事件
+        private void ScrollButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ItemsScrollViewer != null)
+            {
+                if (sender == ScrollLeftButton)
+                {
+                    Scroll(0);
+                    //ItemsScrollViewer.LineLeft();
+                }
+                else
+                {
+                    ItemsScrollViewer.LineRight();
+                }
+            }
+        }
+        #endregion
+
+        #region 项目容器鼠标滚轮事件
+
+        private void ItemsScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollviewer = sender as ScrollViewer;
+            HandleScrollViewerState();
+            if (e.Delta > 0)
+            {
+                scrollviewer.LineLeft();
+            }
+            else
+            {
+
+                scrollviewer.LineRight();
+                e.Handled = true;
+            }
+        }
+        #endregion
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -142,6 +337,10 @@ namespace Project1.UI.Controls.ChartControl
             AverageLabel = GetTemplateChild("AverageLabel") as TextBlock;
             BottomValueBorder = GetTemplateChild("BottomValueBorder") as Border;
             BottomValueLabel = GetTemplateChild("BottomValueLabel") as TextBlock;
+            ItemsScrollViewer = GetTemplateChild("ItemsScrollViewer") as ScrollViewer;
+            ScrollLeftButton = GetTemplateChild("ScrollLeftButton") as Button;
+            ScrollRightButton = GetTemplateChild("ScrollRightButton") as Button;
+
 
             Loaded += Chart_Loaded;
         }
@@ -157,7 +356,9 @@ namespace Project1.UI.Controls.ChartControl
             Calculate();
             RenderItems();
             RenderTick();
-            Debug.WriteLine(1);
+            InitAnimation();
+            InitScrollAnimation();
+            storyboard.Begin();
         }
         /// <summary>
         /// 计算
@@ -174,6 +375,7 @@ namespace Project1.UI.Controls.ChartControl
             }
             MaxValue = Math.Round(MaxValue / 2, MidpointRounding.AwayFromZero) * 2;
         }
+        #region 渲染刻度
         /// <summary>
         /// 渲染刻度
         /// </summary>
@@ -185,24 +387,34 @@ namespace Project1.UI.Controls.ChartControl
             }
 
             double itemTrueHeight = ItemContainer.ActualHeight - 30;
-            double averageValue = Data.Average(m => m.Value);
-            double bottomValue = Data.Where(m => m.Value > 0).Min(m => m.Value);
+            averageValue = Data.Average(m => m.Value);
+            double bottomValue = Data.Where(m => m.Value >= 0).Min(m => m.Value);
 
-            double averageTickMargin = (averageValue / MaxValue) * itemTrueHeight + 30;
+            averageTickY = (averageValue / MaxValue) * itemTrueHeight + 30;
             double bottomTickMargin = (bottomValue / MaxValue) * itemTrueHeight + 30;
-            AverageTick.Margin = new Thickness(0, 0, 0, averageTickMargin);
+            TranslateTransform averageTransform = new TranslateTransform();
+            averageTransform.Y = 0;
+            AverageTick.RenderTransform = averageTransform;
+            //AverageTick.Margin = new Thickness(0, 0, 0, averageTickMargin);
             BottomTick.Margin = new Thickness(0, 0, 0, bottomTickMargin);
 
             //刻度标注
             MaxValueLabel.Text = MaxValue.ToString();
-
-            AverageBorder.Margin = new Thickness(0, 0, 0, averageTickMargin - AverageBorder.ActualHeight / 2 - AverageTick.Height / 2);
-            AverageLabel.Text = ((int)averageValue).ToString();
+            averageLabelY = averageTickY - AverageBorder.ActualHeight / 2 - AverageTick.Height / 2;
+            //AverageBorder.Margin = new Thickness(0, 0, 0, averageTickMargin - AverageBorder.ActualHeight / 2 - AverageTick.Height / 2);
+            AverageBorder.RenderTransform = new TranslateTransform()
+            {
+                Y = 0
+            };
+            //AverageLabel.Text = ((int)averageValue).ToString();
 
             BottomValueBorder.Margin = new Thickness(0, 0, 0, bottomTickMargin - BottomValueBorder.ActualHeight / 2 - BottomTick.Height / 2);
             BottomValueLabel.Text = bottomValue.ToString();
 
         }
+        #endregion
+
+        #region 渲染图表项目
         /// <summary>
         /// 渲染项目
         /// </summary>
@@ -225,6 +437,7 @@ namespace Project1.UI.Controls.ChartControl
                 ItemContainer.Children.Add(item);
             }
         }
+
         private ChartItem GetCreateItem(ChartDataModel chartData, double maxValue)
         {
             ChartItem item = new ChartItem();
@@ -233,10 +446,121 @@ namespace Project1.UI.Controls.ChartControl
             item.MaxValue = maxValue;
             return item;
         }
+        #endregion
+        /// <summary>
+        /// 初始化动画
+        /// </summary>
+        private void InitAnimation()
+        {
+            //通用动画函数
+            //SineEase sineEase = new SineEase() { EasingMode = EasingMode.EaseIn };
+            //平均值刻度动画
+            DoubleAnimation averageAnimation = new DoubleAnimation();
+            averageAnimation.From = 0;
+            averageAnimation.To = -averageTickY;
+            averageAnimation.EasingFunction = sineEase;
+            Storyboard.SetTarget(averageAnimation, AverageTick);
+            Storyboard.SetTargetProperty(averageAnimation, new PropertyPath("RenderTransform.Y"));
+            //平均值标注动画
+            DoubleAnimation averageLabelAnimation = new DoubleAnimation();
+            averageLabelAnimation.From = 0;
+            averageLabelAnimation.To = -averageLabelY;
+            averageLabelAnimation.EasingFunction = sineEase;
+            Storyboard.SetTarget(averageLabelAnimation, AverageBorder);
+            Storyboard.SetTargetProperty(averageLabelAnimation, new PropertyPath("RenderTransform.Y"));
+            //平均值标注数值动画
+            DoubleAnimation averageLabelValueAnimation = new DoubleAnimation();
+            averageLabelValueAnimation.From = 0;
+            averageLabelValueAnimation.To = (int)averageValue;
+            averageLabelValueAnimation.EasingFunction = sineEase;
+            Storyboard.SetTarget(averageLabelValueAnimation, this);
+            Storyboard.SetTargetProperty(averageLabelValueAnimation, new PropertyPath(AverageProperty));
+
+
+            storyboard.Children.Add(averageAnimation);
+            storyboard.Children.Add(averageLabelAnimation);
+            storyboard.Children.Add(averageLabelValueAnimation);
+
+        }
+
+        /// <summary>
+        /// 初始化容器滚动动画（只允许初始化一次）
+        /// </summary>
+        private void InitScrollAnimation()
+        {
+            scrollAnimation.EasingFunction = sineEase;
+            Storyboard.SetTarget(scrollAnimation, ItemsScrollViewer);
+            Storyboard.SetTargetProperty(scrollAnimation, new PropertyPath(HOffsetProperty));
+            scrollStoryboard.Children.Add(scrollAnimation);
+        }
+        /// <summary>
+        /// 容器滚动
+        /// </summary>
+        /// <param name="d">0左，1右</param>
+        private void Scroll(int d)
+        {
+            if (ItemsScrollViewer != null &&
+ItemsScrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible)
+            {
+
+
+                //scrollAnimation.From = 0;
+                double to = 0;
+
+                if (d == 0 && ItemsScrollViewer.HorizontalOffset > 0)
+                {
+                    //左滚
+                    to = 0;
+                }
+                scrollAnimation.From = ItemsScrollViewer.HorizontalOffset;
+                scrollAnimation.To = to;
+                scrollStoryboard.Begin();
+
+            }
+        }
+        private void HandleScrollViewerState()
+        {
+            if (ItemsScrollViewer != null && ItemsScrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible)
+            {
+
+
+                //Debug.WriteLine(ItemsScrollViewer.HorizontalOffset + "/" + ItemsScrollViewer.ScrollableWidth);
+
+                //向左滚动判断
+                if (ItemsScrollViewer.HorizontalOffset > 0)
+                {
+                    //是
+                    ScrollLeftButtonVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    //否
+                    ScrollLeftButtonVisibility = Visibility.Hidden;
+                }
+
+                //向右滚动判断
+                if (ItemsScrollViewer.HorizontalOffset < ItemsScrollViewer.ScrollableWidth)
+                {
+                    //是
+                    ScrollRightButtonVisibility = Visibility.Visible;
+                }
+                else
+                {
+                    //否
+                    ScrollRightButtonVisibility = Visibility.Hidden;
+                }
+
+            }
+
+
+        }
+
+        #region 重写
         protected override void OnRender(DrawingContext drawingContext)
         {
             //base.OnRender(drawingContext);
             RenderTick();
         }
+        #endregion
     }
 }
