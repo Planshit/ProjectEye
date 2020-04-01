@@ -30,7 +30,7 @@ namespace ProjectEye.ViewModels
 
             chartDatas = new ObservableCollection<ChartDataModel>();
             int s = new Random().Next(1, 200);
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 60; i++)
             {
                 chartDatas.Add(new ChartDataModel()
                 {

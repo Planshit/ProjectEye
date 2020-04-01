@@ -137,7 +137,7 @@ namespace Project1.UI.Controls.ChartControl
             DoubleAnimation animation = new DoubleAnimation();
             animation.From = 0;
             animation.To = TrueHeight;
-            animation.EasingFunction = new SineEase() { EasingMode = EasingMode.EaseIn };
+            animation.EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut };
             Storyboard.SetTarget(animation, ValueControl);
             Storyboard.SetTargetProperty(animation, new PropertyPath(HeightProperty));
             storyboard.Children.Add(animation);

@@ -239,6 +239,10 @@ namespace Project1.UI.Controls.ChartControl
         /// 项目容器滚动动画
         /// </summary>
         private DoubleAnimation scrollAnimation;
+        /// <summary>
+        /// 是否在执行滚动动画
+        /// </summary>
+        private bool isScrollAnimationActive = false;
         public Chart()
         {
             DefaultStyleKey = typeof(Chart);
@@ -246,7 +250,11 @@ namespace Project1.UI.Controls.ChartControl
             storyboard.Duration = TimeSpan.FromSeconds(1);
             scrollStoryboard = new Storyboard();
             scrollStoryboard.Duration = TimeSpan.FromSeconds(1);
-            sineEase = new SineEase() { EasingMode = EasingMode.EaseIn };
+            scrollStoryboard.Completed += (e, c) =>
+            {
+                isScrollAnimationActive = false;
+            };
+            sineEase = new SineEase() { EasingMode = EasingMode.EaseInOut };
             scrollAnimation = new DoubleAnimation();
         }
 
@@ -297,11 +305,10 @@ namespace Project1.UI.Controls.ChartControl
                 if (sender == ScrollLeftButton)
                 {
                     Scroll(0);
-                    //ItemsScrollViewer.LineLeft();
                 }
                 else
                 {
-                    ItemsScrollViewer.LineRight();
+                    Scroll(1);
                 }
             }
         }
@@ -315,14 +322,16 @@ namespace Project1.UI.Controls.ChartControl
             HandleScrollViewerState();
             if (e.Delta > 0)
             {
-                scrollviewer.LineLeft();
+                Debug.WriteLine(0);
+                Scroll(0);
             }
             else
             {
+                Scroll(1);
+                Debug.WriteLine(1);
 
-                scrollviewer.LineRight();
-                e.Handled = true;
             }
+            e.Handled = true;
         }
         #endregion
         public override void OnApplyTemplate()
@@ -488,7 +497,10 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         private void InitScrollAnimation()
         {
-            scrollAnimation.EasingFunction = sineEase;
+            scrollAnimation.EasingFunction = new ExponentialEase()
+            {
+                EasingMode = EasingMode.EaseOut
+            };
             Storyboard.SetTarget(scrollAnimation, ItemsScrollViewer);
             Storyboard.SetTargetProperty(scrollAnimation, new PropertyPath(HOffsetProperty));
             scrollStoryboard.Children.Add(scrollAnimation);
@@ -500,18 +512,52 @@ namespace Project1.UI.Controls.ChartControl
         private void Scroll(int d)
         {
             if (ItemsScrollViewer != null &&
-ItemsScrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible)
+                ItemsScrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible &&
+                !isScrollAnimationActive
+)
             {
+                isScrollAnimationActive = true;
+                //取一个数据控件
+                double LostWidth = 0;
 
+                if (ItemContainer.Children.Count > 1)
+                {
+                    //取第二个，才有margin属性
+                    ChartItem chartItem = ItemContainer.Children[1] as ChartItem;
+                    double oneItemWidth = chartItem.ActualWidth + chartItem.Margin.Left;
+                    //每屏最多多少个项目
+                    double onePageMaxItemNum = ItemsScrollViewer.ActualWidth / oneItemWidth;
+                    if ((int)onePageMaxItemNum != onePageMaxItemNum)
+                    {
+                        //带小数点，需要计算
+                        LostWidth = oneItemWidth - double.Parse(("0." + onePageMaxItemNum.ToString().Split('.')[1])) * oneItemWidth - chartItem.Margin.Left;
+                    }
+                }
 
-                //scrollAnimation.From = 0;
-                double to = 0;
-
-                if (d == 0 && ItemsScrollViewer.HorizontalOffset > 0)
+                //计算一屏滚动值
+                double onePageScrollValue = ItemsScrollViewer.ActualWidth - LostWidth - 2;
+                //滚动值
+                double to;
+                if (d == 0)
                 {
                     //左滚
-                    to = 0;
+                    double leftScrollValue = ItemsScrollViewer.HorizontalOffset - onePageScrollValue;
+                    to = leftScrollValue > 0 ? leftScrollValue : 0;
                 }
+                else
+                {
+                    //右滚
+                    double rightScrollValue = ItemsScrollViewer.HorizontalOffset + onePageScrollValue;
+                    to = rightScrollValue < ItemsScrollViewer.ScrollableWidth ? rightScrollValue : ItemsScrollViewer.ScrollableWidth;
+                }
+
+                if (ItemsScrollViewer.HorizontalOffset == to)
+                {
+                    //不执行无变化的动画
+                    isScrollAnimationActive = false;
+                    return;
+                }
+
                 scrollAnimation.From = ItemsScrollViewer.HorizontalOffset;
                 scrollAnimation.To = to;
                 scrollStoryboard.Begin();
@@ -524,7 +570,7 @@ ItemsScrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible)
             {
 
 
-                //Debug.WriteLine(ItemsScrollViewer.HorizontalOffset + "/" + ItemsScrollViewer.ScrollableWidth);
+                //Debug.WriteLine(ItemsScrollViewer.HorizontalOffset + "/" + ItemsScrollViewer.ScrollableWidth + "/全宽：" + ItemContainer.ActualWidth + "/可视区域宽：" + ItemsScrollViewer.ActualWidth);
 
                 //向左滚动判断
                 if (ItemsScrollViewer.HorizontalOffset > 0)
