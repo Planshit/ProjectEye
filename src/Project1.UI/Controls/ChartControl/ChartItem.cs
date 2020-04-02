@@ -1,5 +1,6 @@
 ﻿using Project1.UI.Controls.ChartControl.Models;
 using Project1.UI.Controls.Models;
+using Project1.UI.Cores;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,19 +76,10 @@ namespace Project1.UI.Controls.ChartControl
             DependencyProperty.Register("MaxValue",
                 typeof(double),
                 typeof(ChartItem),
-                new PropertyMetadata((double)100, new PropertyChangedCallback(OnMaxValuePropertyChanged))
+                new PropertyMetadata((double)100)
                 );
 
-        private static void OnMaxValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            //var chart = (d as Project1UIChart);
-            //if (chart != null)
-            //{
-            //    //重绘图表
-            //    chart.InvalidateVisual();
-            //}
 
-        }
         #endregion
 
 
@@ -103,10 +95,19 @@ namespace Project1.UI.Controls.ChartControl
         public static readonly DependencyProperty ItemColorProperty =
             DependencyProperty.Register("ItemColor",
                 typeof(Brush),
-                typeof(ChartItem));
+                typeof(ChartItem),
+                new PropertyMetadata(Brushes.Black, new PropertyChangedCallback(OnPropertyChanged)));
 
         #endregion
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ChartItem chartItem = d as ChartItem;
+            if (e.Property == ItemColorProperty)
+            {
+                chartItem.FillColor();
+            }
 
+        }
         //计算的真实高度
         private double TrueHeight = 0;
 
@@ -127,7 +128,14 @@ namespace Project1.UI.Controls.ChartControl
             base.OnApplyTemplate();
             ValueControl = GetTemplateChild("ValueControl") as Rectangle;
             TextContainer = GetTemplateChild("TextContainer") as Canvas;
+            Loaded += ChartItem_Loaded;
         }
+
+        private void ChartItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            Render();
+        }
+
         /// <summary>
         /// 初始化动画
         /// </summary>
@@ -146,8 +154,37 @@ namespace Project1.UI.Controls.ChartControl
         {
             Calculate();
             ValueControl.Height = TrueHeight;
+
+            FillColor();
+
             InitAnimation();
             BeginAnimation();
+        }
+
+        /// <summary>
+        /// 填充颜色
+        /// </summary>
+        private void FillColor()
+        {
+            if (ValueControl != null)
+            {
+                LinearGradientBrush brush = new LinearGradientBrush();
+
+                brush.StartPoint = new Point(0.5, 0);
+                brush.EndPoint = new Point(0.5, 1);
+                brush.GradientStops.Add(new GradientStop()
+                {
+                    Color = Project1UIColor.BrushToColor(ItemColor, .8),
+                    Offset = 0
+                });
+
+                brush.GradientStops.Add(new GradientStop()
+                {
+                    Color = Project1UIColor.BrushToColor(ItemColor, 1),
+                    Offset = 1,
+                });
+                ValueControl.Fill = brush;
+            }
         }
 
         /// <summary>
@@ -166,7 +203,7 @@ namespace Project1.UI.Controls.ChartControl
         protected override void OnRender(DrawingContext drawingContext)
         {
             //base.OnRender(drawingContext);
-            Render();
+            //Render();
         }
     }
 }

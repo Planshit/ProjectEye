@@ -178,7 +178,7 @@ namespace Project1.UI.Controls.ChartControl
         /// <summary>
         /// 平均值刻度
         /// </summary>
-        private Rectangle AverageTick;
+        private Border AverageTick;
         /// <summary>
         /// 底部刻度
         /// </summary>
@@ -277,6 +277,17 @@ namespace Project1.UI.Controls.ChartControl
                 ItemsScrollViewer.ScrollChanged += ItemsScrollViewer_ScrollChanged;
 
             }
+            if (AverageTick != null)
+            {
+                AverageTick.MouseEnter += (s, c) =>
+                {
+                    VisualStateManager.GoToElementState(AverageTick, "AverageTickMouseEnter", true);
+                };
+                AverageTick.MouseLeave += (s, c) =>
+                {
+                    VisualStateManager.GoToElementState(AverageTick, "AverageTickMouseLeave", true);
+                };
+            }
             this.MouseLeave += Chart_MouseLeave;
         }
 
@@ -322,14 +333,11 @@ namespace Project1.UI.Controls.ChartControl
             HandleScrollViewerState();
             if (e.Delta > 0)
             {
-                Debug.WriteLine(0);
                 Scroll(0);
             }
             else
             {
                 Scroll(1);
-                Debug.WriteLine(1);
-
             }
             e.Handled = true;
         }
@@ -339,7 +347,7 @@ namespace Project1.UI.Controls.ChartControl
             base.OnApplyTemplate();
             ItemContainer = GetTemplateChild("Container") as StackPanel;
             MainContainer = GetTemplateChild("MainContainer") as Grid;
-            AverageTick = GetTemplateChild("AverageTick") as Rectangle;
+            AverageTick = GetTemplateChild("AverageTick") as Border;
             BottomTick = GetTemplateChild("BottomTick") as Rectangle;
             MaxValueLabel = GetTemplateChild("MaxValueLabel") as TextBlock;
             AverageBorder = GetTemplateChild("AverageBorder") as Border;
@@ -409,7 +417,7 @@ namespace Project1.UI.Controls.ChartControl
 
             //刻度标注
             MaxValueLabel.Text = MaxValue.ToString();
-            averageLabelY = averageTickY - AverageBorder.ActualHeight / 2 - AverageTick.Height / 2;
+            averageLabelY = averageTickY - AverageLabel.ActualHeight - AverageTick.ActualHeight / 2;
             //AverageBorder.Margin = new Thickness(0, 0, 0, averageTickMargin - AverageBorder.ActualHeight / 2 - AverageTick.Height / 2);
             AverageBorder.RenderTransform = new TranslateTransform()
             {

@@ -50,8 +50,16 @@ namespace Project1.UI.Cores
         }
         public static Color GetMediaColor(string color)
         {
-            return  (Color)ColorConverter.ConvertFromString(color);
+            return (Color)ColorConverter.ConvertFromString(color);
 
+        }
+
+        public static Color BrushToColor(Brush value, double opacity = 1)
+        {
+            var b = value;
+            var res = (Color)b.GetValue(SolidColorBrush.ColorProperty);
+            res.ScA = (float)opacity;
+            return res;
         }
     }
 }

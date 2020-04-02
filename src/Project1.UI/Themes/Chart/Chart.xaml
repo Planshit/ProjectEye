@@ -119,6 +119,7 @@
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        
                         <Grid >
                             <!--最大值标注-->
                             <Border
@@ -177,14 +178,56 @@
                             VerticalAlignment="Top"
                             />
                             <!--平均值刻度-->
-                            <Rectangle 
-                           x:Name="AverageTick"
+                            <Border
+                                x:Name="AverageTick"
+                                Background="Transparent"
+                                BorderThickness="2"
+                                Panel.ZIndex="3"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="2"
+                                Cursor="Hand"
+                                ToolTip="这是平均值">
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="Transparent" Opacity=".2"/>
+                                </Border.BorderBrush>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="AverageTickMouseEnter">
+                                           
+                                            <Storyboard>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                Storyboard.TargetName="AverageTick">
+                                                    <EasingColorKeyFrame KeyTime="0"
+                                         Value="#4f6bed" />
+                                                </ColorAnimationUsingKeyFrames>
+
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState Name="AverageTickMouseLeave" />
+                                        <VisualStateGroup.Transitions>
+
+
+                                            <VisualTransition To="AverageTickMouseEnter" GeneratedDuration="00:00:00.5">
+                                                <VisualTransition.GeneratedEasingFunction>
+                                                    <ExponentialEase EasingMode="EaseOut" Exponent="10"/>
+                                                </VisualTransition.GeneratedEasingFunction>
+                                            </VisualTransition>
+
+                                        </VisualStateGroup.Transitions>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle 
+                           x:Name="test"
                             Height="2"
                             Fill="#f3f2f1"
-                            VerticalAlignment="Bottom"
-                            Cursor="Hand"
-                            Panel.ZIndex="3"
-                            />
+                            RadiusX="2"
+                                     RadiusY="2"
+                            >
+
+                                </Rectangle>
+
+                            </Border>
+
                             <!--底部刻度-->
                             <Rectangle 
                            x:Name="BottomTick"
@@ -196,6 +239,7 @@
                             <ScrollViewer
                                 x:Name="ItemsScrollViewer"
                                 HorizontalScrollBarVisibility="Auto"
+                                OverridesDefaultStyle="True"
                                 >
                                 <StackPanel
                         x:Name="Container"
@@ -225,6 +269,7 @@
                                 Panel.ZIndex="3"
                                 />
                         </Grid>
+
                     </Grid>
                     <!--<ControlTemplate.Triggers>-->
                     <!--<Trigger Property="Show" Value="True">
@@ -238,6 +283,7 @@
                             </Trigger.ExitActions>
                         </Trigger>
                     </ControlTemplate.Triggers>-->
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
