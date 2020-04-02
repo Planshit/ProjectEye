@@ -461,6 +461,7 @@ namespace Project1.UI.Controls.ChartControl
             item.TagName = chartData.Name;
             item.Value = chartData.Value;
             item.MaxValue = maxValue;
+            item.IsSelected = chartData.IsSelected;
             return item;
         }
         #endregion

@@ -99,6 +99,25 @@ namespace Project1.UI.Controls.ChartControl
                 new PropertyMetadata(Brushes.Black, new PropertyChangedCallback(OnPropertyChanged)));
 
         #endregion
+
+        #region IsSelected
+        /// <summary>
+        /// 值
+        /// </summary>
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
+        public static readonly DependencyProperty IsSelectedProperty =
+            DependencyProperty.Register("IsSelected",
+                typeof(bool),
+                typeof(ChartItem),
+                new PropertyMetadata(false)
+                );
+
+
+        #endregion
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ChartItem chartItem = d as ChartItem;
@@ -113,14 +132,32 @@ namespace Project1.UI.Controls.ChartControl
 
         private Rectangle ValueControl;
         private Canvas TextContainer;
+        /// <summary>
+        /// 选中标记容器
+        /// </summary>
+        private Border SelectedContainer;
 
         //动画
         private Storyboard storyboard;
+        /// <summary>
+        /// 标记动画
+        /// </summary>
+        private Storyboard MarkStoryboard;
+
+        /// <summary>
+        /// 选中标记
+        /// </summary>
+        private Path CheckMark;
         public ChartItem()
         {
             DefaultStyleKey = typeof(ChartItem);
             storyboard = new Storyboard();
             storyboard.Duration = TimeSpan.FromSeconds(1);
+
+            MarkStoryboard = new Storyboard();
+            MarkStoryboard.Duration = TimeSpan.FromSeconds(1);
+            //MarkStoryboard.RepeatBehavior = RepeatBehavior.Forever;
+
         }
 
         public override void OnApplyTemplate()
@@ -128,6 +165,8 @@ namespace Project1.UI.Controls.ChartControl
             base.OnApplyTemplate();
             ValueControl = GetTemplateChild("ValueControl") as Rectangle;
             TextContainer = GetTemplateChild("TextContainer") as Canvas;
+            SelectedContainer = GetTemplateChild("SelectedContainer") as Border;
+            CheckMark = GetTemplateChild("CheckMark") as Path;
             Loaded += ChartItem_Loaded;
         }
 
@@ -149,6 +188,21 @@ namespace Project1.UI.Controls.ChartControl
             Storyboard.SetTarget(animation, ValueControl);
             Storyboard.SetTargetProperty(animation, new PropertyPath(HeightProperty));
             storyboard.Children.Add(animation);
+
+
+            if (CheckMark != null)
+            {
+                CheckMark.RenderTransform = new TranslateTransform() { Y = 5 };
+                DoubleAnimation markAnimation = new DoubleAnimation();
+                markAnimation.From = 3;
+                markAnimation.To = 6;
+                markAnimation.EasingFunction = new SineEase() { EasingMode = EasingMode.EaseInOut };
+                MarkStoryboard.AutoReverse = true;
+                MarkStoryboard.RepeatBehavior = RepeatBehavior.Forever;
+                Storyboard.SetTarget(markAnimation, CheckMark);
+                Storyboard.SetTargetProperty(markAnimation, new PropertyPath("RenderTransform.Y"));
+                MarkStoryboard.Children.Add(markAnimation);
+            }
         }
         private void Render()
         {
@@ -193,12 +247,16 @@ namespace Project1.UI.Controls.ChartControl
         private void Calculate()
         {
             //计算真实高度
-            TrueHeight = (Value / MaxValue) * (ActualHeight - TextContainer.ActualHeight);
+            TrueHeight = (Value / MaxValue) * (ActualHeight - TextContainer.ActualHeight - SelectedContainer.ActualHeight);
         }
 
         private void BeginAnimation()
         {
             storyboard.Begin();
+            if (IsSelected)
+            {
+                MarkStoryboard.Begin();
+            }
         }
         protected override void OnRender(DrawingContext drawingContext)
         {

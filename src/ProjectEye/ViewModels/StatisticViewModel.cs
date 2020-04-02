@@ -35,6 +35,7 @@ namespace ProjectEye.ViewModels
                 chartDatas.Add(new ChartDataModel()
                 {
                     Name = i.ToString(),
+                    IsSelected = i == 34,
                     Value = (i + s) * (s % (i + 1)),
                 });
             }

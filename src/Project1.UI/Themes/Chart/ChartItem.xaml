@@ -35,15 +35,32 @@
                         </Grid.RowDefinitions>
 
                         <Grid>
-                            <Rectangle
+                            <StackPanel
+                                VerticalAlignment="Bottom"
+                                >
+                                <Border
+                                    x:Name="SelectedContainer"
+                                    Background="Transparent" 
+                                    Width="10" 
+                                    Height="20"
+                                    >
+                                    <Path 
+                      x:Name="CheckMark"
+                      Width="10"
+                      Height="10"
+                      SnapsToDevicePixels="False"
+                      Data="M 0 2 L 10 2 L 5 8 L 0 2" Fill="{TemplateBinding ItemColor}"
+                                        />
+                                </Border>
+                                <Grid>
+                                    <Rectangle
                             x:Name="ValueControl"
                                 RadiusX="4"
                                 RadiusY="4"
                                 Width="{TemplateBinding Width}"
-                            VerticalAlignment="Bottom"/>
-                            <Border
+                            />
+                                    <Border
                                 x:Name="ValueControlBorder"
-                                VerticalAlignment="Bottom"
                                 BorderBrush="{TemplateBinding ItemColor}"
                                 Panel.ZIndex="1"
                                 CornerRadius="4"
@@ -51,6 +68,9 @@
                                 BorderThickness="2"
                                 Width="{TemplateBinding Width}"
                                 Height="{Binding ElementName=ValueControl,Path=ActualHeight}"/>
+                                </Grid>
+                            </StackPanel>
+
 
                         </Grid>
 
@@ -76,9 +96,45 @@
 
                     </Grid>
                     <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsSelected" Value="false">
+                            <Setter Property="Visibility" TargetName="CheckMark" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Foreground" TargetName="Label" Value="#4f6bed"/>
+                        </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsSelected" Value="true" />
+
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="ValueControlBorder"
+                          Storyboard.TargetProperty="Opacity" To="1" />
+                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="ValueControl"
+                          Storyboard.TargetProperty="Opacity" To="0.95" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="ValueControlBorder"
+                          Storyboard.TargetProperty="Opacity" To="0" />
+                                        <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="ValueControl"
+                          Storyboard.TargetProperty="Opacity" To="1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsSelected" Value="False" />
+
                             </MultiTrigger.Conditions>
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
@@ -109,7 +165,7 @@
                         </MultiTrigger>
 
                     </ControlTemplate.Triggers>
-                 
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

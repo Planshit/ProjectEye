@@ -23,5 +23,9 @@ namespace Project1.UI.Controls.ChartControl.Models
         /// 悬浮文本
         /// </summary>
         public string Text { get; set; }
+        /// <summary>
+        /// 是否选中
+        /// </summary>
+        public bool IsSelected { get; set; }
     }
 }
