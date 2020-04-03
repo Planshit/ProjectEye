@@ -2,6 +2,7 @@
 using SQLite.CodeFirst;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Core.EntityClient;
 using System.Data.SQLite;
@@ -17,20 +18,21 @@ namespace ProjectEye.Database
         /// 统计数据
         /// </summary>
         public DbSet<StatisticModel> Statistics { get; set; }
+        public StatisticContext()
+       : base("StatisticContext")
+        {
+            DbConfiguration.SetConfiguration(new SQLiteConfiguration());
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //var model = modelBuilder.Build(Database.Connection);
+            //ISqlGenerator sqlGenerator = new SqliteSqlGenerator();
+            //string sql = sqlGenerator.Generate(model.StoreModel);
+
             var model = modelBuilder.Build(Database.Connection);
             IDatabaseCreator sqliteDatabaseCreator = new SqliteDatabaseCreator();
             sqliteDatabaseCreator.Create(Database, model);
         }
-
-        //string connectionString = @"data source = {PathToSqliteDB}";
-        //SQLiteConnection connection = new SQLiteConnection(connectionString))
-        //    {
-        //public StatisticContext() : base(new SQLiteConnection)
-        //{
-
-        //}
     }
 }

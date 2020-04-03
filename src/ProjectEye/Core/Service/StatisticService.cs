@@ -107,16 +107,18 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void LoadStatisticData()
         {
-
+            //string connectionString = @"data source = data.db";
+            //using (var connection = new SQLiteConnection(connectionString))
+            //{
             using (var db = new StatisticContext())
             {
                 // Create and save a new Blog
                 db.Statistics.Add(new StatisticModel()
                 {
                     Date = DateTime.Now,
-                    ResetTime = 5,
+                    ResetTime = 5.4,
                     SkipCount = 1,
-                    WorkingTime = 10
+                    WorkingTime = 10.23
                 });
                 db.SaveChanges();
 
@@ -132,6 +134,7 @@ namespace ProjectEye.Core.Service
 
 
             }
+            //}
 
 
 
