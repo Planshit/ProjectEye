@@ -33,7 +33,41 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="30"/>
                         </Grid.RowDefinitions>
-
+                        <Popup
+                            x:Name="Popup"
+                            Placement="Top"
+                            PlacementTarget="{Binding ElementName=SelectedContainer}"
+                            AllowsTransparency="True"
+                            HorizontalOffset="-10"
+                            >
+                            <Border
+                                x:Name="PopupBorder"
+                                Background="White"
+                                BorderBrush="#ccc"
+                                BorderThickness="1"
+                                Padding="10"
+                                Margin="15"
+                                >
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
+                                </Border.Effect>
+                                <Grid>
+                                    <TextBlock Text="{TemplateBinding PopupText}"/>
+                                    <Path 
+                      Width="15"
+                      Height="15"
+                      SnapsToDevicePixels="False"
+                      Data="M 0 0 L 7.5 7.5 L 15 0" Fill="White"
+                                        Stroke="#ccc"
+                                        StrokeThickness="1"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Left"
+                                        Margin="-5,0,0,-25"
+                                        />
+                                </Grid>
+                                
+                            </Border>
+                        </Popup>
                         <Grid>
                             <StackPanel
                                 VerticalAlignment="Bottom"
@@ -107,8 +141,9 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="true" />
-
+                                <Condition Property="AnimationLock" Value="false" />
                             </MultiTrigger.Conditions>
+                            <Setter TargetName="Popup" Property="IsOpen" Value="true"/>
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -134,8 +169,9 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsSelected" Value="False" />
-
+                                <Condition Property="AnimationLock" Value="false" />
                             </MultiTrigger.Conditions>
+                            <Setter TargetName="Popup" Property="IsOpen" Value="true"/>
                             <MultiTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>

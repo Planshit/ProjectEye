@@ -18,11 +18,11 @@ namespace Project1.UI.Controls.ChartControl.Models
         /// <summary>
         /// 列名
         /// </summary>
-        public string Name { get; set; }
+        public string Tag { get; set; }
         /// <summary>
         /// 悬浮文本
         /// </summary>
-        public string Text { get; set; }
+        public string PopupText { get; set; }
         /// <summary>
         /// 是否选中
         /// </summary>

@@ -1,8 +1,10 @@
 ﻿using ProjectEye.Core.Models;
 using ProjectEye.Core.Models.Statistic;
+using ProjectEye.Database;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -42,7 +44,9 @@ namespace ProjectEye.Core.Service
         //存放文件夹
         private readonly string dir = "Data";
         //统计数据
-        private StatisticListModel statisticList;
+        //private StatisticListModel statisticList;
+
+        public List<StatisticModel> statisticList { get; set; }
         //今日数据
         private StatisticModel todayStatistic;
         //用眼开始时间
@@ -52,8 +56,8 @@ namespace ProjectEye.Core.Service
         {
             this.app = app;
             this.app.Exit += app_Exit;
-            statisticList = new StatisticListModel();
-            statisticList.Data = new List<StatisticModel>();
+            statisticList = new List<StatisticModel>();
+            //statisticList.Data = new List<StatisticModel>();
             xmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 dir,
                 "statistic.xml");
@@ -69,11 +73,11 @@ namespace ProjectEye.Core.Service
         {
             LoadStatisticData();
             //创建今日数据
-            CreateTodayData();
+            //CreateTodayData();
             //清除七天前的数据
-            ClearBefore7Data();
+            //ClearBefore7Data();
             //获取今日数据
-            this.todayStatistic = Find(DateTime.Now.Date);
+            //this.todayStatistic = Find(DateTime.Now.Date);
             //开始计时
             ResetStatisticTime();
         }
@@ -84,17 +88,17 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         private void CreateTodayData()
         {
-            var todayStatistic = Find(DateTime.Now.Date);
-            if (todayStatistic == null)
-            {
-                statisticList.Data.Add(new StatisticModel()
-                {
-                    Date = DateTime.Now.Date,
-                    WorkingTime = 0,
-                    ResetTime = 0,
-                    SkipCount = 0
-                });
-            }
+            //var todayStatistic = Find(DateTime.Now.Date);
+            //if (todayStatistic == null)
+            //{
+            //    statisticList.Data.Add(new StatisticModel()
+            //    {
+            //        Date = DateTime.Now.Date,
+            //        WorkingTime = 0,
+            //        ResetTime = 0,
+            //        SkipCount = 0
+            //    });
+            //}
         }
         #endregion
         #region 加载统计数据
@@ -103,22 +107,50 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void LoadStatisticData()
         {
-            if (File.Exists(xmlPath))
+
+            using (var db = new StatisticContext())
             {
-                var data = xml.ToModel(typeof(StatisticListModel));
-                if (data != null)
+                // Create and save a new Blog
+                db.Statistics.Add(new StatisticModel()
                 {
-                    statisticList = data as StatisticListModel;
-                }
-                else
+                    Date = DateTime.Now,
+                    ResetTime = 5,
+                    SkipCount = 1,
+                    WorkingTime = 10
+                });
+                db.SaveChanges();
+
+                // Display all Blogs from the database
+                var query = from b in db.Statistics
+                            orderby b.Date
+                            select b;
+
+                foreach (var item in query)
                 {
-                    xml.Save(statisticList);
+                    Debug.WriteLine(item.Date + ":" + item.WorkingTime);
                 }
+
+
             }
-            else
-            {
-                xml.Save(statisticList);
-            }
+
+
+
+            //if (File.Exists(xmlPath))
+            //{
+            //    var data = xml.ToModel(typeof(StatisticListModel));
+            //    if (data != null)
+            //    {
+            //        statisticList = data as StatisticListModel;
+            //    }
+            //    else
+            //    {
+            //        xml.Save(statisticList);
+            //    }
+            //}
+            //else
+            //{
+            //    xml.Save(statisticList);
+            //}
 
         }
 
@@ -159,11 +191,11 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         public StatisticModel Find(DateTime date)
         {
-            var data = statisticList.Data.Where(m => m.Date == date);
-            if (data.Count() == 1)
-            {
-                return data.Single();
-            }
+            //var data = statisticList.Data.Where(m => m.Date == date);
+            //if (data.Count() == 1)
+            //{
+            //    return data.Single();
+            //}
             return null;
         }
         #endregion
@@ -174,12 +206,12 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void ClearBefore7Data()
         {
-            if (statisticList.Data.Count > 7)
-            {
-                //只保留最近7天的数据
-                statisticList.Data.RemoveRange(0, statisticList.Data.Count - 7);
-            }
-            xml.Save(statisticList);
+            //if (statisticList.Data.Count > 7)
+            //{
+            //    //只保留最近7天的数据
+            //    statisticList.Data.RemoveRange(0, statisticList.Data.Count - 7);
+            //}
+            //xml.Save(statisticList);
         }
         #endregion
 
@@ -191,23 +223,24 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         public double[] GetChartData(StatisticType type)
         {
-            ArrayList result = new ArrayList();
-            foreach (StatisticModel statistic in statisticList.Data)
-            {
-                if (type == StatisticType.WorkingTime)
-                {
-                    result.Add(statistic.WorkingTime);
-                }
-                else if (type == StatisticType.ResetTime)
-                {
-                    result.Add(statistic.ResetTime);
-                }
-                else
-                {
-                    result.Add(statistic.SkipCount);
-                }
-            }
-            return (double[])result.ToArray().Select(o => Convert.ToDouble(o)).ToArray();
+            return null;
+            //ArrayList result = new ArrayList();
+            //foreach (StatisticModel statistic in statisticList.Data)
+            //{
+            //    if (type == StatisticType.WorkingTime)
+            //    {
+            //        result.Add(statistic.WorkingTime);
+            //    }
+            //    else if (type == StatisticType.ResetTime)
+            //    {
+            //        result.Add(statistic.ResetTime);
+            //    }
+            //    else
+            //    {
+            //        result.Add(statistic.SkipCount);
+            //    }
+            //}
+            //return (double[])result.ToArray().Select(o => Convert.ToDouble(o)).ToArray();
         }
         #endregion
 
@@ -218,14 +251,15 @@ namespace ProjectEye.Core.Service
         /// <returns></returns>
         public string[] GetChartLabels()
         {
-            ArrayList result = new ArrayList();
-            foreach (StatisticModel statistic in statisticList.Data)
-            {
+            return null;
+            //ArrayList result = new ArrayList();
+            //foreach (StatisticModel statistic in statisticList.Data)
+            //{
 
-                result.Add(statistic.Date.Day + "日");
+            //    result.Add(statistic.Date.Day + "日");
 
-            }
-            return (string[])result.ToArray(typeof(string));
+            //}
+            //return (string[])result.ToArray(typeof(string));
         }
         #endregion
 

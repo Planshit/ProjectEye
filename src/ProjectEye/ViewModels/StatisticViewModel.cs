@@ -29,13 +29,14 @@ namespace ProjectEye.ViewModels
             Data.Labels = statistic.GetChartLabels();
 
             chartDatas = new ObservableCollection<ChartDataModel>();
-            int s = new Random().Next(1, 200);
+            int s = new Random().Next(1, 10);
             for (int i = 0; i < 60; i++)
             {
                 chartDatas.Add(new ChartDataModel()
                 {
-                    Name = i.ToString(),
+                    Tag = i.ToString(),
                     IsSelected = i == 34,
+                    PopupText = i == 34 ? "顶峰值：{value}" : "{value}",
                     Value = (i + s) * (s % (i + 1)),
                 });
             }

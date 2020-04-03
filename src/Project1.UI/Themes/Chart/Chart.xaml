@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Project1.UI.Controls.ChartControl"
-                    xmlns:converter="clr-namespace:Project1.UI.Controls.Converters"
+                    xmlns:converter="clr-namespace:Project1.UI.Controls.ChartControl.Converters"
+                    xmlns:conver="clr-namespace:Project1.UI.Controls.Converters"
                     >
     <Style x:Key="ScrollButton" TargetType="Button">
         <Setter Property="Height" Value="40"/>
@@ -94,7 +95,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <converter:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
+
     <Style TargetType="{x:Type controls:Chart}">
         <Setter Property="Background" Value="White" />
         <Setter Property="Foreground" Value="#323130"/>
@@ -116,17 +117,19 @@
                         x:Name="MainContainer">
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        
-                        <Grid >
+
+                        <Grid 
+                            Width="{TemplateBinding TickLabelWidth}"
+                            Margin="0,0,10,0">
                             <!--最大值标注-->
                             <Border
                                 x:Name="MaxValueBorder"
                                 Height="50"
                                 VerticalAlignment="Top"
-                                Margin="0,-24,0,0"
+                                Margin="0,-5,0,0"
                                 >
                                 <TextBlock
                                     x:Name="MaxValueLabel"
@@ -148,8 +151,13 @@
                                     HorizontalAlignment="Center"
                                     FontSize="14"
                                     FontWeight="Bold"
-                                    Foreground="#9e9ea7">
-                                    <Run Text="{TemplateBinding Property=Average,Converter={StaticResource DoubleToStringConverter}}"/>
+                                    Foreground="#9e9ea7"
+                                    Text="{TemplateBinding AverageText}">
+                                    <!--<TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource TickTextConverter}">
+                                            <Binding Path="Average" RelativeSource="{RelativeSource Self}"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>-->
                                 </TextBlock>
                             </Border>
                             <!--底部值标注-->
@@ -176,8 +184,45 @@
                             Fill="#f3f2f1"
                             Panel.ZIndex="1"
                             VerticalAlignment="Top"
+                                Margin="0,20,0,0"
                             />
                             <!--平均值刻度-->
+                            <Popup
+                            x:Name="Popup"
+                            Placement="Top"
+                                PlacementTarget="{Binding ElementName=AverageTick}"
+                            AllowsTransparency="True"
+                            HorizontalOffset="-10"
+                                VerticalOffset="-10"
+                            >
+                                <Border
+                                x:Name="PopupBorder"
+                                Background="White"
+                                BorderBrush="#ccc"
+                                BorderThickness="1"
+                                Padding="10"
+                                Margin="15"
+                                >
+                                    <Border.Effect>
+                                        <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
+                                    </Border.Effect>
+                                    <Grid>
+                                        <TextBlock Text="平均值"/>
+                                        <Path 
+                      Width="15"
+                      Height="15"
+                      SnapsToDevicePixels="False"
+                      Data="M 0 0 L 7.5 7.5 L 15 0" Fill="White"
+                                        Stroke="#ccc"
+                                        StrokeThickness="1"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Left"
+                                        Margin="-5,0,0,-25"
+                                        />
+                                    </Grid>
+
+                                </Border>
+                            </Popup>
                             <Border
                                 x:Name="AverageTick"
                                 Background="Transparent"
@@ -186,14 +231,14 @@
                                 VerticalAlignment="Bottom"
                                 CornerRadius="2"
                                 Cursor="Hand"
-                                ToolTip="这是平均值">
+                                >
                                 <Border.BorderBrush>
                                     <SolidColorBrush Color="Transparent" Opacity=".2"/>
                                 </Border.BorderBrush>
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="AverageTickMouseEnter">
-                                           
+
                                             <Storyboard>
                                                 <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
                                                 Storyboard.TargetName="AverageTick">
@@ -216,6 +261,7 @@
                                         </VisualStateGroup.Transitions>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
+
                                 <Rectangle 
                            x:Name="test"
                             Height="2"

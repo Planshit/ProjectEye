@@ -54,7 +54,6 @@
     <Compile Include="Controls\ChartControl\Chart.cs" />
     <Compile Include="Controls\ChartControl\Models\ChartDataModel.cs" />
     <Compile Include="Controls\Converters\BrushToColorConverter.cs" />
-    <Compile Include="Controls\Converters\DoubleToStringConverter.cs" />
     <Compile Include="Controls\Converters\StringConverter.cs" />
     <Compile Include="Controls\Data\TextAlignmentData.cs" />
     <Compile Include="Controls\Models\DesignTextAlignment.cs" />
@@ -283,7 +282,9 @@
   <ItemGroup>
     <Resource Include="Assets\Themes\Pink\Resources\sakura.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controls\ChartControl\Converters\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\sunglasses.png" />
   </ItemGroup>

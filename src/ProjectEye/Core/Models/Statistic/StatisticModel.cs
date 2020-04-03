@@ -10,6 +10,7 @@ namespace ProjectEye.Core.Models.Statistic
     [XmlRootAttribute("Statistic")]
     public class StatisticModel
     {
+        public int ID { get; set; }
         /// <summary>
         /// 统计日期
         /// </summary>

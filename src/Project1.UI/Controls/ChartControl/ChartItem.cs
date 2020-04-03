@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -59,6 +60,24 @@ namespace Project1.UI.Controls.ChartControl
                 typeof(string),
                 typeof(ChartItem),
                 new PropertyMetadata("Tag")
+                );
+
+        #endregion
+
+        #region PopupText
+        /// <summary>
+        /// PopupText
+        /// </summary>
+        public string PopupText
+        {
+            get { return (string)GetValue(PopupTextProperty); }
+            set { SetValue(PopupTextProperty, value); }
+        }
+        public static readonly DependencyProperty PopupTextProperty =
+            DependencyProperty.Register("PopupText",
+                typeof(string),
+                typeof(ChartItem),
+                new PropertyMetadata(new PropertyChangedCallback(OnPropertyChanged))
                 );
 
         #endregion
@@ -118,12 +137,57 @@ namespace Project1.UI.Controls.ChartControl
 
 
         #endregion
+
+        #region AnimationLock
+        /// <summary>
+        /// AnimationLock控制动画锁定，为true时不允许执行动画，防止UI卡顿
+        /// </summary>
+        public bool AnimationLock
+        {
+            get { return (bool)GetValue(AnimationLockProperty); }
+            set { SetValue(AnimationLockProperty, value); }
+        }
+        public static readonly DependencyProperty AnimationLockProperty =
+            DependencyProperty.Register("AnimationLock",
+                typeof(bool),
+                typeof(ChartItem),
+                new PropertyMetadata(false)
+                );
+
+
+        #endregion
+
+        #region 是否启用动画
+        /// <summary>
+        /// 是否启用动画
+        /// </summary>
+        public bool IsAnimation
+        {
+            get { return (bool)GetValue(IsAnimationProperty); }
+            set { SetValue(IsAnimationProperty, value); }
+        }
+        public static readonly DependencyProperty IsAnimationProperty =
+            DependencyProperty.Register("IsAnimation",
+                typeof(bool),
+                typeof(ChartItem),
+                new PropertyMetadata(true)
+                );
+
+
+        #endregion
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ChartItem chartItem = d as ChartItem;
             if (e.Property == ItemColorProperty)
             {
                 chartItem.FillColor();
+            }
+            if (e.Property == PopupTextProperty)
+            {
+                if (e.NewValue != null)
+                {
+                    chartItem.HandlePopupText();
+                }
             }
 
         }
@@ -148,9 +212,16 @@ namespace Project1.UI.Controls.ChartControl
         /// 选中标记
         /// </summary>
         private Path CheckMark;
-        public ChartItem()
+
+        /// <summary>
+        /// 图表容器控件
+        /// </summary>
+        private Chart chart;
+        public ChartItem(Chart chart)
         {
             DefaultStyleKey = typeof(ChartItem);
+            this.chart = chart;
+            chart.OnAnimationLockEvent += Chart_OnAnimationLockEvent;
             storyboard = new Storyboard();
             storyboard.Duration = TimeSpan.FromSeconds(1);
 
@@ -158,6 +229,14 @@ namespace Project1.UI.Controls.ChartControl
             MarkStoryboard.Duration = TimeSpan.FromSeconds(1);
             //MarkStoryboard.RepeatBehavior = RepeatBehavior.Forever;
 
+        }
+
+        private void Chart_OnAnimationLockEvent(object sender, bool animationlock, int type)
+        {
+            if (type == 0)
+            {
+                AnimationLock = animationlock;
+            }
         }
 
         public override void OnApplyTemplate()
@@ -173,6 +252,24 @@ namespace Project1.UI.Controls.ChartControl
         private void ChartItem_Loaded(object sender, RoutedEventArgs e)
         {
             Render();
+        }
+
+        /// <summary>
+        /// 处理弹出窗口文本变量
+        /// </summary>
+        /// <param name="value"></param>
+        private void HandlePopupText(string value = null)
+        {
+            if (value == null)
+            {
+                value = PopupText;
+            }
+
+            if (PopupText != value || Regex.IsMatch(value, @"\{(.*?)\}"))
+            {
+                value = value.Replace("{value}", Value.ToString());
+                PopupText = value;
+            }
         }
 
         /// <summary>
@@ -206,6 +303,7 @@ namespace Project1.UI.Controls.ChartControl
         }
         private void Render()
         {
+            HandlePopupText();
             Calculate();
             ValueControl.Height = TrueHeight;
 
@@ -252,10 +350,13 @@ namespace Project1.UI.Controls.ChartControl
 
         private void BeginAnimation()
         {
-            storyboard.Begin();
-            if (IsSelected)
+            if (IsAnimation)
             {
-                MarkStoryboard.Begin();
+                storyboard.Begin();
+                if (IsSelected)
+                {
+                    MarkStoryboard.Begin();
+                }
             }
         }
         protected override void OnRender(DrawingContext drawingContext)
