@@ -152,6 +152,7 @@
     <Compile Include="Core\Win32APIHelper.cs" />
     <Compile Include="Core\WindowManager.cs" />
     <Compile Include="Core\XmlExtensions.cs" />
+    <Compile Include="Database\SQLiteBuilder.cs" />
     <Compile Include="Database\SQLiteConfiguration.cs" />
     <Compile Include="Database\StatisticContext.cs" />
     <Compile Include="Models\TipViewDesignModel.cs" />
@@ -563,7 +564,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.Config" />
-    <Resource Include="Database\data.db" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

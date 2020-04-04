@@ -117,7 +117,7 @@ namespace ProjectEye.ViewModels
             //分
             MINUTES = DateTime.Now.ToString("mm");
             //今日用眼时长
-            TWT = statistic.GetTodayData().WorkingTime.ToString();
+                TWT = statistic.GetTodayData().WorkingTime.ToString();
             //今日休息时长
             TRT = statistic.GetTodayData().ResetTime.ToString();
             //今日跳过次数

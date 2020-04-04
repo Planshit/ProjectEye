@@ -44,24 +44,32 @@ namespace ProjectEye.Core.Service
         //存放文件夹
         private readonly string dir = "Data";
         //统计数据
-        //private StatisticListModel statisticList;
+        /// <summary>
+        /// 统计数据（旧版本使用的XML文件存放，仅用于迁移以后不再使用）
+        /// </summary>
+        private StatisticListModel statisticList;
 
-        public List<StatisticModel> statisticList { get; set; }
-        //今日数据
+        /// <summary>
+        /// 今日数据
+        /// </summary>
         private StatisticModel todayStatistic;
-        //用眼开始时间
+
+        /// <summary>
+        /// 用眼开始时间
+        /// </summary>
         private DateTime useEyeStartTime { get; set; }
 
         public StatisticService(App app)
         {
             this.app = app;
             this.app.Exit += app_Exit;
-            statisticList = new List<StatisticModel>();
-            //statisticList.Data = new List<StatisticModel>();
+            statisticList = new StatisticListModel();
+            statisticList.Data = new List<StatisticModel>();
             xmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 dir,
                 "statistic.xml");
-            xml = new XmlExtensions(xmlPath);
+
+
         }
 
         private void app_Exit(object sender, ExitEventArgs e)
@@ -71,7 +79,15 @@ namespace ProjectEye.Core.Service
 
         public void Init()
         {
-            LoadStatisticData();
+            //迁移旧版本的XML数据
+            MigrateXMLDataToDb();
+            //创建本月数据
+            CreateMonthlyItems();
+            //获取设置今日数据
+            todayStatistic = FindCreate();
+
+
+            //LoadStatisticData();
             //创建今日数据
             //CreateTodayData();
             //清除七天前的数据
@@ -81,82 +97,75 @@ namespace ProjectEye.Core.Service
             //开始计时
             ResetStatisticTime();
         }
-        #region 创建今日数据
+
+        //new code
+        #region 迁移数据，从xml到sqlite。下一个版本将弃用 ：）
         /// <summary>
-        /// 创建今日数据模型
+        /// 迁移数据，从xml到sqlite。下一个版本将弃用 ：）
         /// </summary>
-        /// <returns></returns>
-        private void CreateTodayData()
+        private void MigrateXMLDataToDb()
         {
-            //var todayStatistic = Find(DateTime.Now.Date);
-            //if (todayStatistic == null)
-            //{
-            //    statisticList.Data.Add(new StatisticModel()
-            //    {
-            //        Date = DateTime.Now.Date,
-            //        WorkingTime = 0,
-            //        ResetTime = 0,
-            //        SkipCount = 0
-            //    });
-            //}
+            if (File.Exists(xmlPath))
+            {
+                //需要迁移
+                xml = new XmlExtensions(xmlPath);
+
+                var data = xml.ToModel(typeof(StatisticListModel));
+                if (data != null)
+                {
+                    statisticList = data as StatisticListModel;
+
+                    if (statisticList != null && statisticList.Data != null && statisticList.Data.Count > 0)
+                    {
+                        using (var db = new StatisticContext())
+                        {
+                            foreach (var item in statisticList.Data)
+                            {
+                                db.Statistics.Add(item);
+                            }
+                            db.SaveChanges();
+                            //备份数据文件
+                            File.Copy(xmlPath, xmlPath + ".migrate.backup");
+                            //删除原数据文件
+                            File.Delete(xmlPath);
+                            //迁移标记文件，在用户收到迁移提示后将删除
+                            File.WriteAllText(xmlPath + ".migrate.mark", "");
+                        }
+                    }
+
+                }
+            }
         }
         #endregion
-        #region 加载统计数据
+
+        #region 创建本月数据
         /// <summary>
-        /// 加载统计数据
+        /// 创建本月的数据
         /// </summary>
-        public void LoadStatisticData()
+        private void CreateMonthlyItems()
         {
-            //string connectionString = @"data source = data.db";
-            //using (var connection = new SQLiteConnection(connectionString))
-            //{
+            int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            int today = DateTime.Now.Day;
             using (var db = new StatisticContext())
             {
-                // Create and save a new Blog
-                db.Statistics.Add(new StatisticModel()
+                for (int i = 0; i < days; i++)
                 {
-                    Date = DateTime.Now,
-                    ResetTime = 5.4,
-                    SkipCount = 1,
-                    WorkingTime = 10.23
-                });
-                db.SaveChanges();
-
-                // Display all Blogs from the database
-                var query = from b in db.Statistics
-                            orderby b.Date
-                            select b;
-
-                foreach (var item in query)
-                {
-                    Debug.WriteLine(item.Date + ":" + item.WorkingTime);
+                    var date = DateTime.Now.AddDays(-today + (i + 1)).Date;
+                    if (db.Statistics.Where(m => m.Date == date).Count() == 0)
+                    {
+                        //补上缺少的日期
+                        db.Statistics.Add(new StatisticModel()
+                        {
+                            Date = date,
+                            ResetTime = 0,
+                            SkipCount = 0,
+                            WorkingTime = 0
+                        });
+                    }
                 }
-
-
+                db.SaveChanges();
             }
-            //}
-
-
-
-            //if (File.Exists(xmlPath))
-            //{
-            //    var data = xml.ToModel(typeof(StatisticListModel));
-            //    if (data != null)
-            //    {
-            //        statisticList = data as StatisticListModel;
-            //    }
-            //    else
-            //    {
-            //        xml.Save(statisticList);
-            //    }
-            //}
-            //else
-            //{
-            //    xml.Save(statisticList);
-            //}
-
         }
-
         #endregion
 
         #region 更新今日统计数据
@@ -167,17 +176,22 @@ namespace ProjectEye.Core.Service
         /// <param name="value">增加的值(可以为负数)</param>
         public void Add(StatisticType type, double value)
         {
-            //创建今日数据
-            CreateTodayData();
-            //获取今日数据
-            this.todayStatistic = Find(DateTime.Now.Date);
+            if (todayStatistic == null ||
+                todayStatistic.Date.Date != DateTime.Now.Date)
+            {
+                //保存之前的数据
+                Save();
+                //更新当日数据
+                todayStatistic = FindCreate(DateTime.Now.Date);
+            }
+
             switch (type)
             {
                 case StatisticType.WorkingTime:
-                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + value / 60, 2);
+                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + value / 60, 1);
                     break;
                 case StatisticType.ResetTime:
-                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 2);
+                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 1);
                     break;
                 case StatisticType.SkipCount:
                     todayStatistic.SkipCount += (int)value;
@@ -186,83 +200,69 @@ namespace ProjectEye.Core.Service
         }
         #endregion
 
-        #region 查找日期数据
+        #region 查找日期数据,如果不存在则创建
         /// <summary>
-        /// 查找日期数据
+        /// 查找日期数据,如果不存在则创建
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public StatisticModel Find(DateTime date)
+        public StatisticModel FindCreate(DateTime date = default)
         {
+            if (date == default)
+            {
+                date = DateTime.Now;
+            }
+            if (date.Date == DateTime.Now.Date &&
+                todayStatistic != null)
+            {
+                //当日
+                return todayStatistic;
+            }
+            else
+            {
+                //非当日从数据库中查找
+                using (var db = new StatisticContext())
+                {
+                    var res = db.Statistics.Where(m => m.Date == date.Date);
+                    if (res.Count() == 0)
+                    {
+                        //数据库中没有时则创建
+                        var dateData = GetNewdayData(date);
+                        db.Statistics.Add(dateData);
+                        db.SaveChanges();
+                        return dateData;
+                    }
+                    else
+                    {
+                        return res.ToList().Single();
+                    }
+                }
+            }
+
             //var data = statisticList.Data.Where(m => m.Date == date);
             //if (data.Count() == 1)
             //{
             //    return data.Single();
             //}
-            return null;
         }
+
         #endregion
 
-        #region 清除7天前的数据
+        #region 获取一个初始的指定日期统计模型数据
         /// <summary>
-        /// 清除7天前的数据
+        /// 获取一个初始的指定日期统计模型数据
         /// </summary>
-        private void ClearBefore7Data()
-        {
-            //if (statisticList.Data.Count > 7)
-            //{
-            //    //只保留最近7天的数据
-            //    statisticList.Data.RemoveRange(0, statisticList.Data.Count - 7);
-            //}
-            //xml.Save(statisticList);
-        }
-        #endregion
-
-        #region 获取图表数据
-        /// <summary>
-        /// 获取图表数据
-        /// </summary>
-        /// <param name="type"></param>
+        /// <param name="date">日期，留空为当日</param>
         /// <returns></returns>
-        public double[] GetChartData(StatisticType type)
+        private StatisticModel GetNewdayData(DateTime date = default)
         {
-            return null;
-            //ArrayList result = new ArrayList();
-            //foreach (StatisticModel statistic in statisticList.Data)
-            //{
-            //    if (type == StatisticType.WorkingTime)
-            //    {
-            //        result.Add(statistic.WorkingTime);
-            //    }
-            //    else if (type == StatisticType.ResetTime)
-            //    {
-            //        result.Add(statistic.ResetTime);
-            //    }
-            //    else
-            //    {
-            //        result.Add(statistic.SkipCount);
-            //    }
-            //}
-            //return (double[])result.ToArray().Select(o => Convert.ToDouble(o)).ToArray();
-        }
-        #endregion
-
-        #region 获取图表标签
-        /// <summary>
-        /// 获取图表标签
-        /// </summary>
-        /// <returns></returns>
-        public string[] GetChartLabels()
-        {
-            return null;
-            //ArrayList result = new ArrayList();
-            //foreach (StatisticModel statistic in statisticList.Data)
-            //{
-
-            //    result.Add(statistic.Date.Day + "日");
-
-            //}
-            //return (string[])result.ToArray(typeof(string));
+            return new StatisticModel()
+            {
+                Date = date.Date,
+                ResetTime = 0,
+                SkipCount = 0,
+                WorkingTime = 0
+            };
         }
         #endregion
 
@@ -272,7 +272,22 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void Save()
         {
-            xml.Save(statisticList);
+            if (todayStatistic == null)
+            {
+                todayStatistic = FindCreate();
+            }
+            using (var db = new StatisticContext())
+            {
+                //var item = db.Statistics.Where(m => m.Date == todayStatistic.Date).Single();
+                var item = (from c in db.Statistics where c.Date == todayStatistic.Date select c).FirstOrDefault();
+                item.ResetTime = todayStatistic.ResetTime;
+                item.SkipCount = todayStatistic.SkipCount;
+                item.WorkingTime = todayStatistic.WorkingTime;
+
+                db.SaveChanges();
+            }
+            //xml.Save(statisticList);
+
         }
         #endregion
 
@@ -323,6 +338,119 @@ namespace ProjectEye.Core.Service
         public StatisticModel GetTodayData()
         {
             return todayStatistic;
+        }
+        #endregion
+
+
+        //old code
+        #region [弃用]创建今日数据
+        /// <summary>
+        /// [弃用]创建今日数据模型
+        /// </summary>
+        /// <returns></returns>
+        private void CreateTodayData()
+        {
+            var todayStatistic = FindCreate(DateTime.Now.Date);
+            if (todayStatistic == null)
+            {
+                statisticList.Data.Add(new StatisticModel()
+                {
+                    Date = DateTime.Now.Date,
+                    WorkingTime = 0,
+                    ResetTime = 0,
+                    SkipCount = 0
+                });
+            }
+        }
+        #endregion
+
+        #region [弃用]加载统计数据
+        /// <summary>
+        /// [弃用]加载统计数据
+        /// </summary>
+        public void LoadStatisticData()
+        {
+
+            if (File.Exists(xmlPath))
+            {
+                var data = xml.ToModel(typeof(StatisticListModel));
+                if (data != null)
+                {
+                    statisticList = data as StatisticListModel;
+                }
+                else
+                {
+                    xml.Save(statisticList);
+                }
+            }
+            else
+            {
+                xml.Save(statisticList);
+            }
+
+        }
+
+        #endregion
+
+        #region [弃用]清除7天前的数据
+        /// <summary>
+        /// [弃用]清除7天前的数据
+        /// </summary>
+        private void ClearBefore7Data()
+        {
+            if (statisticList.Data.Count > 7)
+            {
+                //只保留最近7天的数据
+                statisticList.Data.RemoveRange(0, statisticList.Data.Count - 7);
+            }
+            xml.Save(statisticList);
+        }
+        #endregion
+
+        #region [弃用]获取图表数据
+        /// <summary>
+        /// [弃用]获取图表数据
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public double[] GetChartData(StatisticType type)
+        {
+            ArrayList result = new ArrayList();
+            foreach (StatisticModel statistic in statisticList.Data)
+            {
+                if (type == StatisticType.WorkingTime)
+                {
+                    result.Add(statistic.WorkingTime);
+                }
+                else if (type == StatisticType.ResetTime)
+                {
+                    result.Add(statistic.ResetTime);
+                }
+                else
+                {
+                    result.Add(statistic.SkipCount);
+                }
+            }
+            return (double[])result.ToArray().Select(o => Convert.ToDouble(o)).ToArray();
+        }
+        #endregion
+
+        #region [弃用]获取图表标签
+        /// <summary>
+        /// [弃用]获取图表标签
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetChartLabels()
+        {
+            return null;
+            //ArrayList result = new ArrayList();
+            //foreach (StatisticModel statistic in statisticList.Data)
+            //{
+
+            //    result.Add(statistic.Date.Day + "日");
+
+            //}
+            //return (string[])result.ToArray(typeof(string));
         }
         #endregion
     }
