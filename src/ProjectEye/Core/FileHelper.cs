@@ -15,10 +15,12 @@ namespace ProjectEye.Core
         /// </summary>
         /// <param name="path">路径</param>
         /// <param name="content">内容</param>
-        public static void Write(string path, string contents)
+        public static void Write(string path, string contents, bool isRunPath = true)
         {
-            path = AppDomain.CurrentDomain.BaseDirectory + path;
-            Debug.WriteLine(path);
+            if (isRunPath)
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory + path;
+            }
             string dir = Path.GetDirectoryName(path);
             if (!Directory.Exists(dir))
             {
