@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Project1.UI.Controls.DatePicker"
+                    xmlns:converter="clr-namespace:Project1.UI.Controls.Converters"
+                    >
+    <Style TargetType="{x:Type controls:DatePicker}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:DatePicker}">
+                    <Grid>
+                        <Popup
+                            x:Name="Popup"
+                            Placement="Top"
+                            PlacementTarget="{Binding ElementName=Border}"
+                            AllowsTransparency="True"
+                            HorizontalOffset="-10"
+                            >
+                            <Border
+                                x:Name="PopupBorder"
+                                Background="White"
+                                BorderBrush="#ccc"
+                                BorderThickness="1"
+                                Padding="10"
+                                Margin="15"
+                                >
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
+                                </Border.Effect>
+                                <Grid>
+                                    <Grid>
+                                        <controls:ItemList x:Name="ItemList"/>
+                                    </Grid>
+                                    <Path 
+                      Width="15"
+                      Height="15"
+                      SnapsToDevicePixels="False"
+                      Data="M 0 0 L 7.5 7.5 L 15 0" Fill="White"
+                                        Stroke="#ccc"
+                                        StrokeThickness="1"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Left"
+                                        Margin="-5,0,0,-25"
+                                        />
+                                </Grid>
+
+                            </Border>
+                        </Popup>
+                        <Border
+                            x:Name="Border"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}">
+                           
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Popup" Property="IsOpen" Value="true"/>
+                        </MultiTrigger>
+                       
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+</ResourceDictionary>
