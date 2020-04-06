@@ -416,7 +416,7 @@ namespace Project1.UI.Controls.ChartControl
             ScrollRightButtonVisibility = Visibility.Hidden;
         }
 
-      
+
 
         private void ItemsScrollViewer_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -444,17 +444,23 @@ namespace Project1.UI.Controls.ChartControl
 
         private void ItemsScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
-            ScrollViewer scrollviewer = sender as ScrollViewer;
-            HandleScrollViewerState();
-            if (e.Delta > 0)
-            {
-                Scroll(0);
-            }
-            else
-            {
-                Scroll(1);
-            }
-            e.Handled = true;
+            var eventArg = new System.Windows.Input.MouseWheelEventArgs(e.MouseDevice,
+                e.Timestamp,
+                e.Delta);
+            eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+            eventArg.Source = sender;
+            this.RaiseEvent(eventArg);
+            //ScrollViewer scrollviewer = sender as ScrollViewer;
+            //HandleScrollViewerState();
+            //if (e.Delta > 0)
+            //{
+            //    Scroll(0);
+            //}
+            //else
+            //{
+            //    Scroll(1);
+            //}
+            e.Handled = false;
         }
         #endregion
         public override void OnApplyTemplate()

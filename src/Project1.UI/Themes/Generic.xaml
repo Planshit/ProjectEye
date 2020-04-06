@@ -19,6 +19,11 @@
         <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIModal.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Chart/Chart.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/Chart/ChartItem.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Icon.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/CompareView.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/CheckButton.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/DatePicker/DatePicker.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/DatePicker/ItemList.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

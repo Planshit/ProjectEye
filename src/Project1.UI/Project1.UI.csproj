@@ -56,7 +56,11 @@
     <Compile Include="Controls\Converters\BrushToColorConverter.cs" />
     <Compile Include="Controls\Converters\StringConverter.cs" />
     <Compile Include="Controls\Data\TextAlignmentData.cs" />
+    <Compile Include="Controls\CompareView.cs" />
+    <Compile Include="Controls\DatePicker\DatePicker.cs" />
+    <Compile Include="Controls\DatePicker\ItemList.cs" />
     <Compile Include="Controls\Models\DesignTextAlignment.cs" />
+    <Compile Include="Controls\CheckButton.cs" />
     <Compile Include="Controls\Project1UIModal.cs" />
     <Compile Include="Controls\Converters\Project1UIIconToUnicodeConverter.cs" />
     <Compile Include="Controls\Enums\DesignItemType.cs" />
@@ -81,6 +85,7 @@
     <Compile Include="Controls\Project1UIWindow.cs" />
     <Compile Include="Controls\Commands\Project1UIInputCommands.cs" />
     <Compile Include="Controls\Commands\Project1UIWindowCommands.cs" />
+    <Compile Include="Controls\Icon.cs" />
     <Compile Include="Cores\BitmapImager.cs" />
     <Compile Include="Cores\UIDefaultSetting.cs" />
     <Compile Include="Cores\Theme.cs" />
@@ -219,7 +224,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\DatePicker\DatePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\DatePicker\ItemList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CompareView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\CheckButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -232,6 +253,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Chart\Chart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Icon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

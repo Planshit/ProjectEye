@@ -113,7 +113,8 @@
                         </Storyboard>
 
                     </ControlTemplate.Resources>-->
-                    <Grid
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                        <Grid
                         x:Name="MainContainer">
 
                         <Grid.ColumnDefinitions>
@@ -317,6 +318,7 @@
                         </Grid>
 
                     </Grid>
+                    </Border>
                     <!--<ControlTemplate.Triggers>-->
                     <!--<Trigger Property="Show" Value="True">
                             <Trigger.EnterActions>

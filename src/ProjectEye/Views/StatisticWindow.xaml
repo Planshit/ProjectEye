@@ -7,27 +7,23 @@
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         xmlns:chart="clr-namespace:Project1.UI.Controls.ChartControl;assembly=Project1.UI"
         mc:Ignorable="d"
-        Title="数据统计" Height="450" Width="800"
+                     xmlns:date="clr-namespace:Project1.UI.Controls.DatePicker;assembly=Project1.UI"
+        Title="数据统计" Height="600" Width="800"
                      WindowStartupLocation="CenterScreen" Icon="/ProjectEye;component/Resources/sunglasses.ico">
     <ui:Project1UIWindow.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
         </Style>
     </ui:Project1UIWindow.Resources>
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
             <RowDefinition Height="9*"/>
             <RowDefinition Height="auto"/>
 
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="近7天用眼数据统计" HorizontalAlignment="Left"
-                   VerticalAlignment="Center"
-                   Margin="20,0,0,0"
-                   FontSize="14"
-                   FontWeight="Bold"/>
-        <TabControl Margin="10" Grid.Row="1">
-            <TabItem Header="用眼">
+
+        <TabControl Margin="10" Grid.Row="0">
+            <TabItem Header="周视图">
                 <Grid Margin="15">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -40,33 +36,67 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="休息">
-                <Grid Margin="15">
+            <TabItem Header="月视图">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="分钟"/>
-                    <ui:Project1UIChart Grid.Row="1" Data="{Binding Mode=TwoWay,Path=Data.Reset}"
-                                    Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
-                                    Label="分钟"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="跳过">
-                <Grid Margin="15">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="9*"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="次"/>
-                    <ui:Project1UIChart Grid.Row="1" Data="{Binding Mode=TwoWay,Path=Data.Skip}"
-                                    Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
-                                    Label="次"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="TEST">
-                <Grid Margin="15">
-                    <chart:Chart Data="{Binding chartDatas}" TickText=" {value} 小时" TickLabelWidth="70"/>
+                    <Grid Grid.Row="0" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="月份数据统计" FontSize="16" FontWeight="Bold"/>
+                        <date:DatePicker/>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="80"/>
+                                <RowDefinition Height="350"/>
+                                <RowDefinition Height="80"/>
+                                <RowDefinition Height="350"/>
+                                <RowDefinition Height="80"/>
+                                <RowDefinition Height="350"/>
+                            </Grid.RowDefinitions>
+                            <!--工作-->
+                            <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center"/>
+                                    <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Grid Margin="0,10,0,0">
+                                    <ui:CompareView DataA="132" DataB="323" PopupText="本月总计 {b} 小时，对比上月 {a} 小时 {diffvalue}"/>
+                                </Grid>
+                            </StackPanel>
+                            <chart:Chart Grid.Row="1" Data="{Binding chartDatas}" TickText=" {value} 小时" TickLabelWidth="70" />
+
+                            <!--休息-->
+                            <StackPanel Grid.Row="2"  VerticalAlignment="Bottom" >
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center"/>
+                                    <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Grid Margin="0,10,0,0">
+                                    <ui:CompareView DataA="0" DataB="0"/>
+                                </Grid>
+                            </StackPanel>
+                            <chart:Chart Grid.Row="3" Data="{Binding chartDatas}" TickText=" {value} 小时" TickLabelWidth="70" />
+                            <!--跳过-->
+                            <StackPanel Grid.Row="4"  VerticalAlignment="Bottom" >
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center"/>
+                                    <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Grid Margin="0,10,0,0">
+                                    <ui:CompareView DataA="132" DataB="0"/>
+                                </Grid>
+                            </StackPanel>
+                            <chart:Chart Grid.Row="5" Data="{Binding chartDatas}" TickText=" {value} 小时" TickLabelWidth="70" />
+                        </Grid>
+                    </ScrollViewer>
+
                 </Grid>
             </TabItem>
         </TabControl>

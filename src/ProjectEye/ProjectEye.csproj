@@ -569,6 +569,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Fonts\FabExMDL2.3.36.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\sunglasses.ico" />
