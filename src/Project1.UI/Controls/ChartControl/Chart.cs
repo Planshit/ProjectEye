@@ -45,6 +45,22 @@ namespace Project1.UI.Controls.ChartControl
 
         #region 依赖属性
         //控件依赖属性
+        #region ItemColor
+        /// <summary>
+        /// ItemColor
+        /// </summary>
+        public Brush ItemColor
+        {
+            get { return (Brush)GetValue(ItemColorProperty); }
+            set { SetValue(ItemColorProperty, value); }
+        }
+        public static readonly DependencyProperty ItemColorProperty =
+            DependencyProperty.Register("ItemColor",
+                typeof(Brush),
+                typeof(Chart),
+                new PropertyMetadata(Brushes.Black, new PropertyChangedCallback(OnPropertyChanged)));
+
+        #endregion
 
         #region TickLabelWidth
         /// <summary>
@@ -86,14 +102,14 @@ namespace Project1.UI.Controls.ChartControl
         /// <summary>
         /// 图表数据
         /// </summary>
-        public ObservableCollection<ChartDataModel> Data
+        public IEnumerable<ChartDataModel> Data
         {
-            get { return (ObservableCollection<ChartDataModel>)GetValue(DataProperty); }
+            get { return (IEnumerable<ChartDataModel>)GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
         public static readonly DependencyProperty DataProperty =
             DependencyProperty.Register("Data",
-                typeof(ObservableCollection<ChartDataModel>),
+                typeof(IEnumerable<ChartDataModel>),
                 typeof(Chart),
                 new PropertyMetadata(null, new PropertyChangedCallback(OnPropertyChanged))
                 );
@@ -231,8 +247,13 @@ namespace Project1.UI.Controls.ChartControl
             var chart = (d as Chart);
             if (e.Property == DataProperty)
             {
-                //数据改变重绘图表
-                chart.Render();
+
+                var newData = e.NewValue as IEnumerable<ChartDataModel>;
+
+                if (newData != null)
+                {
+                    chart.Render();
+                }
             }
             if (e.Property == AverageProperty)
             {
@@ -372,43 +393,6 @@ namespace Project1.UI.Controls.ChartControl
             scrollAnimation = new DoubleAnimation();
         }
 
-        private void Chart_Loaded(object sender, RoutedEventArgs e)
-        {
-            Render();
-            if (ScrollLeftButton != null)
-            {
-                ScrollLeftButton.Click += ScrollButton_Click;
-            }
-            if (ScrollRightButton != null)
-            {
-                ScrollRightButton.Click += ScrollButton_Click;
-            }
-
-            if (ItemsScrollViewer != null)
-            {
-                ItemsScrollViewer.PreviewMouseWheel += ItemsScrollViewer_PreviewMouseWheel;
-                ItemsScrollViewer.MouseEnter += ItemsScrollViewer_MouseEnter;
-
-            }
-            if (AverageTick != null)
-            {
-                AverageTick.MouseEnter += (s, c) =>
-                {
-                    VisualStateManager.GoToElementState(AverageTick, "AverageTickMouseEnter", true);
-                    Popup.IsOpen = true;
-                };
-                AverageTick.MouseLeave += (s, c) =>
-                {
-                    VisualStateManager.GoToElementState(AverageTick, "AverageTickMouseLeave", true);
-                    if (!Popup.IsFocused)
-                    {
-                        Popup.IsOpen = false;
-                    }
-                };
-            }
-            this.MouseLeave += Chart_MouseLeave;
-        }
-
 
         private void Chart_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -480,13 +464,47 @@ namespace Project1.UI.Controls.ChartControl
             ScrollRightButton = GetTemplateChild("ScrollRightButton") as Button;
             Popup = GetTemplateChild("Popup") as Popup;
 
-            Loaded += Chart_Loaded;
+
+            if (ScrollLeftButton != null)
+            {
+                ScrollLeftButton.Click += ScrollButton_Click;
+            }
+            if (ScrollRightButton != null)
+            {
+                ScrollRightButton.Click += ScrollButton_Click;
+            }
+
+            if (ItemsScrollViewer != null)
+            {
+                ItemsScrollViewer.PreviewMouseWheel += ItemsScrollViewer_PreviewMouseWheel;
+                ItemsScrollViewer.MouseEnter += ItemsScrollViewer_MouseEnter;
+
+            }
+            if (AverageTick != null)
+            {
+                AverageTick.MouseEnter += (s, c) =>
+                {
+                    VisualStateManager.GoToElementState(AverageTick, "AverageTickMouseEnter", true);
+                    Popup.IsOpen = true;
+                };
+                AverageTick.MouseLeave += (s, c) =>
+                {
+                    VisualStateManager.GoToElementState(AverageTick, "AverageTickMouseLeave", true);
+                    if (!Popup.IsFocused)
+                    {
+                        Popup.IsOpen = false;
+                    }
+                };
+            }
+            MouseLeave += Chart_MouseLeave;
+            Render();
+            //Loaded += Chart_Loaded;
         }
 
 
         private void Render()
         {
-            if (ItemContainer == null)
+            if (ItemContainer == null || Data == null)
             {
                 return;
             }
@@ -508,7 +526,7 @@ namespace Project1.UI.Controls.ChartControl
         {
             //计算最大值
             //如果设置了固定的最大值则使用，否则查找数据中的最大值
-            MaxValue = MaxValue > 0 ? MaxValue : Data.Max(m => m.Value);
+            MaxValue = MaxValue > 0 ? MaxValue : Data.Count() > 0 ? Data.Max(m => m.Value) : 0;
             //不允许最大值小于10，否则效果不好看
             if (MaxValue < 10)
             {
@@ -528,8 +546,8 @@ namespace Project1.UI.Controls.ChartControl
             }
 
             double itemTrueHeight = ItemContainer.ActualHeight - 30 - 20;
-            averageValue = Data.Average(m => m.Value);
-            double bottomValue = Data.Where(m => m.Value >= 0).Min(m => m.Value);
+            averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
+            double bottomValue = Data.Count() > 0 ? Data.Where(m => m.Value >= 0).Min(m => m.Value) : 0;
 
             averageTickY = (averageValue / MaxValue) * itemTrueHeight + 30 - AverageTick.ActualHeight / 2;
 
@@ -573,9 +591,9 @@ namespace Project1.UI.Controls.ChartControl
                 return;
             }
 
-            for (int i = 0; i < Data.Count; i++)
+            for (int i = 0; i < Data.Count(); i++)
             {
-                ChartDataModel data = Data[i];
+                ChartDataModel data = Data.ElementAt(i);
                 ChartItem item = GetCreateItem(data, MaxValue);
                 if (i > 0)
                 {
@@ -592,6 +610,7 @@ namespace Project1.UI.Controls.ChartControl
             item.TagName = chartData.Tag;
             item.Value = chartData.Value;
             item.MaxValue = maxValue;
+            item.ItemColor = ItemColor;
             item.PopupText = chartData.PopupText;
             item.IsSelected = chartData.IsSelected;
             item.IsAnimation = IsAnimation;

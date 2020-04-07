@@ -121,7 +121,7 @@ namespace Project1.UI.Controls.ChartControl
 
         #region IsSelected
         /// <summary>
-        /// 值
+        /// IsSelected
         /// </summary>
         public bool IsSelected
         {
@@ -132,7 +132,7 @@ namespace Project1.UI.Controls.ChartControl
             DependencyProperty.Register("IsSelected",
                 typeof(bool),
                 typeof(ChartItem),
-                new PropertyMetadata(false)
+                new PropertyMetadata(false,new PropertyChangedCallback(OnPropertyChanged))
                 );
 
 
@@ -189,6 +189,16 @@ namespace Project1.UI.Controls.ChartControl
                     chartItem.HandlePopupText();
                 }
             }
+            if (e.Property == IsSelectedProperty)
+            {
+                if (e.NewValue != null)
+                {
+                    if ((bool)e.NewValue && chartItem.Label!=null)
+                    {
+                        chartItem.Label.Foreground = chartItem.ItemColor;
+                    }
+                }
+            }
 
         }
         //计算的真实高度
@@ -217,6 +227,10 @@ namespace Project1.UI.Controls.ChartControl
         /// 图表容器控件
         /// </summary>
         private Chart chart;
+        /// <summary>
+        /// 列
+        /// </summary>
+        private TextBlock Label;
         public ChartItem(Chart chart)
         {
             DefaultStyleKey = typeof(ChartItem);
@@ -228,7 +242,6 @@ namespace Project1.UI.Controls.ChartControl
             MarkStoryboard = new Storyboard();
             MarkStoryboard.Duration = TimeSpan.FromSeconds(1);
             //MarkStoryboard.RepeatBehavior = RepeatBehavior.Forever;
-
         }
 
         private void Chart_OnAnimationLockEvent(object sender, bool animationlock, int type)
@@ -246,6 +259,8 @@ namespace Project1.UI.Controls.ChartControl
             TextContainer = GetTemplateChild("TextContainer") as Canvas;
             SelectedContainer = GetTemplateChild("SelectedContainer") as Border;
             CheckMark = GetTemplateChild("CheckMark") as Path;
+            Label = GetTemplateChild("Label") as TextBlock;
+
             Loaded += ChartItem_Loaded;
         }
 
@@ -311,6 +326,11 @@ namespace Project1.UI.Controls.ChartControl
 
             InitAnimation();
             BeginAnimation();
+
+            if (IsSelected)
+            {
+                Label.Foreground = ItemColor;
+            }
         }
 
         /// <summary>

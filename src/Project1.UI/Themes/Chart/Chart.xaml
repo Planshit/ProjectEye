@@ -208,8 +208,11 @@
                                         <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
                                     </Border.Effect>
                                     <Grid>
-                                        <TextBlock Text="平均值"/>
-                                        <Path 
+                                            <TextBlock>
+                                                <Run Text="平均 "/>
+                                                <Run Text="{TemplateBinding AverageText}"/>
+                                            </TextBlock>
+                                            <Path 
                       Width="15"
                       Height="15"
                       SnapsToDevicePixels="False"

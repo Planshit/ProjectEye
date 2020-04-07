@@ -341,6 +341,50 @@ namespace ProjectEye.Core.Service
         }
         #endregion
 
+        #region 获取某月的数据
+        /// <summary>
+        /// 获取某月的数据
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <returns></returns>
+        public List<StatisticModel> GetData(int year = 0, int month = 0)
+        {
+            var result = new List<StatisticModel>();
+            if (year == 0)
+            {
+                year = DateTime.Now.Year;
+            }
+            if (month == 0)
+            {
+                month = DateTime.Now.Month;
+            }
+            using (var db = new StatisticContext())
+            {
+                result = db.Statistics.Where(m => m.Date.Year == year && m.Date.Month == month).ToList();
+            }
+            return result;
+        }
+        #endregion
+
+        #region 查找日期范围内的数据
+        /// <summary>
+        /// 查找范围内的数据
+        /// </summary>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="endDate">结束日期</param>
+        /// <returns></returns>
+        public List<StatisticModel> GetData(DateTime startDate, DateTime endDate)
+        {
+            var result = new List<StatisticModel>();
+            startDate = startDate.AddDays(-1);
+            using (var db = new StatisticContext())
+            {
+                result = db.Statistics.Where(m => m.Date > startDate && m.Date < endDate).ToList();
+            }
+            return result;
+        }
+        #endregion
 
         //old code
         #region [弃用]创建今日数据

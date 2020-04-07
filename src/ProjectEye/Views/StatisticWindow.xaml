@@ -23,16 +23,102 @@
         </Grid.RowDefinitions>
 
         <TabControl Margin="10" Grid.Row="0">
-            <TabItem Header="周视图">
-                <Grid Margin="15">
+            <TabItem Header="本周视图">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="9*"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="小时"/>
-                    <ui:Project1UIChart Grid.Row="1" Data="{Binding Mode=TwoWay,Path=Data.Working}"
-                                    Labels="{Binding Mode=TwoWay,Path=Data.Labels}"
-                                    Label="小时"/>
+                    <TextBlock Text="本周数据统计" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <Grid Grid.Row="1">
+                        <ScrollViewer>
+                            <StackPanel HorizontalAlignment="Left">
+                                <!--工作-->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Width="290">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="80"/>
+                                            <RowDefinition Height="230"/>
+                                        </Grid.RowDefinitions>
+                                        <!--工作-->
+                                        <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                                <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                                <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                            </StackPanel>
+                                            <Grid Margin="0,10,0,0">
+                                                <ui:CompareView DataA="{Binding Data.LastWeekWork}" DataB="{Binding Data.WeekWork}" PopupText="本周总计 {b} 小时，对比上周 {a} 小时 {diffvalue}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                        <chart:Chart Grid.Row="1" Data="{Binding Data.WeekWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}"/>
+
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/web_developer.png">
+                                          
+                                        </Image>
+                                    </Grid>
+                                </Grid>
+                                <!--休息-->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Width="290">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="80"/>
+                                            <RowDefinition Height="230"/>
+                                        </Grid.RowDefinitions>
+                                        <!--休息-->
+                                        <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                            <StackPanel Orientation="Horizontal">
+                                                <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#1CE072"/>
+                                                <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#1CE072"/>
+                                            </StackPanel>
+                                            <Grid Margin="0,10,0,0">
+                                                <ui:CompareView DataA="{Binding Data.LastWeekRest}" DataB="{Binding Data.WeekRest}" PopupText="本周总计 {b} 分钟，对比上周 {a} 分钟 {diffvalue}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                        <chart:Chart Grid.Row="1" Data="{Binding Data.WeekRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#1CE072"/>
+
+                                    </Grid>
+                                </Grid>
+                                <!--跳过-->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Width="290">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="80"/>
+                                            <RowDefinition Height="230"/>
+                                        </Grid.RowDefinitions>
+                                        <!--跳过-->
+                                        <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                            <StackPanel Orientation="Horizontal">
+                                                <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
+                                                <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
+                                            </StackPanel>
+                                            <Grid Margin="0,10,0,0">
+                                                <ui:CompareView DataA="{Binding Data.LastWeekSkip}" DataB="{Binding Data.WeekSkip}" PopupText="本周总计 {b} 次，对比上周 {a} 次 {diffvalue}"/>
+                                            </Grid>
+                                        </StackPanel>
+                                        <chart:Chart Grid.Row="1" Data="{Binding Data.WeekSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520"/>
+
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
                 </Grid>
 
             </TabItem>
@@ -47,8 +133,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="月份数据统计" FontSize="16" FontWeight="Bold"/>
-                        <date:DatePicker/>
+                        <TextBlock Text="月份数据统计" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                     </Grid>
                     <ScrollViewer Grid.Row="1">
                         <Grid>
@@ -62,38 +148,38 @@
                             </Grid.RowDefinitions>
                             <!--工作-->
                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
-                                <StackPanel Orientation="Horizontal">
-                                    <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                    <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
-                                    <ui:CompareView DataA="132" DataB="323" PopupText="本月总计 {b} 小时，对比上月 {a} 小时 {diffvalue}"/>
+                                    <ui:CompareView DataA="{Binding Data.LastMonthWork}" DataB="{Binding Data.MonthWork}" PopupText="本月总计 {b} 小时，对比上月 {a} 小时 {diffvalue}"/>
                                 </Grid>
                             </StackPanel>
-                            <chart:Chart Grid.Row="1" Data="{Binding chartDatas}" TickText=" {value} 小时" TickLabelWidth="70" />
+                            <chart:Chart Grid.Row="1" Data="{Binding Data.MonthWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}"/>
 
                             <!--休息-->
                             <StackPanel Grid.Row="2"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
-                                    <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#1CE072"/>
+                                    <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#1CE072"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
-                                    <ui:CompareView DataA="0" DataB="0"/>
+                                    <ui:CompareView DataA="{Binding Data.LastMonthRest}" DataB="{Binding Data.MonthRest}" PopupText="本月总计 {b} 分钟，对比上月 {a} 分钟 {diffvalue}"/>
                                 </Grid>
                             </StackPanel>
-                            <chart:Chart Grid.Row="3" Data="{Binding chartDatas}" TickText=" {value} 小时" TickLabelWidth="70" />
+                            <chart:Chart Grid.Row="3" Data="{Binding Data.MonthRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#1CE072"/>
                             <!--跳过-->
                             <StackPanel Grid.Row="4"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
-                                    <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                                    <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
+                                    <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
-                                    <ui:CompareView DataA="132" DataB="0"/>
+                                    <ui:CompareView DataA="{Binding Data.LastMonthSkip}" DataB="{Binding Data.MonthSkip}" PopupText="本月总计 {b} 次，对比上月 {a} 次 {diffvalue}"/>
                                 </Grid>
                             </StackPanel>
-                            <chart:Chart Grid.Row="5" Data="{Binding chartDatas}" TickText=" {value} 小时" TickLabelWidth="70" />
+                            <chart:Chart Grid.Row="5" Data="{Binding Data.MonthSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520"/>
                         </Grid>
                     </ScrollViewer>
 

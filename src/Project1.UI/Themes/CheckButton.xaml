@@ -7,6 +7,8 @@
 
     <Style TargetType="{x:Type controls:CheckButton}">
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Cursor" Value="Hand"/>
+
         <Setter Property="Height"
           Value="40" />
         <Setter Property="Width"
@@ -16,7 +18,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:CheckButton}">
                     <Border x:Name="Border" CornerRadius="2" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Background="{TemplateBinding Background}">
-                        <TextBlock Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{TemplateBinding FontSize}"/>
+                        <TextBlock Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{TemplateBinding FontSize}" Text="{TemplateBinding Content}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>

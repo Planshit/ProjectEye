@@ -4,8 +4,8 @@
           xmlns:converter="clr-namespace:Project1.UI.Controls.Converters"
                     >
     <converter:BrushToColorConverter x:Key="BrushToColorConverter"/>
-    <Color x:Key="foreground">#9e9ea7</Color>
-    <Color x:Key="hoverForeground">#4f6bed</Color>
+    <!--<Color x:Key="foreground">#9e9ea7</Color>
+    <Color x:Key="hoverForeground">#4f6bed</Color>-->
     <Style TargetType="{x:Type controls:ChartItem}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="20" />
@@ -65,7 +65,7 @@
                                         Margin="-5,0,0,-25"
                                         />
                                 </Grid>
-                                
+
                             </Border>
                         </Popup>
                         <Grid>
@@ -125,7 +125,11 @@
                             FontSize="13"
                             Width="{TemplateBinding Width}"
                                 Canvas.Bottom="0"
-                            />
+                            >
+                                <!--<TextBlock.Triggers>
+                                    
+                                </TextBlock.Triggers>-->
+                            </TextBlock>
                         </Canvas>
 
                     </Grid>
@@ -134,9 +138,7 @@
                         <Trigger Property="IsSelected" Value="false">
                             <Setter Property="Visibility" TargetName="CheckMark" Value="Hidden"/>
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Foreground" TargetName="Label" Value="#4f6bed"/>
-                        </Trigger>
+                    
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
@@ -179,9 +181,9 @@
                           Storyboard.TargetProperty="Opacity" To="1" />
                                         <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="ValueControl"
                           Storyboard.TargetProperty="Opacity" To="0.95" />
-                                        <ColorAnimation Duration="0:0:0.2"
+                                        <!--<ColorAnimation Duration="0:0:0.2"
                                                         Storyboard.TargetName="Label"
-                                                        Storyboard.TargetProperty="Foreground.Color" To="{StaticResource hoverForeground}"/>
+                                                        Storyboard.TargetProperty="Foreground.Color" To="{StaticResource hoverForeground}"/>-->
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
@@ -192,9 +194,9 @@
                           Storyboard.TargetProperty="Opacity" To="0" />
                                         <DoubleAnimation Duration="0:0:0.2" Storyboard.TargetName="ValueControl"
                           Storyboard.TargetProperty="Opacity" To="1" />
-                                        <ColorAnimation Duration="0:0:0.2"
+                                        <!--<ColorAnimation Duration="0:0:0.2"
                                                         Storyboard.TargetName="Label"
-                                                        Storyboard.TargetProperty="Foreground.Color" To="{StaticResource foreground}"/>
+                                                        Storyboard.TargetProperty="Foreground.Color" To="{StaticResource foreground}"/>-->
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.ExitActions>

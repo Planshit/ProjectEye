@@ -42,7 +42,7 @@ namespace Project1.UI.Controls
             DependencyProperty.Register("DataA",
                 typeof(double),
                 typeof(CompareView),
-                new PropertyMetadata((double)0));
+                new PropertyMetadata((double)0, new PropertyChangedCallback(OnDataChanged)));
 
 
         #endregion
@@ -60,7 +60,13 @@ namespace Project1.UI.Controls
             DependencyProperty.Register("DataB",
                 typeof(double),
                 typeof(CompareView),
-                new PropertyMetadata((double)0));
+                new PropertyMetadata((double)0, new PropertyChangedCallback(OnDataChanged)));
+
+        private static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as CompareView;
+            control.Calculate();
+        }
 
 
         #endregion
@@ -174,6 +180,7 @@ namespace Project1.UI.Controls
         #endregion
 
         private TextBlock DiffValueTextBlock;
+        private TextBlock PopupTextBlock;
         public CompareView()
         {
             DefaultStyleKey = typeof(CompareView);
@@ -183,11 +190,16 @@ namespace Project1.UI.Controls
         {
             base.OnApplyTemplate();
             DiffValueTextBlock = GetTemplateChild("DiffValue") as TextBlock;
+            PopupTextBlock = GetTemplateChild("PopupText") as TextBlock;
             Calculate();
         }
 
         private void Calculate()
         {
+            if (DiffValueTextBlock == null)
+            {
+                return;
+            }
             DiffValueStatus = DataB > DataA ? CompareValueType.Up : DataB < DataA ? CompareValueType.Down : CompareValueType.NoChange;
 
             double c = DataB - DataA;
@@ -213,11 +225,18 @@ namespace Project1.UI.Controls
                     DiffValueTextBlock.Foreground = NoChangeColor;
                     break;
             }
-            PopupText = PopupText.Replace("{a}", $"{DataA.ToString()}");
-            PopupText = PopupText.Replace("{b}", $"{DataB.ToString()}");
+            string popupText = PopupText;
+
+            popupText = popupText.Replace("{a}", $"{DataA.ToString()}");
+            popupText = popupText.Replace("{b}", $"{DataB.ToString()}");
 
             string diffvalueText = DiffValue > 0 ? $"+{DiffValue.ToString()}%" : DiffValue == 0 ? "无变化" : $"{DiffValue.ToString()}%";
-            PopupText = PopupText.Replace("{diffvalue}", diffvalueText);
+            if (DataA == DataB)
+            {
+                diffvalueText = "无变化";
+            }
+            popupText = popupText.Replace("{diffvalue}", diffvalueText);
+            PopupTextBlock.Text = popupText;
         }
     }
 }

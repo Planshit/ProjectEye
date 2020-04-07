@@ -3,8 +3,14 @@
                     xmlns:controls="clr-namespace:Project1.UI.Controls.DatePicker"
                     xmlns:converter="clr-namespace:Project1.UI.Controls.Converters"
                     >
+    <converter:StringConverter x:Key="StringConverter"/>
     <Style TargetType="{x:Type controls:DatePicker}">
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="#ccc" />
+        <Setter Property="Width" Value="130" />
+        <Setter Property="Height" Value="36" />
+
+        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
@@ -15,7 +21,7 @@
                             Placement="Top"
                             PlacementTarget="{Binding ElementName=Border}"
                             AllowsTransparency="True"
-                            HorizontalOffset="-10"
+                            HorizontalOffset="0"
                             >
                             <Border
                                 x:Name="PopupBorder"
@@ -29,10 +35,25 @@
                                     <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
                                 </Border.Effect>
                                 <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="120"/>
+                                    </Grid.ColumnDefinitions>
                                     <Grid>
-                                        <controls:ItemList x:Name="ItemList"/>
+                                        <StackPanel>
+                                            <TextBlock Text="年份" FontWeight="Bold" FontSize="14"/>
+                                            <controls:ItemList x:Name="YearsList" Margin="0,5,0,0"/>
+                                        </StackPanel>
+
                                     </Grid>
-                                    <Path 
+                                    <Grid Grid.Column="1">
+                                        <StackPanel>
+                                            <TextBlock Text="月份" FontWeight="Bold" FontSize="14"/>
+                                            <controls:ItemList x:Name="MonthsList" Margin="0,5,0,0"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                    <!--<Path 
                       Width="15"
                       Height="15"
                       SnapsToDevicePixels="False"
@@ -42,7 +63,7 @@
                                         VerticalAlignment="Bottom"
                                         HorizontalAlignment="Left"
                                         Margin="-5,0,0,-25"
-                                        />
+                                        />-->
                                 </Grid>
 
                             </Border>
@@ -51,8 +72,15 @@
                             x:Name="Border"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
-                        Background="{TemplateBinding Background}">
-                           
+                        Background="{TemplateBinding Background}"
+                            CornerRadius="18">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEE93;" VerticalAlignment="Center"  FontSize="14" TextAlignment="Center" Foreground="#37363d"/>
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#37363d">
+                                <Run Text="{TemplateBinding SelectedYear,Converter={StaticResource StringConverter}}"/><Run Text="年"/> <Run Text="{TemplateBinding SelectedMonth,Converter={StaticResource StringConverter}}"/><Run Text="月"/>
+                                </TextBlock>
+                            </StackPanel>
+
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -62,7 +90,7 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Popup" Property="IsOpen" Value="true"/>
                         </MultiTrigger>
-                       
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
