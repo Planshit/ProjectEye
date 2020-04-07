@@ -623,6 +623,10 @@
   <ItemGroup>
     <Resource Include="Resources\web_developer.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\coffee_lover.png" />
+    <Resource Include="Resources\office_work_.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.5.0.6\build\Fody.targets" Condition="Exists('packages\Fody.5.0.6\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

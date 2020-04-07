@@ -42,18 +42,7 @@ namespace ProjectEye.ViewModels
 
             HandleMonthData();
             HandleWeekData();
-            //int s = new Random().Next(1, 10);
-            //for (int i = 0; i < 31; i++)
-            //{
-            //    chartDatas.Add(new ChartDataModel()
-            //    {
-            //        Tag = i.ToString(),
-            //        IsSelected = i == 34,
-            //        PopupText = i == 34 ? "顶峰值：{value}" : "{value}",
-            //        Value = (i + s) * (s % (i + 1)),
-            //    });
-            //}
-
+            Analysis();
         }
 
         private void Data_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -142,13 +131,34 @@ namespace ProjectEye.ViewModels
             var WeekSkipData = new List<ChartDataModel>();
 
             //计算上周的数据
+            DateTime lastWeekStartDate = DateTime.Now, lastWeekEndDate = DateTime.Now;
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
+            {
+                lastWeekStartDate = DateTime.Now.Date.AddDays(-7);
+                lastWeekEndDate = DateTime.Now.Date.AddDays(-1);
+            }
+            else
+            {
+                int lastWeekNum = (int)DateTime.Now.DayOfWeek;
+                if (lastWeekNum == 0)
+                {
+                    lastWeekNum = 7;
+                }
+                lastWeekNum += 6;
+                lastWeekStartDate = DateTime.Now.Date.AddDays(-lastWeekNum);
+                lastWeekEndDate = lastWeekStartDate.Date.AddDays(6);
+            }
+            var lastWeekData = statistic.GetData(lastWeekStartDate, lastWeekEndDate);
+            Data.LastWeekWork = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.WorkingTime) : 0;
+            Data.LastWeekRest = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.ResetTime) : 0;
+            Data.LastWeekSkip = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.SkipCount) : 0;
 
             //计算本周的数据
             DateTime weekStartDate = DateTime.Now, weekEndDate = DateTime.Now;
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
             {
-                weekStartDate = DateTime.Now;
-                weekEndDate = DateTime.Now.AddDays(6);
+                weekStartDate = DateTime.Now.Date;
+                weekEndDate = DateTime.Now.Date.AddDays(6);
             }
             else
             {
@@ -158,8 +168,8 @@ namespace ProjectEye.ViewModels
                     weekNum = 7;
                 }
                 weekNum -= 1;
-                weekStartDate = DateTime.Now.AddDays(-weekNum);
-                weekEndDate = weekStartDate.AddDays(6);
+                weekStartDate = DateTime.Now.Date.AddDays(-weekNum);
+                weekEndDate = weekStartDate.Date.AddDays(6);
             }
             var WeekData = statistic.GetData(weekStartDate, weekEndDate);
             Data.WeekWork = WeekData.Count > 0 ? WeekData.Sum(m => m.WorkingTime) : 0;
@@ -203,5 +213,75 @@ namespace ProjectEye.ViewModels
 
         }
 
+        private void Analysis()
+        {
+            Data.WorkAnalysis = "正常。工作时间的统计方式是Project Eye运行时且没有进入离开或睡眠状态的总时长。";
+            //工作时间
+            if (Data.WeekWork > 6)
+            {
+                //本周平均每天工作时间
+                double weekWorkAverage = Data.WeekWork / 7;
+                //误差值
+                double errValue = 0;
+                //工作占用了生活时间的百分比
+                double worklifep = Math.Round((11 - (24 - 6 - weekWorkAverage)) / 11 * 100, 0);
+                //质量值，越小越好
+                double x = weekWorkAverage / 24 - errValue;
+
+                //非常健康
+                double l1 = (double)3 / 24;
+                //很健康
+                double l2 = (double)5 / 24;
+                //普通正常人
+                double l3 = (double)7 / 24;
+                //较忙
+                double l4 = (double)9 / 24;
+                //很忙
+                double l5 = (double)11 / 24;
+                //非常忙
+                double l6 = (double)13 / 24;
+                //危险
+                double l7 = (double)15 / 24;
+
+                if (x >= l7)
+                {
+                    Data.WorkAnalysis = "危险！您本周使用电脑的时间已经超过人体负荷，请务必停止这样的工作状态。";
+                }
+                else if (x >= l6)
+                {
+                    Data.WorkAnalysis = "非常忙！您本周使用电脑的时间几乎高于正常水平一倍！除了需要注意您的眼睛状况外还应该保护生活质量。";
+                }
+                else if (x >= l5)
+                {
+                    Data.WorkAnalysis = "很忙！您本周使用电脑的时间过长，容易导致近视或近视加重。";
+                }
+                else if (x >= l4)
+                {
+                    Data.WorkAnalysis = "较忙！您本周使用电脑的时间略高于正常水平，请注意休息！";
+                }
+                else if (x >= l3)
+                {
+                    Data.WorkAnalysis = "正常！您本周使用电脑的时间处于普通上班族水平。";
+                }
+                else if (x >= l2)
+                {
+                    Data.WorkAnalysis = "很健康！您本周使用电脑的时间非常少！";
+                }
+                else
+                {
+                    Data.WorkAnalysis = "非常健康！";
+                }
+
+                if (worklifep > 0)
+                {
+                    Data.WorkAnalysis += $"平均每天占用了正常生活时间的{worklifep}%。";
+                }
+
+
+
+
+
+            }
+        }
     }
 }

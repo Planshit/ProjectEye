@@ -32,90 +32,113 @@
                     <TextBlock Text="本周数据统计" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
                     <Grid Grid.Row="1">
                         <ScrollViewer>
-                            <StackPanel HorizontalAlignment="Left">
+                            <StackPanel >
                                 <!--工作-->
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                <Border Padding="10" CornerRadius="4">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#4f6bed" Opacity=".05"/>
+                                    </Border.Background>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
 
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Width="290">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="80"/>
-                                            <RowDefinition Height="230"/>
-                                        </Grid.RowDefinitions>
-                                        <!--工作-->
-                                        <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
-                                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                                <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
-                                                <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Width="290" HorizontalAlignment="Left">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="230"/>
+                                            </Grid.RowDefinitions>
+                                            <!--工作-->
+                                            <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+                                                    <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                                    <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,20,0,0">
+                                                    <ui:CompareView DataA="{Binding Data.LastWeekWork}" DataB="{Binding Data.WeekWork}" PopupText="本周总计 {b} 小时，对比上周 {a} 小时 {diffvalue}"/>
+                                                </Grid>
                                             </StackPanel>
-                                            <Grid Margin="0,10,0,0">
-                                                <ui:CompareView DataA="{Binding Data.LastWeekWork}" DataB="{Binding Data.WeekWork}" PopupText="本周总计 {b} 小时，对比上周 {a} 小时 {diffvalue}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                        <chart:Chart Grid.Row="1" Data="{Binding Data.WeekWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}"/>
+                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}" Background="Transparent"/>
 
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel>
+                                                 <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/web_developer.png"  HorizontalAlignment="Center"/>
+                                                <TextBlock Text="{Binding Data.WorkAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                            </StackPanel>
+                                           
+                                        </Grid>
                                     </Grid>
-                                    <Grid Grid.Column="1">
-                                        <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/web_developer.png">
-                                          
-                                        </Image>
-                                    </Grid>
-                                </Grid>
+                                </Border>
                                 <!--休息-->
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#82D29A" Opacity=".05"/>
+                                    </Border.Background>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
 
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Width="290">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="80"/>
-                                            <RowDefinition Height="230"/>
-                                        </Grid.RowDefinitions>
-                                        <!--休息-->
-                                        <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
-                                            <StackPanel Orientation="Horizontal">
-                                                <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#1CE072"/>
-                                                <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#1CE072"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Width="290" HorizontalAlignment="Left">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="230"/>
+                                            </Grid.RowDefinitions>
+                                            <!--休息-->
+                                            <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#82D29A"/>
+                                                    <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#82D29A"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,20,0,0">
+                                                    <ui:CompareView DataA="{Binding Data.LastWeekRest}" DataB="{Binding Data.WeekRest}" PopupText="本周总计 {b} 分钟，对比上周 {a} 分钟 {diffvalue}"/>
+                                                </Grid>
                                             </StackPanel>
-                                            <Grid Margin="0,10,0,0">
-                                                <ui:CompareView DataA="{Binding Data.LastWeekRest}" DataB="{Binding Data.WeekRest}" PopupText="本周总计 {b} 分钟，对比上周 {a} 分钟 {diffvalue}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                        <chart:Chart Grid.Row="1" Data="{Binding Data.WeekRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#1CE072"/>
+                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#82D29A" Background="Transparent"/>
 
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Left">
+                                            <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/coffee_lover.png" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </Border>
                                 <!--跳过-->
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#F94520" Opacity=".05"/>
+                                    </Border.Background>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
 
-                                    </Grid.ColumnDefinitions>
-                                    <Grid Width="290">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="80"/>
-                                            <RowDefinition Height="230"/>
-                                        </Grid.RowDefinitions>
-                                        <!--跳过-->
-                                        <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
-                                            <StackPanel Orientation="Horizontal">
-                                                <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
-                                                <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
-                                            </StackPanel>
-                                            <Grid Margin="0,10,0,0">
-                                                <ui:CompareView DataA="{Binding Data.LastWeekSkip}" DataB="{Binding Data.WeekSkip}" PopupText="本周总计 {b} 次，对比上周 {a} 次 {diffvalue}"/>
-                                            </Grid>
-                                        </StackPanel>
-                                        <chart:Chart Grid.Row="1" Data="{Binding Data.WeekSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Width="290" HorizontalAlignment="Left">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="230"/>
+                                            </Grid.RowDefinitions>
+                                            <!--跳过-->
+                                            <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
+                                                    <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,20,0,0">
+                                                    <ui:CompareView DataA="{Binding Data.LastWeekSkip}" DataB="{Binding Data.WeekSkip}" PopupText="本周总计 {b} 次，对比上周 {a} 次 {diffvalue}"/>
+                                                </Grid>
+                                            </StackPanel> 
+                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520" Background="Transparent"/>
 
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Left">
+                                            <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/office_work_.png" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
+                                </Border>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>

@@ -243,5 +243,47 @@ namespace ProjectEye.Models
             }
         }
         #endregion
+
+        #region 本周数据评估
+        private string WorkAnalysis_;
+        public string WorkAnalysis
+        {
+            get
+            {
+                return WorkAnalysis_;
+            }
+            set
+            {
+                WorkAnalysis_ = value;
+                OnPropertyChanged();
+            }
+        }
+        private string RestAnalysis_;
+        public string RestAnalysis
+        {
+            get
+            {
+                return RestAnalysis_;
+            }
+            set
+            {
+                RestAnalysis_ = value;
+                OnPropertyChanged();
+            }
+        }
+        private string SkipAnalysis_;
+        public string SkipAnalysis
+        {
+            get
+            {
+                return SkipAnalysis_;
+            }
+            set
+            {
+                SkipAnalysis_ = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
     }
 }
