@@ -339,7 +339,7 @@ namespace ProjectEye.ViewModels
                 }
                 else
                 {
-                    Data.SkipAnalysis = $"较为频繁，请减少跳过次数！您已接近建议的跳过次数{skipP}%，根据设置以及本周的工作时间，建议您的跳过次数应该不超过{optionRecommendDayRestNum}次。";
+                    Data.SkipAnalysis = $"较为频繁，请减少跳过次数！您已接近建议的跳过次数{skipP}%，根据设置以及本周的工作时间，建议您每天的跳过次数应不超过{optionRecommendDayRestNum}次。";
                 }
             }
 

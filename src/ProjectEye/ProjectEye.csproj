@@ -131,6 +131,8 @@
     <Compile Include="Core\Net\GithubRelease.cs" />
     <Compile Include="Core\Net\HttpDownload.cs" />
     <Compile Include="Core\ProcessHelper.cs" />
+    <Compile Include="Core\ScreenExtensions.cs" />
+    <Compile Include="Core\Service\BackgroundWorkerService.cs" />
     <Compile Include="Core\Service\CacheService.cs" />
     <Compile Include="Core\Service\ConfigService.cs" />
     <Compile Include="Core\Service\IService.cs" />
@@ -626,6 +628,9 @@
   <ItemGroup>
     <Resource Include="Resources\coffee_lover.png" />
     <Resource Include="Resources\office_work_.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\overheated.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.5.0.6\build\Fody.targets" Condition="Exists('packages\Fody.5.0.6\build\Fody.targets')" />

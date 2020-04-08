@@ -45,6 +45,8 @@ namespace ProjectEye
 
             //必须按优先级依次添加
             serviceCollection.AddInstance(this);
+            //后台任务
+            serviceCollection.Add<BackgroundWorkerService>();
             //数据统计
             serviceCollection.Add<StatisticService>();
             //系统资源
@@ -69,7 +71,7 @@ namespace ProjectEye
             serviceCollection.Add<KeyboardShortcutsService>();
             //预提醒
             serviceCollection.Add<PreAlertService>();
-
+            
             WindowManager.serviceCollection = serviceCollection;
             //初始化所有服务
             serviceCollection.Initialize();

@@ -19,8 +19,6 @@ namespace ProjectEye.Database
         /// 统计数据
         /// </summary>
         public DbSet<StatisticModel> Statistics { get; set; }
-        public DbSet<ThemeModel> SA { get; set; }
-
         public StatisticContext()
        : base("StatisticContext")
         {
