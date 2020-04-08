@@ -24,7 +24,7 @@ namespace ProjectEye.Core.Service
         private readonly App app;
         private readonly MainService mainService;
         private readonly ConfigService config;
-
+        private readonly BackgroundWorkerService backgroundWorker;
         //托盘菜单项
         private ContextMenu contextMenu;
         private MenuItem menuItem_NoReset;
@@ -39,22 +39,35 @@ namespace ProjectEye.Core.Service
         private MenuItem menuItem_NoReset_Off;
 
         private DispatcherTimer noresetTimer;
-        public TrayService(App app, MainService mainService, ConfigService config)
+
+        private string lastIcon = string.Empty;
+        public TrayService(
+            App app,
+            MainService mainService,
+            ConfigService config,
+            BackgroundWorkerService backgroundWorker)
         {
             this.app = app;
             this.mainService = mainService;
             this.config = config;
+            this.backgroundWorker = backgroundWorker;
             this.config.Changed += new EventHandler(config_Changed);
 
             app.Exit += new ExitEventHandler(app_Exit);
             mainService.OnLeaveEvent += MainService_OnLeaveEvent;
             mainService.OnStart += MainService_OnStart; ;
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            backgroundWorker.OnCompleted += BackgroundWorker_OnCompleted;
 
+            notifyIcon = new System.Windows.Forms.NotifyIcon();
         }
 
         private void MainService_OnStart(object service, int msg)
         {
-            UpdateIcon("sunglasses");
+            if (!backgroundWorker.IsBusy)
+            {
+                UpdateIcon("sunglasses");
+            }
             if (contextMenu != null)
             {
                 menuItem_NoReset_OneHour.IsChecked = false;
@@ -131,10 +144,9 @@ namespace ProjectEye.Core.Service
             contextMenu.Items.Add(menuItem_Quit);
 
 
-            //托盘图标添加
-            notifyIcon = new System.Windows.Forms.NotifyIcon();
-            UpdateIcon("sunglasses");
-            notifyIcon.Text = "Project Eye";
+
+
+            //notifyIcon.Text = "Project Eye";
             notifyIcon.Visible = true;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             //在win10中将显示通知
@@ -143,12 +155,30 @@ namespace ProjectEye.Core.Service
             //notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             //notifyIcon.ShowBalloonTip(3000);
             noresetTimer = new DispatcherTimer();
+
+
         }
+
+
+
 
 
         #endregion
 
         #region Events
+        //有后台工作任务在运行时
+        private void BackgroundWorker_DoWork()
+        {
+            UpdateIcon("overheated", false);
+            notifyIcon.Text = "Project Eye：当前后台正在执行一些任务，请稍后。";
+        }
+        //后台工作任务运行结束时
+        private void BackgroundWorker_OnCompleted()
+        {
+            notifyIcon.Text = "Project Eye";
+            UpdateIcon();
+        }
+
         private void MenuItem_NoReset_Off_Click(object sender, RoutedEventArgs e)
         {
             OnNoResetAction(sender, -1);
@@ -201,6 +231,10 @@ namespace ProjectEye.Core.Service
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
+                if (backgroundWorker.IsBusy)
+                {
+                    return;
+                }
                 //右键单击弹出托盘菜单
                 contextMenu.IsOpen = true;
                 //激活主窗口，用于处理关闭托盘菜单
@@ -228,13 +262,22 @@ namespace ProjectEye.Core.Service
         {
             notifyIcon.Visible = false;
         }
-        private void UpdateIcon(string name)
+        private void UpdateIcon(string name = "", bool save = true)
         {
-            if (notifyIcon != null)
+            name = name == "" ? lastIcon : name;
+            if (name == "")
+            {
+                name = "sunglasses";
+            }
+            if (notifyIcon != null && name != "")
             {
                 Uri iconUri = new Uri("/ProjectEye;component/Resources/" + name + ".ico", UriKind.RelativeOrAbsolute);
                 StreamResourceInfo info = Application.GetResourceStream(iconUri);
                 notifyIcon.Icon = new Icon(info.Stream);
+                if (save)
+                {
+                    lastIcon = name;
+                }
             }
         }
         /// <summary>
