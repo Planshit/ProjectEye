@@ -104,10 +104,11 @@ namespace ProjectEye.Core
             }
             if (isMaximized)
             {
+                var size = new Size();
                 left = screen.Bounds.Left;
                 top = screen.Bounds.Top;
-                width = screen.Bounds.Width;
-                height = screen.Bounds.Height;
+                width = size.Width;
+                height = size.Height;
             }
             var window = CreateWindow(name,
                 screen.DeviceName,
@@ -133,12 +134,13 @@ namespace ProjectEye.Core
             for (int index = 0; index < screenCount; index++)
             {
                 var screen = screens[index];
+                var size = GetSize(screen);
                 double width = -999999;
                 double height = -999999;
                 if (isMaximized)
                 {
-                    width = screen.Bounds.Width;
-                    height = screen.Bounds.Height;
+                    width = size.Width;
+                    height = size.Height;
                 }
                 var window = CreateWindow(name, screen.DeviceName, screen.Bounds.Left, screen.Bounds.Top, width, height, newViewModel);
                 windows[index] = window;
@@ -308,6 +310,23 @@ namespace ProjectEye.Core
                     }
                 }
             }
+        }
+        #endregion
+
+        #region 获得显示器宽高dips
+        public class Size
+        {
+            public double Width { get; set; }
+            public double Height { get; set; }
+        }
+        public static Size GetSize(System.Windows.Forms.Screen screen)
+        {
+            uint xDpi, yDpi;
+            screen.GetDpi(DpiType.Effective, out xDpi, out yDpi);
+            var size = new Size();
+            size.Width = screen.Bounds.Width / (xDpi / 96.0);
+            size.Height = screen.Bounds.Height / (yDpi / 96.0);
+            return size;
         }
         #endregion
 
