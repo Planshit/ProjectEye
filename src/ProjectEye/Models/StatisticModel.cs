@@ -161,7 +161,28 @@ namespace ProjectEye.Models
         #endregion
 
         #region 本周数据总和
+        
+        private int WeekTrueWorkDays_;
+        /// <summary>
+        /// 本周真实工作天数（筛选用眼时长>0）
+        /// </summary>
+        public int WeekTrueWorkDays
+        {
+            get
+            {
+                return WeekTrueWorkDays_;
+            }
+            set
+            {
+                WeekTrueWorkDays_ = value;
+                OnPropertyChanged();
+            }
+        }
+
         private double WeekWork_;
+        /// <summary>
+        /// 本周工作总时长（小时）
+        /// </summary>
         public double WeekWork
         {
             get
@@ -175,6 +196,9 @@ namespace ProjectEye.Models
             }
         }
         private double WeekRest_;
+        /// <summary>
+        /// 本周休息总时长（分钟）
+        /// </summary>
         public double WeekRest
         {
             get
@@ -188,6 +212,9 @@ namespace ProjectEye.Models
             }
         }
         private int WeekSkip_;
+        /// <summary>
+        /// 本周跳过次数
+        /// </summary>
         public int WeekSkip
         {
             get

@@ -23,13 +23,13 @@
         </Grid.RowDefinitions>
 
         <TabControl Margin="10" Grid.Row="0">
-            <TabItem Header="本周视图">
+            <TabItem Header="本周">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="本周数据统计" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <TextBlock Text="本周数据分析" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
                     <Grid Grid.Row="1">
                         <ScrollViewer>
                             <StackPanel >
@@ -59,15 +59,15 @@
                                                     <ui:CompareView DataA="{Binding Data.LastWeekWork}" DataB="{Binding Data.WeekWork}" PopupText="本周总计 {b} 小时，对比上周 {a} 小时 {diffvalue}"/>
                                                 </Grid>
                                             </StackPanel>
-                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}" Background="Transparent"/>
+                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}" Background="Transparent" AverageDivisor="{Binding Data.WeekTrueWorkDays}"/>
 
                                         </Grid>
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel>
-                                                 <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/web_developer.png"  HorizontalAlignment="Center"/>
+                                                <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/web_developer.png"  HorizontalAlignment="Center"/>
                                                 <TextBlock Text="{Binding Data.WorkAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
                                             </StackPanel>
-                                           
+
                                         </Grid>
                                     </Grid>
                                 </Border>
@@ -97,11 +97,14 @@
                                                     <ui:CompareView DataA="{Binding Data.LastWeekRest}" DataB="{Binding Data.WeekRest}" PopupText="本周总计 {b} 分钟，对比上周 {a} 分钟 {diffvalue}"/>
                                                 </Grid>
                                             </StackPanel>
-                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#82D29A" Background="Transparent"/>
+                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#82D29A" Background="Transparent" AverageDivisor="{Binding Data.WeekTrueWorkDays}"/>
 
                                         </Grid>
-                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Left">
-                                            <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/coffee_lover.png" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel>
+                                                <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/coffee_lover.png" />
+                                                <TextBlock Text="{Binding  Data.RestAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                            </StackPanel>
                                         </Grid>
                                     </Grid>
                                 </Border>
@@ -130,12 +133,16 @@
                                                 <Grid Margin="0,20,0,0">
                                                     <ui:CompareView DataA="{Binding Data.LastWeekSkip}" DataB="{Binding Data.WeekSkip}" PopupText="本周总计 {b} 次，对比上周 {a} 次 {diffvalue}"/>
                                                 </Grid>
-                                            </StackPanel> 
-                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520" Background="Transparent"/>
+                                            </StackPanel>
+                                            <chart:Chart Grid.Row="1" Data="{Binding Data.WeekSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520" Background="Transparent" AverageDivisor="{Binding Data.WeekTrueWorkDays}"/>
 
                                         </Grid>
-                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Left">
-                                            <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/office_work_.png" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel>
+                                                <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/office_work_.png" />
+                                                <TextBlock Text="{Binding Data.SkipAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                            </StackPanel>
+
                                         </Grid>
                                     </Grid>
                                 </Border>

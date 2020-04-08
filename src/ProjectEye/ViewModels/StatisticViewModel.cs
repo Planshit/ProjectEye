@@ -16,14 +16,22 @@ namespace ProjectEye.ViewModels
         public StatisticModel Data { get; set; }
 
         private readonly StatisticService statistic;
-
+        private readonly ConfigService config;
 
 
         private int yearmonth = 0;
+        ///// <summary>
+        ///// 本周真实工作天数（筛选用眼时长>0）
+        ///// </summary>
+        //private int weekTrueWorkDays = 0;
 
-        public StatisticViewModel(StatisticService statistic)
+
+        public StatisticViewModel(
+            StatisticService statistic,
+            ConfigService config)
         {
             this.statistic = statistic;
+            this.config = config;
 
             yearmonth = DateTime.Now.Year + DateTime.Now.Month;
 
@@ -175,7 +183,7 @@ namespace ProjectEye.ViewModels
             Data.WeekWork = WeekData.Count > 0 ? WeekData.Sum(m => m.WorkingTime) : 0;
             Data.WeekRest = WeekData.Count > 0 ? WeekData.Sum(m => m.ResetTime) : 0;
             Data.WeekSkip = WeekData.Count > 0 ? WeekData.Sum(m => m.SkipCount) : 0;
-
+            Data.WeekTrueWorkDays = WeekData.Count > 0 ? WeekData.Where(m => m.WorkingTime > 0).Count() : 0;
             string[] weekText = { "日", "一", "二", "三", "四", "五", "六" };
             foreach (var data in WeekData)
             {
@@ -215,12 +223,19 @@ namespace ProjectEye.ViewModels
 
         private void Analysis()
         {
-            Data.WorkAnalysis = "正常。工作时间的统计方式是Project Eye运行时且没有进入离开或睡眠状态的总时长。";
+            //本周天数
+            //int weekNum = (int)DateTime.Now.DayOfWeek;
+            int weekNum = Data.WeekTrueWorkDays;
+
+
+            Data.WorkAnalysis = "截至目前，一切正常。工作时间的统计方式是Project Eye运行时且没有进入离开或睡眠状态的总时长。";
+            //本周平均每天工作时间
+            double weekWorkAverage = weekNum > 0 ? Data.WeekWork / weekNum : 0;
+
             //工作时间
-            if (Data.WeekWork > 6)
+            if (weekWorkAverage >= 3)
             {
-                //本周平均每天工作时间
-                double weekWorkAverage = Data.WeekWork / 7;
+
                 //误差值
                 double errValue = 0;
                 //工作占用了生活时间的百分比
@@ -245,31 +260,31 @@ namespace ProjectEye.ViewModels
 
                 if (x >= l7)
                 {
-                    Data.WorkAnalysis = "危险！您本周使用电脑的时间已经超过人体负荷，请务必停止这样的工作状态。";
+                    Data.WorkAnalysis = "危险！截至目前，您本周使用电脑的时间已经超过人体负荷，请务必停止这样的工作状态。";
                 }
                 else if (x >= l6)
                 {
-                    Data.WorkAnalysis = "非常忙！您本周使用电脑的时间几乎高于正常水平一倍！除了需要注意您的眼睛状况外还应该保护生活质量。";
+                    Data.WorkAnalysis = "非常忙！截至目前，您本周使用电脑的时间几乎高于正常水平一倍！除了需要注意您的眼睛状况外还应该保护生活质量。";
                 }
                 else if (x >= l5)
                 {
-                    Data.WorkAnalysis = "很忙！您本周使用电脑的时间过长，容易导致近视或近视加重。";
+                    Data.WorkAnalysis = "很忙！截至目前，您本周使用电脑的时间过长，容易导致近视或近视加重。";
                 }
                 else if (x >= l4)
                 {
-                    Data.WorkAnalysis = "较忙！您本周使用电脑的时间略高于正常水平，请注意休息！";
+                    Data.WorkAnalysis = "较忙！截至目前，您本周使用电脑的时间略高于正常水平，请注意休息！";
                 }
                 else if (x >= l3)
                 {
-                    Data.WorkAnalysis = "正常！您本周使用电脑的时间处于普通上班族水平。";
+                    Data.WorkAnalysis = "正常！截至目前，您本周使用电脑的时间处于普通上班族水平。";
                 }
                 else if (x >= l2)
                 {
-                    Data.WorkAnalysis = "很健康！您本周使用电脑的时间非常少！";
+                    Data.WorkAnalysis = "很健康！截至目前，您本周使用电脑的时间非常少！";
                 }
                 else
                 {
-                    Data.WorkAnalysis = "非常健康！";
+                    Data.WorkAnalysis = "截至目前，非常健康！";
                 }
 
                 if (worklifep > 0)
@@ -282,6 +297,52 @@ namespace ProjectEye.ViewModels
 
 
             }
+
+            Data.RestAnalysis = weekWorkAverage > 3 ? ":( 危险，您目前处于长时间过劳用眼。" : "正常，保持视力健康的前提是劳逸结合，记得准时根据Project Eye的提示休息。";
+            //休息时间
+            if (Data.WeekRest > 0 && weekWorkAverage > 0)
+            {
+                //根据选项设置每日应休息时间（分钟)
+                double optionDayRestM = (weekWorkAverage * 60) / config.options.General.WarnTime * config.options.General.RestTime / 60;
+                //本周的平均每日休息时间（分钟）
+                double dayRestM = Data.WeekRest / weekNum;
+                //是否达成目标
+                bool isReached = dayRestM >= optionDayRestM;
+                //达成202020规则的百分比
+                double reachedTTTP = Math.Round(dayRestM / 7 * 100, 0);
+                Data.RestAnalysis = isReached ? $"非常棒！您已达成根据您设置的每{config.options.General.WarnTime}分钟休息{config.options.General.RestTime}秒的规则，继续保持。" : "请注意休息，根据您的设置目前没有达成休息目标。";
+                if (reachedTTTP < 100)
+                {
+                    Data.RestAnalysis += $"根据20-20-20规则来看，您只达到了{reachedTTTP}%的程度。";
+                }
+            }
+
+            Data.SkipAnalysis = "一切正常！继续保持。";
+            //跳过次数
+            if (weekWorkAverage > 0 && Data.WeekSkip > 0)
+            {
+                //根据设置每天应该休息的次数
+                double optionDayRestNum = (weekWorkAverage * 60) / config.options.General.WarnTime;
+                //根据设置每天建议休息至少一半的次数
+                double optionRecommendDayRestNum = optionDayRestNum / 2;
+                //当前每天跳过次数
+                double daySkipCount = Data.WeekSkip / Data.WeekTrueWorkDays;
+                //跳过的次数基于建议的百分比
+                double skipP = Math.Round(daySkipCount / optionRecommendDayRestNum * 100, 0);
+                if (daySkipCount > optionRecommendDayRestNum)
+                {
+                    Data.SkipAnalysis = "过于频繁，请注意，过多的跳过休息可能会使您的视力下降，记得遵守规则。";
+                }
+                else if (skipP < 10)
+                {
+                    Data.SkipAnalysis = "正常，保持现状或减少跳过次数！";
+                }
+                else
+                {
+                    Data.SkipAnalysis = $"较为频繁，请减少跳过次数！您已接近建议的跳过次数{skipP}%，根据设置以及本周的工作时间，建议您的跳过次数应该不超过{optionRecommendDayRestNum}次。";
+                }
+            }
+
         }
     }
 }
