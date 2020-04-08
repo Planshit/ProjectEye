@@ -40,6 +40,10 @@ namespace ProjectEye.Core.Service
     /// </summary>
     public class StatisticService : IService
     {
+        /// <summary>
+        /// 是否迁移到了SQLite，用于旧用户迁移判断
+        /// </summary>
+        public bool IsMigrated { get; set; } = false;
         private readonly string xmlPath;
         private readonly App app;
         private readonly BackgroundWorkerService backgroundWorker;
@@ -93,11 +97,7 @@ namespace ProjectEye.Core.Service
                 //获取设置今日数据
                 todayStatistic = FindCreate();
             });
-            backgroundWorker.AddAction(() =>
-            {
-                Thread.Sleep(5000);
-                Debug.WriteLine("Thread.Sleep(5000);");
-            });
+
             backgroundWorker.Run();
             //开始计时
             ResetStatisticTime();
@@ -110,6 +110,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void MigrateXMLDataToDb()
         {
+
             if (File.Exists(xmlPath))
             {
                 //需要迁移
@@ -139,6 +140,19 @@ namespace ProjectEye.Core.Service
                     }
 
                 }
+            }
+
+
+            //迁移判断
+            IsMigrated = File.Exists(xmlPath + ".migrate.mark");
+
+        }
+        public void MigrateDone()
+        {
+            if (File.Exists(xmlPath + ".migrate.mark"))
+            {
+                File.Delete(xmlPath + ".migrate.mark");
+                IsMigrated = false;
             }
         }
         #endregion

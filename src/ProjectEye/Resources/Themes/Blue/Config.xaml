@@ -59,7 +59,7 @@
     <!--窗口边框-->
     <Thickness x:Key="WindowBorderThickness">1</Thickness>
     <!--窗口标题栏高度-->
-    <s:Double x:Key="WindowTitleBarHeight">40</s:Double>
+    <s:Double x:Key="WindowTitleBarHeight">70</s:Double>
 
 
     <!--【按钮】-->

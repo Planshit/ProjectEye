@@ -25,6 +25,7 @@ namespace ProjectEye.ViewModels
         ///// </summary>
         //private int weekTrueWorkDays = 0;
 
+        public Command CloseOnboardingCommand { get; set; }
 
         public StatisticViewModel(
             StatisticService statistic,
@@ -35,6 +36,7 @@ namespace ProjectEye.ViewModels
 
             yearmonth = DateTime.Now.Year + DateTime.Now.Month;
 
+            CloseOnboardingCommand = new Command(new Action<object>(OnCloseOnboardingCommand));
             Data = new StatisticModel();
             Data.Year = DateTime.Now.Year;
             Data.Month = DateTime.Now.Month;
@@ -48,9 +50,20 @@ namespace ProjectEye.ViewModels
 
             Data.PropertyChanged += Data_PropertyChanged;
 
+            MigrateCheck();
+
             HandleMonthData();
             HandleWeekData();
             Analysis();
+        }
+        private void MigrateCheck()
+        {
+            Data.IsShowOnboarding = statistic.IsMigrated;
+        }
+        private void OnCloseOnboardingCommand(object obj)
+        {
+            Data.IsShowOnboarding = false;
+            statistic.MigrateDone();
         }
 
         private void Data_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -319,7 +332,7 @@ namespace ProjectEye.ViewModels
 
             Data.SkipAnalysis = "一切正常！继续保持。";
             //跳过次数
-            if (weekWorkAverage > 0 && Data.WeekSkip > 0)
+            if (weekWorkAverage >= 1 && Data.WeekSkip > 0)
             {
                 //根据设置每天应该休息的次数
                 double optionDayRestNum = (weekWorkAverage * 60) / config.options.General.WarnTime;

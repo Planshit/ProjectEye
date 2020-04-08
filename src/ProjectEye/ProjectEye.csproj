@@ -632,6 +632,12 @@
   <ItemGroup>
     <Resource Include="Resources\overheated.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\creative_process_.png" />
+    <Resource Include="Resources\ecology.png" />
+    <Resource Include="Resources\files_and_folder.png" />
+    <Resource Include="Resources\product_manager.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Fody.5.0.6\build\Fody.targets" Condition="Exists('packages\Fody.5.0.6\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

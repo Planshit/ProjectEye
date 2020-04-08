@@ -11,12 +11,28 @@ using System.Windows.Threading;
 
 namespace Project1.UI.Controls
 {
-    public class Project1UIModal : Control
+    public class Project1UIModal : ContentControl
     {
+        /// <summary>
+        /// 点击关闭
+        /// </summary>
+        public bool ClickClose
+        {
+            get { return (bool)GetValue(ClickCloseProperty); }
+            set { SetValue(ClickCloseProperty, value); }
+        }
+        public static readonly DependencyProperty ClickCloseProperty =
+            DependencyProperty.Register("ClickClose", typeof(bool), typeof(Project1UIModal), new PropertyMetadata(true));
         /// <summary>
         /// 持续时间
         /// </summary>
-        private readonly int Duration = 3;
+        public int Duration
+        {
+            get { return (int)GetValue(DurationProperty); }
+            set { SetValue(DurationProperty, value); }
+        }
+        public static readonly DependencyProperty DurationProperty =
+            DependencyProperty.Register("Duration", typeof(int), typeof(Project1UIModal), new PropertyMetadata((int)3));
         /// <summary>
         /// 遮罩层透明度
         /// </summary>
@@ -45,13 +61,13 @@ namespace Project1.UI.Controls
             }
         }
 
-        public string Text
-        {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(Project1UIModal));
+        //public string Text
+        //{
+        //    get { return (string)GetValue(TextProperty); }
+        //    set { SetValue(TextProperty, value); }
+        //}
+        //public static readonly DependencyProperty TextProperty =
+        //    DependencyProperty.Register("Text", typeof(string), typeof(Project1UIModal));
         public bool Show
         {
             get { return (bool)GetValue(ShowProperty); }
@@ -69,12 +85,12 @@ namespace Project1.UI.Controls
                 bool value = (bool)e.NewValue;
                 if (value)
                 {
-                    if(obj.Visibility== Visibility.Hidden)
+                    if (obj.Visibility == Visibility.Hidden)
                     {
                         obj.Visibility = Visibility.Visible;
                     }
                     obj.closeTimer.Interval = new TimeSpan(0, 0, obj.Duration);
-                    if (!obj.closeTimer.IsEnabled)
+                    if (!obj.closeTimer.IsEnabled && obj.Duration > 0)
                     {
                         obj.closeTimer.Start();
                     }
@@ -98,6 +114,10 @@ namespace Project1.UI.Controls
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
+            if (!ClickClose)
+            {
+                return;
+            }
             if (closeTimer.IsEnabled)
             {
                 closeTimer.Stop();

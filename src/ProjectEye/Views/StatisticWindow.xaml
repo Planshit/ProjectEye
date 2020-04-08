@@ -15,6 +15,69 @@
             <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
         </Style>
     </ui:Project1UIWindow.Resources>
+    <ui:Project1UIWindow.ExtElement>
+        <ui:Project1UIModal ClickClose="False" Duration="0" Show="{Binding Data.IsShowOnboarding,Mode=TwoWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+
+                </Grid.RowDefinitions>
+                <Border Margin="80,50" Background="White" CornerRadius="2" Opacity=".98">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="5" Opacity="0.3"  ShadowDepth="0"/>
+                    </Border.Effect>
+                    <ScrollViewer>
+                    <StackPanel Margin="10" HorizontalAlignment="Center">
+                            <Image Height="80" Source="/ProjectEye;component/Resources/ecology.png" Margin="0,20"/>
+                        <TextBlock FontSize="24" Text="欢迎来到全新的数据统计页，看看有哪些改动吧！" HorizontalAlignment="Center"/>
+                            
+                            <Grid Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+
+                                </Grid.ColumnDefinitions>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock FontSize="18" Text="存储时间" FontWeight="Bold"/>
+                                    <Image Height="80" Source="/ProjectEye;component/Resources/files_and_folder.png" Margin="0,20,0,0"/>
+                                </StackPanel>
+                                <TextBlock  VerticalAlignment="Center" Grid.Column="1" FontSize="14" Text="从现在开始将不限制数据保留天数，除非人为删除否则您的数据将从今天起永久保留在本地。" TextWrapping="WrapWithOverflow"/>
+                            </Grid>
+
+                            <Grid Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6*"/>
+                                    <ColumnDefinition Width="4*"/>
+
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock FontSize="18" Text="全新的UI" FontWeight="Bold"/>
+                                    <Image Height="80" Source="/ProjectEye;component/Resources/creative_process_.png" Margin="0,20,0,0"/>
+                                </StackPanel>
+                                <TextBlock  VerticalAlignment="Center" Grid.Column="0" FontSize="14" Text="不仅重新设计了图表的UI视觉，还加入了图表动效，让数据不那么冰冷单调。" TextWrapping="WrapWithOverflow"/>
+                            </Grid>
+                            <Grid Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="6*"/>
+
+                                </Grid.ColumnDefinitions>
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock FontSize="18" Text="数据分析" FontWeight="Bold"/>
+                                    <Image Height="80" Source="/ProjectEye;component/Resources/product_manager.png" Margin="0,20,0,0"/>
+                                </StackPanel>
+                                <TextBlock  VerticalAlignment="Center" Grid.Column="1" FontSize="14" Text="Project Eye不仅会单独对工作时间、休息时间、跳过次数做出分析，还会结合您的设置以及一周的工作时间给您提供参考建议。" TextWrapping="WrapWithOverflow"/>
+                            </Grid>
+                           
+
+                    </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                <ui:Project1UIButton Grid.Row="1" Content="了 解" FontSize="16" Width="160" Height="35" Command="{Binding CloseOnboardingCommand}"/>
+            </Grid>
+        </ui:Project1UIModal>
+    </ui:Project1UIWindow.ExtElement>
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="9*"/>
@@ -22,7 +85,7 @@
 
         </Grid.RowDefinitions>
 
-        <TabControl Margin="10" Grid.Row="0">
+        <TabControl Grid.Row="0">
             <TabItem Header="本周">
                 <Grid>
                     <Grid.RowDefinitions>

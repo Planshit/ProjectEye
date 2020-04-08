@@ -75,11 +75,14 @@
                                             <Grid Grid.Column="0" WindowChrome.IsHitTestVisibleInChrome="True">
                                                 <!--LOGO区域-->
 
-
-                                                <Image Width="16" Height="16" Source="{TemplateBinding Icon}"
+                                                <StackPanel Margin="10">
+                                                    <TextBlock Text="Project Eye" Foreground="#737373"/>
+                                                    <TextBlock Text="{TemplateBinding Title}" FontWeight="Normal" FontSize="22" Margin="0,5,0,0"/>
+                                                </StackPanel>
+                                                <!--<Image Width="16" Height="16" Source="{TemplateBinding Icon}"
                                                    HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"
-                                                   Margin="7,0"/>
+                                                   Margin="7,0"/>-->
                                             </Grid>
                                             <!--导航栏区域-->
                                             <Grid 
@@ -93,7 +96,7 @@
                                             <Grid Grid.Column="2"
                                               Panel.ZIndex="3">
                                                 <!--标题区域-->
-                                                <TextBlock Text="{TemplateBinding Title}" FontWeight="Normal" FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                <!--<TextBlock Text="{TemplateBinding Title}" FontWeight="Normal" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
 
                                             </Grid>
                                             <Grid Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Top"

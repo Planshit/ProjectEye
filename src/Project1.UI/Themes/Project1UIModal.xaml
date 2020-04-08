@@ -6,6 +6,8 @@
     <Style TargetType="{x:Type controls:Project1UIModal}">
         <Setter Property="Background" Value="White" />
         <Setter Property="Foreground" Value="#323130"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
@@ -22,7 +24,7 @@
                     </ControlTemplate.Resources>
                     <Grid>
                         <!--内容-->
-                        <Border
+                        <!--<Border
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}"
@@ -35,23 +37,19 @@
                             >
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="5" Opacity="0.3"  ShadowDepth="0"/>
-                            </Border.Effect>
-                            <TextBlock 
+                            </Border.Effect>-->
+                        <!--<TextBlock 
                                 TextWrapping="WrapWithOverflow"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"
                                 Foreground="{TemplateBinding Foreground}"
                                 Text="{TemplateBinding Text}"
-                                />
-                            <!--<ContentPresenter HorizontalAlignment="Center"
-                                              TextBlock.r
-                            VerticalAlignment="Center"
-                            RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="False"
-                                          Content="{TemplateBinding Text}"
-                                          
-                                              />-->
-                        </Border>
+                                />-->
+                        <ContentPresenter 
+                            Panel.ZIndex="2"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        <!--</Border>-->
                         <Border x:Name="MaskLayer" Background="Black" Opacity="{TemplateBinding MaskLayerOpacity}" Panel.ZIndex="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     </Grid>
                     <ControlTemplate.Triggers>

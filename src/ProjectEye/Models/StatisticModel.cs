@@ -9,6 +9,24 @@ namespace ProjectEye.Models
 {
     public class StatisticModel : UINotifyPropertyChanged
     {
+        private bool IsShowOnboarding_;
+        /// <summary>
+        /// 是否显示引导页
+        /// </summary>
+        public bool IsShowOnboarding
+        {
+            get
+            {
+                return IsShowOnboarding_;
+            }
+            set
+            {
+                IsShowOnboarding_ = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         private int Year_;
         public int Year
         {
@@ -161,7 +179,7 @@ namespace ProjectEye.Models
         #endregion
 
         #region 本周数据总和
-        
+
         private int WeekTrueWorkDays_;
         /// <summary>
         /// 本周真实工作天数（筛选用眼时长>0）

@@ -14,7 +14,23 @@
         </Style>
     </ui:Project1UIWindow.Resources>
     <ui:Project1UIWindow.ExtElement>
-        <ui:Project1UIModal Show="{Binding Model.ShowModal,Mode=TwoWay}" Text="{Binding Model.ModalText}"/>
+        <ui:Project1UIModal Show="{Binding Model.ShowModal,Mode=TwoWay}">
+            <Border
+                       
+                        Background="White"
+                            CornerRadius="2"
+                            Padding="10,15"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            >
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" Opacity="0.3"  ShadowDepth="0"/>
+                </Border.Effect>
+
+                <TextBlock Text="{Binding Model.ModalText}"/>
+            </Border>
+        </ui:Project1UIModal>
     </ui:Project1UIWindow.ExtElement>
     <Grid Margin="5">
 
