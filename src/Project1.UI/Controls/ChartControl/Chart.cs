@@ -135,6 +135,24 @@ namespace Project1.UI.Controls.ChartControl
 
         #endregion
 
+        #region AverageDivisor
+        /// <summary>
+        /// 计算平均数时的被除数，默认使用数据总条数
+        /// </summary>
+        public double AverageDivisor
+        {
+            get { return (double)GetValue(AverageDivisorProperty); }
+            set { SetValue(AverageDivisorProperty, value); }
+        }
+        public static readonly DependencyProperty AverageDivisorProperty =
+            DependencyProperty.Register("AverageDivisor",
+                typeof(double),
+                typeof(Chart),
+                new PropertyMetadata((double)0, new PropertyChangedCallback(OnPropertyChanged)));
+
+
+        #endregion
+
         #region 间距值
         /// <summary>
         /// 间距值
@@ -251,6 +269,14 @@ namespace Project1.UI.Controls.ChartControl
                 var newData = e.NewValue as IEnumerable<ChartDataModel>;
 
                 if (newData != null)
+                {
+                    chart.Render();
+                }
+            }
+            if (e.Property == AverageDivisorProperty)
+            {
+                var newValue = (double)e.NewValue;
+                if (newValue > 0 && newValue!=(double)e.OldValue)
                 {
                     chart.Render();
                 }
@@ -546,7 +572,17 @@ namespace Project1.UI.Controls.ChartControl
             }
 
             double itemTrueHeight = ItemContainer.ActualHeight - 30 - 20;
-            averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
+
+            //计算平均值
+            if (AverageDivisor > 0)
+            {
+                averageValue = Data.Count() > 0 ? Data.Sum(m => m.Value) / AverageDivisor : 0;
+            }
+            else
+            {
+                averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
+            }
+
             double bottomValue = Data.Count() > 0 ? Data.Where(m => m.Value >= 0).Min(m => m.Value) : 0;
 
             averageTickY = (averageValue / MaxValue) * itemTrueHeight + 30 - AverageTick.ActualHeight / 2;
