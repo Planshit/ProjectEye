@@ -3,6 +3,7 @@ using Project1.UI.Cores;
 using ProjectEye.Models.UI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,13 @@ namespace ProjectEye.Core.Service
         private readonly ConfigService config;
         private readonly SystemResourcesService systemResources;
         private readonly Theme theme;
+
+
+        public delegate void ThemeChangedEventHandler(string OldThemeName, string NewThemeName);
+        /// <summary>
+        /// 当切换主题时发生
+        /// </summary>
+        public event ThemeChangedEventHandler OnChangedTheme;
         public ThemeService(ConfigService config,
             SystemResourcesService systemResources)
         {
@@ -43,21 +51,27 @@ namespace ProjectEye.Core.Service
         /// <param name="themeName"></param>
         public void SetTheme(string themeName)
         {
+
             if (Project1.UI.Cores.UIDefaultSetting.DefaultThemeName != themeName)
             {
+                string oldName = Project1.UI.Cores.UIDefaultSetting.DefaultThemeName;
+
                 Project1.UI.Cores.UIDefaultSetting.DefaultThemeName = themeName;
 
                 Project1.UI.Cores.UIDefaultSetting.DefaultThemePath = "/ProjectEye;component/Resources/Themes/";
 
                 theme.ApplyTheme();
+
+                OnChangedTheme?.Invoke(oldName, themeName);
             }
         }
 
         public void HandleDarkMode()
         {
+            string darkModeThemeName = "Dark";
             if (config.options.Style.IsAutoDarkMode)
             {
-                var darkTheme = systemResources.Themes.Where(m => m.ThemeName == "Dark").FirstOrDefault();
+                var darkTheme = systemResources.Themes.Where(m => m.ThemeName == darkModeThemeName).FirstOrDefault();
                 if (darkTheme == null)
                 {
                     return;
@@ -78,40 +92,36 @@ namespace ProjectEye.Core.Service
                     0);
 
                 bool isOpen = false;
-                if (config.options.Style.AutoDarkStartH > config.options.Style.AutoDarkEndH)
-                {
-                    if (config.options.Style.AutoDarkStartH < 13)
-                    {
-                        //上午时间
-                        if (DateTime.Now.Hour < 13)
-                        {
 
-                        }
-                    }
-                    else
-                    {
-                        //下午时间
-
-                    }
-                }
-                else
+                if (config.options.Style.AutoDarkStartH <= config.options.Style.AutoDarkEndH)
                 {
                     isOpen = DateTime.Now >= startTime && DateTime.Now <= endTime;
                 }
-
+                else
+                {
+                    isOpen = DateTime.Now >= startTime || DateTime.Now <= endTime;
+                }
                 if (isOpen)
                 {
+                    if (config.options.Style.Theme != darkTheme)
+                    {
+                        Debug.WriteLine("dark mode open!");
+                        config.options.Style.Theme = darkTheme;
 
-                    SetTheme("Dark");
-                    config.options.Style.Theme = darkTheme;
+                        SetTheme(darkModeThemeName);
+                        
+                    }
                 }
                 else
                 {
-                    if (config.options.Style.Theme == darkTheme)
+                    var defualtTheme = systemResources.Themes[0];
+                    if (config.options.Style.Theme != defualtTheme)
                     {
-                        var defualtTheme = systemResources.Themes[0];
-                        SetTheme(defualtTheme.ThemeName);
+                        Debug.WriteLine("dark mode close!");
                         config.options.Style.Theme = defualtTheme;
+
+                        SetTheme(defualtTheme.ThemeName);
+                       
                     }
                 }
             }

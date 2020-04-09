@@ -148,9 +148,9 @@
                             <StackPanel Margin="30,0,0,0">
                                 <TextBlock Text="在指定时间范围"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkStartH}" Minutes="{Binding Model.Data.Style.AutoDarkStartM}"/>
+                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkStartH,Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkStartM,Mode=TwoWay}"/>
                                     <TextBlock Text="至" VerticalAlignment="Center" Margin="5,0"/>
-                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkEndH}" Minutes="{Binding Model.Data.Style.AutoDarkEndM}"/>
+                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkEndH,Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkEndM,Mode=TwoWay}"/>
                                 </StackPanel>
                             </StackPanel>
                         </Grid>

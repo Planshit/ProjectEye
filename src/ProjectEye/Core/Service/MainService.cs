@@ -49,6 +49,7 @@ namespace ProjectEye.Core.Service
         private readonly ConfigService config;
         private readonly CacheService cache;
         private readonly StatisticService statistic;
+        private readonly ThemeService theme;
         #endregion
 
         #region win32
@@ -89,12 +90,15 @@ namespace ProjectEye.Core.Service
             ScreenService screen,
             ConfigService config,
             CacheService cache,
-            StatisticService statistic)
+            StatisticService statistic,
+            ThemeService theme)
         {
             this.screen = screen;
             this.config = config;
             this.cache = cache;
             this.statistic = statistic;
+            this.theme = theme;
+
             app.Exit += new ExitEventHandler(app_Exit);
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
         }
@@ -479,6 +483,9 @@ namespace ProjectEye.Core.Service
         {
             if (!config.options.General.Noreset)
             {
+                //深色主题切换判断
+                theme.HandleDarkMode();
+
                 //0.全屏跳过判断
                 if (config.options.Behavior.IsFullScreenBreak)
                 {

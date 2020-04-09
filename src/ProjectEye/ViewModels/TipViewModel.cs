@@ -75,10 +75,15 @@ namespace ProjectEye.ViewModels
             this.keyboardShortcuts = keyboardShortcuts;
             this.preAlert = preAlert;
             this.theme = theme;
-
+            theme.OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
             LoadConfig();
 
+        }
+
+        private void Theme_OnChangedTheme(string OldThemeName, string NewThemeName)
+        {
+            CreateUI();
         }
 
         private void TipViewModel_ChangedEvent()

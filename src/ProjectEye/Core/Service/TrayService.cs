@@ -25,6 +25,7 @@ namespace ProjectEye.Core.Service
         private readonly MainService mainService;
         private readonly ConfigService config;
         private readonly BackgroundWorkerService backgroundWorker;
+        private readonly ThemeService theme;
         //托盘菜单项
         private ContextMenu contextMenu;
         private MenuItem menuItem_NoReset;
@@ -45,14 +46,16 @@ namespace ProjectEye.Core.Service
             App app,
             MainService mainService,
             ConfigService config,
-            BackgroundWorkerService backgroundWorker)
+            BackgroundWorkerService backgroundWorker,
+            ThemeService theme)
         {
             this.app = app;
             this.mainService = mainService;
             this.config = config;
             this.backgroundWorker = backgroundWorker;
+            this.theme = theme;
             this.config.Changed += new EventHandler(config_Changed);
-
+            this.theme.OnChangedTheme += Theme_OnChangedTheme;
             app.Exit += new ExitEventHandler(app_Exit);
             mainService.OnLeaveEvent += MainService_OnLeaveEvent;
             mainService.OnStart += MainService_OnStart; ;
@@ -60,6 +63,12 @@ namespace ProjectEye.Core.Service
             backgroundWorker.OnCompleted += BackgroundWorker_OnCompleted;
 
             notifyIcon = new System.Windows.Forms.NotifyIcon();
+        }
+
+        //主题更改时
+        private void Theme_OnChangedTheme(string OldThemeName, string NewThemeName)
+        {
+            CreateTrayMenu();
         }
 
         private void MainService_OnStart(object service, int msg)
@@ -87,63 +96,7 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             //托盘菜单
-            contextMenu = new ContextMenu();
-            App.Current.Deactivated += (e, c) =>
-            {
-                contextMenu.IsOpen = false;
-            };
-            //托盘菜单项
-            menuItem_Statistic = new MenuItem();
-            menuItem_Statistic.Header = "查看数据统计";
-            menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
-            menuItem_Statistic.Click += menuItem_Statistic_Click;
-
-            menuItem_Options = new MenuItem();
-            menuItem_Options.Header = "选项";
-            menuItem_Options.Click += menuItem_Options_Click;
-
-
-            menuItem_NoReset = new MenuItem();
-            menuItem_NoReset.Header = "不要提醒我";
-
-            menuItem_NoReset_OneHour = new MenuItem();
-            menuItem_NoReset_OneHour.Header = "1小时";
-            menuItem_NoReset_OneHour.Click += MenuItem_NoReset_OneHour_Click;
-            menuItem_NoReset_TwoHour = new MenuItem();
-            menuItem_NoReset_TwoHour.Header = "2小时";
-            menuItem_NoReset_TwoHour.Click += MenuItem_NoReset_TwoHour_Click;
-            menuItem_NoReset_Forver = new MenuItem();
-            menuItem_NoReset_Forver.Header = "直到下次启动";
-            menuItem_NoReset_Forver.Click += MenuItem_NoReset_Forver_Click;
-            menuItem_NoReset_Off = new MenuItem();
-            menuItem_NoReset_Off.Header = "关闭";
-            menuItem_NoReset_Off.IsChecked = true;
-            menuItem_NoReset_Off.Click += MenuItem_NoReset_Off_Click;
-
-            menuItem_NoReset.Items.Add(menuItem_NoReset_OneHour);
-            menuItem_NoReset.Items.Add(menuItem_NoReset_TwoHour);
-            menuItem_NoReset.Items.Add(menuItem_NoReset_Forver);
-            menuItem_NoReset.Items.Add(menuItem_NoReset_Off);
-
-            menuItem_Sound = new MenuItem();
-            menuItem_Sound.Header = "提示音";
-            menuItem_Sound.IsChecked = config.options.General.Sound;
-            menuItem_Sound.Click += menuItem_Sound_Click;
-
-            menuItem_Quit = new MenuItem();
-            menuItem_Quit.Header = "退出";
-            menuItem_Quit.Click += menuItem_Exit_Click;
-
-            //添加托盘菜单项
-            contextMenu.Items.Add(menuItem_Statistic);
-            contextMenu.Items.Add(menuItem_Options);
-            contextMenu.Items.Add(new Separator());
-            contextMenu.Items.Add(menuItem_NoReset);
-            contextMenu.Items.Add(menuItem_Sound);
-            contextMenu.Items.Add(new Separator());
-            contextMenu.Items.Add(menuItem_Quit);
-
-
+            CreateTrayMenu();
 
 
             //notifyIcon.Text = "Project Eye";
@@ -229,6 +182,8 @@ namespace ProjectEye.Core.Service
 
         private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
+            theme.HandleDarkMode();
+
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 if (backgroundWorker.IsBusy)
@@ -258,6 +213,65 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region Function
+        private void CreateTrayMenu()
+        {
+            contextMenu = new ContextMenu();
+            App.Current.Deactivated += (e, c) =>
+            {
+                contextMenu.IsOpen = false;
+            };
+            //托盘菜单项
+            menuItem_Statistic = new MenuItem();
+            menuItem_Statistic.Header = "查看数据统计";
+            menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
+            menuItem_Statistic.Click += menuItem_Statistic_Click;
+
+            menuItem_Options = new MenuItem();
+            menuItem_Options.Header = "选项";
+            menuItem_Options.Click += menuItem_Options_Click;
+
+
+            menuItem_NoReset = new MenuItem();
+            menuItem_NoReset.Header = "不要提醒我";
+
+            menuItem_NoReset_OneHour = new MenuItem();
+            menuItem_NoReset_OneHour.Header = "1小时";
+            menuItem_NoReset_OneHour.Click += MenuItem_NoReset_OneHour_Click;
+            menuItem_NoReset_TwoHour = new MenuItem();
+            menuItem_NoReset_TwoHour.Header = "2小时";
+            menuItem_NoReset_TwoHour.Click += MenuItem_NoReset_TwoHour_Click;
+            menuItem_NoReset_Forver = new MenuItem();
+            menuItem_NoReset_Forver.Header = "直到下次启动";
+            menuItem_NoReset_Forver.Click += MenuItem_NoReset_Forver_Click;
+            menuItem_NoReset_Off = new MenuItem();
+            menuItem_NoReset_Off.Header = "关闭";
+            menuItem_NoReset_Off.IsChecked = true;
+            menuItem_NoReset_Off.Click += MenuItem_NoReset_Off_Click;
+
+            menuItem_NoReset.Items.Add(menuItem_NoReset_OneHour);
+            menuItem_NoReset.Items.Add(menuItem_NoReset_TwoHour);
+            menuItem_NoReset.Items.Add(menuItem_NoReset_Forver);
+            menuItem_NoReset.Items.Add(menuItem_NoReset_Off);
+
+            menuItem_Sound = new MenuItem();
+            menuItem_Sound.Header = "提示音";
+            menuItem_Sound.IsChecked = config.options.General.Sound;
+            menuItem_Sound.Click += menuItem_Sound_Click;
+
+            menuItem_Quit = new MenuItem();
+            menuItem_Quit.Header = "退出";
+            menuItem_Quit.Click += menuItem_Exit_Click;
+
+            //添加托盘菜单项
+            contextMenu.Items.Add(menuItem_Statistic);
+            contextMenu.Items.Add(menuItem_Options);
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(menuItem_NoReset);
+            contextMenu.Items.Add(menuItem_Sound);
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(menuItem_Quit);
+
+        }
         public void Remove()
         {
             notifyIcon.Visible = false;
