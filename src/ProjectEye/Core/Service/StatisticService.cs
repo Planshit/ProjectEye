@@ -381,7 +381,7 @@ namespace ProjectEye.Core.Service
             }
             using (var db = new StatisticContext())
             {
-                result = db.Statistics.Where(m => m.Date.Year == year && m.Date.Month == month).ToList();
+                result = db.Statistics.Where(m => m.Date.Year == year && m.Date.Month == month).OrderBy(m => m.Date).ToList();
             }
             return result;
         }
@@ -400,7 +400,7 @@ namespace ProjectEye.Core.Service
             startDate = startDate.AddDays(-1);
             using (var db = new StatisticContext())
             {
-                result = db.Statistics.Where(m => m.Date > startDate && m.Date <= endDate).ToList();
+                result = db.Statistics.Where(m => m.Date > startDate && m.Date <= endDate).OrderBy(m => m.Date).ToList();
             }
             return result;
         }
