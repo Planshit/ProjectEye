@@ -109,7 +109,7 @@ namespace ProjectEye.Models
             }
         }
         //模态弹窗文本
-        private string ModalText_="设置已更新";
+        private string ModalText_ = "设置已更新";
         public string ModalText
         {
             get
@@ -120,6 +120,29 @@ namespace ProjectEye.Models
             {
                 ModalText_ = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public Visibility AutoDarkConfigVisibility
+        {
+            get
+            {
+
+                return IsAutoDark ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        public bool IsAutoDark
+        {
+            get
+            {
+                return Data.Style.IsAutoDarkMode;
+            }
+            set
+            {
+                Data.Style.IsAutoDarkMode = value;
+                OnPropertyChanged();
+                OnPropertyChanged("AutoDarkConfigVisibility");
             }
         }
 

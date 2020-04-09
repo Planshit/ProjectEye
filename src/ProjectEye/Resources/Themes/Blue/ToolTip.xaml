@@ -10,7 +10,7 @@
         <!--<Setter Property="FontSize" Value="{DynamicResource DefaultFontSize}"/>-->
         <Setter Property="FontStyle" Value="Normal"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="Padding" Value="10"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="HasDropShadow" Value="True"/>

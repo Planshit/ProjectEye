@@ -42,7 +42,7 @@
                                     <TextBlock FontSize="18" Text="存储时间" FontWeight="Bold"/>
                                     <Image Height="80" Source="/ProjectEye;component/Resources/files_and_folder.png" Margin="0,20,0,0"/>
                                 </StackPanel>
-                                <TextBlock  VerticalAlignment="Center" Grid.Column="1" FontSize="14" Text="从现在开始将不限制数据保留天数，除非人为删除否则您的数据将从今天起永久保留在本地。" TextWrapping="WrapWithOverflow"/>
+                                <TextBlock  VerticalAlignment="Center" Grid.Column="1" FontSize="14" Text="从现在开始将不限制数据保留天数，您的数据将永久保存在本地。" TextWrapping="WrapWithOverflow"/>
                             </Grid>
 
                             <Grid Margin="0,20,0,0">
@@ -249,7 +249,7 @@
                                     <ui:CompareView DataA="{Binding Data.LastMonthWork}" DataB="{Binding Data.MonthWork}" PopupText="本月总计 {b} 小时，对比上月 {a} 小时 {diffvalue}"/>
                                 </Grid>
                             </StackPanel>
-                            <chart:Chart Grid.Row="1" Data="{Binding Data.MonthWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}"/>
+                            <chart:Chart Grid.Row="1" Data="{Binding Data.MonthWorkData}" TickText=" {value} 小时" TickLabelWidth="70" Margin="0,10,0,0" ItemColor="{DynamicResource ThemeBrush}" Background="Transparent"/>
 
                             <!--休息-->
                             <StackPanel Grid.Row="2"  VerticalAlignment="Bottom" >
@@ -261,7 +261,7 @@
                                     <ui:CompareView DataA="{Binding Data.LastMonthRest}" DataB="{Binding Data.MonthRest}" PopupText="本月总计 {b} 分钟，对比上月 {a} 分钟 {diffvalue}"/>
                                 </Grid>
                             </StackPanel>
-                            <chart:Chart Grid.Row="3" Data="{Binding Data.MonthRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#1CE072"/>
+                            <chart:Chart Grid.Row="3" Data="{Binding Data.MonthRestData}" TickText=" {value} 分钟" TickLabelWidth="70" ItemColor="#1CE072"  Background="Transparent"/>
                             <!--跳过-->
                             <StackPanel Grid.Row="4"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
@@ -272,7 +272,7 @@
                                     <ui:CompareView DataA="{Binding Data.LastMonthSkip}" DataB="{Binding Data.MonthSkip}" PopupText="本月总计 {b} 次，对比上月 {a} 次 {diffvalue}"/>
                                 </Grid>
                             </StackPanel>
-                            <chart:Chart Grid.Row="5" Data="{Binding Data.MonthSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520"/>
+                            <chart:Chart Grid.Row="5" Data="{Binding Data.MonthSkipData}" TickText=" {value} 次" TickLabelWidth="70" ItemColor="#F94520"  Background="Transparent"/>
                         </Grid>
                     </ScrollViewer>
 

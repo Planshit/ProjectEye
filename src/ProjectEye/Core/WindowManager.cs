@@ -105,8 +105,9 @@ namespace ProjectEye.Core
             if (isMaximized)
             {
                 var size = new Size();
-                left = screen.Bounds.Left;
-                top = screen.Bounds.Top;
+                left = ToDips(screen.Bounds.Left, size.XDPI);
+                top = ToDips(screen.Bounds.Top, size.YDPI);
+
                 width = size.Width;
                 height = size.Height;
             }
@@ -142,12 +143,14 @@ namespace ProjectEye.Core
                     width = size.Width;
                     height = size.Height;
                 }
-                var window = CreateWindow(name, screen.DeviceName, screen.Bounds.Left, screen.Bounds.Top, width, height, newViewModel);
+                double left = ToDips(screen.Bounds.Left, size.XDPI);
+                double top = ToDips(screen.Bounds.Top, size.YDPI);
+
+                var window = CreateWindow(name, screen.DeviceName, left, top, width, height, newViewModel);
                 windows[index] = window;
 
             }
             return windows;
-
         }
         #endregion
 
@@ -318,6 +321,9 @@ namespace ProjectEye.Core
         {
             public double Width { get; set; }
             public double Height { get; set; }
+            public uint XDPI { get; set; }
+            public uint YDPI { get; set; }
+
         }
         public static Size GetSize(System.Windows.Forms.Screen screen)
         {
@@ -326,7 +332,28 @@ namespace ProjectEye.Core
             var size = new Size();
             size.Width = screen.Bounds.Width / (xDpi / 96.0);
             size.Height = screen.Bounds.Height / (yDpi / 96.0);
+            size.XDPI = xDpi;
+            size.YDPI = yDpi;
             return size;
+        }
+        #endregion
+
+        #region 计算dips
+        public enum DpiDirection
+        {
+            X,
+            Y
+        }
+        public static double ToDips(System.Windows.Forms.Screen screen, double value, DpiDirection dpiDirection = DpiDirection.X)
+        {
+            uint xDpi, yDpi;
+            screen.GetDpi(DpiType.Effective, out xDpi, out yDpi);
+            return value / (dpiDirection == DpiDirection.X ? xDpi : yDpi / 96.0);
+        }
+
+        public static double ToDips(double value, uint dpi)
+        {
+            return value / (dpi / 96.0);
         }
         #endregion
 

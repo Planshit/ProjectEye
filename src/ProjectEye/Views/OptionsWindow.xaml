@@ -17,7 +17,7 @@
         <ui:Project1UIModal Show="{Binding Model.ShowModal,Mode=TwoWay}">
             <Border
                        
-                        Background="White"
+                        Background="{DynamicResource WindowBackground}"
                             CornerRadius="2"
                             Padding="10,15"
                             Margin="10"
@@ -130,7 +130,7 @@
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center">主题皮肤</TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center">主题</TextBlock>
                             <ComboBox 
                             Name="cb" Grid.Column="1" 
                                   ItemsSource="{Binding Model.Themes}"
@@ -142,32 +142,22 @@
 
 
                         </Grid>
-                        <!--<Grid Margin="0,10,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Top">自定义提示文字</TextBlock>
-                            <StackPanel Grid.Column="1">
-                                <ui:Project1UIInput
-                                AcceptsReturn="True"
-                                TextWrapping="Wrap"
-                                Text="{Binding Model.Data.Style.TipContent}"
-                                Width="auto"
-                                Placeholder="支持回车换行，留空时使用系统默认内容"
-                                Type="Text"
-                                Height="40"
-                                VerticalContentAlignment="Top"/>
-                                <TextBlock Text="支持变量：{t}提醒间隔，{time}当前时间，{y}年，{M}月，{d}日，{H}时，{m}分，{twt}今日用眼总时长，{trt}今日休息总时长，{tsc}今日跳过次数" Foreground="#FF838383" TextWrapping="Wrap"/>
+                        <CheckBox Content="自动切换到深色主题" IsChecked="{Binding Model.IsAutoDark}" Cursor="Hand" Margin="0,10,0,0" ToolTip="根据设定时间自动切换到深色主题"/>
+                        <Grid Margin="0,10,0,0" Visibility="{Binding Model.AutoDarkConfigVisibility}">
+                            <!--自动切换深色模式配置-->
+                            <StackPanel Margin="30,0,0,0">
+                                <TextBlock Text="在指定时间范围"/>
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkStartH}" Minutes="{Binding Model.Data.Style.AutoDarkStartM}"/>
+                                    <TextBlock Text="至" VerticalAlignment="Center" Margin="5,0"/>
+                                    <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkEndH}" Minutes="{Binding Model.Data.Style.AutoDarkEndM}"/>
+                                </StackPanel>
                             </StackPanel>
-
-
-                        </Grid>-->
+                        </Grid>
                         <CheckBox Content="休息预提醒" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" ToolTip="即将进入休息前在右上角弹出提示小窗口，可以进行推迟休息等操作"/>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--预提醒配置-->
-                            <StackPanel>
+                            <StackPanel Margin="30,0,0,0">
                                 <Grid Margin="0,0,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="100"/>
@@ -343,6 +333,7 @@
             SelectionMode="Single"
                                 SelectedItem="{Binding Model.SelectedItem}"
                                 Name="breakProcessListView"
+                                 Margin="0,10,0,0"
            >
 
                                 <ListView.ContextMenu>

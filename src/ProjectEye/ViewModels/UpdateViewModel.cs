@@ -89,18 +89,23 @@ namespace ProjectEye.ViewModels
                 bool runResult = ProcessHelper.Run(updateExe, runArgs);
                 if (!runResult)
                 {
-                    MessageBox.Show("无法启动解压程序，请手动覆盖更新。");
+                    Modal("无法启动解压程序，请手动覆盖更新。");
                     UpVisibility = Visibility.Visible;
                 }
             }
             else
             {
-                MessageBox.Show("更新包似乎被外部删除，请尝试恢复或重试。");
+                Modal("更新包似乎被外部删除，请尝试恢复或重试。");
+
                 UpVisibility = Visibility.Visible;
 
             }
         }
-
+        private void Modal(string text)
+        {
+            ModalText = text;
+            ShowModal = true;
+        }
         private void updateCommand_action(object obj)
         {
             downloader = new HttpDownload(githubRelease.Info.DownloadUrl, savePath);
@@ -144,7 +149,7 @@ namespace ProjectEye.ViewModels
         {
             PlayProcess = false;
             Tip = "无法获取版本信息，请重试或检查网络";
-            MessageBox.Show("无法获取到版本信息，请尝试重启应用程序后再试！", "错误");
+            Modal("无法获取到版本信息，请尝试重启应用程序后再试！");
         }
 
         private void Updater_RequestCompleteEvent(object sender, object value)

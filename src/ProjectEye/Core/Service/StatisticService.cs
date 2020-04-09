@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
@@ -83,7 +84,7 @@ namespace ProjectEye.Core.Service
 
         private void app_Exit(object sender, ExitEventArgs e)
         {
-            Save();
+            Save().Wait();
         }
 
         public void Init()
@@ -199,7 +200,7 @@ namespace ProjectEye.Core.Service
                 todayStatistic.Date.Date != DateTime.Now.Date)
             {
                 //保存之前的数据
-                Save();
+                Save().Wait();
                 //更新当日数据
                 todayStatistic = FindCreate(DateTime.Now.Date);
             }
@@ -289,7 +290,7 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 数据持久化
         /// </summary>
-        public void Save()
+        public async Task Save()
         {
             if (todayStatistic == null)
             {
@@ -298,12 +299,12 @@ namespace ProjectEye.Core.Service
             using (var db = new StatisticContext())
             {
                 //var item = db.Statistics.Where(m => m.Date == todayStatistic.Date).Single();
-                var item = (from c in db.Statistics where c.Date == todayStatistic.Date select c).FirstOrDefault();
+                var item = await (from c in db.Statistics where c.Date == todayStatistic.Date select c).FirstOrDefaultAsync();
                 item.ResetTime = todayStatistic.ResetTime;
                 item.SkipCount = todayStatistic.SkipCount;
                 item.WorkingTime = todayStatistic.WorkingTime;
 
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             //xml.Save(statisticList);
 

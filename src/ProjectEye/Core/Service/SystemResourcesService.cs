@@ -19,34 +19,17 @@ namespace ProjectEye.Core.Service
 
             Themes.Add(new ThemeModel()
             {
-                DisplayName = "默认（Yellow）",
-                ThemeName = "Default",
-                ThemeColor = "#ffc83d"
-            });
-            Themes.Add(new ThemeModel()
-            {
-                DisplayName = "经典（Green）",
-                ThemeName = "Classic",
-                ThemeColor = "#00D4A0"
-            });
-            Themes.Add(new ThemeModel()
-            {
-                DisplayName = "暗色（Dark）",
-                ThemeName = "Dark",
-                ThemeColor = "Black"
-            });
-            //Themes.Add(new ThemeModel()
-            //{
-            //    DisplayName = "黑色（Black）",
-            //    ThemeName = "Black",
-            //    ThemeColor = "#000"
-            //});
-            Themes.Add(new ThemeModel()
-            {
-                DisplayName = "蓝色",
+                DisplayName = "默认",
                 ThemeName = "Blue",
                 ThemeColor = "#4F6BED"
             });
+            Themes.Add(new ThemeModel()
+            {
+                DisplayName = "深色",
+                ThemeName = "Dark",
+                ThemeColor = "#4F6BED"
+            });
+
             PreAlertActions.Add(new ComboxModel()
             {
                 DisplayName = "进入本次休息",

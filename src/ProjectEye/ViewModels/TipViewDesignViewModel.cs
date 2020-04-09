@@ -22,6 +22,8 @@ namespace ProjectEye.ViewModels
         public Window WindowInstance { get; set; }
 
         private readonly ConfigService config;
+        private readonly ThemeService theme;
+
 
         public event ViewModelEventHandler ChangedEvent;
 
@@ -30,10 +32,14 @@ namespace ProjectEye.ViewModels
 
 
         public string TipText { get; set; }
-        public TipViewDesignViewModel(ConfigService config)
+        public TipViewDesignViewModel(
+            ConfigService config,
+            ThemeService theme)
         {
 
             this.config = config;
+            this.theme = theme;
+
             TipText = config.options.Style.TipContent;
             commonCommand = new Command(new Action<object>(commonCommand_action));
             saveCommand = new Command(new Action<object>(saveCommand_action));
@@ -42,23 +48,30 @@ namespace ProjectEye.ViewModels
 
         private void TipViewDesignViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            UIConfigPath = $"UI\\{ScreenName}.json";
-            Debug.WriteLine("窗口：" + WindowInstance.ActualWidth + "，屏幕：" + ScreenName);
+            UIConfigPath = $"UI\\{config.options.Style.Theme.ThemeName}_{ScreenName}.json";
+            Debug.WriteLine("窗口：" + WindowInstance.ActualWidth + "，屏幕：" + ScreenName + "，界面文件：" + UIConfigPath);
             if (Container != null)
             {
                 try
                 {
+                    var data = new UIDesignModel();
                     if (FileHelper.Exists(UIConfigPath))
                     {
-                        var data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read(UIConfigPath));
-                        Container.SetContainerAttr(data.ContainerAttr);
-                        Container.ImportElements(data.Elements);
+                        data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read(UIConfigPath));
+
                     }
+                    else
+                    {
+                        data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
+                        FileHelper.Write(UIConfigPath, JsonConvert.SerializeObject(data));
+                    }
+                    Container.SetContainerAttr(data.ContainerAttr);
+                    Container.ImportElements(data.Elements);
                 }
                 catch (Exception ex)
                 {
                     LogHelper.Warning(ex.ToString());
-                    MessageBox.Show("无法加载现有UI配置文件", "错误提示");
+                    MessageBox.Show("无法加载现有UI配置文件，系统尝试创建默认UI失败！请尝试重程序。", "错误提示");
                 }
 
             }

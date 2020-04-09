@@ -9,7 +9,7 @@
         <Setter Property="SnapsToDevicePixels"
           Value="True" />
         <Setter Property="Background"
-          Value="Black" />
+          Value="Transparent" />
         <Setter Property="BorderThickness"
           Value="0" />
         <Setter Property="Template">
@@ -35,7 +35,7 @@
         <Setter Property="Height"
           Value="1" />
         <Setter Property="Margin"
-          Value="0" />
+          Value="35,0,5,0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
@@ -44,7 +44,7 @@
                             <SolidColorBrush Color="#FFDEDEDE"/>
                         </Border.BorderBrush>
                     </Border>-->
-                    <Rectangle Fill="#FFDEDEDE"/>
+                    <Rectangle Fill="#707070"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -53,7 +53,7 @@
     <!-- TopLevelHeader 顶部一级菜单栏 -->
     <ControlTemplate x:Key="{x:Static MenuItem.TopLevelHeaderTemplateKey}"
                  TargetType="{x:Type MenuItem}">
-        <Border x:Name="Border" Padding="0" Background="Black">
+        <Border x:Name="Border" Padding="0" Background="Transparent">
             <Grid>
                 <ContentPresenter Margin="10,4"
                         ContentSource="Header"
@@ -68,7 +68,7 @@
                     <Border x:Name="SubmenuBorder"
                 SnapsToDevicePixels="True"
                 BorderThickness="1"
-                                Background="White"
+                                Background="{DynamicResource WindowBackground}"
                                 BorderBrush="{DynamicResource ThemeBrush}"
                                 Margin="10"
                                 CornerRadius="0"
@@ -100,7 +100,7 @@
               Property="BorderBrush"
               Value="Transparent" />
                 <Setter Property="Background"
-              TargetName="Border" Value="#212121">
+              TargetName="Border" Value="{DynamicResource ControlEnterBackgroundBrush}">
 
                 </Setter>
             </Trigger>
@@ -154,7 +154,7 @@
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}"
                  TargetType="{x:Type MenuItem}">
         <Border x:Name="Border"
-         Background="Black"
+         Background="{DynamicResource WindowBackground}"
                     MinWidth="150"
                     Padding="0,6">
             <Grid>
@@ -213,7 +213,7 @@
             <Trigger Property="IsHighlighted"
              Value="true">
                 <Setter Property="Background"
-              TargetName="Border" Value="#212121">
+              TargetName="Border" Value="#292929">
 
                 </Setter>
                 <!--<Setter Property="BorderBrush"
@@ -242,10 +242,10 @@
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}"
                  TargetType="{x:Type MenuItem}">
         <Border x:Name="Border"
-                BorderThickness="0"
+          BorderThickness="0"
                 MinWidth="150"
-                Padding="0,6"
-                Background="Black">
+                    Padding="0,6"
+                Background="{DynamicResource WindowBackground}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="20"
@@ -298,10 +298,10 @@
              PopupAnimation="Fade">
                     <Border x:Name="SubmenuBorder"
                 SnapsToDevicePixels="True"
-                Background="White"
+                Background="{DynamicResource WindowBackground}"
                                 CornerRadius="0"
                 BorderThickness="1"
-                                BorderBrush="#ccc"
+                                BorderBrush="{DynamicResource WindowBorderBrush}"
                                 
                                 Margin="10">
                         <Border.Effect>
@@ -332,7 +332,7 @@
             <Trigger Property="IsHighlighted"
              Value="true">
                 <Setter Property="Background"
-              TargetName="Border" Value="#212121">
+              TargetName="Border" Value="#292929">
                 </Setter>
             </Trigger>
             <Trigger SourceName="Popup"

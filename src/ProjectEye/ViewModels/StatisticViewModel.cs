@@ -257,7 +257,7 @@ namespace ProjectEye.ViewModels
                 double x = weekWorkAverage / 24 - errValue;
 
                 //非常健康
-                double l1 = (double)3 / 24;
+                //double l1 = (double)3 / 24;
                 //很健康
                 double l2 = (double)5 / 24;
                 //普通正常人

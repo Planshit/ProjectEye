@@ -59,6 +59,7 @@
     <Compile Include="Controls\CompareView.cs" />
     <Compile Include="Controls\DatePicker\DatePicker.cs" />
     <Compile Include="Controls\DatePicker\ItemList.cs" />
+    <Compile Include="Controls\TimeBox.cs" />
     <Compile Include="Controls\Models\DesignTextAlignment.cs" />
     <Compile Include="Controls\CheckButton.cs" />
     <Compile Include="Controls\Project1UIModal.cs" />
@@ -241,6 +242,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\CheckButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\TimeBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

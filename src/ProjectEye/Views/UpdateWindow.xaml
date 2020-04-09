@@ -8,6 +8,25 @@
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         Title="Project Eye 升级程序" Height="250" Width="500" ResizeMode="CanMinimize"
                      WindowStartupLocation="CenterScreen" Icon="/ProjectEye;component/Resources/sunglasses.ico">
+    <ui:Project1UIWindow.ExtElement>
+        <ui:Project1UIModal Show="{Binding ShowModal,Mode=TwoWay}">
+            <Border
+                       
+                        Background="White"
+                            CornerRadius="2"
+                            Padding="10,15"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            >
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" Opacity="0.3"  ShadowDepth="0"/>
+                </Border.Effect>
+
+                <TextBlock Text="{Binding ModalText}"/>
+            </Border>
+        </ui:Project1UIModal>
+    </ui:Project1UIWindow.ExtElement>
     <Grid>
         <Grid Panel.ZIndex="1">
             <Grid.RowDefinitions>
@@ -51,7 +70,7 @@
                 Storyboard.TargetName="img"
                 Storyboard.TargetProperty="RenderTransform.Children[0].Angle"
                 From="0" To="360" Duration="0:0:59" />
-                            
+
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>

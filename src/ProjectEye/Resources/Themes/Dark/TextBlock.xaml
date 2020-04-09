@@ -8,5 +8,4 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
     </Style>
-
 </ResourceDictionary>

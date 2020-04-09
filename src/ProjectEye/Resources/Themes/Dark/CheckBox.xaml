@@ -7,8 +7,7 @@
           Value="true" />
         <Setter Property="OverridesDefaultStyle"
           Value="true" />
-        <Setter Property="Foreground"
-          Value="{DynamicResource FontBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
         <Setter Property="FocusVisualStyle"
           Value="{DynamicResource CheckBoxFocusVisual}" />
         <Setter Property="Template">
@@ -17,36 +16,39 @@
                     <BulletDecorator  VerticalAlignment="Center">
                         <BulletDecorator.Bullet>
                             <Border x:Name="Border"
-                    Width="15"
-                    Height="15"
-                    CornerRadius="0"
+                    Width="20"
+                    Height="20"
+                    CornerRadius="2"
                     BorderThickness="1"
-                    BorderBrush="{DynamicResource ThemeBrush}">
-                              
+                    BorderBrush="#323130"
+                                    >
+
                                 <Grid>
-                                    
-                                    <Rectangle Visibility="Collapsed"
-                      Width="7"
-                      Height="7"
+                                    <Path Visibility="Collapsed"
+                      Width="10"
+                      Height="10"
                       x:Name="CheckMark"
                       SnapsToDevicePixels="False"
-                      Fill="{DynamicResource ThemeBrush}"/>
-                                    <Rectangle Visibility="Collapsed"
-                      Width="7"
-                      Height="7"
+                      StrokeThickness="1.5"
+                      Data="M 0 4 L 4 8 L 10 0" Stroke="White"/>
+                                    <Path Visibility="Collapsed"
+                      Width="10"
+                      Height="10"
                       x:Name="HoverCheckMark"
                       SnapsToDevicePixels="False"
-                      Fill="{DynamicResource ThemeBrush}"
-                                               Opacity=".4"/>
+                      StrokeThickness="1.5"
+                      Data="M 0 4 L 4 8 L 10 0" Stroke="#C8C6C4"/>
+
 
                                 </Grid>
                             </Border>
                         </BulletDecorator.Bullet>
-                     
-                        <ContentPresenter Margin="4,0,0,0"
+
+                        <ContentPresenter Margin="8,0,0,0"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left"
-                            RecognizesAccessKey="True" />
+                            RecognizesAccessKey="True" 
+                                          />
                     </BulletDecorator>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -54,14 +56,26 @@
                                 <Condition Property="IsChecked" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
-                           
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ThemeBrush}"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource ThemeBrush}"/>
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="HoverCheckMark" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource ControlEnterBackgroundBrush}"/>
+                            <Setter TargetName="Border" Property="Background" Value="Transparent"/>
+
+
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsChecked" Value="True" />
+                            </MultiTrigger.Conditions>
+
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource HoverBrush}"/>
 
 
                         </MultiTrigger>

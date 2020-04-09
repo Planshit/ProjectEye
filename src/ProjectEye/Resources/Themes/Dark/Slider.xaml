@@ -31,13 +31,13 @@
           Value="14" />
         <Setter Property="Width"
           Value="14" />
-       
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle x:Name="Ellipse" Fill="{DynamicResource ThemeBrush}" Stroke="{DynamicResource ThemeBrush}">
-                       
-                       
+                    <Rectangle RadiusX="14" RadiusY="14" x:Name="Ellipse" Fill="White" Stroke="#605e5c" StrokeThickness="2">
+
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualStateGroup.Transitions>
@@ -48,9 +48,9 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Ellipse">
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="Ellipse">
                                             <EasingColorKeyFrame KeyTime="0"
-                                         Value="#3476ab" />
+                                         Value="#E54F6BED" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -113,12 +113,12 @@
                    Path=Parent.ActualWidth}" Visibility="Collapsed"/>
             <Border x:Name="TrackBackground"
             Margin="0"
-            CornerRadius="0"
+            CornerRadius="2"
             Height="4"
             Grid.Row="1"
             BorderThickness="0"
-            Background="#ABADB3">
-                <Rectangle Fill="{DynamicResource ThemeBrush}" Opacity=".97" HorizontalAlignment="Left">
+            Background="#c8c6c4">
+                <Rectangle x:Name="Active" Fill="#605e5c" HorizontalAlignment="Left" RadiusX="2" RadiusY="2">
                     <Rectangle.Width>
                         <MultiBinding Converter="{StaticResource SliderValueToWidthConver}">
                             <Binding ElementName="SliderValue" Path="Width"/>
@@ -126,6 +126,7 @@
                             <Binding ElementName="SliderWidth" Path="Width"/>
                         </MultiBinding>
                     </Rectangle.Width>
+
                 </Rectangle>
             </Border>
             <Track Grid.Row="1"
@@ -147,8 +148,31 @@
              Grid.Row="2"
              Fill="{TemplateBinding Foreground}"
              Placement="Bottom"
-             Height="4"
+             Height="1"
              Visibility="Collapsed" />
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualStateGroup.Transitions>
+                        <VisualTransition GeneratedDuration="0:0:0.2" />
+                        <VisualTransition GeneratedDuration="0"
+                                  To="Pressed" />
+                    </VisualStateGroup.Transitions>
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="MouseOver">
+                        <Storyboard>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Active">
+                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="#E54F6BED" />
+                            </ColorAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="TrackBackground">
+                                <EasingColorKeyFrame KeyTime="0"
+                                         Value="#334F6BED" />
+                            </ColorAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
         </Grid>
         <ControlTemplate.Triggers>
             <Trigger Property="TickPlacement"
@@ -190,7 +214,7 @@
                 <Setter Property="Template"
               Value="{StaticResource HorizontalSlider}" />
             </Trigger>
-            
+
         </Style.Triggers>
     </Style>
 </ResourceDictionary>

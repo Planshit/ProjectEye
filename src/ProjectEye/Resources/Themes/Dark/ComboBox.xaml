@@ -28,6 +28,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border 
                         x:Name="Border"
+                        CornerRadius="2"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
@@ -233,11 +234,12 @@
         <Setter Property="Foreground"
                 Value="{DynamicResource InputForeground}"/>
         <Setter Property="MinHeight"
-          Value="25" />
+          Value="28" />
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Padding" Value="7,3,8,3"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
         <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
@@ -256,8 +258,7 @@
                                Placement="Bottom"
                                Margin="0"
                                IsOpen="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
-                               >
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
                             <Grid Margin="4" MinWidth="{Binding ElementName=MainGrid,Path=ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Grid.Effect>
                                     <DropShadowEffect ShadowDepth="0" BlurRadius="11" Opacity="0.1"/>

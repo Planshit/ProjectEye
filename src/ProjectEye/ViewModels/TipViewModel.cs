@@ -43,6 +43,7 @@ namespace ProjectEye.ViewModels
         private readonly MainService main;
         private readonly KeyboardShortcutsService keyboardShortcuts;
         private readonly PreAlertService preAlert;
+        private readonly ThemeService theme;
 
         public event ViewModelEventHandler ChangedEvent;
 
@@ -53,7 +54,8 @@ namespace ProjectEye.ViewModels
             MainService main,
             App app,
             KeyboardShortcutsService keyboardShortcuts,
-            PreAlertService preAlert)
+            PreAlertService preAlert,
+            ThemeService theme)
         {
             this.reset = reset;
             this.reset.TimeChanged += new ResetEventHandler(timeChanged);
@@ -72,6 +74,7 @@ namespace ProjectEye.ViewModels
             this.main = main;
             this.keyboardShortcuts = keyboardShortcuts;
             this.preAlert = preAlert;
+            this.theme = theme;
 
             ChangedEvent += TipViewModel_ChangedEvent;
             LoadConfig();
@@ -117,7 +120,7 @@ namespace ProjectEye.ViewModels
             //分
             MINUTES = DateTime.Now.ToString("mm");
             //今日用眼时长
-                TWT = statistic.GetTodayData().WorkingTime.ToString();
+            TWT = statistic.GetTodayData().WorkingTime.ToString();
             //今日休息时长
             TRT = statistic.GetTodayData().ResetTime.ToString();
             //今日跳过次数
@@ -126,12 +129,14 @@ namespace ProjectEye.ViewModels
         private void CreateUI()
         {
             var container = new Grid();
-
-            var data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read($"UI\\{ScreenName}.json"));
+            string uiFilePath = $"UI\\{config.options.Style.Theme.ThemeName}_{ScreenName}.json";
+            var data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read(uiFilePath));
             if (data == null)
             {
-                data = GetDefaultUI();
-                FileHelper.Write($"UI\\{ScreenName}.json", JsonConvert.SerializeObject(data));
+                //data = GetDefaultUI();
+                data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
+
+                FileHelper.Write(uiFilePath, JsonConvert.SerializeObject(data));
             }
             var containerBG = new Border();
             containerBG.Width = Double.NaN;
@@ -189,82 +194,82 @@ namespace ProjectEye.ViewModels
             WindowInstance.Content = container;
         }
 
-        private UIDesignModel GetDefaultUI()
-        {
-            //创建默认布局
-            var data = new UIDesignModel();
-            data.ContainerAttr = new ContainerModel()
-            {
-                Background = Brushes.White,
-                Opacity = .98
-            };
-            var elements = new List<ElementModel>();
-            var tipimage = new ElementModel();
-            tipimage.Type = Project1.UI.Controls.Enums.DesignItemType.Image;
-            tipimage.Width = 272;
-            tipimage.Opacity = 1;
-            tipimage.Height = 187;
-            tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Themes/{config.options.Style.Theme.ThemeName}/Images/tipImage.png";
-            tipimage.X = WindowInstance.Width / 2 - tipimage.Width / 2;
-            tipimage.Y = WindowInstance.Height * .24;
+        //private UIDesignModel GetDefaultUI()
+        //{
+        //    //创建默认布局
+        //    var data = new UIDesignModel();
+        //    data.ContainerAttr = new ContainerModel()
+        //    {
+        //        Background = Brushes.White,
+        //        Opacity = .98
+        //    };
+        //    var elements = new List<ElementModel>();
+        //    var tipimage = new ElementModel();
+        //    tipimage.Type = Project1.UI.Controls.Enums.DesignItemType.Image;
+        //    tipimage.Width = 272;
+        //    tipimage.Opacity = 1;
+        //    tipimage.Height = 187;
+        //    tipimage.Image = $"pack://application:,,,/ProjectEye;component/Resources/Themes/{config.options.Style.Theme.ThemeName}/Images/tipImage.png";
+        //    tipimage.X = WindowInstance.Width / 2 - tipimage.Width / 2;
+        //    tipimage.Y = WindowInstance.Height * .24;
 
-            var tipText = new ElementModel();
-            tipText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
-            tipText.Text = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
-            tipText.Opacity = 1;
-            tipText.TextColor = Project1UIColor.Get("#45435b");
-            tipText.Width = 400;
-            tipText.Height = 50;
-            tipText.X = WindowInstance.Width / 2 - tipText.Width / 2;
-            tipText.Y = tipimage.Y + tipimage.Height + tipText.Height + 10;
-            tipText.FontSize = 20;
+        //    var tipText = new ElementModel();
+        //    tipText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
+        //    tipText.Text = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
+        //    tipText.Opacity = 1;
+        //    tipText.TextColor = Project1UIColor.Get("#45435b");
+        //    tipText.Width = 400;
+        //    tipText.Height = 50;
+        //    tipText.X = WindowInstance.Width / 2 - tipText.Width / 2;
+        //    tipText.Y = tipimage.Y + tipimage.Height + tipText.Height + 10;
+        //    tipText.FontSize = 20;
 
-            var restBtn = new ElementModel();
-            restBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
-            restBtn.Width = 110;
-            restBtn.Height = 45;
-            restBtn.FontSize = 14;
-            restBtn.Text = "好的";
-            restBtn.Opacity = 1;
-            restBtn.Command = "rest";
+        //    var restBtn = new ElementModel();
+        //    restBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
+        //    restBtn.Width = 110;
+        //    restBtn.Height = 45;
+        //    restBtn.FontSize = 14;
+        //    restBtn.Text = "好的";
+        //    restBtn.Opacity = 1;
+        //    restBtn.Command = "rest";
 
-            restBtn.X = WindowInstance.Width / 2 - (restBtn.Width * 2 + 10) / 2;
-            restBtn.Y = tipText.Y + tipText.Height + 20;
+        //    restBtn.X = WindowInstance.Width / 2 - (restBtn.Width * 2 + 10) / 2;
+        //    restBtn.Y = tipText.Y + tipText.Height + 20;
 
-            var breakBtn = new ElementModel();
-            breakBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
-            breakBtn.Width = 110;
-            breakBtn.Height = 45;
-            breakBtn.FontSize = 14;
-            breakBtn.Text = "暂时不";
-            breakBtn.Style = "basic";
-            breakBtn.Command = "break";
-            breakBtn.Opacity = 1;
-            breakBtn.X = WindowInstance.Width / 2 - (restBtn.Width * 2 + 10) / 2 + (restBtn.Width + 10);
-            breakBtn.Y = tipText.Y + tipText.Height + 20;
+        //    var breakBtn = new ElementModel();
+        //    breakBtn.Type = Project1.UI.Controls.Enums.DesignItemType.Button;
+        //    breakBtn.Width = 110;
+        //    breakBtn.Height = 45;
+        //    breakBtn.FontSize = 14;
+        //    breakBtn.Text = "暂时不";
+        //    breakBtn.Style = "basic";
+        //    breakBtn.Command = "break";
+        //    breakBtn.Opacity = 1;
+        //    breakBtn.X = WindowInstance.Width / 2 - (restBtn.Width * 2 + 10) / 2 + (restBtn.Width + 10);
+        //    breakBtn.Y = tipText.Y + tipText.Height + 20;
 
-            var countDownText = new ElementModel();
-            countDownText.Text = "{countdown}";
-            countDownText.FontSize = 50;
-            countDownText.IsTextBold = true;
-            countDownText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
-            countDownText.TextColor = Brushes.Black;
-            countDownText.Opacity = 1;
-            countDownText.Width = 100;
-            countDownText.Height = 60;
-            countDownText.X = WindowInstance.Width / 2 - countDownText.Width / 2;
-            countDownText.Y = restBtn.Y + restBtn.Height;
-            elements.Add(tipimage);
-            elements.Add(tipText);
-            elements.Add(restBtn);
-            elements.Add(breakBtn);
-            elements.Add(countDownText);
+        //    var countDownText = new ElementModel();
+        //    countDownText.Text = "{countdown}";
+        //    countDownText.FontSize = 50;
+        //    countDownText.IsTextBold = true;
+        //    countDownText.Type = Project1.UI.Controls.Enums.DesignItemType.Text;
+        //    countDownText.TextColor = Brushes.Black;
+        //    countDownText.Opacity = 1;
+        //    countDownText.Width = 100;
+        //    countDownText.Height = 60;
+        //    countDownText.X = WindowInstance.Width / 2 - countDownText.Width / 2;
+        //    countDownText.Y = restBtn.Y + restBtn.Height;
+        //    elements.Add(tipimage);
+        //    elements.Add(tipText);
+        //    elements.Add(restBtn);
+        //    elements.Add(breakBtn);
+        //    elements.Add(countDownText);
 
 
-            data.Elements = elements;
+        //    data.Elements = elements;
 
-            return data;
-        }
+        //    return data;
+        //}
         private Project1UIButton CreateButtonElement(ElementModel element)
         {
             var button = new Project1UIButton();
