@@ -249,7 +249,6 @@ namespace ProjectEye.Core
             foreach (var window in windows)
             {
                 window.Close();
-
             }
             RemoveViewModel(name);
             RemoveWindow(name);
