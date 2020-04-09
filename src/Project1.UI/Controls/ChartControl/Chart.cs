@@ -276,7 +276,7 @@ namespace Project1.UI.Controls.ChartControl
             if (e.Property == AverageDivisorProperty)
             {
                 var newValue = (double)e.NewValue;
-                if (newValue > 0 && newValue!=(double)e.OldValue)
+                if (newValue > 0 && newValue != (double)e.OldValue)
                 {
                     chart.Render();
                 }
@@ -559,6 +559,23 @@ namespace Project1.UI.Controls.ChartControl
                 MaxValue = 10;
             }
             MaxValue = Math.Round(MaxValue / 2, MidpointRounding.AwayFromZero) * 2;
+
+
+            //计算平均值
+            if (AverageDivisor > 0)
+            {
+                averageValue = Data.Count() > 0 ? Data.Sum(m => m.Value) / AverageDivisor : 0;
+            }
+            else
+            {
+                averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
+            }
+
+            if (averageValue > MaxValue)
+            {
+                //如果平均值超过了最大值时需要调整最大值
+                MaxValue = Math.Round(averageValue / 1.5, MidpointRounding.AwayFromZero) * 2;
+            }
         }
         #region 渲染刻度
         /// <summary>
@@ -573,15 +590,7 @@ namespace Project1.UI.Controls.ChartControl
 
             double itemTrueHeight = ItemContainer.ActualHeight - 30 - 20;
 
-            //计算平均值
-            if (AverageDivisor > 0)
-            {
-                averageValue = Data.Count() > 0 ? Data.Sum(m => m.Value) / AverageDivisor : 0;
-            }
-            else
-            {
-                averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
-            }
+
 
             double bottomValue = Data.Count() > 0 ? Data.Where(m => m.Value >= 0).Min(m => m.Value) : 0;
 
