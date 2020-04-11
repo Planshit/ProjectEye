@@ -45,6 +45,24 @@ namespace Project1.UI.Controls.ChartControl
 
         #region 依赖属性
         //控件依赖属性
+        #region 平均值显示状态
+        /// <summary>
+        /// 平均值显示状态
+        /// </summary>
+        public Visibility AverageVisibility
+        {
+            get { return (Visibility)GetValue(AverageVisibilityProperty); }
+            set { SetValue(AverageVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty AverageVisibilityProperty =
+            DependencyProperty.Register("AverageVisibility",
+                typeof(Visibility),
+                typeof(Chart),
+                new PropertyMetadata(Visibility.Hidden));
+
+
+        #endregion
+
         #region ItemColor
         /// <summary>
         /// ItemColor
@@ -570,7 +588,7 @@ namespace Project1.UI.Controls.ChartControl
             {
                 averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
             }
-
+            AverageVisibility = averageValue > 0 ? Visibility.Visible : Visibility.Hidden;
             if (averageValue > MaxValue)
             {
                 //如果平均值超过了最大值时需要调整最大值
