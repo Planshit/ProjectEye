@@ -172,18 +172,20 @@ namespace ProjectEye.ViewModels
             theme.HandleDarkMode();
             if (config.Save())
             {
-                msg = "选项已成功更新";
+                msg = "选项已更新";
                 //处理开机启动
                 if (!ShortcutHelper.SetStartup(config.options.General.Startup))
                 {
-                    msg = "选项已成功更新。但是开机启动选项可能未生效。";
+                    msg = "选项已更新，但是 “开机启动选项” 可能未生效。";
                 }
                 //处理休息间隔调整
-                mainService.SetWarnTime(config.options.General.WarnTime);
+                if (mainService.SetWarnTime(config.options.General.WarnTime))
+                {
+                    msg = "选项已更新，提醒计时已重启。";
+                }
                 //处理主题切换
                 theme.SetTheme(config.options.Style.Theme.ThemeName);
             }
-            //MessageBox.Show(msg, "提示");
             Modal(msg);
         }
 
