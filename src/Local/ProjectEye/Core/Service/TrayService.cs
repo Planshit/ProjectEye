@@ -101,6 +101,7 @@ namespace ProjectEye.Core.Service
 
             //notifyIcon.Text = "Project Eye";
             notifyIcon.Visible = true;
+            notifyIcon.MouseMove += NotifyIcon_MouseMove;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             //在win10中将显示通知
             //notifyIcon.BalloonTipTitle = "test";
@@ -116,9 +117,35 @@ namespace ProjectEye.Core.Service
 
 
 
+
         #endregion
 
         #region Events
+        private void NotifyIcon_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (mainService.IsWorkTimerRun() && !backgroundWorker.IsBusy)
+            {
+                double restCT = mainService.GetRestCountdownMinutes();
+                string restStr = Math.Round(restCT, 1) + "分钟";
+                if (restCT < 1)
+                {
+                    restStr = Math.Round((restCT * 60), 0).ToString() + "秒";
+                }
+                if (restCT > 60)
+                {
+                    restCT = Math.Round(restCT / 60, 1);
+
+                    restStr = $"{restCT.ToString()}小时";
+                    if (restCT.ToString().IndexOf(".") != -1)
+                    {
+                        restStr = $"{restCT.ToString().Split('.')[0]}小时{restCT.ToString().Split('.')[1]}分钟";
+                    }
+                }
+
+                notifyIcon.Text = "Project Eye\r\n距离下一次休息：" + restStr;
+            }
+        }
+
         //有后台工作任务在运行时
         private void BackgroundWorker_DoWork()
         {

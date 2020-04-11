@@ -24,6 +24,7 @@ namespace ProjectEye.Core.Service
         /// 用眼计时器
         /// </summary>
         private DispatcherTimer timer;
+        System.Diagnostics.Stopwatch workTimerStopwatch;
         /// <summary>
         /// 离开检测计时器
         /// </summary>
@@ -110,6 +111,7 @@ namespace ProjectEye.Core.Service
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
             timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
+            workTimerStopwatch = new Stopwatch();
             //初始化离开检测计时器
             leave_timer = new DispatcherTimer();
             leave_timer.Tick += new EventHandler(leave_timer_Tick);
@@ -200,6 +202,19 @@ namespace ProjectEye.Core.Service
             SaveCursorPos();
         }
 
+        #region 获取下一次休息剩余分钟数
+        public double GetRestCountdownMinutes()
+        {
+            return timer.Interval.TotalMinutes - workTimerStopwatch.Elapsed.TotalMinutes;
+        }
+        #endregion
+
+        #region 获取提醒计时是否在运行
+        public bool IsWorkTimerRun()
+        {
+            return timer.IsEnabled;
+        }
+        #endregion
 
         #region 到达统计时间
         private void useeye_timer_Tick(object sender, EventArgs e)
@@ -330,6 +345,7 @@ namespace ProjectEye.Core.Service
         {
             //休息提醒
             timer.Start();
+            workTimerStopwatch.Restart();
             //离开监听
             leave_timer.Start();
             //数据统计
@@ -352,7 +368,7 @@ namespace ProjectEye.Core.Service
             StatisticData();
 
             timer.Stop();
-
+            workTimerStopwatch.Stop();
             leave_timer.Stop();
 
             back_timer.Stop();
@@ -400,11 +416,13 @@ namespace ProjectEye.Core.Service
             {
                 //显示提示窗口时停止计时
                 timer.Stop();
+                workTimerStopwatch.Stop();
             }
             else
             {
                 //隐藏时继续计时
                 timer.Start();
+                workTimerStopwatch.Restart();
             }
         }
         #endregion
