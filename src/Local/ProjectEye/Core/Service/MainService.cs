@@ -292,19 +292,22 @@ namespace ProjectEye.Core.Service
         }
         #endregion
 
-        #region 设置提醒间隔时间并重新启动休息计时
+        #region 设置提醒间隔时间
         /// <summary>
-        /// 设置提醒间隔时间并重新启动休息计时
+        /// 设置提醒间隔时间，如果与当前计时器不一致时将重启计时
         /// </summary>
-        /// <param name="minutes"></param>
-        public void SetWarnTime(int minutes)
+        /// <param name="minutes">间隔时间（分钟）</param>
+        /// <returns>重启时返回TRUE</returns>
+        public bool SetWarnTime(int minutes)
         {
             if (timer.Interval.TotalMinutes != minutes)
             {
                 Debug.WriteLine(timer.Interval.TotalMinutes + "," + minutes);
                 timer.Interval = new TimeSpan(0, minutes, 0);
                 ReStart();
+                return true;
             }
+            return false;
         }
         #endregion
 
