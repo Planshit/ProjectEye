@@ -207,6 +207,10 @@ namespace Project1.UI.Controls
             //HandleAnimationSetting();
 
             Loaded += new RoutedEventHandler(window_Loaded);
+
+            //动画
+            var transformGroup = new TransformGroup();
+            RenderTransform = transformGroup;
         }
 
         ///// <summary>
@@ -321,16 +325,17 @@ namespace Project1.UI.Controls
 
         private void CreateWindowOpenAnimation()
         {
+
             Opacity = 0;
             openWindowStoryboard = new Storyboard();
             var duration = TimeSpan.FromSeconds(1);
-            var transformGroup = new TransformGroup();
-            this.RenderTransform = transformGroup;
+
             var translateTF = new TranslateTransform()
             {
                 X = 0,
                 Y = 0
             };
+
             var scaleTF = new ScaleTransform()
             {
                 CenterX = ActualWidth,
@@ -338,8 +343,9 @@ namespace Project1.UI.Controls
                 ScaleX = 0,
                 ScaleY = 0
             };
-            transformGroup.Children.Add(translateTF);
-            transformGroup.Children.Add(scaleTF);
+
+            (RenderTransform as TransformGroup).Children.Add(translateTF);
+            (RenderTransform as TransformGroup).Children.Add(scaleTF);
 
 
 
@@ -393,25 +399,22 @@ namespace Project1.UI.Controls
         {
             closeWindowStoryboard = new Storyboard();
             var duration = TimeSpan.FromSeconds(1);
-            if (RenderTransform == null)
+
+            var translateTF = new TranslateTransform()
             {
-                var transformGroup = new TransformGroup();
-                RenderTransform = transformGroup;
-                var translateTF = new TranslateTransform()
-                {
-                    X = 0,
-                    Y = 0
-                };
-                var scaleTF = new ScaleTransform()
-                {
-                    CenterX = ActualWidth / 2,
-                    CenterY = ActualHeight / 2,
-                    ScaleX = 0,
-                    ScaleY = 0
-                };
-                transformGroup.Children.Add(translateTF);
-                transformGroup.Children.Add(scaleTF);
-            }
+                X = 0,
+                Y = 0
+            };
+            var scaleTF = new ScaleTransform()
+            {
+                CenterX = ActualWidth / 2,
+                CenterY = ActualHeight / 2,
+                ScaleX = 0,
+                ScaleY = 0
+            };
+            (RenderTransform as TransformGroup).Children.Add(translateTF);
+            (RenderTransform as TransformGroup).Children.Add(scaleTF);
+
 
             //位移动画
 
@@ -573,7 +576,7 @@ namespace Project1.UI.Controls
         {
             if (IsAnimation)
             {
-                if (RenderTransform == null)
+                if ((RenderTransform as TransformGroup).Children.Count == 0)
                 {
                     CreateWindowOpenAnimation();
                     CreateWindowCloseAnimation();
@@ -595,9 +598,9 @@ namespace Project1.UI.Controls
             }
             else
             {
-                if (RenderTransform != null)
+                if ((RenderTransform as TransformGroup).Children.Count != 0)
                 {
-                    RenderTransform = null;
+                    (RenderTransform as TransformGroup).Children.Clear();
                 }
                 Opacity = 0;
                 CompletedAction(completedAction);
@@ -613,7 +616,7 @@ namespace Project1.UI.Controls
         {
             if (IsAnimation)
             {
-                if (RenderTransform == null)
+                if ((RenderTransform as TransformGroup).Children.Count == 0)
                 {
                     CreateWindowOpenAnimation();
                     CreateWindowCloseAnimation();
@@ -629,9 +632,9 @@ namespace Project1.UI.Controls
             }
             else
             {
-                if (RenderTransform != null)
+                if ((RenderTransform as TransformGroup).Children.Count != 0)
                 {
-                    RenderTransform = null;
+                    (RenderTransform as TransformGroup).Children.Clear();
                 }
                 Opacity = 1;
                 CompletedAction(completedAction);
