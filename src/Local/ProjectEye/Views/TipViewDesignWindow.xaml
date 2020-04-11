@@ -12,6 +12,25 @@
                      Background="Transparent"
         InputMethod.IsInputMethodEnabled="False"
         >
+    <ui:Project1UIWindow.ExtElement>
+        <ui:Project1UIModal Show="{Binding ShowModal,Mode=TwoWay}">
+            <Border
+                       
+                        Background="{DynamicResource WindowBackground}"
+                            CornerRadius="2"
+                            Padding="20"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            >
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="5" Opacity="0.3"  ShadowDepth="0"/>
+                </Border.Effect>
+
+                <TextBlock Text="{Binding ModalText}"/>
+            </Border>
+        </ui:Project1UIModal>
+    </ui:Project1UIWindow.ExtElement>
     <Grid>
         <ui:Project1UIDesignContainer Name="Container" Instance="{Binding Container,Mode=TwoWay}" >
 

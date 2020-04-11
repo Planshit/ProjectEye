@@ -48,32 +48,36 @@ namespace ProjectEye.ViewModels
 
         private void TipViewDesignViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            UIConfigPath = $"UI\\{config.options.Style.Theme.ThemeName}_{ScreenName}.json";
-            Debug.WriteLine("窗口：" + WindowInstance.ActualWidth + "，屏幕：" + ScreenName + "，界面文件：" + UIConfigPath);
-            if (Container != null)
+            if (e.PropertyName == "Container")
             {
-                try
+                UIConfigPath = $"UI\\{config.options.Style.Theme.ThemeName}_{ScreenName}.json";
+                Debug.WriteLine("窗口：" + WindowInstance.ActualWidth + "，屏幕：" + ScreenName + "，界面文件：" + UIConfigPath);
+                if (Container != null)
                 {
-                    var data = new UIDesignModel();
-                    if (FileHelper.Exists(UIConfigPath))
+                    try
                     {
-                        data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read(UIConfigPath));
+                        var data = new UIDesignModel();
+                        if (FileHelper.Exists(UIConfigPath))
+                        {
+                            data = JsonConvert.DeserializeObject<UIDesignModel>(FileHelper.Read(UIConfigPath));
 
+                        }
+                        else
+                        {
+                            data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
+                            FileHelper.Write(UIConfigPath, JsonConvert.SerializeObject(data));
+                        }
+                        Container.SetContainerAttr(data.ContainerAttr);
+                        Container.ImportElements(data.Elements);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        data = theme.GetCreateDefaultTipWindowUI(config.options.Style.Theme.ThemeName, ScreenName);
-                        FileHelper.Write(UIConfigPath, JsonConvert.SerializeObject(data));
-                    }
-                    Container.SetContainerAttr(data.ContainerAttr);
-                    Container.ImportElements(data.Elements);
-                }
-                catch (Exception ex)
-                {
-                    LogHelper.Warning(ex.ToString());
-                    MessageBox.Show("无法加载现有UI配置文件，系统尝试创建默认UI失败！请尝试重程序。", "错误提示");
-                }
+                        LogHelper.Warning(ex.ToString());
 
+                        Modal("无法加载现有UI配置文件，系统尝试创建默认UI失败！请尝试重程序。");
+                    }
+
+                }
             }
         }
 
@@ -85,7 +89,7 @@ namespace ProjectEye.ViewModels
             data.Elements = container.GetElements();
             string json = JsonConvert.SerializeObject(data);
             FileHelper.Write(UIConfigPath, json);
-            MessageBox.Show("更新布局需要重新启动软件才会生效", "提示");
+            Modal("布局已更新，需要重新启动软件才会生效");
         }
 
         private void commonCommand_action(object obj)
@@ -99,6 +103,11 @@ namespace ProjectEye.ViewModels
             }
         }
 
+        private void Modal(string msg)
+        {
+            ModalText = msg;
+            ShowModal = true;
+        }
         public void OnChanged()
         {
             ChangedEvent?.Invoke();

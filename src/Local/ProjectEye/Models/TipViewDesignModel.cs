@@ -20,6 +20,34 @@ namespace ProjectEye.Models
             set
             {
                 Container_ = value;
+                OnPropertyChanged("Container");
+            }
+        }
+        //是否显示模态弹窗
+        private bool ShowModal_ = false;
+        public bool ShowModal
+        {
+            get
+            {
+                return ShowModal_;
+            }
+            set
+            {
+                ShowModal_ = value;
+                OnPropertyChanged();
+            }
+        }
+        //模态弹窗文本
+        private string ModalText_ = "设置已更新";
+        public string ModalText
+        {
+            get
+            {
+                return ModalText_;
+            }
+            set
+            {
+                ModalText_ = value;
                 OnPropertyChanged();
             }
         }
