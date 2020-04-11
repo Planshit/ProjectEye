@@ -58,9 +58,7 @@ namespace ProjectEye.Core.Service
                 catch (Exception ec)
                 {
                     //播放声音失败，可能是加载了不支持或损坏的文件
-                    //Debug.WriteLine(ec);
-                    Debug.WriteLine(ec.ToString());
-
+                    LogHelper.Warning(ec.ToString());
                     //切换到默认音效
                     LoadSound();
                 }
