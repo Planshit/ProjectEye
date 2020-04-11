@@ -145,6 +145,7 @@
                                 x:Name="AverageBorder"
                                 Height="50"
                                 VerticalAlignment="Bottom"
+                                Visibility="{TemplateBinding AverageVisibility}"
                                 >
                                 <TextBlock
                                     x:Name="AverageLabel"
@@ -152,7 +153,7 @@
                                     HorizontalAlignment="Center"
                                     FontSize="14"
                                     FontWeight="Bold"
-                                    Foreground="#9e9ea7"
+                                    Foreground="#82D29A"
                                     Text="{TemplateBinding AverageText}">
                                     <!--<TextBlock.Text>
                                         <MultiBinding Converter="{StaticResource TickTextConverter}">
@@ -235,6 +236,7 @@
                                 VerticalAlignment="Bottom"
                                 CornerRadius="2"
                                 Cursor="Hand"
+                                Visibility="{TemplateBinding AverageVisibility}"
                                 >
                                 <Border.BorderBrush>
                                     <SolidColorBrush Color="Transparent" Opacity=".2"/>
@@ -269,7 +271,7 @@
                                 <Rectangle 
                            x:Name="test"
                             Height="2"
-                            Fill="#f3f2f1"
+                            Fill="#82D29A"
                             RadiusX="2"
                                      RadiusY="2"
                             >
