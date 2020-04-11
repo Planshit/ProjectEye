@@ -44,5 +44,9 @@ namespace ProjectEye.Core.Models.Options
         /// 休息时间（单位：秒）
         /// </summary>
         public int RestTime { get; set; } = 20;
+        /// <summary>
+        /// 是否启用一周数据分析
+        /// </summary>
+        public bool IsWeekDataAnalysis{ get; set; } = false;
     }
 }
