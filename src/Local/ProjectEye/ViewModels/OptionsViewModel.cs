@@ -141,14 +141,11 @@ namespace ProjectEye.ViewModels
             {
                 bool resultTest = sound.Test(config.options.General.SoundPath);
                 Modal(resultTest ? "音效已被正确加载" : "音效不能被加载");
-                //if (resultTest)
-                //{
-                //    MessageBox.Show("音效已被正确加载！", "提示");
-                //}
-                //else
-                //{
-                //    MessageBox.Show("音效不能被加载！", "警告");
-                //}
+            }
+            else
+            {
+                sound.Play();
+                Modal("当前播放的是默认提示音");
             }
 
         }

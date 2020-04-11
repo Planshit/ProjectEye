@@ -40,43 +40,40 @@
                     <StackPanel Margin="10">
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0"
                                    VerticalAlignment="Center">提醒间隔</TextBlock>
                             <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="方向键或鼠标点两侧微调"/>
-                            <TextBlock Text="{Binding Model.Data.General.WarnTime}"
+                            <TextBlock 
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"/>
-                            <TextBlock Text="分钟"
-                                   Grid.Column="3"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center">
+                                <Run Text="{Binding Model.Data.General.WarnTime}"/>
+                                <Run Text="分钟"/>
+                            </TextBlock>
+
                         </Grid>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0"
                                    VerticalAlignment="Center">休息时间</TextBlock>
                             <Slider Grid.Column="1" Maximum="300" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.RestTime}" ToolTip="方向键或鼠标点两侧微调"/>
-                            <TextBlock Text="{Binding Model.Data.General.RestTime}"
+                            <TextBlock 
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"/>
-                            <TextBlock Text="秒"
-                                   Grid.Column="3"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center">
+                                <Run Text="{Binding Model.Data.General.RestTime}"/>
+                                <Run Text="秒"/>
+                            </TextBlock>
                         </Grid>
                         <CheckBox Content="开机启动" IsChecked="{Binding Model.Data.General.Startup}" Cursor="Hand" Margin="0,10,0,0"/>
                         <CheckBox Content="休息结束提示音" IsChecked="{Binding Model.Data.General.Sound}" Margin="0,10,0,0" Cursor="Hand"/>
@@ -102,7 +99,8 @@
                         <!--<CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>-->
                         <CheckBox Content="数据统计" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
                               ToolTip="启用后在右下角托盘菜单可查看统计数据"/>
-
+                        <CheckBox Content="一周数据建议" IsChecked="{Binding Model.Data.General.IsWeekDataAnalysis}" Margin="0,10,0,0" Cursor="Hand"
+                              ToolTip="启用后Project Eye会基于本周的用眼数据提供建议，可在数据统计页中查看"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
