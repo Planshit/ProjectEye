@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Project1.UI.Controls"
+                    >
+
+
+    <ResourceDictionary.MergedDictionaries>
+
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIWindow.xaml" />
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIButton.xaml" />
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIInput.xaml" />
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIProcessBar.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIIcon.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIChart.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIKeyboardInput.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIToast.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIDesignItem.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIColorSelect.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Project1UIModal.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Chart/Chart.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Chart/ChartItem.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/Icon.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/CompareView.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/CheckButton.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/DatePicker/DatePicker.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/DatePicker/ItemList.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/TimeBox.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

@@ -1,0 +1,103 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Project1.UI.Controls.DatePicker;assembly=Project1.UI"
+                    xmlns:converter="clr-namespace:Project1.UI.Controls.Converters;assembly=Project1.UI"
+                    >
+    <converter:StringConverter x:Key="StringConverter"/>
+    <Style TargetType="{x:Type controls:DatePicker}">
+        <Setter Property="Background" Value="#d9d9d9" />
+        <Setter Property="BorderBrush" Value="#707070" />
+        <Setter Property="Width" Value="130" />
+        <Setter Property="Height" Value="36" />
+
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="SnapsToDevicePixels" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:DatePicker}">
+                    <Grid>
+                        <Popup
+                            x:Name="Popup"
+                            Placement="Top"
+                            PlacementTarget="{Binding ElementName=Border}"
+                            AllowsTransparency="True"
+                            HorizontalOffset="0"
+                            >
+                            <Border
+                                x:Name="PopupBorder"
+                                Background="{DynamicResource WindowBackground}"
+                                BorderBrush="{DynamicResource WindowBorderBrush}"
+                                BorderThickness="1"
+                                Padding="10"
+                                Margin="15"
+                                CornerRadius="2"
+                                >
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
+                                </Border.Effect>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="120"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <StackPanel>
+                                            <TextBlock Text="年份" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource FontBrush}"/>
+                                            <controls:ItemList x:Name="YearsList" Margin="0,5,0,0"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <StackPanel>
+                                            <TextBlock Text="月份" FontWeight="Bold" FontSize="14" Foreground="{DynamicResource FontBrush}"/>
+                                            <controls:ItemList x:Name="MonthsList" Margin="0,5,0,0"/>
+                                        </StackPanel>
+
+                                    </Grid>
+                                    <!--<Path 
+                      Width="15"
+                      Height="15"
+                      SnapsToDevicePixels="False"
+                      Data="M 0 0 L 7.5 7.5 L 15 0" Fill="White"
+                                        Stroke="#ccc"
+                                        StrokeThickness="1"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Left"
+                                        Margin="-5,0,0,-25"
+                                        />-->
+                                </Grid>
+
+                            </Border>
+                        </Popup>
+                        <Border
+                            x:Name="Border"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Background="{TemplateBinding Background}"
+                            CornerRadius="18">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEE93;" VerticalAlignment="Center"  FontSize="14" TextAlignment="Center" Foreground="#37363d"/>
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#37363d">
+                                <Run Text="{TemplateBinding SelectedYear,Converter={StaticResource StringConverter}}"/><Run Text="年"/> <Run Text="{TemplateBinding SelectedMonth,Converter={StaticResource StringConverter}}"/><Run Text="月"/>
+                                </TextBlock>
+                            </StackPanel>
+
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Popup" Property="IsOpen" Value="true"/>
+                        </MultiTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+
+</ResourceDictionary>
