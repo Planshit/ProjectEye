@@ -36,7 +36,7 @@ namespace ProjectEye.ViewModels
         /// </summary>
         public Command busyCommand { get; set; }
 
-        private readonly ResetService reset;
+        private readonly RestService reset;
         private readonly SoundService sound;
         private readonly ConfigService config;
         private readonly StatisticService statistic;
@@ -47,7 +47,7 @@ namespace ProjectEye.ViewModels
 
         public event ViewModelEventHandler ChangedEvent;
 
-        public TipViewModel(ResetService reset,
+        public TipViewModel(RestService reset,
             SoundService sound,
             ConfigService config,
             StatisticService statistic,
@@ -58,8 +58,8 @@ namespace ProjectEye.ViewModels
             ThemeService theme)
         {
             this.reset = reset;
-            this.reset.TimeChanged += new ResetEventHandler(timeChanged);
-            this.reset.ResetCompleted += new ResetEventHandler(resetCompleted);
+            this.reset.TimeChanged += new RestEventHandler(timeChanged);
+            this.reset.RestCompleted += new RestEventHandler(resetCompleted);
 
             this.sound = sound;
             this.config = config;
