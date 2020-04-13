@@ -3,6 +3,7 @@ using Project1.UI.Cores;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
@@ -185,6 +187,8 @@ namespace Project1.UI.Controls
         private Storyboard openWindowStoryboard;
         private Storyboard closeWindowStoryboard;
 
+        //屏幕尺寸
+        private Rectangle ScreenArea;
         #endregion
 
         #region 3.初始化
@@ -211,6 +215,11 @@ namespace Project1.UI.Controls
             //动画
             var transformGroup = new TransformGroup();
             RenderTransform = transformGroup;
+
+            //获取屏幕尺寸
+            var intPtr = new WindowInteropHelper(this).Handle;//获取当前窗口的句柄
+            var screen = System.Windows.Forms.Screen.FromHandle(intPtr);//获取当前屏幕
+            ScreenArea = screen.Bounds;
         }
 
         ///// <summary>
@@ -322,38 +331,46 @@ namespace Project1.UI.Controls
 
         }
 
+        private void CreateTransformGroup()
+        {
+            if ((RenderTransform as TransformGroup).Children.Count == 0)
+            {
+                var translateTF = new TranslateTransform()
+                {
+                    X = 0,
+                    Y = 0
+                };
 
+                var scaleTF = new ScaleTransform()
+                {
+                    //右下角
+                    CenterX = ScreenArea.Width,
+                    CenterY = ScreenArea.Height,
+                    //左上角
+                    //CenterX = 0,
+                    //CenterY = 0,
+                    ScaleX = 1,
+                    ScaleY = 1
+                };
+
+                (RenderTransform as TransformGroup).Children.Add(translateTF);
+                (RenderTransform as TransformGroup).Children.Add(scaleTF);
+            }
+        }
         private void CreateWindowOpenAnimation()
         {
+            CreateTransformGroup();
 
             Opacity = 0;
             openWindowStoryboard = new Storyboard();
             var duration = TimeSpan.FromSeconds(1);
 
-            var translateTF = new TranslateTransform()
-            {
-                X = 0,
-                Y = 0
-            };
-
-            var scaleTF = new ScaleTransform()
-            {
-                CenterX = ActualWidth,
-                CenterY = ActualHeight,
-                ScaleX = 0,
-                ScaleY = 0
-            };
-
-            (RenderTransform as TransformGroup).Children.Add(translateTF);
-            (RenderTransform as TransformGroup).Children.Add(scaleTF);
-
-
-
             //位移动画
+
 
             var easingFunction = new BackEase() { EasingMode = EasingMode.EaseInOut };
             DoubleAnimation translateXAnimation = new DoubleAnimation();
-            translateXAnimation.From = ActualWidth;
+            translateXAnimation.From = ScreenArea.Width;
             translateXAnimation.To = Left;
             translateXAnimation.Duration = duration;
             //BackEase,QuarticEase
@@ -361,7 +378,7 @@ namespace Project1.UI.Controls
             Storyboard.SetTarget(translateXAnimation, this);
             Storyboard.SetTargetProperty(translateXAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"));
             DoubleAnimation translateYAnimation = new DoubleAnimation();
-            translateYAnimation.From = ActualHeight;
+            translateYAnimation.From = ScreenArea.Height;
             translateYAnimation.To = Top;
             translateYAnimation.Duration = duration;
             translateYAnimation.EasingFunction = easingFunction;
@@ -397,30 +414,15 @@ namespace Project1.UI.Controls
 
         private void CreateWindowCloseAnimation()
         {
+            CreateTransformGroup();
+
             closeWindowStoryboard = new Storyboard();
             var duration = TimeSpan.FromSeconds(1);
 
-            var translateTF = new TranslateTransform()
-            {
-                X = 0,
-                Y = 0
-            };
-            var scaleTF = new ScaleTransform()
-            {
-                CenterX = ActualWidth / 2,
-                CenterY = ActualHeight / 2,
-                ScaleX = 0,
-                ScaleY = 0
-            };
-            (RenderTransform as TransformGroup).Children.Add(translateTF);
-            (RenderTransform as TransformGroup).Children.Add(scaleTF);
-
-
             //位移动画
-
             var easingFunction = new BackEase() { EasingMode = EasingMode.EaseInOut };
             DoubleAnimation translateXAnimation = new DoubleAnimation();
-            translateXAnimation.To = ActualWidth;
+            translateXAnimation.To = ScreenArea.Width;
             translateXAnimation.Duration = duration;
 
             //BackEase,QuarticEase
@@ -428,7 +430,7 @@ namespace Project1.UI.Controls
             Storyboard.SetTarget(translateXAnimation, this);
             Storyboard.SetTargetProperty(translateXAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(TranslateTransform.X)"));
             DoubleAnimation translateYAnimation = new DoubleAnimation();
-            translateYAnimation.To = ActualHeight;
+            translateYAnimation.To = ScreenArea.Height;
             translateYAnimation.Duration = duration;
             translateYAnimation.EasingFunction = easingFunction;
             Storyboard.SetTarget(translateYAnimation, this);
