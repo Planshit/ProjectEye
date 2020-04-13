@@ -392,12 +392,14 @@ namespace ProjectEye.Core.Service
             {
                 //预提醒设置跳过
                 statistic.Add(StatisticType.SkipCount, 1);
+                ReStartWorkTimerWatch();
             }
             else
             {
                 if (isBreakReset())
                 {
                     statistic.Add(StatisticType.SkipCount, 1);
+                    ReStartWorkTimerWatch();
                 }
                 else
                 {
