@@ -114,10 +114,10 @@
     <Compile Include="Core\Service\MainService.cs" />
     <Compile Include="Core\Service\NotificationService.cs" />
     <Compile Include="Core\Service\PreAlertService.cs" />
-    <Compile Include="Core\Service\ResetService.cs" />
+    <Compile Include="Core\Service\RestService.cs" />
     <Compile Include="Core\Service\ScreenService.cs" />
     <Compile Include="Core\Service\ServiceCollection.cs" />
-    <Compile Include="Core\ResetEventHandler.cs" />
+    <Compile Include="Core\RestEventHandler.cs" />
     <Compile Include="Core\Service\SoundService.cs" />
     <Compile Include="Core\Service\EyesTestService.cs" />
     <Compile Include="Core\Service\StatisticService.cs" />

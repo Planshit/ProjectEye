@@ -144,6 +144,14 @@ namespace ProjectEye.Core.Service
 
                 notifyIcon.Text = "Project Eye\r\n距离下一次休息：" + restStr;
             }
+            else if (config.options.General.Noreset)
+            {
+                notifyIcon.Text = "Project Eye：不要提醒已开启";
+            }
+            else if(!backgroundWorker.IsBusy)
+            {
+                notifyIcon.Text = "Project Eye";
+            }
         }
 
         //有后台工作任务在运行时
@@ -327,6 +335,7 @@ namespace ProjectEye.Core.Service
         /// <param name="hour">-1时关闭；0打开；大于0则在到达设定的值（小时）后重新启动</param>
         private void SetNoReset(int hour)
         {
+            config.options.General.Noreset = true;
             menuItem_NoReset_OneHour.IsChecked = false;
             menuItem_NoReset_TwoHour.IsChecked = false;
             menuItem_NoReset_Forver.IsChecked = false;
@@ -337,6 +346,7 @@ namespace ProjectEye.Core.Service
             if (hour == -1)
             {
                 //关闭
+                config.options.General.Noreset = false;
                 menuItem_NoReset.IsChecked = false;
                 mainService.Start();
                 UpdateIcon("sunglasses");

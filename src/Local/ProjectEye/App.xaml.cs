@@ -64,7 +64,7 @@ namespace ProjectEye
             //托盘
             serviceCollection.Add<TrayService>();
             //休息
-            serviceCollection.Add<ResetService>();
+            serviceCollection.Add<RestService>();
             //声音
             serviceCollection.Add<SoundService>();
             //快捷键

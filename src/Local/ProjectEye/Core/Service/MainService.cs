@@ -212,7 +212,7 @@ namespace ProjectEye.Core.Service
         #region 获取提醒计时是否在运行
         public bool IsWorkTimerRun()
         {
-            return timer.IsEnabled;
+            return timer.IsEnabled && !config.options.General.Noreset;
         }
         #endregion
 
@@ -392,12 +392,14 @@ namespace ProjectEye.Core.Service
             {
                 //预提醒设置跳过
                 statistic.Add(StatisticType.SkipCount, 1);
+                ReStartWorkTimerWatch();
             }
             else
             {
                 if (isBreakReset())
                 {
                     statistic.Add(StatisticType.SkipCount, 1);
+                    ReStartWorkTimerWatch();
                 }
                 else
                 {
@@ -540,6 +542,13 @@ namespace ProjectEye.Core.Service
             }
 
             return true;
+        }
+        #endregion
+
+        #region 重置测量时间
+        public void ReStartWorkTimerWatch()
+        {
+            workTimerStopwatch.Restart();
         }
         #endregion
     }

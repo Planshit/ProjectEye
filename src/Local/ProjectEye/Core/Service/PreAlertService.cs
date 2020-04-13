@@ -72,7 +72,7 @@ namespace ProjectEye.Core.Service
     {
         private readonly ConfigService config;
         private readonly MainService main;
-        private readonly ResetService reset;
+        private readonly RestService reset;
         private readonly StatisticService statistic;
         private readonly SoundService sound;
 
@@ -96,7 +96,7 @@ namespace ProjectEye.Core.Service
         private int preAlertHasTime;
         public PreAlertService(ConfigService config,
             MainService main,
-            ResetService reset,
+            RestService reset,
             StatisticService statistic,
             SoundService sound)
         {
@@ -112,8 +112,8 @@ namespace ProjectEye.Core.Service
             main.OnPause += Main_OnPause;
             main.OnStart += Main_OnStart;
             config.Changed += Config_Changed;
-            reset.ResetStart += Reset_ResetStart;
-            reset.ResetCompleted += Reset_ResetCompleted;
+            reset.RestStart += Reset_ResetStart;
+            reset.RestCompleted += Reset_ResetCompleted;
 
 
         }

@@ -8,7 +8,7 @@ using System.Windows.Threading;
 
 namespace ProjectEye.Core.Service
 {
-    public class ResetService : IService
+    public class RestService : IService
     {
         /// <summary>
         /// 计时器
@@ -20,19 +20,23 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 倒计时更改时发生
         /// </summary>
-        public event ResetEventHandler TimeChanged;
+        public event RestEventHandler TimeChanged;
         /// <summary>
         /// 休息结束时发生
         /// </summary>
-        public event ResetEventHandler ResetCompleted;
+        public event RestEventHandler RestCompleted;
         /// <summary>
         /// 进入休息状态时发生
         /// </summary>
-        public event ResetEventHandler ResetStart;
+        public event RestEventHandler RestStart;
         private readonly ConfigService config;
-        public ResetService(ConfigService config)
+        private readonly MainService main;
+        public RestService(
+            ConfigService config,
+            MainService main)
         {
             this.config = config;
+            this.main = main;
             //初始化计时器
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timer_Tick);
@@ -52,7 +56,7 @@ namespace ProjectEye.Core.Service
         {
             timed = config.options.General.RestTime;
             timer.Start();
-            ResetStart?.Invoke(this, timed);
+            RestStart?.Invoke(this, timed);
         }
         /// <summary>
         /// 休息结束
@@ -62,6 +66,7 @@ namespace ProjectEye.Core.Service
             WindowManager.Hide("TipWindow");
             timer.Stop();
             timed = config.options.General.RestTime;
+            main.ReStartWorkTimerWatch();
             OnResetCompleted();
 
         }
@@ -83,7 +88,7 @@ namespace ProjectEye.Core.Service
         }
         private void OnResetCompleted()
         {
-            ResetCompleted?.Invoke(this, 0);
+            RestCompleted?.Invoke(this, 0);
         }
 
 

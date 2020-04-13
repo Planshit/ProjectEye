@@ -5,5 +5,5 @@ using System.Text;
 
 namespace ProjectEye.Core
 {
-    public delegate void ResetEventHandler(object sender, int timed);
+    public delegate void RestEventHandler(object sender, int timed);
 }
