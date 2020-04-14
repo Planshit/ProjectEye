@@ -23,7 +23,7 @@ namespace ProjectEye.ViewModels
 
         private readonly ConfigService config;
         private readonly ThemeService theme;
-
+        private readonly MainService main;
 
         public event ViewModelEventHandler ChangedEvent;
 
@@ -34,11 +34,13 @@ namespace ProjectEye.ViewModels
         public string TipText { get; set; }
         public TipViewDesignViewModel(
             ConfigService config,
-            ThemeService theme)
+            ThemeService theme,
+            MainService main)
         {
 
             this.config = config;
             this.theme = theme;
+            this.main = main;
 
             TipText = config.options.Style.TipContent;
             commonCommand = new Command(new Action<object>(commonCommand_action));
@@ -89,7 +91,9 @@ namespace ProjectEye.ViewModels
             data.Elements = container.GetElements();
             string json = JsonConvert.SerializeObject(data);
             FileHelper.Write(UIConfigPath, json);
-            Modal("布局已更新，需要重新启动软件才会生效");
+
+            main.CreateTipWindows();
+            Modal("布局已更新");
         }
 
         private void commonCommand_action(object obj)

@@ -258,5 +258,22 @@ namespace ProjectEye.Models
                 OnPropertyChanged();
             }
         }
+
+        private bool IsThruWindow_;
+        /// <summary>
+        /// 是否启用窗口鼠标穿透
+        /// </summary>
+        public bool IsThruWindow
+        {
+            get
+            {
+                return IsThruWindow_;
+            }
+            set
+            {
+                IsThruWindow_ = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

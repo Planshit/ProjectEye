@@ -68,7 +68,6 @@ namespace ProjectEye.Models
         {
             get
             {
-
                 return Data.Style.IsPreAlert ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -128,7 +127,6 @@ namespace ProjectEye.Models
         {
             get
             {
-
                 return IsAutoDark ? Visibility.Visible : Visibility.Collapsed;
             }
         }
@@ -147,5 +145,46 @@ namespace ProjectEye.Models
             }
         }
 
+        ///// <summary>
+        ///// 预提醒选项是否可用
+        ///// </summary>
+        //public bool IsPreTipEnabled
+        //{
+        //    get
+        //    {
+        //        return Data.Style.IsTipAsk;
+        //    }
+        //}
+        /// <summary>
+        /// 鼠标穿透是否可用
+        /// </summary>
+        public bool IsThruTipWindowEnabled
+        {
+            get
+            {
+                return !Data.Style.IsTipAsk;
+            }
+        }
+        public bool IsTipAsk
+        {
+            get
+            {
+                return Data.Style.IsTipAsk;
+            }
+            set
+            {
+                Data.Style.IsTipAsk = value;
+                //if (!value && Data.Style.IsPreAlert)
+                //{
+                //    Data.Style.IsPreAlert = value;
+                //}
+                if (value && Data.Style.IsThruTipWindow)
+                {
+                    Data.Style.IsThruTipWindow = !value;
+                }
+                OnPropertyChanged();
+
+            }
+        }
     }
 }

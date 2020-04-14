@@ -79,6 +79,15 @@
 
 
                         </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Border" Property="Background" Value="#ccc"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#ccc"/>
+                            <Setter Property="Foreground" Value="#ccc"/>
+                            <Setter Property="Cursor" Value="No"/>
+                        </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

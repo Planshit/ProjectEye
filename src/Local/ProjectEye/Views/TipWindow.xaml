@@ -12,6 +12,7 @@
         InputMethod.IsInputMethodEnabled="False"
                      IsAnimation="{Binding IsAnimation}"
                      WindowAnimationType="{Binding WindowAnimationType}"
+                     IsThruWindow="{Binding IsThruWindow}"
         >
     <!--<Grid>
         -->

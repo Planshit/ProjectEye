@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.Caching;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -187,6 +188,19 @@ namespace Project1.UI.Controls
         }
         #endregion
 
+        #region 是否穿透窗口
+
+        public static readonly DependencyProperty IsThruWindowProperty = DependencyProperty.Register("IsThruWindow", typeof(bool), typeof(Project1UIWindow), new PropertyMetadata(false));
+
+        /// <summary>
+        /// 是否穿透窗口
+        /// </summary>
+        public bool IsThruWindow
+        {
+            get { return (bool)GetValue(IsThruWindowProperty); }
+            set { SetValue(IsThruWindowProperty, value); }
+        }
+        #endregion
         #endregion
 
         #region 2.私有属性
@@ -241,6 +255,9 @@ namespace Project1.UI.Controls
             var intPtr = new WindowInteropHelper(this).Handle;//获取当前窗口的句柄
             var screen = System.Windows.Forms.Screen.FromHandle(intPtr);//获取当前屏幕
             ScreenArea = screen.Bounds;
+
+
+
         }
 
         ///// <summary>
@@ -561,6 +578,15 @@ namespace Project1.UI.Controls
             base.OnActivated(args);
             //Project1.UI.Cores.Little.FocusWindow = this;
         }
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            if (IsThruWindow)
+            {
+                IntPtr hwnd = new WindowInteropHelper(this).Handle; uint extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+                SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+            }
+        }
         #endregion
 
         #region 7.主题
@@ -709,6 +735,17 @@ namespace Project1.UI.Controls
             }
         }
 
+        #endregion
+
+        #region win32
+        private const int WS_EX_TRANSPARENT = 0x20;
+        private const int GWL_EXSTYLE = (-20);
+
+        [DllImport("user32", EntryPoint = "SetWindowLong")]
+        private static extern uint SetWindowLong(IntPtr hwnd, int nIndex, uint dwNewLong);
+
+        [DllImport("user32", EntryPoint = "GetWindowLong")]
+        private static extern uint GetWindowLong(IntPtr hwnd, int nIndex);
         #endregion
     }
 }

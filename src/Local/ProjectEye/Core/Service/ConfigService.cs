@@ -1,4 +1,5 @@
-﻿using ProjectEye.Core.Models.Options;
+﻿using Newtonsoft.Json;
+using ProjectEye.Core.Models.Options;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,6 +22,10 @@ namespace ProjectEye.Core.Service
         private readonly SystemResourcesService systemResources;
         //存放文件夹
         private readonly string dir = "Data";
+        /// <summary>
+        /// 未更改的配置
+        /// </summary>
+        private OptionsModel oldOptions_;
         public OptionsModel options { get; set; }
         /// <summary>
         /// 配置文件被修改时发生
@@ -33,7 +38,7 @@ namespace ProjectEye.Core.Service
                 dir,
                 "config.xml");
             xmlExtensions = new XmlExtensions(configPath);
-            //Init();
+            oldOptions_ = new OptionsModel();
         }
         public void Init()
         {
@@ -43,6 +48,7 @@ namespace ProjectEye.Core.Service
                 if (obj != null)
                 {
                     options = obj as OptionsModel;
+                    SaveOldOptions();
                 }
                 else
                 {
@@ -61,11 +67,21 @@ namespace ProjectEye.Core.Service
         {
             if (options != null)
             {
-                Changed?.Invoke(options, null);
 
+                Changed?.Invoke(oldOptions_, null);
+                SaveOldOptions();
                 return xmlExtensions.Save(options);
             }
             return false;
+        }
+
+        /// <summary>
+        /// 保持旧选项数据
+        /// </summary>
+        private void SaveOldOptions()
+        {
+            string optionsStr = JsonConvert.SerializeObject(options);
+            oldOptions_ = JsonConvert.DeserializeObject<OptionsModel>(optionsStr);
         }
         /// <summary>
         /// 创建默认配置文件
@@ -89,6 +105,9 @@ namespace ProjectEye.Core.Service
             options.KeyboardShortcuts = new KeyboardShortcutModel();
 
             options.Behavior = new BehaviorModel();
+
+            SaveOldOptions();
+
             xmlExtensions.Save(options);
         }
         private void CheckOptions()
