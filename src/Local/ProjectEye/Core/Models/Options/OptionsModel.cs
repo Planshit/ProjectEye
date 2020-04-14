@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace ProjectEye.Core.Models.Options
 {
     [XmlRootAttribute("Options")]
-    public class OptionsModel
+    public class OptionsModel 
     {
         /// <summary>
         /// 通用设置

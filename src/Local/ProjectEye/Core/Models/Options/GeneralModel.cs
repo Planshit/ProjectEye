@@ -47,6 +47,7 @@ namespace ProjectEye.Core.Models.Options
         /// <summary>
         /// 是否启用一周数据分析
         /// </summary>
-        public bool IsWeekDataAnalysis{ get; set; } = false;
+        public bool IsWeekDataAnalysis { get; set; } = false;
+
     }
 }

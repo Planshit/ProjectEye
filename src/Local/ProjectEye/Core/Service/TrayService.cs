@@ -73,6 +73,7 @@ namespace ProjectEye.Core.Service
 
         private void MainService_OnStart(object service, int msg)
         {
+            config.options.General.Noreset = false;
             if (!backgroundWorker.IsBusy)
             {
                 UpdateIcon("sunglasses");

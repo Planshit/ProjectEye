@@ -104,7 +104,7 @@ namespace ProjectEye.ViewModels
             UpdateVariable();
             var window = sender as Window;
             window.Focus();
-            PreAlertDispose();
+            HandleAutoAction();
         }
 
         private void UpdateVariable()
@@ -342,13 +342,19 @@ namespace ProjectEye.ViewModels
             }
             //动画开关
             IsAnimation = config.options.Style.IsAnimation;
+
+            //动画类型
+            WindowAnimationType = config.options.Style.TipWindowAnimation.AnimationType;
+
+            //鼠标穿透
+            IsThruWindow = config.options.Style.IsThruTipWindow;
+
         }
 
         //配置文件被修改时
         private void config_Changed(object sender, EventArgs e)
         {
             LoadConfig();
-            
         }
 
         private void resetCompleted(object sender, int timed)
@@ -414,20 +420,27 @@ namespace ProjectEye.ViewModels
 
 
 
-
         /// <summary>
-        /// 预提醒处理
+        /// 处理自动操作
         /// </summary>
-        private void PreAlertDispose()
+        private void HandleAutoAction()
         {
+            //询问
+            if (!config.options.Style.IsTipAsk)
+            {
+                //进入休息
+                resetCommand_action(null);
+            }
+            //预提醒
             if (config.options.Style.IsPreAlert)
             {
-                if (preAlert.PreAlertAction == PreAlertAction.Goto && config.options.Style.IsPreAlertAutoAction)
+                if (preAlert.PreAlertAction == PreAlertAction.Goto)
                 {
                     //进入休息
                     resetCommand_action(null);
                 }
             }
+
         }
 
         public void OnChanged()

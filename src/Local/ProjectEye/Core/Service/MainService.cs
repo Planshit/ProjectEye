@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Project1.UI.Controls;
+using ProjectEye.Core.Models.Options;
 using ProjectEye.ViewModels;
 using ProjectEye.Views;
 using System;
@@ -127,7 +128,7 @@ namespace ProjectEye.Core.Service
             //初始化用眼统计计时器
             useeye_timer = new DispatcherTimer();
             useeye_timer.Tick += new EventHandler(useeye_timer_Tick);
-            useeye_timer.Interval = new TimeSpan(0, 30, 0);
+            useeye_timer.Interval = new TimeSpan(0, 10, 0);
             /****调试模式代码****/
 #if DEBUG
             //30秒提示休息
@@ -139,18 +140,25 @@ namespace ProjectEye.Core.Service
             useeye_timer.Interval = new TimeSpan(0, 1, 0);
 #endif
 
-            //在所有屏幕上创建全屏提示窗口
-            var tipWindow = WindowManager.GetCreateWindow("TipWindow", true);
+            CreateTipWindows();
 
-            foreach (var window in tipWindow)
-            {
-                window.IsVisibleChanged += new DependencyPropertyChangedEventHandler(isVisibleChanged);
-            }
             //记录鼠标坐标
             SaveCursorPos();
 
             Start();
 
+            config.Changed += Config_Changed;
+        }
+
+        private void Config_Changed(object sender, EventArgs e)
+        {
+            var oldOptions = sender as OptionsModel;
+            if (oldOptions.Style.IsThruTipWindow != config.options.Style.IsThruTipWindow)
+            {
+                //鼠标穿透被打开
+                CreateTipWindows();
+                Debug.WriteLine("鼠标穿透更改，重新创建窗口");
+            }
         }
 
         #endregion
@@ -319,8 +327,12 @@ namespace ProjectEye.Core.Service
             {
                 Debug.WriteLine(timer.Interval.TotalMinutes + "," + minutes);
                 timer.Interval = new TimeSpan(0, minutes, 0);
-                ReStart();
-                return true;
+                if (!config.options.General.Noreset)
+                {
+                    ReStart();
+                    return true;
+                }
+                return false;
             }
             return false;
         }
@@ -549,6 +561,24 @@ namespace ProjectEye.Core.Service
         public void ReStartWorkTimerWatch()
         {
             workTimerStopwatch.Restart();
+        }
+        #endregion
+
+        #region 创建全屏提示窗口
+        /// <summary>
+        /// 创建全屏提示窗口
+        /// </summary>
+        public void CreateTipWindows()
+        {
+            //关闭
+            WindowManager.Close("TipWindow");
+            //在所有屏幕上创建全屏提示窗口
+            var tipWindow = WindowManager.GetCreateWindow("TipWindow", true);
+
+            foreach (var window in tipWindow)
+            {
+                window.IsVisibleChanged += new DependencyPropertyChangedEventHandler(isVisibleChanged);
+            }
         }
         #endregion
     }

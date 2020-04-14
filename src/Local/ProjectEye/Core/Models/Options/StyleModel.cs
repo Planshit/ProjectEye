@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static Project1.UI.Controls.Project1UIWindow;
 
 namespace ProjectEye.Core.Models.Options
 {
@@ -31,10 +32,10 @@ namespace ProjectEye.Core.Models.Options
         /// 预提醒不操作时执行的动作
         /// </summary>
         public ComboxModel PreAlertAction { get; set; } = new ComboxModel() { DisplayName = "进入本次休息", Value = "1" };
-        /// <summary>
-        /// 是否启用预提醒自动操作
-        /// </summary>
-        public bool IsPreAlertAutoAction { get; set; } = true;
+        ///// <summary>
+        ///// 是否启用预提醒自动操作
+        ///// </summary>
+        //public bool IsPreAlertAutoAction { get; set; } = true;
         /// <summary>
         /// 预提醒标题
         /// </summary>
@@ -82,5 +83,18 @@ namespace ProjectEye.Core.Models.Options
         /// 动画效果
         /// </summary>
         public bool IsAnimation { get; set; } = false;
+        /// <summary>
+        /// 提示窗口动画类型
+        /// </summary>
+        public AnimationModel TipWindowAnimation { get; set; }
+        /// <summary>
+        /// 休息提示询问，如果开启可以使用预提醒功能以及在全屏提示窗口点击，关闭后则每到休息时间直接开始计时不询问，且支持鼠标穿透
+        /// </summary>
+        public bool IsTipAsk { get; set; } = true;
+        /// <summary>
+        /// 全屏提示窗口鼠标穿透
+        /// </summary>
+        public bool IsThruTipWindow { get; set; } = false;
+
     }
 }

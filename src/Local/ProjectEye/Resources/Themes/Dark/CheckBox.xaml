@@ -13,7 +13,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <BulletDecorator  VerticalAlignment="Center">
+                    <BulletDecorator  VerticalAlignment="Center" Cursor="{TemplateBinding Cursor}">
                         <BulletDecorator.Bullet>
                             <Border x:Name="Border"
                     Width="20"
@@ -48,6 +48,7 @@
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left"
                             RecognizesAccessKey="True" 
+                                          Cursor="{TemplateBinding Cursor}"
                                           />
                     </BulletDecorator>
                     <ControlTemplate.Triggers>
@@ -77,6 +78,16 @@
 
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource HoverBrush}"/>
 
+
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Border" Property="Background" Value="#323130"/>
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#323130"/>
+                            <Setter Property="Foreground" Value="#323130"/>
+                            <Setter Property="Cursor" Value="No"/>
 
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
