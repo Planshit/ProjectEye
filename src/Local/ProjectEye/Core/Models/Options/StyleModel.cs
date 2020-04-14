@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static Project1.UI.Controls.Project1UIWindow;
 
 namespace ProjectEye.Core.Models.Options
 {
@@ -82,5 +83,9 @@ namespace ProjectEye.Core.Models.Options
         /// 动画效果
         /// </summary>
         public bool IsAnimation { get; set; } = false;
+        /// <summary>
+        /// 提示窗口动画类型
+        /// </summary>
+        public AnimationModel TipWindowAnimation { get; set; }
     }
 }

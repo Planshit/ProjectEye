@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using static Project1.UI.Controls.Project1UIWindow;
 
 namespace ProjectEye.Models
 {
@@ -237,6 +238,23 @@ namespace ProjectEye.Models
             set
             {
                 TSC_ = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private AnimationType WindowAnimationType_;
+        /// <summary>
+        /// 窗口动画类型
+        /// </summary>
+        public AnimationType WindowAnimationType
+        {
+            get
+            {
+                return WindowAnimationType_;
+            }
+            set
+            {
+                WindowAnimationType_ = value;
                 OnPropertyChanged();
             }
         }

@@ -342,6 +342,9 @@ namespace ProjectEye.ViewModels
             }
             //动画开关
             IsAnimation = config.options.Style.IsAnimation;
+
+            //动画类型
+            WindowAnimationType = config.options.Style.TipWindowAnimation.AnimationType;
         }
 
         //配置文件被修改时

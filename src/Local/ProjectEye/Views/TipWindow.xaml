@@ -11,7 +11,7 @@
                      Background="Transparent"
         InputMethod.IsInputMethodEnabled="False"
                      IsAnimation="{Binding IsAnimation}"
-                     WindowAnimationType="RightBottomScale"
+                     WindowAnimationType="{Binding WindowAnimationType}"
         >
     <!--<Grid>
         -->

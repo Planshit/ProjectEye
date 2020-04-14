@@ -49,6 +49,7 @@ namespace ProjectEye.Models
         public string SelectedItem { get; set; }
         public List<ThemeModel> Themes { get; set; }
         public List<ComboxModel> PreAlertActions { get; set; }
+        public List<AnimationModel> Animations { get; set; }
 
         public bool IsPreAlert
         {

@@ -46,6 +46,7 @@ namespace ProjectEye.ViewModels
             Model = new OptionsModel();
             Model.Data = config.options;
             Model.Themes = systemResources.Themes;
+            Model.Animations = systemResources.Animations;
             Model.PreAlertActions = systemResources.PreAlertActions;
             string[] version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
