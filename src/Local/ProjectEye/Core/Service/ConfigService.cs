@@ -130,8 +130,11 @@ namespace ProjectEye.Core.Service
                     object[] objs = new object[0];
 
                     ConstructorInfo ctor = item.PropertyType.GetConstructor(types);
-                    object instance = ctor.Invoke(objs);
-                    item.SetValue(obj, instance);
+                    if (ctor != null)
+                    {
+                        object instance = ctor.Invoke(objs);
+                        item.SetValue(obj, instance);
+                    }
                 }
 
                 Debug.WriteLine(string.Format("{0}:{1},", name, value));
