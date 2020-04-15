@@ -33,6 +33,10 @@ namespace ProjectEye.ViewModels
         /// 更新包解压目录
         /// </summary>
         private readonly string outPath;
+        /// <summary>
+        /// 升级程序路径（新目录）
+        /// </summary>
+        private readonly string upexePath;
 
         private GithubRelease githubRelease;
         private HttpDownload downloader;
@@ -52,6 +56,9 @@ namespace ProjectEye.ViewModels
             savePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "Update",
                 "update.zip");
+            upexePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "Update",
+                "ProjectEyeUp.exe");
             string[] versionArray = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             version = versionArray[0] + "." + versionArray[1] + "." + versionArray[2];
 #if DEBUG
@@ -78,15 +85,37 @@ namespace ProjectEye.ViewModels
             {
                 string updateExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                     "ProjectEyeUp.exe");
+
+                //检查升级程序文件
+                if (!File.Exists(updateExe) && !File.Exists(upexePath))
+                {
+                    Modal("升级程序已被删除，请前往/Update/目录手动解压更新。");
+                    UpVisibility = Visibility.Visible;
+                }
+
+                //将升级程序文件复制到更新目录（处理升级程序自身无法被覆盖更新的问题
+                if (File.Exists(updateExe))
+                {
+                    if (File.Exists(upexePath))
+                    {
+                        File.Delete(upexePath);
+                    }
+                    File.Copy(updateExe, upexePath);
+                }
+
+                //配置启动参数
                 string[] runArgs = {
                                 savePath,
                                 outPath
                             };
+
+                //退出主程序
                 tray.Remove();
                 main.Exit();
                 Application.Current.Shutdown();
 
-                bool runResult = ProcessHelper.Run(updateExe, runArgs);
+                //启动升级程序
+                bool runResult = ProcessHelper.Run(upexePath, runArgs);
                 if (!runResult)
                 {
                     Modal("无法启动解压程序，请手动覆盖更新。");
