@@ -1,0 +1,53 @@
+﻿<ui:Project1UIWindow x:Class="ProjectEyeBug.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectEyeBug"
+        xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+        mc:Ignorable="d"
+        Title="Project Eye 程序崩溃" Height="400" Width="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        >
+    <ui:Project1UIWindow.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
+        </Style>
+    </ui:Project1UIWindow.Resources>
+    <Grid>
+        <Image Source="explosion.png" Margin="20" Opacity=".1"/>
+        <StackPanel Margin="20">
+
+            <Border Padding="10" CornerRadius="2" Margin="0">
+                <Border.Background>
+                    <SolidColorBrush Color="#ccc" Opacity=".2"/>
+                </Border.Background>
+                <TextBlock TextWrapping="WrapWithOverflow" FontSize="14">
+                    <Run Text="程序发生了一个不可预料的错误，详细的错误报告已经保存到根目录下的"/>
+                    <Run Foreground="#007acc" Text="Log文件夹" Cursor="Hand" MouseDown="Run_MouseDown"/>
+                    <Run Text="，请将它反馈给我们处理。"/>
+                </TextBlock>
+            </Border>
+            <TextBlock Text="解决方案" FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
+            <Border Padding="10" CornerRadius="2" Margin="0,10,0,0">
+                <Border.Background>
+                    <SolidColorBrush Color="#ccc" Opacity=".2"/>
+                </Border.Background>
+                <StackPanel>
+                    <TextBlock Text="1. 尝试重新启动;" TextWrapping="WrapWithOverflow" FontSize="14"/>
+                    <TextBlock Text="2. 查看是否有可更新的版本;" TextWrapping="WrapWithOverflow" FontSize="14"/>
+                </StackPanel>
+            </Border>
+            <TextBlock Text="取得联系" FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
+            <Border Padding="10" CornerRadius="2" Margin="0,10,0,0">
+                <Border.Background>
+                    <SolidColorBrush Color="#ccc" Opacity=".2"/>
+                </Border.Background>
+                <TextBlock Text="邮箱：heis@thelittlepandaisbehind.com" TextWrapping="WrapWithOverflow" FontSize="14"/>
+            </Border>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10" Orientation="Horizontal">
+            <ui:Project1UIButton Content="查看更新" Style="{DynamicResource basic}" Click="Project1UIButton_Click"/>
+            <ui:Project1UIButton Content="重新启动" Margin="10,0,0,0" Click="Project1UIButton_Click_1"/>
+        </StackPanel>
+    </Grid>
+</ui:Project1UIWindow>

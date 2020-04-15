@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project1.UI", "..\Project1.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectEyeUp", "..\ProjectEyeUp\ProjectEyeUp.csproj", "{63CF77C6-343B-4F7B-AF1E-35D1D391DA0A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectEyeBug", "..\ProjectEyeBug\ProjectEyeBug.csproj", "{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,26 @@ Global
 		{63CF77C6-343B-4F7B-AF1E-35D1D391DA0A}.Release|x64.Build.0 = Release|Any CPU
 		{63CF77C6-343B-4F7B-AF1E-35D1D391DA0A}.Release|x86.ActiveCfg = Release|Any CPU
 		{63CF77C6-343B-4F7B-AF1E-35D1D391DA0A}.Release|x86.Build.0 = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|x64.Build.0 = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Debug|x86.Build.0 = Debug|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|ARM.Build.0 = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|ARM64.Build.0 = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|x64.ActiveCfg = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|x64.Build.0 = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|x86.ActiveCfg = Release|Any CPU
+		{E4E51D59-1016-4710-901C-5B7E6E4AAF8B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

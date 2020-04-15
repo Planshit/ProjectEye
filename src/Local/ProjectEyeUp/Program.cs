@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,10 +18,13 @@ namespace ProjectEyeUp
         /// <summary>
         /// 忽略的文件列表
         /// </summary>
-        static readonly string[] IgnoreFiles = { "ProjectEyeUp.exe" };
+        static readonly string[] IgnoreFiles = { 
+            //"ProjectEyeUp.exe" 
+        };
 
         static void Main(string[] args)
         {
+            Console.WriteLine($"Project Eye 升级程序（{Assembly.GetExecutingAssembly().GetName().Version.ToString()}）");
             if (args.Length != 2)
             {
                 Console.WriteLine("请从选项中进行安装更新，按任意键退出！");
@@ -29,28 +33,41 @@ namespace ProjectEyeUp
             }
             try
             {
-                args[0] = args[0].Replace("\"", "");
-                args[1] = args[1].Replace("\"", "");
-
-                Console.WriteLine(args[0]);
-                Console.WriteLine(args[1]);
-
-                ExtractZipFile(args[0], args[1]);
-                string mainExe = Path.Combine(args[1],
-                    "ProjectEye.exe");
-                Process.Start(mainExe);
-                File.Delete(args[0]);
-                Console.WriteLine("程序升级完毕，请按任意键退出！");
-                Console.ReadKey();
+                Up(args);
             }
             catch (Exception ec)
             {
                 Console.WriteLine("安装更新包过程发生了一个错误：");
                 Console.WriteLine(ec);
-                Console.ReadKey();
+                Console.WriteLine("是否再次尝试？输入 Y 继续：");
 
+                var key = Console.ReadLine().ToLower();
+                if (key == "y")
+                {
+                    Up(args);
+                }
+                Console.ReadKey();
             }
 
+        }
+
+        static void Up(string[] args)
+        {
+            //软件压缩包路径
+            args[0] = args[0].Replace("\"", "");
+            //解压路径
+            args[1] = args[1].Replace("\"", "");
+
+            Console.WriteLine(args[0]);
+            Console.WriteLine(args[1]);
+
+            ExtractZipFile(args[0], args[1]);
+            string mainExe = Path.Combine(args[1],
+                "ProjectEye.exe");
+            Process.Start(mainExe);
+            File.Delete(args[0]);
+            Console.WriteLine("程序升级完毕，请按任意键退出！");
+            Console.ReadKey();
         }
 
         static void ExtractZipFile(string zipPath, string extractPath)
