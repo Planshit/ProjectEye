@@ -14,6 +14,7 @@ namespace ProjectEyeBug
     /// </summary>
     public partial class App : Application
     {
+        private System.Threading.Mutex mutex;
         public App()
         {
             Theme theme = new Theme();
@@ -21,5 +22,36 @@ namespace ProjectEyeBug
             UIDefaultSetting.DefaultThemePath = "/ProjectEye;component/Resources/Themes/";
             theme.ApplyTheme();
         }
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            if (
+                e.Args.Length == 0 ||
+                IsRuned()
+                )
+            {
+                Shutdown();
+            }
+        }
+        #region 获取当前程序是否已运行
+        /// <summary>
+        /// 获取当前程序是否已运行
+        /// </summary>
+        private bool IsRuned()
+        {
+            bool ret;
+            mutex = new System.Threading.Mutex(true, "ProjectEyeBug", out ret);
+            if (!ret)
+            {
+#if !DEBUG
+                return true;
+
+#endif
+            }
+            return false;
+        }
+        #endregion
+
+
     }
 }

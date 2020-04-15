@@ -38,5 +38,12 @@ namespace ProjectEyeBug
             Process.Start(upexePath);
             Close();
         }
+
+        private void Run_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "Log");
+            Process.Start(logPath);
+        }
     }
 }
