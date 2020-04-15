@@ -71,7 +71,7 @@ namespace ProjectEye
             serviceCollection.Add<KeyboardShortcutsService>();
             //预提醒
             serviceCollection.Add<PreAlertService>();
-            
+
             WindowManager.serviceCollection = serviceCollection;
             //初始化所有服务
             serviceCollection.Initialize();
@@ -80,11 +80,14 @@ namespace ProjectEye
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            string errorMsg= "程序发生了不可预料的错误，已经将错误报告保存在程序运行目录Log文件夹下，请将错误内容提供给我们。";
+            //string errorMsg = "程序发生了不可预料的错误，已经将错误报告保存在程序运行目录Log文件夹下，请将错误内容提供给我们。";
             LogHelper.Error(e.Exception.ToString());
-            MessageBox.Show(errorMsg, "错误提示，程序即将退出", MessageBoxButton.OK, MessageBoxImage.Error);
+            //MessageBox.Show(errorMsg, "错误提示，程序即将退出", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
-            this.Shutdown();
+            Shutdown();
+            string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "ProjectEyeBug.exe");
+            Process.Start(exePath);
         }
 
         #region 重复运行确认

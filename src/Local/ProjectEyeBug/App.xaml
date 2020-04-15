@@ -1,0 +1,10 @@
+﻿<Application x:Class="ProjectEyeBug.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ProjectEyeBug"
+             xmlns:controls="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
+             xmlns:cmd="clr-namespace:Project1.UI.Controls.Commands;assembly=Project1.UI"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+    </Application.Resources>
+</Application>
