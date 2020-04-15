@@ -40,42 +40,49 @@ namespace ProjectEye
             //全局异常捕获
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 
-            //重复运行确认
-            ReRunCheck();
+            //重复运行判断
+            if (IsRuned())
+            {
+                //仅允许运行一次进程
+                MessageBox.Show("程序已经在运行中了", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
+                App.Current.Shutdown();
+            }
+            else
+            {
+                //必须按优先级依次添加
+                serviceCollection.AddInstance(this);
+                //后台任务
+                serviceCollection.Add<BackgroundWorkerService>();
+                //数据统计
+                serviceCollection.Add<StatisticService>();
+                //系统资源
+                serviceCollection.Add<SystemResourcesService>();
+                //内存缓存
+                serviceCollection.Add<CacheService>();
+                //配置文件
+                serviceCollection.Add<ConfigService>();
+                //主题
+                serviceCollection.Add<ThemeService>();
+                //扩展显示器
+                serviceCollection.Add<ScreenService>();
+                //主要
+                serviceCollection.Add<MainService>();
+                //托盘
+                serviceCollection.Add<TrayService>();
+                //休息
+                serviceCollection.Add<RestService>();
+                //声音
+                serviceCollection.Add<SoundService>();
+                //快捷键
+                serviceCollection.Add<KeyboardShortcutsService>();
+                //预提醒
+                serviceCollection.Add<PreAlertService>();
 
-            //必须按优先级依次添加
-            serviceCollection.AddInstance(this);
-            //后台任务
-            serviceCollection.Add<BackgroundWorkerService>();
-            //数据统计
-            serviceCollection.Add<StatisticService>();
-            //系统资源
-            serviceCollection.Add<SystemResourcesService>();
-            //内存缓存
-            serviceCollection.Add<CacheService>();
-            //配置文件
-            serviceCollection.Add<ConfigService>();
-            //主题
-            serviceCollection.Add<ThemeService>();
-            //扩展显示器
-            serviceCollection.Add<ScreenService>();
-            //主要
-            serviceCollection.Add<MainService>();
-            //托盘
-            serviceCollection.Add<TrayService>();
-            //休息
-            serviceCollection.Add<RestService>();
-            //声音
-            serviceCollection.Add<SoundService>();
-            //快捷键
-            serviceCollection.Add<KeyboardShortcutsService>();
-            //预提醒
-            serviceCollection.Add<PreAlertService>();
-
-            WindowManager.serviceCollection = serviceCollection;
-            //初始化所有服务
-            serviceCollection.Initialize();
-            OnServiceInitialized?.Invoke();
+                WindowManager.serviceCollection = serviceCollection;
+                //初始化所有服务
+                serviceCollection.Initialize();
+                OnServiceInitialized?.Invoke();
+            }
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -87,26 +94,25 @@ namespace ProjectEye
             Shutdown();
             string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ProjectEyeBug.exe");
-            Process.Start(exePath);
+            ProcessHelper.Run(exePath, new string[] { "" });
         }
 
-        #region 重复运行确认
+        #region 获取当前程序是否已运行
         /// <summary>
-        /// 重复运行确认
+        /// 获取当前程序是否已运行
         /// </summary>
-        private void ReRunCheck()
+        private bool IsRuned()
         {
             bool ret;
             mutex = new System.Threading.Mutex(true, "projecteye", out ret);
             if (!ret)
             {
 #if !DEBUG
-                //仅允许运行一次进程
-                MessageBox.Show("程序已经在运行中了", "提示", MessageBoxButton.OK, MessageBoxImage.Warning);
-                App.Current.Shutdown();
-               
+                return true;
+
 #endif
             }
+            return false;
         }
         #endregion
 
