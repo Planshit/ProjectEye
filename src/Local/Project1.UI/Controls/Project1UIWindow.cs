@@ -226,6 +226,18 @@ namespace Project1.UI.Controls
         private Rectangle ScreenArea;
         #endregion
 
+        #region custom events
+        /// <summary>
+        /// 当窗口调用wshow完成时
+        /// </summary>
+        public event EventHandler OnWShow;
+        /// <summary>
+        /// 当窗口调用whide完成时
+        /// </summary>
+        public event EventHandler OnWHide;
+
+        #endregion
+
         #region 3.初始化
         public Project1UIWindow()
         {
@@ -256,7 +268,8 @@ namespace Project1.UI.Controls
             var screen = System.Windows.Forms.Screen.FromHandle(intPtr);//获取当前屏幕
             ScreenArea = screen.Bounds;
 
-
+            //如果开启了鼠标穿透则不抢占焦点
+            ShowActivated = !IsThruWindow;
 
         }
 
@@ -658,6 +671,8 @@ namespace Project1.UI.Controls
                 {
                     case AnimationType.None:
                         CompletedAction(completedAction);
+                        OnWHide?.Invoke(this, null);
+
                         break;
                     case AnimationType.RightBottomScale:
                     case AnimationType.Opacity:
@@ -665,6 +680,8 @@ namespace Project1.UI.Controls
                         {
                             Opacity = 0;
                             CompletedAction(completedAction);
+                            OnWHide?.Invoke(this, null);
+
                         };
                         closeWindowStoryboard.Begin();
                         break;
@@ -678,6 +695,7 @@ namespace Project1.UI.Controls
                 }
                 Opacity = 0;
                 CompletedAction(completedAction);
+                OnWHide?.Invoke(this, null);
             }
         }
         #endregion
@@ -716,6 +734,7 @@ namespace Project1.UI.Controls
                 Opacity = 1;
                 CompletedAction(completedAction);
             }
+            OnWShow?.Invoke(this, null);
         }
         #endregion
 
