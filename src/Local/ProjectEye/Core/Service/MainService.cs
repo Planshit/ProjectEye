@@ -128,7 +128,7 @@ namespace ProjectEye.Core.Service
             //初始化用眼统计计时器
             useeye_timer = new DispatcherTimer();
             useeye_timer.Tick += new EventHandler(useeye_timer_Tick);
-            useeye_timer.Interval = new TimeSpan(0, 30, 0);
+            useeye_timer.Interval = new TimeSpan(0, 10, 0);
             /****调试模式代码****/
 #if DEBUG
             //30秒提示休息

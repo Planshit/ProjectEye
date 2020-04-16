@@ -221,19 +221,20 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region 查找日期数据,如果不存在则创建
+        public StatisticModel FindCreate()
+        {
+            return FindCreate(DateTime.Now.Date);
+        }
         /// <summary>
         /// 查找日期数据,如果不存在则创建
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public StatisticModel FindCreate(DateTime date = default)
+        public StatisticModel FindCreate(DateTime date)
         {
-            if (date == default)
-            {
-                date = DateTime.Now;
-            }
             if (date.Date == DateTime.Now.Date &&
-                todayStatistic != null)
+                todayStatistic != null &&
+                todayStatistic.Date == date.Date)
             {
                 //当日
                 return todayStatistic;
