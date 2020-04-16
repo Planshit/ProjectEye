@@ -146,6 +146,7 @@
                                 Height="50"
                                 VerticalAlignment="Bottom"
                                 Visibility="{TemplateBinding AverageVisibility}"
+                                Panel.ZIndex="3"
                                 >
                                 <TextBlock
                                     x:Name="AverageLabel"
