@@ -215,7 +215,7 @@ namespace ProjectEye.Core.Service
                     todayStatistic.WorkingTime += value;
                     break;
                 case StatisticType.ResetTime:
-                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 1);
+                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 2);
                     break;
                 case StatisticType.SkipCount:
                     todayStatistic.SkipCount += (int)value;
@@ -333,9 +333,8 @@ namespace ProjectEye.Core.Service
         public void StatisticUseEyeData()
         {
             double use = GetCalculateUseEyeMinutes() + cacheWorkTotalMinutes;
-            //LogHelper.Debug("用眼+" + use + "分钟，开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
-            //重置统计时间
-            ResetStatisticTime();
+            //bool issave = false;
+
             double workTotalHours = use / 60;
             if (workTotalHours < 0.1)
             {
@@ -344,9 +343,13 @@ namespace ProjectEye.Core.Service
             else
             {
                 //增加统计
-                Add(StatisticType.WorkingTime, Math.Round(workTotalHours, 1));
+                Add(StatisticType.WorkingTime, Math.Round(workTotalHours, 2));
                 cacheWorkTotalMinutes = 0;
+                //issave = true;
             }
+            //LogHelper.Debug("[" + (issave ? "saved:" + Math.Round(workTotalHours, 2) + "小时" : "-") + "]用眼+" + use + "分钟，工作开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
+            //重置统计时间
+            ResetStatisticTime();
         }
         #endregion
 
