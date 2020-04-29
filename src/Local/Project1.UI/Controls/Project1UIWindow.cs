@@ -267,10 +267,6 @@ namespace Project1.UI.Controls
             var intPtr = new WindowInteropHelper(this).Handle;//获取当前窗口的句柄
             var screen = System.Windows.Forms.Screen.FromHandle(intPtr);//获取当前屏幕
             ScreenArea = screen.Bounds;
-
-            //如果开启了鼠标穿透则不抢占焦点
-            ShowActivated = !IsThruWindow;
-
         }
 
         ///// <summary>
@@ -749,6 +745,8 @@ namespace Project1.UI.Controls
                     Hide();
                     break;
                 case CompletedActionType.Show:
+                    //如果开启了鼠标穿透则不抢占焦点
+                    ShowActivated = !IsThruWindow;
                     Show();
                     break;
             }

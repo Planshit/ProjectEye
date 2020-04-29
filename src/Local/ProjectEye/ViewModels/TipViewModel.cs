@@ -97,7 +97,10 @@ namespace ProjectEye.ViewModels
         private void TipViewModel_OnWShow(object sender, EventArgs e)
         {
             UpdateVariable();
-            WindowInstance.Focus();
+            if (!config.options.Style.IsThruTipWindow)
+            {
+                WindowInstance.Focus();
+            }
             HandleAutoAction();
         }
 
