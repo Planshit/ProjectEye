@@ -163,18 +163,22 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region 创建本月数据
+        private void CreateMonthlyItems()
+        {
+            CreateMonthlyItems(DateTime.Now);
+        }
         /// <summary>
         /// 创建本月的数据
         /// </summary>
-        private void CreateMonthlyItems()
+        private void CreateMonthlyItems(DateTime dateTime)
         {
-            int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-            int today = DateTime.Now.Day;
+            int days = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+            int today = dateTime.Day;
             using (var db = new StatisticContext())
             {
                 for (int i = 0; i < days; i++)
                 {
-                    var date = DateTime.Now.AddDays(-today + (i + 1)).Date;
+                    var date = dateTime.AddDays(-today + (i + 1)).Date;
                     if (db.Statistics.Where(m => m.Date == date).Count() == 0)
                     {
                         //补上缺少的日期
@@ -409,6 +413,10 @@ namespace ProjectEye.Core.Service
             startDate = startDate.AddDays(-1);
             using (var db = new StatisticContext())
             {
+                if (db.Statistics.Where(m => m.Date == endDate.Date).Count() == 0)
+                {
+                    CreateMonthlyItems(endDate);
+                }
                 result = db.Statistics.Where(m => m.Date > startDate && m.Date <= endDate).OrderBy(m => m.Date).ToList();
             }
             return result;
