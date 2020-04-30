@@ -66,6 +66,10 @@ namespace ProjectEye.Core.Service
         /// 用眼开始时间
         /// </summary>
         private DateTime useEyeStartTime { get; set; }
+        /// <summary>
+        /// 工作时间总分钟临时变量
+        /// </summary>
+        private double cacheWorkTotalMinutes;
         public StatisticService(
             App app,
             BackgroundWorkerService backgroundWorker)
@@ -84,7 +88,7 @@ namespace ProjectEye.Core.Service
 
         private void app_Exit(object sender, ExitEventArgs e)
         {
-            Save().Wait();
+            Save();
         }
 
         public void Init()
@@ -159,18 +163,22 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region 创建本月数据
+        private void CreateMonthlyItems()
+        {
+            CreateMonthlyItems(DateTime.Now);
+        }
         /// <summary>
         /// 创建本月的数据
         /// </summary>
-        private void CreateMonthlyItems()
+        private void CreateMonthlyItems(DateTime dateTime)
         {
-            int days = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-            int today = DateTime.Now.Day;
+            int days = DateTime.DaysInMonth(dateTime.Year, dateTime.Month);
+            int today = dateTime.Day;
             using (var db = new StatisticContext())
             {
                 for (int i = 0; i < days; i++)
                 {
-                    var date = DateTime.Now.AddDays(-today + (i + 1)).Date;
+                    var date = dateTime.AddDays(-today + (i + 1)).Date;
                     if (db.Statistics.Where(m => m.Date == date).Count() == 0)
                     {
                         //补上缺少的日期
@@ -200,7 +208,7 @@ namespace ProjectEye.Core.Service
                 todayStatistic.Date.Date != DateTime.Now.Date)
             {
                 //保存之前的数据
-                Save().Wait();
+                Save();
                 //更新当日数据
                 todayStatistic = FindCreate(DateTime.Now.Date);
             }
@@ -208,10 +216,10 @@ namespace ProjectEye.Core.Service
             switch (type)
             {
                 case StatisticType.WorkingTime:
-                    todayStatistic.WorkingTime = Math.Round(todayStatistic.WorkingTime + value / 60, 1);
+                    todayStatistic.WorkingTime += value;
                     break;
                 case StatisticType.ResetTime:
-                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 1);
+                    todayStatistic.ResetTime = Math.Round(todayStatistic.ResetTime + value / 60, 2);
                     break;
                 case StatisticType.SkipCount:
                     todayStatistic.SkipCount += (int)value;
@@ -259,12 +267,6 @@ namespace ProjectEye.Core.Service
                     }
                 }
             }
-
-            //var data = statisticList.Data.Where(m => m.Date == date);
-            //if (data.Count() == 1)
-            //{
-            //    return data.Single();
-            //}
         }
 
         #endregion
@@ -291,24 +293,25 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 数据持久化
         /// </summary>
-        public async Task Save()
+        public void Save()
         {
-            if (todayStatistic == null)
+            backgroundWorker.AddAction(() =>
             {
-                todayStatistic = FindCreate();
-            }
-            using (var db = new StatisticContext())
-            {
-                //var item = db.Statistics.Where(m => m.Date == todayStatistic.Date).Single();
-                var item = await (from c in db.Statistics where c.Date == todayStatistic.Date select c).FirstOrDefaultAsync();
-                item.ResetTime = todayStatistic.ResetTime;
-                item.SkipCount = todayStatistic.SkipCount;
-                item.WorkingTime = todayStatistic.WorkingTime;
-
-                await db.SaveChangesAsync();
-            }
-            //xml.Save(statisticList);
-
+                if (todayStatistic == null)
+                {
+                    todayStatistic = FindCreate();
+                }
+                using (var db = new StatisticContext())
+                {
+                    //var item = db.Statistics.Where(m => m.Date == todayStatistic.Date).Single();
+                    var item = (from c in db.Statistics where c.Date == todayStatistic.Date select c).FirstOrDefault();
+                    item.ResetTime = todayStatistic.ResetTime;
+                    item.SkipCount = todayStatistic.SkipCount;
+                    item.WorkingTime = todayStatistic.WorkingTime;
+                    db.SaveChanges();
+                }
+            });
+            backgroundWorker.Run();
         }
         #endregion
 
@@ -333,15 +336,24 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void StatisticUseEyeData()
         {
-            double use = GetCalculateUseEyeMinutes();
-            if (use > 0)
+            double use = GetCalculateUseEyeMinutes() + cacheWorkTotalMinutes;
+            //bool issave = false;
+
+            double workTotalHours = use / 60;
+            if (workTotalHours < 0.1)
             {
-                Debug.WriteLine("用眼时长 +" + use + " 分钟");
-                //增加统计
-                Add(StatisticType.WorkingTime, use);
-                //重置统计时间
-                ResetStatisticTime();
+                cacheWorkTotalMinutes = use;
             }
+            else
+            {
+                //增加统计
+                Add(StatisticType.WorkingTime, Math.Round(workTotalHours, 2));
+                cacheWorkTotalMinutes = 0;
+                //issave = true;
+            }
+            //LogHelper.Debug("[" + (issave ? "saved:" + Math.Round(workTotalHours, 2) + "小时" : "-") + "]用眼+" + use + "分钟，工作开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
+            //重置统计时间
+            ResetStatisticTime();
         }
         #endregion
 
@@ -401,6 +413,10 @@ namespace ProjectEye.Core.Service
             startDate = startDate.AddDays(-1);
             using (var db = new StatisticContext())
             {
+                if (db.Statistics.Where(m => m.Date == endDate.Date).Count() == 0)
+                {
+                    CreateMonthlyItems(endDate);
+                }
                 result = db.Statistics.Where(m => m.Date > startDate && m.Date <= endDate).OrderBy(m => m.Date).ToList();
             }
             return result;

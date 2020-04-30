@@ -24,7 +24,7 @@ namespace ProjectEye.Core.Service
         /// <summary>
         /// 用眼计时器
         /// </summary>
-        private DispatcherTimer timer;
+        private DispatcherTimer work_timer;
         System.Diagnostics.Stopwatch workTimerStopwatch;
         /// <summary>
         /// 离开检测计时器
@@ -109,9 +109,9 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             //初始化用眼计时器
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
+            work_timer = new DispatcherTimer();
+            work_timer.Tick += new EventHandler(timer_Tick);
+            work_timer.Interval = new TimeSpan(0, config.options.General.WarnTime, 0);
             workTimerStopwatch = new Stopwatch();
             //初始化离开检测计时器
             leave_timer = new DispatcherTimer();
@@ -132,7 +132,7 @@ namespace ProjectEye.Core.Service
             /****调试模式代码****/
 #if DEBUG
             //30秒提示休息
-            timer.Interval = new TimeSpan(0, 0, 30);
+            work_timer.Interval = new TimeSpan(0, 0, 30);
             //20秒表示离开
             leave_timer.Interval = new TimeSpan(0, 0, 20);
             //每10秒检测回来
@@ -213,14 +213,14 @@ namespace ProjectEye.Core.Service
         #region 获取下一次休息剩余分钟数
         public double GetRestCountdownMinutes()
         {
-            return timer.Interval.TotalMinutes - workTimerStopwatch.Elapsed.TotalMinutes;
+            return work_timer.Interval.TotalMinutes - workTimerStopwatch.Elapsed.TotalMinutes;
         }
         #endregion
 
         #region 获取提醒计时是否在运行
         public bool IsWorkTimerRun()
         {
-            return timer.IsEnabled && !config.options.General.Noreset;
+            return work_timer.IsEnabled && !config.options.General.Noreset;
         }
         #endregion
 
@@ -241,7 +241,7 @@ namespace ProjectEye.Core.Service
                 //更新用眼时长
                 statistic.StatisticUseEyeData();
                 //数据持久化
-                statistic.Save().Wait();
+               statistic.Save();
             }
         }
         #endregion
@@ -287,7 +287,7 @@ namespace ProjectEye.Core.Service
                 //更新用眼时长
                 statistic.StatisticUseEyeData();
                 //数据持久化
-                statistic.Save().Wait();
+                statistic.Save();
             }
 
             screen.Dispose();
@@ -323,10 +323,10 @@ namespace ProjectEye.Core.Service
         /// <returns>重启时返回TRUE</returns>
         public bool SetWarnTime(int minutes)
         {
-            if (timer.Interval.TotalMinutes != minutes)
+            if (work_timer.Interval.TotalMinutes != minutes)
             {
-                Debug.WriteLine(timer.Interval.TotalMinutes + "," + minutes);
-                timer.Interval = new TimeSpan(0, minutes, 0);
+                Debug.WriteLine(work_timer.Interval.TotalMinutes + "," + minutes);
+                work_timer.Interval = new TimeSpan(0, minutes, 0);
                 if (!config.options.General.Noreset)
                 {
                     ReStart();
@@ -356,7 +356,7 @@ namespace ProjectEye.Core.Service
         private void DoStart()
         {
             //休息提醒
-            timer.Start();
+            work_timer.Start();
             workTimerStopwatch.Restart();
             //离开监听
             leave_timer.Start();
@@ -375,21 +375,16 @@ namespace ProjectEye.Core.Service
         #region 停止计时实际操作
         private void DoStop(bool isStopStatistic = true)
         {
-
             //统计数据
             StatisticData();
-
-            timer.Stop();
+            work_timer.Stop();
             workTimerStopwatch.Stop();
             leave_timer.Stop();
-
             back_timer.Stop();
-
             if (isStopStatistic)
             {
                 useeye_timer.Stop();
             }
-
             busy_timer.Stop();
         }
         #endregion
@@ -429,13 +424,13 @@ namespace ProjectEye.Core.Service
             if (window.IsVisible)
             {
                 //显示提示窗口时停止计时
-                timer.Stop();
+                work_timer.Stop();
                 workTimerStopwatch.Stop();
             }
             else
             {
                 //隐藏时继续计时
-                timer.Start();
+                work_timer.Start();
                 workTimerStopwatch.Restart();
             }
         }

@@ -89,8 +89,19 @@ namespace ProjectEye.ViewModels
         private void TipViewModel_ChangedEvent()
         {
             CreateUI();
-            WindowInstance.Activated += WindowInstance_Activated;
+            //WindowInstance.Activated += WindowInstance_Activated;
             WindowInstance.KeyUp += WindowInstance_KeyUp;
+            (WindowInstance as Project1UIWindow).OnWShow += TipViewModel_OnWShow;
+        }
+
+        private void TipViewModel_OnWShow(object sender, EventArgs e)
+        {
+            UpdateVariable();
+            if (!config.options.Style.IsThruTipWindow)
+            {
+                WindowInstance.Focus();
+            }
+            HandleAutoAction();
         }
 
         private void WindowInstance_KeyUp(object sender, KeyEventArgs e)
@@ -101,10 +112,10 @@ namespace ProjectEye.ViewModels
 
         private void WindowInstance_Activated(object sender, EventArgs e)
         {
-            UpdateVariable();
-            var window = sender as Window;
-            window.Focus();
-            HandleAutoAction();
+            //UpdateVariable();
+            //var window = sender as Window;
+            //window.Focus();
+            //HandleAutoAction();
         }
 
         private void UpdateVariable()
