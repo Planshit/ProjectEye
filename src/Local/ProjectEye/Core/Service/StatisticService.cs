@@ -255,7 +255,7 @@ namespace ProjectEye.Core.Service
                     }
                     else
                     {
-                        return res.ToList().Single();
+                        return res.ToList().FirstOrDefault();
                     }
                 }
             }
