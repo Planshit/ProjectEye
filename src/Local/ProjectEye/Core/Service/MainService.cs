@@ -241,7 +241,7 @@ namespace ProjectEye.Core.Service
                 //更新用眼时长
                 statistic.StatisticUseEyeData();
                 //数据持久化
-               statistic.Save();
+                statistic.Save();
             }
         }
         #endregion
@@ -520,10 +520,7 @@ namespace ProjectEye.Core.Service
                 if (config.options.Behavior.IsFullScreenBreak)
                 {
                     var info = Win32APIHelper.GetFocusWindowInfo();
-                    if (info.IsFullScreen)
-                    {
-                        return true;
-                    }
+                    return info.IsFullScreen;
                 }
 
                 //1.进程跳过判断
