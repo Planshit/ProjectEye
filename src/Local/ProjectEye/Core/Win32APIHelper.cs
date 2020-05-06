@@ -43,7 +43,13 @@ namespace ProjectEye.Core
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern IntPtr GetForegroundWindow();
-
+        /// <summary>
+        /// 窗口是否最大化
+        /// </summary>
+        /// <param name="hWnd"></param>
+        /// <returns></returns>
+        [DllImport("user32.dll")]
+        public static extern bool IsZoomed(IntPtr hWnd);
         /// <summary>
         /// 获取窗口位置
         /// </summary>
@@ -87,6 +93,10 @@ namespace ProjectEye.Core
             /// 是否全屏
             /// </summary>
             public bool IsFullScreen;
+            /// <summary>
+            /// 是否最大化
+            /// </summary>
+            public bool IsZoomed;
         }
         /// <summary>
         /// 获取当前焦点窗口信息
@@ -100,6 +110,7 @@ namespace ProjectEye.Core
             //获取窗口大小
             RECT rect = new RECT();
             GetWindowRect(intPtr, ref rect);
+            result.IsZoomed = IsZoomed(intPtr);
             result.Width = rect.Right - rect.Left;
             result.Height = rect.Bottom - rect.Top;
             //获取窗口标题
@@ -111,8 +122,12 @@ namespace ProjectEye.Core
             GetClassName(intPtr, className, className.Capacity);
             result.ClassName = className.ToString();
             //判断全屏
-            result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
-
+            result.IsFullScreen = false;
+            if (!result.IsZoomed)
+            {
+                //非最大化状态下计算判断全屏
+                result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
+            }
             return result;
         }
         #endregion
