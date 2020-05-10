@@ -128,6 +128,13 @@ namespace ProjectEye.Core
                 //非最大化状态下计算判断全屏
                 result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
             }
+            //浏览器全屏判断
+            if (result.ClassName.ToLower().IndexOf("chrome_widgetwin") != -1)
+            {
+                //chrome浏览器比较特殊，全屏模式不能被识别，需要另外计算
+                result.IsFullScreen = result.Width >= SystemParameters.PrimaryScreenWidth && result.Height >= SystemParameters.PrimaryScreenHeight;
+                result.IsZoomed = !result.IsFullScreen;
+            }
             return result;
         }
         #endregion

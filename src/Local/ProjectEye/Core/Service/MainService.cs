@@ -43,6 +43,14 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private DispatcherTimer useeye_timer;
         /// <summary>
+        /// 日期更改计时，用于处理日期变化
+        /// </summary>
+        private DispatcherTimer date_timer;
+        /// <summary>
+        /// 日期更改计时重置标记
+        /// </summary>
+        private bool isDateTimerReset;
+        /// <summary>
         /// 预提醒操作
         /// </summary>
         private PreAlertAction preAlertAction;
@@ -129,6 +137,9 @@ namespace ProjectEye.Core.Service
             useeye_timer = new DispatcherTimer();
             useeye_timer.Tick += new EventHandler(useeye_timer_Tick);
             useeye_timer.Interval = new TimeSpan(0, 10, 0);
+
+            date_timer = new DispatcherTimer();
+            date_timer.Tick += new EventHandler(date_timer_Tick);
             /****调试模式代码****/
 #if DEBUG
             //30秒提示休息
@@ -145,10 +156,17 @@ namespace ProjectEye.Core.Service
             //记录鼠标坐标
             SaveCursorPos();
 
+            UpdateDateTimer();
+
             Start();
 
             config.Changed += Config_Changed;
+
+
+
         }
+
+
 
         private void Config_Changed(object sender, EventArgs e)
         {
@@ -208,6 +226,25 @@ namespace ProjectEye.Core.Service
                 OnLeave();
             }
             SaveCursorPos();
+        }
+
+        private void date_timer_Tick(object sender, EventArgs e)
+        {
+           
+            date_timer.Stop();
+            if (!isDateTimerReset)
+            {
+                //重置统计时间
+                statistic.StatisticUseEyeData();
+                //延迟2分钟后重置timer
+                isDateTimerReset = true;
+                date_timer.Interval = new TimeSpan(0, 2, 0);
+                date_timer.Start();
+            }
+            else
+            {
+                UpdateDateTimer();
+            }
         }
 
         #region 获取下一次休息剩余分钟数
@@ -403,7 +440,7 @@ namespace ProjectEye.Core.Service
             }
             else
             {
-                if (isBreakReset())
+                if (IsBreakReset())
                 {
                     statistic.Add(StatisticType.SkipCount, 1);
                     ReStartWorkTimerWatch();
@@ -509,7 +546,7 @@ namespace ProjectEye.Core.Service
         /// 是否跳过本次休息
         /// </summary>
         /// <returns>true跳过，false不跳过</returns>
-        public bool isBreakReset()
+        public bool IsBreakReset()
         {
             if (!config.options.General.Noreset)
             {
@@ -571,6 +608,26 @@ namespace ProjectEye.Core.Service
             {
                 window.IsVisibleChanged += new DependencyPropertyChangedEventHandler(isVisibleChanged);
             }
+        }
+        #endregion
+
+        #region 更新日期更改计时时间
+        /// <summary>
+        /// 更新日期更改计时时间
+        /// </summary>
+        private void UpdateDateTimer()
+        {
+            
+            DateTime now = DateTime.Now;
+            DateTime morrow = new DateTime(now.Year, now.Month, now.Day, 23, 59, 0);
+            int diffseconds = (int)morrow.Subtract(now).TotalSeconds;
+            if (diffseconds < 0)
+            {
+                diffseconds = 0;
+            }
+            date_timer.Interval = new TimeSpan(0, 0, diffseconds);
+            date_timer.Start();
+            isDateTimerReset = false;
         }
         #endregion
     }
