@@ -226,7 +226,7 @@ namespace ProjectEye.Core.Service
             //到达预提醒时间弹出通知
             Debug.WriteLine(DateTime.Now.ToString());
 
-            if (main.isBreakReset())
+            if (main.IsBreakReset())
             {
                 //跳过本次
                 SetPreAlertAction(PreAlertAction.Break);
