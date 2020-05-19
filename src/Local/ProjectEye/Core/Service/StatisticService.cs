@@ -49,6 +49,10 @@ namespace ProjectEye.Core.Service
         private readonly App app;
         private readonly BackgroundWorkerService backgroundWorker;
         private XmlExtensions xml;
+        /// <summary>
+        /// 统计数据锁
+        /// </summary>
+        private object statisticLocker = new object();
         //存放文件夹
         private readonly string dir = "Data";
         //统计数据
@@ -82,7 +86,6 @@ namespace ProjectEye.Core.Service
             xmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 dir,
                 "statistic.xml");
-
         }
 
 
@@ -336,24 +339,32 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void StatisticUseEyeData()
         {
-            double use = GetCalculateUseEyeMinutes() + cacheWorkTotalMinutes;
-            //bool issave = false;
+            lock (statisticLocker)
+            {
+                double use = GetCalculateUseEyeMinutes() + cacheWorkTotalMinutes;
 
-            double workTotalHours = use / 60;
-            if (workTotalHours < 0.1)
-            {
-                cacheWorkTotalMinutes = use;
+                double workTotalHours = use / 60;
+                if (workTotalHours < 0.1)
+                {
+                    cacheWorkTotalMinutes = use;
+                }
+                else
+                {
+                    //错误记录
+                    if (todayStatistic.WorkingTime + workTotalHours > 23)
+                    {
+                        //当工作时间超出23小时写Log
+                        LogHelper.Debug("[工作时间统计异常记录] 当前数据日期：" + todayStatistic.Date.ToString() + "，用眼+" + use + "分钟，总工作时间：" + todayStatistic.WorkingTime + "小时，缓存分钟：" + cacheWorkTotalMinutes + "。工作开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
+                    }
+                    //增加统计
+                    Add(StatisticType.WorkingTime, Math.Round(workTotalHours, 2));
+                    cacheWorkTotalMinutes = 0;
+                    //issave = true;
+                }
+                //LogHelper.Debug("[" + (issave ? "saved:" + Math.Round(workTotalHours, 2) + "小时" : "-") + "]用眼+" + use + "分钟，工作开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
+                //重置统计时间
+                ResetStatisticTime();
             }
-            else
-            {
-                //增加统计
-                Add(StatisticType.WorkingTime, Math.Round(workTotalHours, 2));
-                cacheWorkTotalMinutes = 0;
-                //issave = true;
-            }
-            //LogHelper.Debug("[" + (issave ? "saved:" + Math.Round(workTotalHours, 2) + "小时" : "-") + "]用眼+" + use + "分钟，工作开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
-            //重置统计时间
-            ResetStatisticTime();
         }
         #endregion
 

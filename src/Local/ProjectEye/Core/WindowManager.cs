@@ -104,10 +104,10 @@ namespace ProjectEye.Core
             }
             if (isMaximized)
             {
-                var size = new Size();
+                var size = GetSize(screen);
                 left = ToDips(screen.Bounds.Left, size.XDPI);
                 top = ToDips(screen.Bounds.Top, size.YDPI);
-
+                
                 width = size.Width;
                 height = size.Height;
             }
