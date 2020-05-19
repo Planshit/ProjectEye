@@ -244,7 +244,12 @@ namespace ProjectEye.ViewModels
             //本周天数
             //int weekNum = (int)DateTime.Now.DayOfWeek;
             int weekNum = Data.WeekTrueWorkDays;
-
+            //int weekNum = Data.WeekTrueWorkDays > 1 ? Data.WeekTrueWorkDays - 1 : Data.WeekTrueWorkDays;
+            ////减去今日的数据
+            //var todayData = statistic.GetTodayData();
+            //Data.WeekWork = Data.WeekWork - todayData.WorkingTime;
+            //Data.WeekRest = Data.WeekRest - todayData.ResetTime;
+            //Data.WeekSkip = Data.WeekSkip - todayData.SkipCount;
 
             Data.WorkAnalysis = "截至目前，一切正常。工作时间的统计方式是Project Eye运行时且没有进入离开或睡眠状态的总时长。";
             //本周平均每天工作时间
@@ -321,18 +326,18 @@ namespace ProjectEye.ViewModels
             if (Data.WeekRest > 0 && weekWorkAverage > 0)
             {
                 //根据选项设置每日应休息时间（分钟)
-                double optionDayRestM = (weekWorkAverage * 60) / config.options.General.WarnTime * config.options.General.RestTime / 60;
+                double optionDayRestM = (int)((weekWorkAverage * 60) / config.options.General.WarnTime * config.options.General.RestTime / 60);
                 //本周的平均每日休息时间（分钟）
                 double dayRestM = Data.WeekRest / weekNum;
                 //是否达成目标
                 bool isReached = dayRestM >= optionDayRestM;
-                //达成202020规则的百分比
-                double reachedTTTP = Math.Round(dayRestM / 7 * 100, 0);
-                Data.RestAnalysis = isReached ? $"非常棒！您已达成根据您设置的每{config.options.General.WarnTime}分钟休息{config.options.General.RestTime}秒的规则，继续保持。" : "请注意休息，根据您的设置目前没有达成休息目标。";
-                if (reachedTTTP < 100)
-                {
-                    Data.RestAnalysis += $"根据20-20-20规则来看，您只达到了{reachedTTTP}%。";
-                }
+                //百分比
+                //double reachedTTTP = Math.Round(dayRestM / optionDayRestM * 100, 0);
+                Data.RestAnalysis = isReached ? $"非常棒！您已达成根据您设置的每{config.options.General.WarnTime}分钟休息{config.options.General.RestTime}秒的规则，继续保持。" : $"请注意休息，根据您的设置，每日应该至少放松眼睛{optionDayRestM}分钟。";
+                //if (reachedTTTP < 100)
+                //{
+                //    Data.RestAnalysis += $"根据20-20-20规则来看，您只达到了{reachedTTTP}%。";
+                //}
             }
 
             Data.SkipAnalysis = "一切正常！继续保持。";
