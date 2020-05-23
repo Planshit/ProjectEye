@@ -89,15 +89,15 @@
             <TabItem Header="本周">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
+                        <!--<RowDefinition Height="50"/>-->
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="本周数据分析" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
-                    <Grid Grid.Row="1">
+                    <!--<TextBlock Text="本周数据分析" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>-->
+                    <Grid Grid.Row="0">
                         <ScrollViewer>
                             <StackPanel >
                                 <!--工作-->
-                                <Border Padding="10" CornerRadius="4">
+                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
                                     <Border.Background>
                                         <SolidColorBrush Color="#4f6bed" Opacity=".05"/>
                                     </Border.Background>
@@ -215,7 +215,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="月视图">
+            <TabItem Header="月份视图">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
@@ -226,7 +226,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="月份数据统计" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="月份" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
                         <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                     </Grid>
                     <ScrollViewer Grid.Row="1">
