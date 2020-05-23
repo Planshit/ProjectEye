@@ -42,6 +42,16 @@ namespace ProjectEye.Core.Service
         private DispatcherTimer noresetTimer;
 
         private string lastIcon = string.Empty;
+
+        //event
+        /// <summary>
+        /// 鼠标单击托盘图标时发生
+        /// </summary>
+        public event System.Windows.Forms.MouseEventHandler MouseClickTrayIcon;
+        /// <summary>
+        /// 鼠标停留在托盘图标上时发生
+        /// </summary>
+        public event System.Windows.Forms.MouseEventHandler MouseMoveTrayIcon;
         public TrayService(
             App app,
             MainService mainService,
@@ -73,10 +83,16 @@ namespace ProjectEye.Core.Service
 
         private void MainService_OnStart(object service, int msg)
         {
-            config.options.General.Noreset = false;
             if (!backgroundWorker.IsBusy)
             {
-                UpdateIcon("sunglasses");
+                if (config.options.General.IsTomatoMode)
+                {
+                    UpdateIcon("tomato");
+                }
+                else
+                {
+                    UpdateIcon("sunglasses");
+                }
             }
             if (contextMenu != null)
             {
@@ -104,6 +120,7 @@ namespace ProjectEye.Core.Service
             notifyIcon.Visible = true;
             notifyIcon.MouseMove += NotifyIcon_MouseMove;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
+            notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
             //在win10中将显示通知
             //notifyIcon.BalloonTipTitle = "test";
             //notifyIcon.BalloonTipText = "content";
@@ -113,12 +130,6 @@ namespace ProjectEye.Core.Service
 
 
         }
-
-
-
-
-
-
         #endregion
 
         #region Events
@@ -147,12 +158,13 @@ namespace ProjectEye.Core.Service
             }
             else if (config.options.General.Noreset)
             {
-                notifyIcon.Text = "Project Eye：不要提醒已开启";
+                notifyIcon.Text = "Project Eye：暂不提醒已开启";
             }
-            else if(!backgroundWorker.IsBusy)
+            else if (!backgroundWorker.IsBusy)
             {
                 notifyIcon.Text = "Project Eye";
             }
+            MouseMoveTrayIcon?.Invoke(sender, e);
         }
 
         //有后台工作任务在运行时
@@ -219,7 +231,7 @@ namespace ProjectEye.Core.Service
         private void notifyIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             theme.HandleDarkMode();
-
+            MouseClickTrayIcon?.Invoke(sender, e);
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 if (backgroundWorker.IsBusy)
@@ -234,8 +246,6 @@ namespace ProjectEye.Core.Service
             }
         }
 
-
-
         private void menuItem_Exit_Click(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
@@ -245,6 +255,30 @@ namespace ProjectEye.Core.Service
         {
             mainService.Exit();
             Remove();
+        }
+
+        private void NotifyIcon_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left && !backgroundWorker.IsBusy)
+            {
+                //双击托盘图标进入番茄时钟模式
+                config.SaveOldOptions();
+                config.options.General.IsTomatoMode = !config.options.General.IsTomatoMode;
+                config.OnChanged();
+                UpdateIcon(config.options.General.IsTomatoMode ?
+                    "tomato" :
+                   config.options.General.Noreset ?
+                   "dizzy"
+                   : "sunglasses");
+                if (config.options.General.IsTomatoMode)
+                {
+                    menuItem_NoReset.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    menuItem_NoReset.Visibility = Visibility.Visible;
+                }
+            }
         }
         #endregion
 
@@ -268,7 +302,7 @@ namespace ProjectEye.Core.Service
 
 
             menuItem_NoReset = new MenuItem();
-            menuItem_NoReset.Header = "不要提醒我";
+            menuItem_NoReset.Header = "暂不提醒";
 
             menuItem_NoReset_OneHour = new MenuItem();
             menuItem_NoReset_OneHour.Header = "1小时";
@@ -383,6 +417,15 @@ namespace ProjectEye.Core.Service
                 SetNoReset(hour);
                 item.IsChecked = true;
             }
+        }
+
+        /// <summary>
+        /// 设置托盘图标文本
+        /// </summary>
+        /// <param name="text"></param>
+        public void SetText(string text)
+        {
+            notifyIcon.Text = text;
         }
         #endregion
     }

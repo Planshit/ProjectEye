@@ -48,6 +48,9 @@ namespace ProjectEye.Core.Models.Options
         /// 是否启用一周数据分析
         /// </summary>
         public bool IsWeekDataAnalysis { get; set; } = false;
-
+        /// <summary>
+        /// 是否是番茄时钟模式
+        /// </summary>
+        public bool IsTomatoMode { get; set; } = false;
     }
 }

@@ -77,6 +77,8 @@ namespace ProjectEye
                 serviceCollection.Add<KeyboardShortcutsService>();
                 //预提醒
                 serviceCollection.Add<PreAlertService>();
+                //番茄时钟
+                serviceCollection.Add<TomatoService>();
 
                 WindowManager.serviceCollection = serviceCollection;
                 //初始化所有服务

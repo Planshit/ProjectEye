@@ -19,6 +19,10 @@ namespace ProjectEye.Database
         /// 统计数据
         /// </summary>
         public DbSet<StatisticModel> Statistics { get; set; }
+        /// <summary>
+        /// 番茄数据
+        /// </summary>
+        public DbSet<TomatoModel> Tomatos { get; set; }
         // public StatisticContext(string n)
         //: base("StatisticContext")
         // {
