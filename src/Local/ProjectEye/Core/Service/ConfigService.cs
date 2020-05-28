@@ -67,8 +67,7 @@ namespace ProjectEye.Core.Service
         {
             if (options != null)
             {
-
-                Changed?.Invoke(oldOptions_, null);
+                OnChanged();
                 SaveOldOptions();
                 return xmlExtensions.Save(options);
             }
@@ -76,9 +75,9 @@ namespace ProjectEye.Core.Service
         }
 
         /// <summary>
-        /// 保持旧选项数据
+        /// 保存旧选项数据
         /// </summary>
-        private void SaveOldOptions()
+        public void SaveOldOptions()
         {
             string optionsStr = JsonConvert.SerializeObject(options);
             oldOptions_ = JsonConvert.DeserializeObject<OptionsModel>(optionsStr);
@@ -139,6 +138,11 @@ namespace ProjectEye.Core.Service
 
                 Debug.WriteLine(string.Format("{0}:{1},", name, value));
             }
+        }
+
+        public void OnChanged()
+        {
+            Changed?.Invoke(oldOptions_, null);
         }
 
     }

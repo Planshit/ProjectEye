@@ -104,6 +104,69 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+            <TabItem Header="番茄时钟">
+                <ScrollViewer>
+                    <StackPanel Margin="10">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0"
+                                   VerticalAlignment="Center">工作时间</TextBlock>
+                            <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.WorkMinutes}"/>
+                            <TextBlock 
+                                   Grid.Column="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center">
+                                <Run Text="{Binding Model.Data.Tomato.WorkMinutes}"/>
+                                <Run Text="分钟"/>
+                            </TextBlock>
+
+                        </Grid>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0"
+                                   VerticalAlignment="Center">短休息</TextBlock>
+                            <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.ShortRestMinutes}"/>
+                            <TextBlock 
+                                   Grid.Column="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center">
+                                <Run Text="{Binding Model.Data.Tomato.ShortRestMinutes}"/>
+                                <Run Text="分钟"/>
+                            </TextBlock>
+
+                        </Grid>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="10*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0"
+                                   VerticalAlignment="Center">长休息</TextBlock>
+                            <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.LongRestMinutes}"/>
+                            <TextBlock 
+                                   Grid.Column="2"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center">
+                                <Run Text="{Binding Model.Data.Tomato.LongRestMinutes}"/>
+                                <Run Text="分钟"/>
+                            </TextBlock>
+
+                        </Grid>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
             <TabItem Header="显示">
                 <ScrollViewer>
                     <StackPanel Margin="10">
@@ -400,6 +463,10 @@
                                       CommandParameter="{Binding Model.VersionLink}" ToolTip="查看版本更新内容"><Run Text="{Binding Model.Version}"/></Hyperlink> <Hyperlink Command="{Binding updateCommand}">检查更新</Hyperlink></TextBlock>
                         <TextBlock TextWrapping="Wrap" Text="一个默默在暗中保护你眼睛的软件"
                                Margin="0,10,0,0"/>
+                        <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                        帮助文档：<Hyperlink  Command="{Binding openurlCommand}"
+                                      CommandParameter="https://littlepanda.gitbook.io/project-eye/" ToolTip="了解软件所有功能">https://littlepanda.gitbook.io/project-eye</Hyperlink>
+                        </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
                         开源：<Hyperlink Command="{Binding openurlCommand}"
                                       CommandParameter="https://github.com/Planshit/ProjectEye" ToolTip="open source!">https://github.com/Planshit/ProjectEye</Hyperlink>

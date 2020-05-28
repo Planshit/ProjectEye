@@ -50,8 +50,8 @@ namespace ProjectEye.Core.Service
         {
             for (int i = 0; i < actions.Count; i++)
             {
-                actions[i]();
-                actions.RemoveAt(i);
+                actions[i].Invoke();
+                actions.Remove(actions[i]);
             }
         }
 

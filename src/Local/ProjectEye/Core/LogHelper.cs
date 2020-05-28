@@ -52,15 +52,22 @@ namespace ProjectEye.Core
         }
         private static void WriteFile(Level level, string text)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                     "Log",
-                     $"{level.ToString()}_{DateTime.Now.ToString("yyyy_MM_dd")}.log");
-            string dir = Path.GetDirectoryName(filePath);
-            if (!Directory.Exists(dir))
+            try
             {
-                Directory.CreateDirectory(dir);
+                string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                         "Log",
+                         $"{level.ToString()}_{DateTime.Now.ToString("yyyy_MM_dd")}.log");
+                string dir = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                File.AppendAllText(filePath, text);
             }
-            File.AppendAllText(filePath, text);
+            catch
+            {
+                //...
+            }
         }
         private static string LogFormat(Level level, string text)
         {

@@ -100,8 +100,10 @@
     <Compile Include="Core\Models\Options\ThemeModel.cs" />
     <Compile Include="Core\Models\EyesTest\EyesTestListModel.cs" />
     <Compile Include="Core\Models\EyesTest\EyesTestModel.cs" />
+    <Compile Include="Core\Models\Options\TomatoModel.cs" />
     <Compile Include="Core\Models\Statistic\StatisticListModel.cs" />
     <Compile Include="Core\Models\Statistic\StatisticModel.cs" />
+    <Compile Include="Core\Models\Statistic\TomatoModel.cs" />
     <Compile Include="Core\Models\WindowModel.cs" />
     <Compile Include="Core\Net\GithubRelease.cs" />
     <Compile Include="Core\Net\HttpDownload.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="Core\Service\StatisticService.cs" />
     <Compile Include="Core\Service\SystemResourcesService.cs" />
     <Compile Include="Core\Service\ThemeService.cs" />
+    <Compile Include="Core\Service\TomatoService.cs" />
     <Compile Include="Core\Service\TrayService.cs" />
     <Compile Include="Core\ShortcutHelper.cs" />
     <Compile Include="Core\TypeExtensions.cs" />
@@ -469,10 +472,15 @@
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\tomato.ico" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
     <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\growth_monochromatic.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

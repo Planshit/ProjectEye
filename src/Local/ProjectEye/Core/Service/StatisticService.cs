@@ -342,7 +342,6 @@ namespace ProjectEye.Core.Service
             lock (statisticLocker)
             {
                 double use = GetCalculateUseEyeMinutes() + cacheWorkTotalMinutes;
-
                 double workTotalHours = use / 60;
                 if (workTotalHours < 0.1)
                 {
@@ -359,9 +358,7 @@ namespace ProjectEye.Core.Service
                     //增加统计
                     Add(StatisticType.WorkingTime, Math.Round(workTotalHours, 2));
                     cacheWorkTotalMinutes = 0;
-                    //issave = true;
                 }
-                //LogHelper.Debug("[" + (issave ? "saved:" + Math.Round(workTotalHours, 2) + "小时" : "-") + "]用眼+" + use + "分钟，工作开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
                 //重置统计时间
                 ResetStatisticTime();
             }

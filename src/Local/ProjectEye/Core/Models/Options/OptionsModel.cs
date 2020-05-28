@@ -25,5 +25,9 @@ namespace ProjectEye.Core.Models.Options
         /// 行为
         /// </summary>
         public BehaviorModel Behavior { get; set; }
+        /// <summary>
+        /// 番茄模式
+        /// </summary>
+        public TomatoModel Tomato { get; set; }
     }
 }

@@ -89,15 +89,15 @@
             <TabItem Header="本周">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="50"/>
+                        <!--<RowDefinition Height="50"/>-->
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="本周数据分析" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
-                    <Grid Grid.Row="1">
+                    <!--<TextBlock Text="本周数据分析" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>-->
+                    <Grid Grid.Row="0">
                         <ScrollViewer>
                             <StackPanel >
                                 <!--工作-->
-                                <Border Padding="10" CornerRadius="4">
+                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
                                     <Border.Background>
                                         <SolidColorBrush Color="#4f6bed" Opacity=".05"/>
                                     </Border.Background>
@@ -215,7 +215,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="月视图">
+            <TabItem Header="月份视图">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
@@ -226,7 +226,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="月份数据统计" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="月份" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
                         <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                     </Grid>
                     <ScrollViewer Grid.Row="1">
@@ -277,6 +277,61 @@
                     </ScrollViewer>
 
                 </Grid>
+            </TabItem>
+            <TabItem Header="番茄时钟">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!--<RowDefinition Height="50"/>-->
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--<TextBlock Text="本周数据分析" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>-->
+                    <Grid Grid.Row="0">
+                        <ScrollViewer>
+                            <StackPanel >
+                               
+                                <!--获得番茄-->
+                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#f03a17" Opacity=".05"/>
+                                    </Border.Background>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Width="290" HorizontalAlignment="Left">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="230"/>
+                                            </Grid.RowDefinitions>
+                                            <!--tomato-->
+                                            <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="/ProjectEye;component/Resources/tomato.ico" Width="22"/>
+                                                    <TextBlock Text="番茄数" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#f03a17"/>
+                                                </StackPanel>
+                                                <Grid Margin="0,20,0,0">
+                                                    <ui:CompareView DataA="{Binding Data.TomatoLastWeekCount}" DataB="{Binding Data.TomatoWeekCount}" PopupText="本周获得 {b} 个番茄，对比上周 {a} 个 {diffvalue}"/>
+                                                </Grid>
+                                            </StackPanel>
+                                            <chart:Chart Grid.Row="1" Data="{Binding Data.TomatoWeekData}" TickText=" {value} 个" TickLabelWidth="70" ItemColor="#f03a17" Background="Transparent" AverageDivisor="{Binding Data.WeekTrueWorkDays}" IsAnimation="{Binding Data.IsAnimation}"/>
+
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <StackPanel>
+                                                <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/growth_monochromatic.png" />
+                                                <TextBlock Text="每完成一组（4次）专注工作获得一个番茄" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+
             </TabItem>
         </TabControl>
     </Grid>

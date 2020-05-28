@@ -116,6 +116,11 @@ namespace ProjectEye.Core.Service
         #region 初始化
         public void Init()
         {
+            //关闭暂不提醒
+            config.options.General.Noreset = false;
+            //关闭番茄时钟模式
+            config.options.General.IsTomatoMode = false;
+
             //初始化用眼计时器
             work_timer = new DispatcherTimer();
             work_timer.Tick += new EventHandler(timer_Tick);
@@ -161,12 +166,8 @@ namespace ProjectEye.Core.Service
             Start();
 
             config.Changed += Config_Changed;
-
-
-
         }
-
-
+        #endregion
 
         private void Config_Changed(object sender, EventArgs e)
         {
@@ -177,10 +178,21 @@ namespace ProjectEye.Core.Service
                 CreateTipWindows();
                 Debug.WriteLine("鼠标穿透更改，重新创建窗口");
             }
+            if (oldOptions.General.IsTomatoMode != config.options.General.IsTomatoMode)
+            {
+                if (config.options.General.IsTomatoMode)
+                {
+                    //番茄时钟模式打开
+                    DoStop(false);
+                    Debug.WriteLine("番茄模式已启动，关闭计时休息提醒模式");
+                }
+                else
+                {
+                    DoStart(false);
+                    Debug.WriteLine("番茄模式已关闭，恢复计时休息提醒模式");
+                }
+            }
         }
-
-        #endregion
-
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
             switch (e.Mode)
@@ -213,7 +225,7 @@ namespace ProjectEye.Core.Service
             {
                 Debug.WriteLine("用户回来了");
                 back_timer.Stop();
-                Start();
+                DoStart(false);
             }
             SaveCursorPos();
         }
@@ -230,7 +242,7 @@ namespace ProjectEye.Core.Service
 
         private void date_timer_Tick(object sender, EventArgs e)
         {
-           
+
             date_timer.Stop();
             if (!isDateTimerReset)
             {
@@ -264,9 +276,7 @@ namespace ProjectEye.Core.Service
         #region 到达统计时间
         private void useeye_timer_Tick(object sender, EventArgs e)
         {
-            Debug.WriteLine("统计用眼时长");
             StatisticData();
-
         }
         #endregion
 
@@ -304,6 +314,7 @@ namespace ProjectEye.Core.Service
         {
             Debug.WriteLine("用户离开了");
             WindowManager.Hide("TipWindow");
+            leave_timer.Stop();
             //停止所有服务
             DoStop();
             //启动back timer监听鼠标状态
@@ -390,11 +401,15 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region 启动计时实际操作
-        private void DoStart()
+        private void DoStart(bool isHard = true)
         {
-            //休息提醒
-            work_timer.Start();
-            workTimerStopwatch.Restart();
+            //允许硬启动，否则只有在关闭暂不提醒和番茄时钟模式时才允许启动工作计时
+            if (isHard || !config.options.General.Noreset && !config.options.General.IsTomatoMode)
+            {
+                //休息提醒
+                work_timer.Start();
+                workTimerStopwatch.Restart();
+            }
             //离开监听
             leave_timer.Start();
             //数据统计
@@ -410,17 +425,17 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region 停止计时实际操作
-        private void DoStop(bool isStopStatistic = true)
+        private void DoStop(bool isHard = true)
         {
             //统计数据
             StatisticData();
             work_timer.Stop();
             workTimerStopwatch.Stop();
-            leave_timer.Stop();
-            back_timer.Stop();
-            if (isStopStatistic)
+            if (isHard)
             {
                 useeye_timer.Stop();
+                leave_timer.Stop();
+                back_timer.Stop();
             }
             busy_timer.Stop();
         }
@@ -617,7 +632,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         private void UpdateDateTimer()
         {
-            
+
             DateTime now = DateTime.Now;
             DateTime morrow = new DateTime(now.Year, now.Month, now.Day, 23, 59, 0);
             int diffseconds = (int)morrow.Subtract(now).TotalSeconds;
