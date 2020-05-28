@@ -67,7 +67,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public bool IsButtonClicked { get; set; } = false;
         private StackPanel buttonsPanel;
-
+        private DispatcherTimer timer;
         private Storyboard alertStoryboard, closeStoryboard;
         public Project1UIToast()
         {
@@ -147,6 +147,7 @@ namespace Project1.UI.Controls
                 alertStoryboard.Begin();
             };
             this.Show();
+            ToastManager.Add(this);
         }
 
         /// <summary>
@@ -182,6 +183,7 @@ namespace Project1.UI.Controls
         /// </summary>
         public new void Hide()
         {
+            timer?.Stop();
             closeStoryboard.Begin();
         }
 
@@ -193,7 +195,7 @@ namespace Project1.UI.Controls
         {
             if (duration > 0)
             {
-                var timer = new DispatcherTimer();
+                timer = new DispatcherTimer();
                 //需要提前1秒
                 timer.Interval = new TimeSpan(0, 0, duration > 1 ? duration - 1 : duration);
                 timer.Tick += (e, c) =>

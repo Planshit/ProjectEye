@@ -276,9 +276,7 @@ namespace ProjectEye.Core.Service
         #region 到达统计时间
         private void useeye_timer_Tick(object sender, EventArgs e)
         {
-            Debug.WriteLine("统计用眼时长");
             StatisticData();
-
         }
         #endregion
 

@@ -347,5 +347,42 @@ namespace ProjectEye.Models
             }
         }
         #endregion
+
+        #region 番茄时钟数据
+        private List<ChartDataModel> TomatoWeekData_;
+        /// <summary>
+        /// 本周工作统计数据
+        /// </summary>
+        public List<ChartDataModel> TomatoWeekData { get { return TomatoWeekData_; } set { TomatoWeekData_ = value; OnPropertyChanged(); } }
+
+        #region 本周与上周数据总和
+        private int TomatoLastWeekCount_;
+        public int TomatoLastWeekCount
+        {
+            get
+            {
+                return TomatoLastWeekCount_;
+            }
+            set
+            {
+                TomatoLastWeekCount_ = value;
+                OnPropertyChanged();
+            }
+        }
+        private int TomatoWeekCount_;
+        public int TomatoWeekCount
+        {
+            get
+            {
+                return TomatoWeekCount_;
+            }
+            set
+            {
+                TomatoWeekCount_ = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+        #endregion
     }
 }

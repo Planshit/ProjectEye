@@ -17,7 +17,7 @@ namespace ProjectEye.ViewModels
 
         private readonly StatisticService statistic;
         private readonly ConfigService config;
-
+        private readonly TomatoService tomato;
 
         private int yearmonth = 0;
         ///// <summary>
@@ -29,10 +29,12 @@ namespace ProjectEye.ViewModels
 
         public StatisticViewModel(
             StatisticService statistic,
-            ConfigService config)
+            ConfigService config,
+            TomatoService tomato)
         {
             this.statistic = statistic;
             this.config = config;
+            this.tomato = tomato;
 
             yearmonth = DateTime.Now.Year + DateTime.Now.Month;
 
@@ -47,6 +49,9 @@ namespace ProjectEye.ViewModels
             Data.WeekRestData = new List<ChartDataModel>();
             Data.WeekWorkData = new List<ChartDataModel>();
             Data.WeekSkipData = new List<ChartDataModel>();
+
+            Data.TomatoWeekData = new List<ChartDataModel>();
+
             Data.PropertyChanged += Data_PropertyChanged;
 
             Data.IsAnimation = config.options.Style.IsAnimation;
@@ -150,7 +155,7 @@ namespace ProjectEye.ViewModels
             var WeekWorkData = new List<ChartDataModel>();
             var WeekRestData = new List<ChartDataModel>();
             var WeekSkipData = new List<ChartDataModel>();
-
+            var tomatoData = new List<ChartDataModel>();
             //计算上周的数据
             DateTime lastWeekStartDate = DateTime.Now, lastWeekEndDate = DateTime.Now;
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
@@ -174,6 +179,8 @@ namespace ProjectEye.ViewModels
             Data.LastWeekRest = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.ResetTime) : 0;
             Data.LastWeekSkip = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.SkipCount) : 0;
 
+            var lastTomatoData = tomato.GetData(lastWeekStartDate, lastWeekEndDate);
+            Data.TomatoLastWeekCount = lastTomatoData.Count > 0 ? lastTomatoData.Sum(m => m.TomatoCount) : 0;
             //计算本周的数据
             DateTime weekStartDate = DateTime.Now, weekEndDate = DateTime.Now;
             if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
@@ -197,6 +204,10 @@ namespace ProjectEye.ViewModels
             Data.WeekRest = WeekData.Count > 0 ? WeekData.Sum(m => m.ResetTime) : 0;
             Data.WeekSkip = WeekData.Count > 0 ? WeekData.Sum(m => m.SkipCount) : 0;
             Data.WeekTrueWorkDays = WeekData.Count > 0 ? WeekData.Where(m => m.WorkingTime > 0).Count() : 0;
+
+            var tomatoWeekData = tomato.GetData(weekStartDate, weekEndDate);
+            Data.TomatoWeekCount = tomatoWeekData.Count > 0 ? tomatoWeekData.Sum(m => m.TomatoCount) : 0;
+
             string[] weekText = { "日", "一", "二", "三", "四", "五", "六" };
             foreach (var data in WeekData)
             {
@@ -228,10 +239,26 @@ namespace ProjectEye.ViewModels
                     Value = data.SkipCount
                 });
             }
+
+            foreach (var data in tomatoWeekData)
+            {
+                bool isSelected = DateTime.Now.Date == data.Date.Date;
+                string weekStr = weekText[(int)data.Date.DayOfWeek];
+
+                string addStr = isSelected ? "今日 " : data.Date.Month + "月" + data.Date.Day + "日 ";
+                tomatoData.Add(new ChartDataModel()
+                {
+                    IsSelected = isSelected,
+                    PopupText = addStr + "{value} 个",
+                    Tag = weekStr,
+                    Value = data.TomatoCount
+                });
+            }
+
             Data.WeekRestData = WeekRestData;
             Data.WeekSkipData = WeekSkipData;
             Data.WeekWorkData = WeekWorkData;
-
+            Data.TomatoWeekData = tomatoData;
         }
 
         private void Analysis()

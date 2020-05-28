@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectEye.Core.Models.Options;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -89,12 +90,16 @@ namespace ProjectEye.Core.Service
                 {
                     UpdateIcon("tomato");
                 }
+                else if (config.options.General.Noreset)
+                {
+                    UpdateIcon("dizzy");
+                }
                 else
                 {
                     UpdateIcon("sunglasses");
                 }
             }
-            if (contextMenu != null)
+            if (contextMenu != null && !config.options.General.Noreset)
             {
                 menuItem_NoReset_OneHour.IsChecked = false;
                 menuItem_NoReset_TwoHour.IsChecked = false;
@@ -210,6 +215,26 @@ namespace ProjectEye.Core.Service
             menuItem_NoReset.IsChecked = config.options.General.Noreset;
             menuItem_Sound.IsChecked = config.options.General.Sound;
             menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
+
+
+            var oldOptions = sender as OptionsModel;
+            if (oldOptions.General.IsTomatoMode != config.options.General.IsTomatoMode)
+            {
+
+                UpdateIcon(config.options.General.IsTomatoMode ?
+                "tomato" :
+               config.options.General.Noreset ?
+               "dizzy"
+               : "sunglasses");
+                if (config.options.General.IsTomatoMode)
+                {
+                    menuItem_NoReset.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    menuItem_NoReset.Visibility = Visibility.Visible;
+                }
+            }
         }
 
         private void menuItem_Options_Click(object sender, EventArgs e)
@@ -261,23 +286,11 @@ namespace ProjectEye.Core.Service
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left && !backgroundWorker.IsBusy)
             {
-                //双击托盘图标进入番茄时钟模式
+                //双击托盘图标进入或退出番茄时钟模式
                 config.SaveOldOptions();
                 config.options.General.IsTomatoMode = !config.options.General.IsTomatoMode;
                 config.OnChanged();
-                UpdateIcon(config.options.General.IsTomatoMode ?
-                    "tomato" :
-                   config.options.General.Noreset ?
-                   "dizzy"
-                   : "sunglasses");
-                if (config.options.General.IsTomatoMode)
-                {
-                    menuItem_NoReset.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    menuItem_NoReset.Visibility = Visibility.Visible;
-                }
+
             }
         }
         #endregion

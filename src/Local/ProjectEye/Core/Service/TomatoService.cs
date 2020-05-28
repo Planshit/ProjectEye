@@ -24,7 +24,7 @@ namespace ProjectEye.Core.Service
         private DispatcherTimer workTimer;
         private DispatcherTimer restTimer;
 
-        private TomatoModel tomatoDataToday;
+        private Models.Statistic.TomatoModel tomatoDataToday;
         private int workCount = 0;
         private int restartCount = -1;
         public TomatoService(
@@ -56,17 +56,20 @@ namespace ProjectEye.Core.Service
             //工作计时器
             workTimer = new DispatcherTimer();
             workTimer.Tick += WorkTimer_Tick;
-            workTimer.Interval = new TimeSpan(0, 25, 0);
+            workTimer.Interval = new TimeSpan(0, config.options.Tomato.WorkMinutes, 0);
             //休息计时器
             restTimer = new DispatcherTimer();
             restTimer.Tick += RestTimer_Tick; ;
-            restTimer.Interval = new TimeSpan(0, 5, 0);
+            restTimer.Interval = new TimeSpan(0, config.options.Tomato.ShortRestMinutes, 0);
+
             /****调试模式代码****/
 #if DEBUG
             workTimer.Interval = new TimeSpan(0, 0, 25);
             restTimer.Interval = new TimeSpan(0, 0, 5);
 #endif
         }
+
+
 
 
 
@@ -90,6 +93,7 @@ namespace ProjectEye.Core.Service
                     restartCount++;
                     if (restartCount > 0)
                     {
+                        //统计数据
                         tomatoDataToday.RestartCount++;
                     }
                 }
@@ -111,7 +115,8 @@ namespace ProjectEye.Core.Service
         {
             //工作时间已完成
 
-            string tip = "已结束本次工作时间，请休息5分钟，我会在下一次工作开始时再次提醒您。";
+            string tip = $"已结束本次工作时间，请休息{config.options.Tomato.ShortRestMinutes}分钟，我会在下一次工作开始时再次提醒您。";
+            string subtitle = "";
             //停止工作
             workTimer.Stop();
 
@@ -120,16 +125,21 @@ namespace ProjectEye.Core.Service
             if (workCount == 4)
             {
                 //第四次工作完成，长休息
-                restTimer.Interval = new TimeSpan(0, 30, 0);
+                restTimer.Interval = new TimeSpan(0, config.options.Tomato.LongRestMinutes, 0);
 #if DEBUG
                 restTimer.Interval = new TimeSpan(0, 0, 10);
 #endif
-                tip = "获得一个番茄！完成了一组工作，请休息30分钟，我会在下一次工作开始时再次提醒您。";
+                tip = $"获得一个番茄！完成了一组工作，请休息{config.options.Tomato.LongRestMinutes}分钟，我会在下一次工作开始时再次提醒您。";
+                subtitle = "太棒了！";
+                //数据记录
+                tomatoDataToday.TomatoCount++;
+                SaveData();
             }
+
 
             //进入休息时间
             restTimer.Start();
-            Dialog("番茄提示", tip);
+            Dialog("番茄提示", tip, subtitle);
         }
         private void RestTimer_Tick(object sender, EventArgs e)
         {
@@ -152,6 +162,7 @@ namespace ProjectEye.Core.Service
                 }
             }
         }
+
         #endregion
 
         #region function
@@ -159,16 +170,21 @@ namespace ProjectEye.Core.Service
         #region 启动番茄时钟
         public void Start()
         {
-            workTimer.Start();
-            Dialog("番茄提示", "工作时间已开始，请保持专注。我会在结束时提醒您。");
+            WorkDialog();
         }
         #endregion
 
         #region 关闭番茄时钟
         public void Close()
         {
+            workCount = 0;
+            restartCount++;
             workTimer.Stop();
             restTimer.Stop();
+            config.SaveOldOptions();
+            config.options.General.IsTomatoMode = false;
+            config.OnChanged();
+            SaveData();
         }
         #endregion
 
@@ -186,15 +202,16 @@ namespace ProjectEye.Core.Service
                     //重置工作计次
                     workCount = 0;
                     //重置休息时间
-                    restTimer.Interval = new TimeSpan(0, 5, 0);
+                    restTimer.Interval = new TimeSpan(0, config.options.Tomato.ShortRestMinutes, 0);
+#if DEBUG
+                    restTimer.Interval = new TimeSpan(0, 0, 5);
+#endif
                     //统计数据
                     tomatoDataToday.TomatoCount++;
                 }
 
-                //继续工作计时
-                workTimer.Start();
-
-                Dialog("番茄提示", "工作时间已开始，请保持专注。我会在结束时提醒您。");
+                //继续
+                WorkDialog();
             }
         }
         #endregion
@@ -219,7 +236,7 @@ namespace ProjectEye.Core.Service
                     if (db.Tomatos.Where(m => m.Date == date).Count() == 0)
                     {
                         //补上缺少的日期
-                        db.Tomatos.Add(new TomatoModel()
+                        db.Tomatos.Add(new Models.Statistic.TomatoModel()
                         {
                             Date = date,
                             RestartCount = 0,
@@ -233,16 +250,16 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region 查找日期数据,如果不存在则创建
-        public TomatoModel FindCreateTodayData()
+        public Models.Statistic.TomatoModel FindCreateTodayData()
         {
-            return FindCreateTodayData(DateTime.Now.Date);
+            return FindCreateData(DateTime.Now.Date);
         }
         /// <summary>
         /// 查找日期数据,如果不存在则创建
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public TomatoModel FindCreateTodayData(DateTime date)
+        public Models.Statistic.TomatoModel FindCreateData(DateTime date)
         {
             if (date.Date == DateTime.Now.Date &&
                 tomatoDataToday != null &&
@@ -260,7 +277,7 @@ namespace ProjectEye.Core.Service
                     if (res.Count() == 0)
                     {
                         //数据库中没有时则创建
-                        var dateData = new TomatoModel()
+                        var dateData = new Models.Statistic.TomatoModel()
                         {
                             Date = date.Date,
                             RestartCount = 0,
@@ -280,31 +297,111 @@ namespace ProjectEye.Core.Service
 
         #endregion
 
+        #region 查找日期范围内的数据
+        /// <summary>
+        /// 查找范围内的数据
+        /// </summary>
+        /// <param name="startDate">开始日期</param>
+        /// <param name="endDate">结束日期</param>
+        /// <returns></returns>
+        public List<Models.Statistic.TomatoModel> GetData(DateTime startDate, DateTime endDate)
+        {
+            var result = new List<Models.Statistic.TomatoModel>();
+            startDate = startDate.AddDays(-1);
+            using (var db = new StatisticContext())
+            {
+                if (db.Tomatos.Where(m => m.Date == endDate.Date).Count() == 0)
+                {
+                    CreateMonthlyData(endDate);
+                }
+                result = db.Tomatos.Where(m => m.Date > startDate && m.Date <= endDate).OrderBy(m => m.Date).ToList();
+            }
+            return result;
+        }
+        #endregion
+
+        #region 数据持久化
+        /// <summary>
+        /// 数据持久化
+        /// </summary>
+        public void SaveData()
+        {
+            backgroundWorker.AddAction(() =>
+            {
+                if (tomatoDataToday == null)
+                {
+                    tomatoDataToday = FindCreateTodayData();
+                }
+                using (var db = new StatisticContext())
+                {
+                    var item = (from c in db.Tomatos where c.Date == tomatoDataToday.Date select c).FirstOrDefault();
+                    item.TomatoCount = tomatoDataToday.TomatoCount;
+                    item.RestartCount = tomatoDataToday.RestartCount;
+                    db.SaveChanges();
+                }
+            });
+            backgroundWorker.Run();
+        }
+        #endregion
+
         #region 提醒弹窗
-        private void Dialog(string title, string content)
+
+        #region 工作提醒
+        //工作提醒
+        private void WorkDialog()
+        {
+            //通知弹窗
+            var worktoast = new Project1UIToast();
+            worktoast.SetIcon("pack://application:,,,/ProjectEye;component/Resources/tomato.ico");
+            worktoast.OnButtonClick += Worktoast_OnButtonClick;
+            worktoast.OnAutoHide += Worktoast_OnAutoHide;
+            worktoast.Alert("番茄提示", "准备进入工作时间，请保持专注，我会在结束时提醒您，准备好了吗？", $"时间{config.options.Tomato.WorkMinutes}分钟", 60,
+                new string[] {
+                    "准备就绪",
+                    "结束"
+                });
+        }
+
+        private void Worktoast_OnAutoHide(Project1UIToast sender, int type = 0)
+        {
+            //超时没有点击确定进入工作时间时退出番茄时钟
+            Close();
+        }
+
+        private void Worktoast_OnButtonClick(string name, Project1UIToast sender)
+        {
+            if (name == "准备就绪")
+            {
+                workTimer.Start();
+            }
+            else
+            {
+                Close();
+            }
+            sender.Hide();
+        }
+
+
+        #endregion
+
+        private void Dialog(string title, string content, string subtitle = "")
         {
             //通知弹窗
             var toast = new Project1UIToast();
 
             toast.SetIcon("pack://application:,,,/ProjectEye;component/Resources/tomato.ico");
-            toast.OnAutoHide += Toast_OnAutoHide;
             toast.OnButtonClick += Toast_OnButtonClick;
-            toast.Alert(title, content, "", 0,
+            toast.Alert(title, content, subtitle, 30,
                 new string[] {
                     "好的",
-                    "重新开始"
                 });
         }
 
         private void Toast_OnButtonClick(string name, Project1UIToast sender)
         {
-            
+            sender.Hide();
         }
 
-        private void Toast_OnAutoHide(Project1UIToast sender, int type)
-        {
-           
-        }
         #endregion
         #endregion
     }
