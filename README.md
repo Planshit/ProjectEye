@@ -38,8 +38,10 @@ Runtime:[.NET Framework 4.5+](https://dotnet.microsoft.com/download/dotnet-frame
 
 ## 其他
 
-程序出现问题时建议提交issue或查看是否有可升级的版本。
+[帮助文档](https://littlepanda.gitbook.io/project-eye/)
 
-由于使用WPF，内存占用可能较大。
+程序出现问题时建议在issues里搜索是否有解决方案，没有时可以提交一个issue，或者查看是否有可升级的版本并尝试更新。
 
-程序除了在`选项 > 关于 > 检查更新`时会请求到Github的API（https://api.github.com/repos/planshit/projecteye/releases/latest）检查更新外不会有任何的后台联网行为，更不会记录、上传你的隐私信息，请放心使用。
+由于使用WPF开发，内存占用较大。
+
+程序除了在`选项 > 关于 > 检查更新`时会请求到Github的API（[https://api.github.com/repos/planshit/projecteye/releases/latest](https://api.github.com/repos/planshit/projecteye/releases/latest)）检查更新外不会有任何的后台联网行为，更不会记录、上传你的隐私信息，请放心使用。

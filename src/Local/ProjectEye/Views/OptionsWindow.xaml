@@ -464,6 +464,10 @@
                         <TextBlock TextWrapping="Wrap" Text="一个默默在暗中保护你眼睛的软件"
                                Margin="0,10,0,0"/>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                        帮助文档：<Hyperlink  Command="{Binding openurlCommand}"
+                                      CommandParameter="https://littlepanda.gitbook.io/project-eye/" ToolTip="了解软件所有功能">https://littlepanda.gitbook.io/project-eye</Hyperlink>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
                         开源：<Hyperlink Command="{Binding openurlCommand}"
                                       CommandParameter="https://github.com/Planshit/ProjectEye" ToolTip="open source!">https://github.com/Planshit/ProjectEye</Hyperlink>
                         </TextBlock>
