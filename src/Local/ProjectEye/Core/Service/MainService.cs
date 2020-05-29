@@ -392,10 +392,13 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void ReStart()
         {
-            Debug.WriteLine("重新启动休息计时");
-            DoStop();
-            DoStart();
-            OnReStartTimer?.Invoke(this, 0);
+            if (!config.options.General.Noreset)
+            {
+                Debug.WriteLine("重新启动休息计时");
+                DoStop();
+                DoStart();
+                OnReStartTimer?.Invoke(this, 0);
+            }
         }
 
         #endregion
