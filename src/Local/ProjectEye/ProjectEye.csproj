@@ -88,6 +88,7 @@
     </ApplicationDefinition>
     <Compile Include="Core\AudioHelper.cs" />
     <Compile Include="Core\BusyVerdictHelper.cs" />
+    <Compile Include="Core\DataReportImageHelper.cs" />
     <Compile Include="Core\FileHelper.cs" />
     <Compile Include="Core\LogHelper.cs" />
     <Compile Include="Core\Models\Options\AnimationModel.cs" />
@@ -481,6 +482,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\growth_monochromatic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\desktop-computer.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
