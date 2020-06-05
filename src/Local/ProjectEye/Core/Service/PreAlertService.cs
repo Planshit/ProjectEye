@@ -204,11 +204,11 @@ namespace ProjectEye.Core.Service
 
             isPreAlert = bool.Parse(config.options.Style.IsPreAlert.ToString());
             preAlertTime = int.Parse(config.options.Style.PreAlertTime.ToString());
-            if (preAlertTimer!=null && preAlertTimer.IsEnabled)
+            if (preAlertTimer != null && preAlertTimer.IsEnabled)
             {
                 preAlertTimer.Stop();
             }
-            
+
 
             if (config.options.Style.IsPreAlert)
             {
@@ -249,11 +249,19 @@ namespace ProjectEye.Core.Service
                 }
                 toast.OnAutoHide += Toast_OnAutoHide;
                 toast.OnButtonClick += Toast_OnButtonClick;
-                toast.Alert(toastModel, config.options.Style.PreAlertTime,
-                    new string[] {
+
+                //处理禁用时
+                var btns = new string[] {
                     "好的",
                     "跳过本次"
-                    });
+                    };
+                if (config.options.Behavior.IsDisabledSkip)
+                {
+                    btns = new string[] {
+                    "好的",
+                    };
+                }
+                toast.Alert(toastModel, config.options.Style.PreAlertTime, btns);
 
                 //播放通知提示音
                 if (config.options.Style.IsPreAlertSound)
@@ -298,9 +306,15 @@ namespace ProjectEye.Core.Service
 
         private void Toast_OnAutoHide(Project1UIToast sender, int type = 0)
         {
+            //没有点击操作自动关闭时
             if (!sender.IsButtonClicked)
             {
-                if (config.options.Style.PreAlertAction.Value == "1")
+                if (config.options.Behavior.IsDisabledSkip)
+                {
+                    //禁用了跳过休息
+                    SetPreAlertAction(PreAlertAction.Goto);
+                }
+                else if (config.options.Style.PreAlertAction.Value == "1")
                 {
                     //进入本次休息
                     SetPreAlertAction(PreAlertAction.Goto);

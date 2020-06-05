@@ -441,6 +441,7 @@ namespace ProjectEye.ViewModels
             {
                 //进入休息
                 resetCommand_action(null);
+                return;
             }
             //预提醒
             if (config.options.Style.IsPreAlert)
@@ -449,7 +450,15 @@ namespace ProjectEye.ViewModels
                 {
                     //进入休息
                     resetCommand_action(null);
+                    return;
                 }
+            }
+            //禁用跳过休息
+            if (config.options.Behavior.IsDisabledSkip)
+            {
+                //进入休息
+                resetCommand_action(null);
+                return;
             }
 
         }

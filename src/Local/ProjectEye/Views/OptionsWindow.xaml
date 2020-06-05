@@ -448,6 +448,7 @@
                                 </ListView.View>
                             </ListView>
                         </Grid>
+                        <CheckBox Content="禁用跳过休息" ToolTip="开启后将不允许跳过休息" IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}" Cursor="Hand" Margin="0,10,0,0"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
