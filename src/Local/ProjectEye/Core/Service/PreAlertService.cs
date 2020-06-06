@@ -183,12 +183,20 @@ namespace ProjectEye.Core.Service
 
         private void Config_Changed(object sender, EventArgs e)
         {
-            if (config.options.Style.IsPreAlert != isPreAlert ||
-                config.options.Style.PreAlertTime != preAlertTime)
+            var oldOptions = sender as ProjectEye.Core.Models.Options.OptionsModel;
+            if (config.options.Style.IsPreAlert != oldOptions.Style.IsPreAlert ||
+                config.options.General.IsTomatoMode != oldOptions.General.IsTomatoMode)
             {
-                //当关于预提醒的配置被修改时，重启休息计时和预提醒
-                main.ReStart();
-                InitPreAlert();
+                if (config.options.Style.IsPreAlert && !config.options.General.IsTomatoMode)
+                {
+                    //当关于预提醒的配置被修改时，重启休息计时和预提醒
+                    main.ReStart();
+                    InitPreAlert();
+                }
+                else
+                {
+                    preAlertTimer?.Stop();
+                }
             }
         }
 
