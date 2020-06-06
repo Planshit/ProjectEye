@@ -22,6 +22,22 @@ namespace ProjectEye.Core.Models.Options
         /// 长休息
         /// </summary>
         public int LongRestMinutes { get; set; } = 30;
+        /// <summary>
+        /// 是否开启工作开始提示音
+        /// </summary>
+        public bool IsWorkStartSound { get; set; } = true;
+        /// <summary>
+        /// 是否开启工作结束提示音
+        /// </summary>
+        public bool IsWorkEndSound { get; set; } = true;
+        /// <summary>
+        /// 工作开始提示音路径
+        /// </summary>
+        public string WorkStartSoundPath { get; set; } = "";
+        /// <summary>
+        /// 工作结束提示音路径
+        /// </summary>
+        public string WorkEndSoundPath { get; set; } = "";
 
     }
 }

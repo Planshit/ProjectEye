@@ -20,6 +20,7 @@ namespace ProjectEye.Core.Service
         private readonly ConfigService config;
         private readonly BackgroundWorkerService backgroundWorker;
         private readonly TrayService tray;
+        private readonly SoundService sound;
 
         private DispatcherTimer workTimer;
         private DispatcherTimer restTimer;
@@ -30,11 +31,13 @@ namespace ProjectEye.Core.Service
         public TomatoService(
             ConfigService config,
             BackgroundWorkerService backgroundWorker,
-            TrayService tray)
+            TrayService tray,
+            SoundService sound)
         {
             this.config = config;
             this.backgroundWorker = backgroundWorker;
             this.tray = tray;
+            this.sound = sound;
         }
 
         #region init service
@@ -350,6 +353,11 @@ namespace ProjectEye.Core.Service
         //工作提醒
         private void WorkDialog()
         {
+            //播放提示音
+            if (config.options.Tomato.IsWorkStartSound)
+            {
+                sound.Play(Enums.SoundType.TomatoWorkStartSound);
+            }
             //通知弹窗
             var worktoast = new Project1UIToast();
             worktoast.SetIcon("pack://application:,,,/ProjectEye;component/Resources/tomato.ico");
@@ -386,6 +394,11 @@ namespace ProjectEye.Core.Service
 
         private void Dialog(string title, string content, string subtitle = "")
         {
+            //播放提示音
+            if (config.options.Tomato.IsWorkEndSound)
+            {
+                sound.Play(Enums.SoundType.TomatoWorkEndSound);
+            }
             //通知弹窗
             var toast = new Project1UIToast();
 

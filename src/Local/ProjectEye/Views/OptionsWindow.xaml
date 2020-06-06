@@ -164,6 +164,49 @@
                             </TextBlock>
 
                         </Grid>
+                        <!--提示音-->
+                        <CheckBox Content="工作开始提示音" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>
+
+                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkStartSoundPath}" Width="auto" Placeholder="留空为默认音效"
+                                            Type="FileSelect"
+                                                Icon="MusicNote"
+                                            ExtNames=".wav文件|*.wav"/>
+                            <ui:Project1UIButton Grid.Column="2"
+                                             Margin="5,0,0,0"
+                                             Content="测试"
+                                             Command="{Binding soundTestCommand}"
+                                                 CommandParameter="2"
+                                             Style="{DynamicResource basic}"/>
+                        </Grid>
+                        <CheckBox Content="工作结束提示音" IsChecked="{Binding Model.Data.Tomato.IsWorkEndSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>
+
+                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkEndSoundPath}" Width="auto" Placeholder="留空为默认音效"
+                                            Type="FileSelect"
+                                                Icon="MusicNote"
+                                            ExtNames=".wav文件|*.wav"/>
+                            <ui:Project1UIButton Grid.Column="2"
+                                             Margin="5,0,0,0"
+                                             Content="测试"
+                                             Command="{Binding soundTestCommand}"
+                                                 CommandParameter="3"
+                                             Style="{DynamicResource basic}"/>
+                        </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -204,7 +247,7 @@
 
                         <CheckBox Content="全屏提示窗口操作按钮" IsChecked="{Binding Model.IsTipAsk,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="勾选：在全屏提示界面显示跳过、进入休息操作按钮；不勾选：不显示操作按钮，到达休息时间时直接开始计时"/>
                         <CheckBox IsEnabled="{Binding Model.IsThruTipWindowEnabled}" Content="全屏提示窗口鼠标穿透" IsChecked="{Binding Model.Data.Style.IsThruTipWindow,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="勾选：可以在全屏提示窗口显示时继续操作电脑"/>
-                        
+
                         <CheckBox Content="启用动画效果" IsChecked="{Binding Model.Data.Style.IsAnimation,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="可以控制部分界面中动画的开启"/>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
@@ -239,7 +282,7 @@
                                                  HorizontalAlignment="Left"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
-                     <CheckBox Content="启用休息预提醒弹窗" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" ToolTip="即将进入休息前在右上角弹出提示小窗口,可以进行推迟休息等操作"/>
+                        <CheckBox Content="启用休息预提醒弹窗" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" ToolTip="即将进入休息前在右上角弹出提示小窗口,可以进行推迟休息等操作"/>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--预提醒配置-->
                             <StackPanel Margin="30,0,0,0">

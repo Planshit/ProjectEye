@@ -89,6 +89,7 @@
     <Compile Include="Core\AudioHelper.cs" />
     <Compile Include="Core\BusyVerdictHelper.cs" />
     <Compile Include="Core\DataReportImageHelper.cs" />
+    <Compile Include="Core\Enums\SoundType.cs" />
     <Compile Include="Core\FileHelper.cs" />
     <Compile Include="Core\LogHelper.cs" />
     <Compile Include="Core\Models\Options\AnimationModel.cs" />

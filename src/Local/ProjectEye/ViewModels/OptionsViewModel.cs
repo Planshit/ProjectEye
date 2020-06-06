@@ -138,17 +138,29 @@ namespace ProjectEye.ViewModels
 
         private void soundTestCommand_actionAsync(object obj)
         {
-            if (!string.IsNullOrEmpty(config.options.General.SoundPath))
+            string path = "";
+            switch (obj.ToString())
             {
-                bool resultTest = sound.Test(config.options.General.SoundPath);
-                Modal(resultTest ? "音效已被正确加载" : "音效不能被加载");
+                case "2":
+                    path = config.options.Tomato.WorkStartSoundPath;
+                    break;
+                case "3":
+                    path = config.options.Tomato.WorkEndSoundPath;
+                    break;
+                default:
+                    path = config.options.General.SoundPath;
+                    break;
+            }
+            if (!string.IsNullOrEmpty(path))
+            {
+                bool resultTest = sound.Test(path);
+                Modal(resultTest ? "自定义音效已被正确加载" : "自定义音效不能被加载");
             }
             else
             {
                 sound.Play();
                 Modal("当前播放的是默认提示音");
             }
-
         }
         private void inkCommand_action(object obj)
         {
