@@ -1,4 +1,5 @@
 ﻿using Project1.UI.Controls.ChartControl.Models;
+using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using System;
@@ -26,6 +27,7 @@ namespace ProjectEye.ViewModels
         //private int weekTrueWorkDays = 0;
 
         public Command CloseOnboardingCommand { get; set; }
+        public Command GenerateMonthlyDataImgCommand { get; set; }
 
         public StatisticViewModel(
             StatisticService statistic,
@@ -39,6 +41,7 @@ namespace ProjectEye.ViewModels
             yearmonth = DateTime.Now.Year + DateTime.Now.Month;
 
             CloseOnboardingCommand = new Command(new Action<object>(OnCloseOnboardingCommand));
+            GenerateMonthlyDataImgCommand = new Command(new Action<object>(OnGenerateMonthlyDataImgCommand));
             Data = new StatisticModel();
             Data.Year = DateTime.Now.Year;
             Data.Month = DateTime.Now.Month;
@@ -61,6 +64,9 @@ namespace ProjectEye.ViewModels
             HandleWeekData();
             Analysis();
         }
+
+
+
         private void MigrateCheck()
         {
             Data.IsShowOnboarding = statistic.IsMigrated;
@@ -337,10 +343,10 @@ namespace ProjectEye.ViewModels
                     Data.WorkAnalysis = "截至目前，非常健康！";
                 }
 
-                if (worklifep > 0)
-                {
-                    Data.WorkAnalysis += $"平均每天占用了正常生活时间的{worklifep}%。";
-                }
+                //if (worklifep > 0)
+                //{
+                //    Data.WorkAnalysis += $"平均每天占用了正常生活时间的{worklifep}%。";
+                //}
 
 
 
@@ -393,6 +399,24 @@ namespace ProjectEye.ViewModels
                 }
             }
 
+        }
+
+        private void OnGenerateMonthlyDataImgCommand(object obj)
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "Project Eye " + Data.Year + Data.Month;
+            dlg.DefaultExt = ".jpg";
+            dlg.Filter = "图片 (.jpg)|*.jpg";
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+            {
+                new DataReportImageHelper(
+               "Project Eye - " + Data.Year + "年" + Data.Month + "月",
+              dlg.FileName,
+              Data.MonthWorkData,
+              Data.LastMonthWork,
+              Data.MonthWork).Generate();
+            }
         }
     }
 }

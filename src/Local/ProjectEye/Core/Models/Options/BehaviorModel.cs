@@ -25,5 +25,9 @@ namespace ProjectEye.Core.Models.Options
         /// 跳过进程名单
         /// </summary>
         public ObservableCollection<string> BreakProgressList { get; set; } = new ObservableCollection<string>();
+        /// <summary>
+        /// 是否禁用跳过休息（为true时将不允许跳过而是直接进入休息
+        /// </summary>
+        public bool IsDisabledSkip { get; set; } = false;
     }
 }

@@ -44,9 +44,12 @@ namespace Project1.UI.Cores
         /// </summary>
         public static SolidColorBrush ThemeColor { get; set; } = VioletBrush;
 
-        public static SolidColorBrush Get(string color)
+        public static SolidColorBrush Get(string color, double opacity = 1)
         {
-            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
+            return new SolidColorBrush((Color)ColorConverter.ConvertFromString(color))
+            {
+                Opacity = opacity
+            };
         }
         public static Color GetMediaColor(string color)
         {

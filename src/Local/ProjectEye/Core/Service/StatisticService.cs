@@ -65,14 +65,11 @@ namespace ProjectEye.Core.Service
         /// 今日数据
         /// </summary>
         private StatisticModel todayStatistic;
+        /// <summary>
+        /// 工作时间测量器
+        /// </summary>
+        System.Diagnostics.Stopwatch workWatcher;
 
-        /// <summary>
-        /// 用眼开始时间
-        /// </summary>
-        private DateTime useEyeStartTime { get; set; }
-        /// <summary>
-        /// 工作时间总分钟临时变量
-        /// </summary>
         private double cacheWorkTotalMinutes;
         public StatisticService(
             App app,
@@ -96,6 +93,7 @@ namespace ProjectEye.Core.Service
 
         public void Init()
         {
+            workWatcher = new Stopwatch();
             backgroundWorker.AddAction(() =>
             {
                 //迁移旧版本的XML数据
@@ -207,15 +205,6 @@ namespace ProjectEye.Core.Service
         /// <param name="value">增加的值(可以为负数)</param>
         public void Add(StatisticType type, double value)
         {
-            if (todayStatistic == null ||
-                todayStatistic.Date.Date != DateTime.Now.Date)
-            {
-                //保存之前的数据
-                Save();
-                //更新当日数据
-                todayStatistic = FindCreate(DateTime.Now.Date);
-            }
-
             switch (type)
             {
                 case StatisticType.WorkingTime:
@@ -227,6 +216,12 @@ namespace ProjectEye.Core.Service
                 case StatisticType.SkipCount:
                     todayStatistic.SkipCount += (int)value;
                     break;
+            }
+            if (todayStatistic == null ||
+                todayStatistic.Date.Date != DateTime.Now.Date)
+            {
+                //更新日期数据
+                todayStatistic = FindCreate(DateTime.Now.Date);
             }
         }
         #endregion
@@ -325,11 +320,7 @@ namespace ProjectEye.Core.Service
         /// <returns>返回开始统计到当前的总分钟数</returns>
         public double GetCalculateUseEyeMinutes()
         {
-            if (useEyeStartTime != null)
-            {
-                return DateTime.Now.Subtract(useEyeStartTime).TotalMinutes;
-            }
-            return 0;
+            return workWatcher.Elapsed.TotalMinutes;
         }
         #endregion
 
@@ -349,12 +340,6 @@ namespace ProjectEye.Core.Service
                 }
                 else
                 {
-                    //错误记录
-                    if (todayStatistic.WorkingTime + workTotalHours > 23)
-                    {
-                        //当工作时间超出23小时写Log
-                        LogHelper.Debug("[工作时间统计异常记录] 当前数据日期：" + todayStatistic.Date.ToString() + "，用眼+" + use + "分钟，总工作时间：" + todayStatistic.WorkingTime + "小时，缓存分钟：" + cacheWorkTotalMinutes + "。工作开始时间：" + useEyeStartTime.ToString() + "，统计时间：" + DateTime.Now.ToString(), true);
-                    }
                     //增加统计
                     Add(StatisticType.WorkingTime, Math.Round(workTotalHours, 2));
                     cacheWorkTotalMinutes = 0;
@@ -371,7 +356,7 @@ namespace ProjectEye.Core.Service
         /// </summary>
         public void ResetStatisticTime()
         {
-            useEyeStartTime = DateTime.Now;
+            workWatcher.Restart();
         }
         #endregion
 

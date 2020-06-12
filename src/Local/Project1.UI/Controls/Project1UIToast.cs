@@ -74,8 +74,8 @@ namespace Project1.UI.Controls
             this.DefaultStyleKey = typeof(Project1UIToast);
             alertStoryboard = new Storyboard();
             closeStoryboard = new Storyboard();
-            alertStoryboard.Duration = TimeSpan.FromSeconds(1);
-            closeStoryboard.Duration = TimeSpan.FromSeconds(1);
+            //alertStoryboard.Duration = TimeSpan.FromSeconds(1);
+            //closeStoryboard.Duration = TimeSpan.FromSeconds(1);
             closeStoryboard.Completed += CloseStoryboard_Completed;
 
             Left = SystemParameters.PrimaryScreenWidth;
@@ -215,12 +215,14 @@ namespace Project1.UI.Controls
             DoubleAnimation alertDA = new DoubleAnimation();
             alertDA.To = SystemParameters.PrimaryScreenWidth - this.ActualWidth;
             alertDA.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseIn };
+            alertDA.Duration = TimeSpan.FromSeconds(.5);
             Storyboard.SetTarget(alertDA, this);
             Storyboard.SetTargetProperty(alertDA, new PropertyPath(Canvas.LeftProperty));
             //关闭动画
             DoubleAnimation closeDA = new DoubleAnimation();
             closeDA.To = SystemParameters.PrimaryScreenWidth;
             closeDA.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseOut };
+            closeDA.Duration = TimeSpan.FromSeconds(.5);
             Storyboard.SetTarget(closeDA, this);
             Storyboard.SetTargetProperty(closeDA, new PropertyPath(Canvas.LeftProperty));
 

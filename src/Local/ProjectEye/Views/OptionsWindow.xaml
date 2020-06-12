@@ -164,6 +164,49 @@
                             </TextBlock>
 
                         </Grid>
+                        <!--提示音-->
+                        <CheckBox Content="工作开始提示音" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>
+
+                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkStartSoundPath}" Width="auto" Placeholder="留空为默认音效"
+                                            Type="FileSelect"
+                                                Icon="MusicNote"
+                                            ExtNames=".wav文件|*.wav"/>
+                            <ui:Project1UIButton Grid.Column="2"
+                                             Margin="5,0,0,0"
+                                             Content="测试"
+                                             Command="{Binding soundTestCommand}"
+                                                 CommandParameter="2"
+                                             Style="{DynamicResource basic}"/>
+                        </Grid>
+                        <CheckBox Content="工作结束提示音" IsChecked="{Binding Model.Data.Tomato.IsWorkEndSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0"
+                                   Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>
+
+                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkEndSoundPath}" Width="auto" Placeholder="留空为默认音效"
+                                            Type="FileSelect"
+                                                Icon="MusicNote"
+                                            ExtNames=".wav文件|*.wav"/>
+                            <ui:Project1UIButton Grid.Column="2"
+                                             Margin="5,0,0,0"
+                                             Content="测试"
+                                             Command="{Binding soundTestCommand}"
+                                                 CommandParameter="3"
+                                             Style="{DynamicResource basic}"/>
+                        </Grid>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -189,11 +232,11 @@
 
 
                         </Grid>
-                        <CheckBox Content="自动切换到深色主题" IsChecked="{Binding Model.IsAutoDark}" Cursor="Hand" Margin="0,10,0,0" ToolTip="根据设定时间自动切换到深色主题"/>
+                        <CheckBox Content="自动切换深色主题" IsChecked="{Binding Model.IsAutoDark}" Cursor="Hand" Margin="0,10,0,0" ToolTip="根据设定时间自动切换到深色主题"/>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.AutoDarkConfigVisibility}">
                             <!--自动切换深色模式配置-->
                             <StackPanel Margin="30,0,0,0">
-                                <TextBlock Text="在指定时间范围"/>
+                                <TextBlock Text="指定时间范围"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                     <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkStartH,Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkStartM,Mode=TwoWay}"/>
                                     <TextBlock Text="至" VerticalAlignment="Center" Margin="5,0"/>
@@ -204,7 +247,7 @@
 
                         <CheckBox Content="全屏提示窗口操作按钮" IsChecked="{Binding Model.IsTipAsk,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="勾选：在全屏提示界面显示跳过、进入休息操作按钮；不勾选：不显示操作按钮，到达休息时间时直接开始计时"/>
                         <CheckBox IsEnabled="{Binding Model.IsThruTipWindowEnabled}" Content="全屏提示窗口鼠标穿透" IsChecked="{Binding Model.Data.Style.IsThruTipWindow,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="勾选：可以在全屏提示窗口显示时继续操作电脑"/>
-                        
+
                         <CheckBox Content="启用动画效果" IsChecked="{Binding Model.Data.Style.IsAnimation,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="可以控制部分界面中动画的开启"/>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
@@ -239,7 +282,7 @@
                                                  HorizontalAlignment="Left"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
-                     <CheckBox Content="启用休息预提醒弹窗" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" ToolTip="即将进入休息前在右上角弹出提示小窗口,可以进行推迟休息等操作"/>
+                        <CheckBox Content="启用休息预提醒弹窗" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" ToolTip="即将进入休息前在右上角弹出提示小窗口,可以进行推迟休息等操作"/>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--预提醒配置-->
                             <StackPanel Margin="30,0,0,0">
@@ -364,7 +407,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center">全屏提醒界面（好的）</TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center">全屏提醒界面（开始休息）</TextBlock>
                         <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.Reset,Mode=TwoWay}"/>
                     </Grid>
                     <Grid Margin="0,10,0,0">
@@ -373,7 +416,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center">全屏提醒界面（暂时不）</TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center">全屏提醒界面（跳过休息）</TextBlock>
                         <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.NoReset,Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
@@ -381,8 +424,8 @@
             <TabItem Header="行为">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <CheckBox Content="全屏游戏时跳过休息" ToolTip="开启后进行全屏游戏时将不会弹出任何窗口" IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,10,0,0"/>
-                        <CheckBox Content="启用进程勿扰" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="启用后当进程列表中的某项在运行中时将跳过休息"/>
+                        <CheckBox Content="全屏工作时不提醒" ToolTip="当正在使用全屏应用时将不弹出休息提醒" IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,10,0,0"/>
+                        <CheckBox Content="启用进程勿扰" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" ToolTip="当进程列表中的某项程序在运行时将不弹出休息提醒"/>
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
@@ -448,6 +491,7 @@
                                 </ListView.View>
                             </ListView>
                         </Grid>
+                        <CheckBox Content="禁用跳过休息" ToolTip="当到达休息时间时直接进入全屏休息界面并开始倒计时" IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}" Cursor="Hand" Margin="0,10,0,0"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -464,20 +508,20 @@
                         <TextBlock TextWrapping="Wrap" Text="一个默默在暗中保护你眼睛的软件"
                                Margin="0,10,0,0"/>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                        帮助文档：<Hyperlink  Command="{Binding openurlCommand}"
+                        帮助：<Hyperlink  Command="{Binding openurlCommand}"
                                       CommandParameter="https://littlepanda.gitbook.io/project-eye/" ToolTip="了解软件所有功能">https://littlepanda.gitbook.io/project-eye</Hyperlink>
                         </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
                         开源：<Hyperlink Command="{Binding openurlCommand}"
-                                      CommandParameter="https://github.com/Planshit/ProjectEye" ToolTip="open source!">https://github.com/Planshit/ProjectEye</Hyperlink>
+                                      CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
                         </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
                         反馈：<Hyperlink  Command="{Binding openurlCommand}"
-                                      CommandParameter="https://github.com/Planshit/ProjectEye/issues" ToolTip="有什么建议请在这里提交">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
+                                      CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
                         开发者：<Hyperlink  Command="{Binding openurlCommand}"
-                                      CommandParameter="http://thelittlepandaisbehind.com" ToolTip=": )">http://thelittlepandaisbehind.com</Hyperlink>
+                                      CommandParameter="http://thelittlepandaisbehind.com">http://thelittlepandaisbehind.com</Hyperlink>
                         </TextBlock>
                     </StackPanel>
                 </ScrollViewer>
