@@ -113,6 +113,8 @@ namespace ProjectEye.Core.Service
         {
             CheckOptions(options);
             CheckOptions(options.Style);
+            CheckOptions(options.Tomato);
+            SaveOldOptions();
         }
         private void CheckOptions(object obj)
         {
