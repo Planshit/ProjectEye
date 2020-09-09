@@ -423,7 +423,7 @@ namespace Project1.UI.Controls.ChartControl
             storyboard = new Storyboard();
             storyboard.Duration = TimeSpan.FromSeconds(1);
             scrollStoryboard = new Storyboard();
-            scrollStoryboard.Duration = TimeSpan.FromSeconds(1);
+            //scrollStoryboard.Duration = TimeSpan.FromSeconds(1);
             scrollStoryboard.Completed += (e, c) =>
             {
                 //容器滚动动画结束
@@ -576,7 +576,7 @@ namespace Project1.UI.Controls.ChartControl
             {
                 MaxValue = 10;
             }
-            MaxValue = Math.Round(MaxValue / 2, MidpointRounding.AwayFromZero) * 2;
+            MaxValue = Math.Round(MaxValue / 2, MidpointRounding.AwayFromZero) * 2 + 2;
 
 
             //计算平均值
@@ -725,6 +725,7 @@ namespace Project1.UI.Controls.ChartControl
             {
                 EasingMode = EasingMode.EaseOut
             };
+            scrollAnimation.Duration = new Duration(TimeSpan.FromSeconds(.3));
             Storyboard.SetTarget(scrollAnimation, ItemsScrollViewer);
             Storyboard.SetTargetProperty(scrollAnimation, new PropertyPath(HOffsetProperty));
             scrollStoryboard.Children.Add(scrollAnimation);
@@ -736,7 +737,7 @@ namespace Project1.UI.Controls.ChartControl
         private void Scroll(int d)
         {
             if (ItemsScrollViewer != null &&
-                ItemsScrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible &&
+                ItemsScrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible &&
                 !isScrollAnimationActive
 )
             {
