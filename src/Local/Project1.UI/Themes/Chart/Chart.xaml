@@ -292,6 +292,7 @@
                             <ScrollViewer
                                 x:Name="ItemsScrollViewer"
                                 HorizontalScrollBarVisibility="Auto"
+                                VerticalScrollBarVisibility="Disabled"
                                 OverridesDefaultStyle="True"
                                 >
                                 <StackPanel
