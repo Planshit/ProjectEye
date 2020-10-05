@@ -100,7 +100,7 @@ namespace Project1.UI.Cores
 
                 var configDict = GetResourceDictionary($"{UIDefaultSetting.DefaultThemeFullPath}/Config.xaml");
                 var controlDict = GetResourceDictionary($"{UIDefaultSetting.DefaultThemeFullPath}/Style.xaml");
-                var themename = Application.Current.Resources["ThemeName"];
+                var themename = Application.Current.Resources["LangThemeName"];
 
                 Debug.WriteLine("themeName:" + themename + "/" + name);
                 if (themename != null && themename.ToString() != name || themename == null)

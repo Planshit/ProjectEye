@@ -1,13 +1,10 @@
 ﻿using Project1.UI.Controls;
 using ProjectEye.Core.Models.Options;
-using ProjectEye.Core.Models.Statistic;
 using ProjectEye.Database;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 
 namespace ProjectEye.Core.Service

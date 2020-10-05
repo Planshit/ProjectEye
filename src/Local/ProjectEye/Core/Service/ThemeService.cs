@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace ProjectEye.Core.Service
@@ -109,7 +107,7 @@ namespace ProjectEye.Core.Service
                         config.options.Style.Theme = darkTheme;
 
                         SetTheme(darkModeThemeName);
-                        
+
                     }
                 }
                 else
@@ -121,7 +119,7 @@ namespace ProjectEye.Core.Service
                         config.options.Style.Theme = defualtTheme;
 
                         SetTheme(defualtTheme.ThemeName);
-                       
+
                     }
                 }
             }

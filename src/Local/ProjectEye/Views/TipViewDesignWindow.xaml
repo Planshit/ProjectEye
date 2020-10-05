@@ -38,12 +38,12 @@
         <Grid VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5">
             <StackPanel Orientation="Horizontal">
                 <ui:Project1UIButton 
-                                             Content="保存"
+                                             Content="{DynamicResource Save}"
                                              Command="{Binding saveCommand}"
                                                  CommandParameter="{Binding ElementName=Container}"
                                              Style="{DynamicResource basic}"/>
                 <ui:Project1UIButton 
-                                             Content="退出"
+                                             Content="{DynamicResource Quit}"
                                              Command="{Binding commonCommand}"
                                                  CommandParameter="quit"
                                              

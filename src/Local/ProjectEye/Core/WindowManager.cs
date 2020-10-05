@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 
 namespace ProjectEye.Core
@@ -107,7 +106,7 @@ namespace ProjectEye.Core
                 var size = GetSize(screen);
                 left = ToDips(screen.Bounds.Left, size.XDPI);
                 top = ToDips(screen.Bounds.Top, size.YDPI);
-                
+
                 width = size.Width;
                 height = size.Height;
             }

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace ProjectEye.Core
 {
@@ -27,7 +24,7 @@ namespace ProjectEye.Core
                 shortcut.Save();
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LogHelper.Warning(e.ToString());
                 return false;

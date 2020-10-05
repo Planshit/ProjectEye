@@ -2,15 +2,8 @@
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace ProjectEye.ViewModels
 {
@@ -48,6 +41,8 @@ namespace ProjectEye.ViewModels
             Model.Themes = systemResources.Themes;
             Model.Animations = systemResources.Animations;
             Model.PreAlertActions = systemResources.PreAlertActions;
+            Model.Languages = systemResources.Languages;
+
             string[] version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
 

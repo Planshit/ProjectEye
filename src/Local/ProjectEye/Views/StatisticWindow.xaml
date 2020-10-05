@@ -8,7 +8,7 @@
         xmlns:chart="clr-namespace:Project1.UI.Controls.ChartControl;assembly=Project1.UI"
         mc:Ignorable="d"
                      xmlns:date="clr-namespace:Project1.UI.Controls.DatePicker;assembly=Project1.UI"
-        Title="数据统计" Height="600" Width="800"
+        Title="{DynamicResource LangStatistics}" Height="600" Width="800"
                      WindowStartupLocation="CenterScreen" Icon="/ProjectEye;component/Resources/sunglasses.ico">
     <ui:Project1UIWindow.Resources>
         <Style TargetType="TextBlock">
@@ -86,7 +86,7 @@
         </Grid.RowDefinitions>
 
         <TabControl Grid.Row="0">
-            <TabItem Header="本周">
+            <TabItem Header="{DynamicResource LangThisweek}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <!--<RowDefinition Height="50"/>-->
@@ -116,7 +116,7 @@
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
                                                     <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
-                                                    <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                                    <TextBlock Text="{DynamicResource LangWork}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">
                                                     <ui:CompareView DataA="{Binding Data.LastWeekWork}" DataB="{Binding Data.WeekWork}" PopupText="本周总计 {b} 小时，对比上周 {a} 小时 {diffvalue}"/>
@@ -154,7 +154,7 @@
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal">
                                                     <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#82D29A"/>
-                                                    <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#82D29A"/>
+                                                    <TextBlock Text="{DynamicResource LangBreak}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#82D29A"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">
                                                     <ui:CompareView DataA="{Binding Data.LastWeekRest}" DataB="{Binding Data.WeekRest}" PopupText="本周总计 {b} 分钟，对比上周 {a} 分钟 {diffvalue}"/>
@@ -191,7 +191,7 @@
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal">
                                                     <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
-                                                    <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
+                                                    <TextBlock Text="{DynamicResource LangSkip}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">
                                                     <ui:CompareView DataA="{Binding Data.LastWeekSkip}" DataB="{Binding Data.WeekSkip}" PopupText="本周总计 {b} 次，对比上周 {a} 次 {diffvalue}"/>
@@ -215,7 +215,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="月份视图">
+            <TabItem Header="{DynamicResource LangMonthlyview}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
@@ -226,7 +226,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="月份" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
+                        <TextBlock Text="{DynamicResource LangMonthly}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
                         <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                     </Grid>
                     <ScrollViewer Grid.Row="1">
@@ -243,7 +243,7 @@
                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                     <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
-                                    <TextBlock Text="工作" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                    <TextBlock Text="{DynamicResource LangWork}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
                                     <ui:CompareView DataA="{Binding Data.LastMonthWork}" DataB="{Binding Data.MonthWork}" PopupText="本月总计 {b} 小时，对比上月 {a} 小时 {diffvalue}"/>
@@ -261,7 +261,7 @@
                             <StackPanel Grid.Row="2"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
                                     <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#1CE072"/>
-                                    <TextBlock Text="休息" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#1CE072"/>
+                                    <TextBlock Text="{DynamicResource LangBreak}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#1CE072"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
                                     <ui:CompareView DataA="{Binding Data.LastMonthRest}" DataB="{Binding Data.MonthRest}" PopupText="本月总计 {b} 分钟，对比上月 {a} 分钟 {diffvalue}"/>
@@ -272,7 +272,7 @@
                             <StackPanel Grid.Row="4"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
                                     <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
-                                    <TextBlock Text="跳过" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
+                                    <TextBlock Text="{DynamicResource LangSkip}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
                                     <ui:CompareView DataA="{Binding Data.LastMonthSkip}" DataB="{Binding Data.MonthSkip}" PopupText="本月总计 {b} 次，对比上月 {a} 次 {diffvalue}"/>
@@ -284,7 +284,7 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="番茄时钟">
+            <TabItem Header="{DynamicResource LangTomatoTimer}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <!--<RowDefinition Height="50"/>-->
@@ -315,7 +315,7 @@
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal">
                                                     <Image Source="/ProjectEye;component/Resources/tomato.ico" Width="22"/>
-                                                    <TextBlock Text="番茄数" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#f03a17"/>
+                                                    <TextBlock Text="{DynamicResource LangTomato}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#f03a17"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">
                                                     <ui:CompareView DataA="{Binding Data.TomatoLastWeekCount}" DataB="{Binding Data.TomatoWeekCount}" PopupText="本周获得 {b} 个番茄，对比上周 {a} 个 {diffvalue}"/>
@@ -327,7 +327,7 @@
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel>
                                                 <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/growth_monochromatic.png" />
-                                                <TextBlock Text="每完成一组（4次）专注工作获得一个番茄" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                                <TextBlock Text="{DynamicResource LangTomatodescription}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
                                             </StackPanel>
 
                                         </Grid>

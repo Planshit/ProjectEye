@@ -1,14 +1,9 @@
 ﻿using Newtonsoft.Json;
 using ProjectEye.Core.Models.Options;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
 
 namespace ProjectEye.Core.Service
 {
@@ -100,6 +95,7 @@ namespace ProjectEye.Core.Service
             options.Style.Theme = systemResources.Themes[0];
             options.Style.TipContent = "您已持续用眼{t}分钟，休息一会吧！请将注意力集中在至少6米远的地方20秒！";
             options.Style.TipWindowAnimation = systemResources.Animations[0];
+            options.Style.Language = systemResources.Languages[0];
 
             options.KeyboardShortcuts = new KeyboardShortcutModel();
 

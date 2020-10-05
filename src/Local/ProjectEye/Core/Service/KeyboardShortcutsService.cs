@@ -1,10 +1,6 @@
 ﻿using ProjectEye.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ProjectEye.Core.Service
@@ -53,7 +49,7 @@ namespace ProjectEye.Core.Service
             }
             if (keycommands.ContainsKey(key))
             {
-                Debug.WriteLine("执行快捷键命令："+key);
+                Debug.WriteLine("执行快捷键命令：" + key);
                 keycommands[key].Execute(parameter);
             }
         }

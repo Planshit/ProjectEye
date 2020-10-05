@@ -1,13 +1,8 @@
 ﻿using ProjectEye.Core.Models.Options;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using System.Windows.Threading;
 
@@ -213,7 +208,7 @@ namespace ProjectEye.Core.Service
         private void config_Changed(object sender, EventArgs e)
         {
             menuItem_NoReset.IsChecked = config.options.General.Noreset;
-            menuItem_Sound.IsChecked = config.options.General.Sound;
+            //menuItem_Sound.IsChecked = config.options.General.Sound;
             menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
 
 
@@ -305,29 +300,30 @@ namespace ProjectEye.Core.Service
             };
             //托盘菜单项
             menuItem_Statistic = new MenuItem();
-            menuItem_Statistic.Header = "查看数据统计";
+            //menuItem_Statistic.Header = "查看数据统计";
+            menuItem_Statistic.Header = Application.Current.Resources["LangStatistics"];
             menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
             menuItem_Statistic.Click += menuItem_Statistic_Click;
 
             menuItem_Options = new MenuItem();
-            menuItem_Options.Header = "选项";
+            menuItem_Options.Header = Application.Current.Resources["LangSettings"];
             menuItem_Options.Click += menuItem_Options_Click;
 
 
             menuItem_NoReset = new MenuItem();
-            menuItem_NoReset.Header = "暂不提醒";
+            menuItem_NoReset.Header = Application.Current.Resources["LangSuspendnow"];
 
             menuItem_NoReset_OneHour = new MenuItem();
-            menuItem_NoReset_OneHour.Header = "1小时";
+            menuItem_NoReset_OneHour.Header = Application.Current.Resources["LangOnehours"];
             menuItem_NoReset_OneHour.Click += MenuItem_NoReset_OneHour_Click;
             menuItem_NoReset_TwoHour = new MenuItem();
-            menuItem_NoReset_TwoHour.Header = "2小时";
+            menuItem_NoReset_TwoHour.Header = Application.Current.Resources["LangTwohours"];
             menuItem_NoReset_TwoHour.Click += MenuItem_NoReset_TwoHour_Click;
             menuItem_NoReset_Forver = new MenuItem();
-            menuItem_NoReset_Forver.Header = "直到下次启动";
+            menuItem_NoReset_Forver.Header = Application.Current.Resources["LangSuspenduntilnextstartup"];
             menuItem_NoReset_Forver.Click += MenuItem_NoReset_Forver_Click;
             menuItem_NoReset_Off = new MenuItem();
-            menuItem_NoReset_Off.Header = "关闭";
+            menuItem_NoReset_Off.Header = Application.Current.Resources["LangDisabled"];
             menuItem_NoReset_Off.IsChecked = true;
             menuItem_NoReset_Off.Click += MenuItem_NoReset_Off_Click;
 
@@ -336,13 +332,13 @@ namespace ProjectEye.Core.Service
             menuItem_NoReset.Items.Add(menuItem_NoReset_Forver);
             menuItem_NoReset.Items.Add(menuItem_NoReset_Off);
 
-            menuItem_Sound = new MenuItem();
-            menuItem_Sound.Header = "提示音";
-            menuItem_Sound.IsChecked = config.options.General.Sound;
-            menuItem_Sound.Click += menuItem_Sound_Click;
+            //menuItem_Sound = new MenuItem();
+            //menuItem_Sound.Header = "提示音";
+            //menuItem_Sound.IsChecked = config.options.General.Sound;
+            //menuItem_Sound.Click += menuItem_Sound_Click;
 
             menuItem_Quit = new MenuItem();
-            menuItem_Quit.Header = "退出";
+            menuItem_Quit.Header = Application.Current.Resources["LangQuit"]; ;
             menuItem_Quit.Click += menuItem_Exit_Click;
 
             //添加托盘菜单项
@@ -350,7 +346,7 @@ namespace ProjectEye.Core.Service
             contextMenu.Items.Add(menuItem_Options);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_NoReset);
-            contextMenu.Items.Add(menuItem_Sound);
+            //contextMenu.Items.Add(menuItem_Sound);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_Quit);
 

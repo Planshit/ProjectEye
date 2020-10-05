@@ -1,16 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Project1.UI.Controls;
-using Project1.UI.Controls.Models;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using ProjectEye.Models.UI;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProjectEye.ViewModels

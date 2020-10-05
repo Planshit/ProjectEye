@@ -128,6 +128,8 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}"
+                        
                         >
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="#2f2e41"/>
@@ -219,6 +221,8 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="{TemplateBinding CornerRadius}"
+                        Padding="{TemplateBinding Padding}"
+                        
                         >
                         <Border.Background>
                             <SolidColorBrush x:Name="ButtonBackground" Color="{DynamicResource ThemeColor}" Opacity="1"/>

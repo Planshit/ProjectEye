@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectEye.Core
 {
@@ -18,11 +14,11 @@ namespace ProjectEye.Core
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
         [DllImport("User32.dll")]
-        private static extern IntPtr MonitorFromPoint([In]System.Drawing.Point pt, [In]uint dwFlags);
+        private static extern IntPtr MonitorFromPoint([In] System.Drawing.Point pt, [In] uint dwFlags);
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx
         [DllImport("Shcore.dll")]
-        private static extern IntPtr GetDpiForMonitor([In]IntPtr hmonitor, [In]DpiType dpiType, [Out]out uint dpiX, [Out]out uint dpiY);
+        private static extern IntPtr GetDpiForMonitor([In] IntPtr hmonitor, [In] DpiType dpiType, [Out] out uint dpiX, [Out] out uint dpiY);
     }
 
     //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280511(v=vs.85).aspx

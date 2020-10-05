@@ -1,9 +1,5 @@
 ﻿using ProjectEye.Core.Models.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectEye.Core.Service
 {
@@ -12,11 +8,14 @@ namespace ProjectEye.Core.Service
         public List<ThemeModel> Themes { get; set; }
         public List<ComboxModel> PreAlertActions { get; set; }
         public List<AnimationModel> Animations { get; set; }
+        public List<ComboxModel> Languages { get; set; }
+
         public void Init()
         {
             Themes = new List<ThemeModel>();
             PreAlertActions = new List<ComboxModel>();
             Animations = new List<AnimationModel>();
+            Languages = new List<ComboxModel>();
 
             Themes.Add(new ThemeModel()
             {
@@ -60,7 +59,17 @@ namespace ProjectEye.Core.Service
                 AnimationType = Project1.UI.Controls.Project1UIWindow.AnimationType.Opacity,
                 DisplayName = "渐出渐隐"
             });
-
+            //语言
+            Languages.Add(new ComboxModel()
+            {
+                DisplayName = "中文",
+                Value = "zh"
+            });
+            Languages.Add(new ComboxModel()
+            {
+                DisplayName = "English",
+                Value = "en"
+            });
         }
     }
 }

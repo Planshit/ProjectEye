@@ -1,19 +1,14 @@
-﻿using ProjectEye.Core.Models;
-using ProjectEye.Core.Models.EyesTest;
-using ProjectEye.Core.Models.Statistic;
+﻿using ProjectEye.Core.Models.EyesTest;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProjectEye.Core.Service
 {
-   
+
     public class EyesTestService : IService
     {
         private readonly string xmlPath;
@@ -23,7 +18,7 @@ namespace ProjectEye.Core.Service
         private readonly string dir = "Data";
         //统计数据
         private EyesTestListModel statisticList;
- 
+
         public EyesTestService(App app)
         {
             this.app = app;
@@ -44,7 +39,7 @@ namespace ProjectEye.Core.Service
         public void Init()
         {
             LoadStatisticData();
-            
+
         }
 
         #region 添加统计数据
@@ -138,6 +133,6 @@ namespace ProjectEye.Core.Service
         }
         #endregion
 
-      
+
     }
 }

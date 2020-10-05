@@ -1,15 +1,6 @@
-﻿using ProjectEye.Core.Models.Options;
-using ProjectEye.Core.Models.Statistic;
-using SQLite.CodeFirst;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
+﻿using ProjectEye.Core.Models.Statistic;
 using System.Data.Entity;
-using System.Data.Entity.Core.EntityClient;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectEye.Database
 {

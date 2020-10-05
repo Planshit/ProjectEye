@@ -1,17 +1,9 @@
 ﻿using Microsoft.Win32;
-using Project1.UI.Controls;
 using ProjectEye.Core.Models.Options;
-using ProjectEye.ViewModels;
-using ProjectEye.Views;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Interop;
 using System.Windows.Threading;
 
 namespace ProjectEye.Core.Service
@@ -166,8 +158,26 @@ namespace ProjectEye.Core.Service
             Start();
 
             config.Changed += Config_Changed;
+
+
+            //加载语言
+            var language = new ResourceDictionary { Source = new Uri($"/ProjectEye;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(language);
         }
         #endregion
+
+        private void HandleLanguageChanged()
+        {
+            var language = new ResourceDictionary { Source = new Uri($"/ProjectEye;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
+
+            var mds = System.Windows.Application.Current.Resources.MergedDictionaries;
+            var loadedLanguage = mds.Where(m => m.Source.OriginalString.Contains("Language")).FirstOrDefault();
+            if (loadedLanguage != null)
+            {
+                mds.Remove(loadedLanguage);
+            }
+            mds.Add(language);
+        }
 
         private void Config_Changed(object sender, EventArgs e)
         {
@@ -192,6 +202,7 @@ namespace ProjectEye.Core.Service
                     Debug.WriteLine("番茄模式已关闭，恢复计时休息提醒模式");
                 }
             }
+            HandleLanguageChanged();
         }
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {

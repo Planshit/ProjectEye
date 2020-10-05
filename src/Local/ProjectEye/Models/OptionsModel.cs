@@ -1,10 +1,6 @@
 ﻿using ProjectEye.Core.Models.Options;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Xml.Serialization;
 
 namespace ProjectEye.Models
 {
@@ -50,6 +46,7 @@ namespace ProjectEye.Models
         public List<ThemeModel> Themes { get; set; }
         public List<ComboxModel> PreAlertActions { get; set; }
         public List<AnimationModel> Animations { get; set; }
+        public List<ComboxModel> Languages { get; set; }
 
         public bool IsPreAlert
         {

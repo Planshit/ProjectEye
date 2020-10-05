@@ -1,9 +1,4 @@
-﻿using Project1.UI.Controls;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Threading;

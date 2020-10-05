@@ -1,9 +1,5 @@
 ﻿using Project1.UI.Controls.ChartControl.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectEye.Models
 {
