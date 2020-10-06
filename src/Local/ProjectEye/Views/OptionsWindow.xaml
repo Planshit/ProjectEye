@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProjectEye.Views"
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
-        Title="{DynamicResource LangSettings}" Height="360" Width="500"
+        Title="{DynamicResource Lang_Settings}" Height="360" Width="500"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/ProjectEye;component/Resources/sunglasses.ico">
     <ui:Project1UIWindow.Resources>
         <Style TargetType="TextBlock">
@@ -35,7 +35,7 @@
     <Grid Margin="5">
 
         <TabControl Margin="0,0,0,33">
-            <TabItem Header="{DynamicResource LangGeneral}">
+            <TabItem Header="{DynamicResource Lang_General}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
                         <Grid Margin="0,10,0,0">
@@ -53,7 +53,7 @@
                                 Grid.Row="0"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
-                                   VerticalAlignment="Center" Text="{DynamicResource LangLangNotificationinterval}"></TextBlock>
+                                   VerticalAlignment="Center" Text="{DynamicResource Lang_Notificationinterval}"></TextBlock>
                             <Slider 
                                 Grid.Row="0"
                                 VerticalAlignment="Center"
@@ -65,7 +65,7 @@
                                 Margin="10,0,0,0"
                                    VerticalAlignment="Center">
                                 <Run Text="{Binding Model.Data.General.WarnTime}"/>
-                                <Run Text="{DynamicResource LangLangMinutes}"/>
+                                <Run Text="{DynamicResource Lang_Minutes}"/>
                             </TextBlock>
 
                             <!--休息时长-->
@@ -73,7 +73,7 @@
                                 Grid.Row="1"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
-                                   VerticalAlignment="Center" Text="{DynamicResource LangLangBreaktimelength}"></TextBlock>
+                                   VerticalAlignment="Center" Text="{DynamicResource Lang_Breaktimelength}"></TextBlock>
                             <Slider 
                                 Grid.Row="1"
                                 VerticalAlignment="Center"
@@ -85,12 +85,12 @@
                                 Margin="10,0,0,0"
                                    VerticalAlignment="Center">
                                 <Run Text="{Binding Model.Data.General.RestTime}"/>
-                                <Run Text="{DynamicResource LangLangSeconds}"/>
+                                <Run Text="{DynamicResource Lang_Seconds}"/>
                             </TextBlock>
                         </Grid>
 
-                        <CheckBox Content="{DynamicResource LangAutostartatboot}" IsChecked="{Binding Model.Data.General.Startup}" Cursor="Hand" Margin="0,10,0,0"/>
-                        <CheckBox Content="{DynamicResource LangSoundforbreakend}" IsChecked="{Binding Model.Data.General.Sound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <CheckBox Content="{DynamicResource Lang_Autostartatboot}" IsChecked="{Binding Model.Data.General.Startup}" Cursor="Hand" Margin="0,10,0,0"/>
+                        <CheckBox Content="{DynamicResource Lang_Soundforbreakend}" IsChecked="{Binding Model.Data.General.Sound}" Margin="0,10,0,0" Cursor="Hand"/>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -100,25 +100,25 @@
                             <!--<TextBlock Grid.Column="0"
                                    Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>-->
 
-                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.General.SoundPath}" Width="auto" Placeholder="{DynamicResource LangLeaveblankfordefault}"
+                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.General.SoundPath}" Width="auto" Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
                                             Type="FileSelect"
                                                 Icon="MusicNote"
                                             ExtNames=".wav|*.wav"/>
                             <ui:Project1UIButton Grid.Column="2"
                                              Margin="5,0,0,0"
-                                             Content="{DynamicResource LangPreview}"
+                                             Content="{DynamicResource Lang_Preview}"
                                              Command="{Binding soundTestCommand}"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
                         <!--<CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>-->
-                        <CheckBox Content="{DynamicResource LangStatistics}" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
+                        <CheckBox Content="{DynamicResource Lang_Statistics}" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
                               />
-                        <CheckBox Content="{DynamicResource LangStatisticsanalysis}" IsChecked="{Binding Model.Data.General.IsWeekDataAnalysis}" Margin="0,10,0,0" Cursor="Hand"
+                        <CheckBox Content="{DynamicResource Lang_Statisticsanalysis}" IsChecked="{Binding Model.Data.General.IsWeekDataAnalysis}" Margin="0,10,0,0" Cursor="Hand"
                               />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{DynamicResource LangTomatoTimer}">
+            <TabItem Header="{DynamicResource Lang_TomatoTimer}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
                         <Grid Margin="0,10,0,0">
@@ -136,7 +136,7 @@
                             <!--工作时长-->
                             <TextBlock Grid.Column="0"
                                    Margin="0,0,10,0"
-                                   VerticalAlignment="Center" Text="{DynamicResource LangLangWork}"></TextBlock>
+                                   VerticalAlignment="Center" Text="{DynamicResource Lang_Work}"></TextBlock>
                             <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.WorkMinutes}"/>
                             <TextBlock 
                                    Grid.Column="2"
@@ -144,14 +144,14 @@
                                    VerticalAlignment="Center"
                                 Margin="10,0,0,0">
                                 <Run Text="{Binding Model.Data.Tomato.WorkMinutes}"/>
-                                <Run Text="{DynamicResource LangLangMinutes}"/>
+                                <Run Text="{DynamicResource Lang_Minutes}"/>
                             </TextBlock>
                             <!--短休息-->
                             <TextBlock 
                                 Grid.Row="1"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
-                                   VerticalAlignment="Center" Text="{DynamicResource LangLangShortbreak}"></TextBlock>
+                                   VerticalAlignment="Center" Text="{DynamicResource Lang_Shortbreak}"></TextBlock>
                             <Slider 
                                 Grid.Row="1"
                                 Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.ShortRestMinutes}"/>
@@ -162,14 +162,14 @@
                                    VerticalAlignment="Center"
                                 Margin="10,0,0,0">
                                 <Run Text="{Binding Model.Data.Tomato.ShortRestMinutes}"/>
-                                <Run Text="{DynamicResource LangLangMinutes}"/>
+                                <Run Text="{DynamicResource Lang_Minutes}"/>
                             </TextBlock>
                             <!--长休息-->
                             <TextBlock 
                                 Grid.Row="2"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
-                                   VerticalAlignment="Center" Text="{DynamicResource LangLangLongbreak}"></TextBlock>
+                                   VerticalAlignment="Center" Text="{DynamicResource Lang_Longbreak}"></TextBlock>
                             <Slider 
                                 Grid.Row="2"
                                 Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.LongRestMinutes}"/>
@@ -180,13 +180,13 @@
                                    VerticalAlignment="Center"
                                 Margin="10,0,0,0">
                                 <Run Text="{Binding Model.Data.Tomato.LongRestMinutes}"/>
-                                <Run Text="{DynamicResource LangLangMinutes}"/>
+                                <Run Text="{DynamicResource Lang_Minutes}"/>
                             </TextBlock>
                         </Grid>
 
 
                         <!--提示音-->
-                        <CheckBox Content="{DynamicResource LangSoundforworksstart}" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <CheckBox Content="{DynamicResource Lang_Soundforworksstart}" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,10,0,0" Cursor="Hand"/>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -196,18 +196,18 @@
                             <!--<TextBlock Grid.Column="0"
                                    Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>-->
 
-                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkStartSoundPath}" Width="auto" Placeholder="{DynamicResource LangLeaveblankfordefault}"
+                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkStartSoundPath}" Width="auto" Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
                                             Type="FileSelect"
                                                 Icon="MusicNote"
                                             ExtNames=".wav文件|*.wav"/>
                             <ui:Project1UIButton Grid.Column="2"
                                              Margin="5,0,0,0"
-                                             Content="{DynamicResource LangPreview}"
+                                             Content="{DynamicResource Lang_Preview}"
                                              Command="{Binding soundTestCommand}"
                                                  CommandParameter="2"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
-                        <CheckBox Content="{DynamicResource LangSoundforworksend}" IsChecked="{Binding Model.Data.Tomato.IsWorkEndSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <CheckBox Content="{DynamicResource Lang_Soundforworksend}" IsChecked="{Binding Model.Data.Tomato.IsWorkEndSound}" Margin="0,10,0,0" Cursor="Hand"/>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -217,13 +217,13 @@
                             <!--<TextBlock Grid.Column="0"
                                    Margin="0,0,10,0" VerticalAlignment="Center">自定义提示音</TextBlock>-->
 
-                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkEndSoundPath}" Width="auto" Placeholder="{DynamicResource LangLeaveblankfordefault}"
+                            <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Tomato.WorkEndSoundPath}" Width="auto" Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
                                             Type="FileSelect"
                                                 Icon="MusicNote"
                                             ExtNames=".wav|*.wav"/>
                             <ui:Project1UIButton Grid.Column="2"
                                              Margin="5,0,0,0"
-                                             Content="{DynamicResource LangPreview}"
+                                             Content="{DynamicResource Lang_Preview}"
                                              Command="{Binding soundTestCommand}"
                                                  CommandParameter="3"
                                              Style="{DynamicResource basic}"/>
@@ -231,7 +231,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{DynamicResource LangDisplay}">
+            <TabItem Header="{DynamicResource Lang_Display}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
                         <Grid Margin="0,10,0,0">
@@ -248,7 +248,7 @@
                             </Grid.RowDefinitions>
                             <!--语言-->
                             <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangLanguage}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Language}"></TextBlock>
                             <ComboBox 
                              Grid.Column="1" 
                                 VerticalAlignment="Center"
@@ -263,7 +263,7 @@
                             <TextBlock 
                                 Grid.Row="1"
                                 Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangTheme}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Theme}"></TextBlock>
                             <ComboBox 
                                 Grid.Row="1"
                              Grid.Column="1" 
@@ -279,7 +279,7 @@
                             <TextBlock 
                                 Grid.Row="2"
                                 Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangFullscreennotificationanimation}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Fullscreennotificationanimation}"></TextBlock>
                             <ComboBox 
                                 Grid.Row="2"
                                 
@@ -296,22 +296,22 @@
                             <TextBlock 
                                 Grid.Row="3"
                                 Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangFullscreennotificationappearance}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Fullscreennotificationappearance}"></TextBlock>
                             <ui:Project1UIButton 
                                 Grid.Row="3"
                                 Grid.Column="1"
-                                             Content="{DynamicResource LangCustomize}"
+                                             Content="{DynamicResource Lang_Customize}"
                                              Command="{Binding openWindowCommand}"
                                                  CommandParameter="TipViewDesignWindow"
                                                  HorizontalAlignment="Left"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
 
-                        <CheckBox Content="{DynamicResource LangSwitchtodarkthemeautomatically}" IsChecked="{Binding Model.IsAutoDark}" Cursor="Hand" Margin="0,10,0,0" />
+                        <CheckBox Content="{DynamicResource Lang_Switchtodarkthemeautomatically}" IsChecked="{Binding Model.IsAutoDark}" Cursor="Hand" Margin="0,10,0,0" />
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.AutoDarkConfigVisibility}">
                             <!--自动切换深色模式配置-->
                             <StackPanel Margin="30,0,0,0">
-                                <TextBlock Text="{DynamicResource LangLangSpecifythetime}"/>
+                                <TextBlock Text="{DynamicResource Lang_Specifythetime}"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                                     <ui:TimeBox Hour="{Binding Model.Data.Style.AutoDarkStartH,Mode=TwoWay}" Minutes="{Binding Model.Data.Style.AutoDarkStartM,Mode=TwoWay}"/>
                                     <TextBlock Text=" " VerticalAlignment="Center" Margin="5,0"/>
@@ -320,18 +320,18 @@
                             </StackPanel>
                         </Grid>
 
-                        <CheckBox Content="{DynamicResource LangShowbuttonsinfullscreennotification}" IsChecked="{Binding Model.IsTipAsk,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
-                        <CheckBox IsEnabled="{Binding Model.IsThruTipWindowEnabled}" Content="{DynamicResource LangEnablemousepassthroughduringfullscreennotification}" IsChecked="{Binding Model.Data.Style.IsThruTipWindow,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
+                        <CheckBox Content="{DynamicResource Lang_Showbuttonsinfullscreennotification}" IsChecked="{Binding Model.IsTipAsk,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
+                        <CheckBox IsEnabled="{Binding Model.IsThruTipWindowEnabled}" Content="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}" IsChecked="{Binding Model.Data.Style.IsThruTipWindow,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
 
-                        <CheckBox Content="{DynamicResource LangEnableanimation}" IsChecked="{Binding Model.Data.Style.IsAnimation,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
+                        <CheckBox Content="{DynamicResource Lang_Enableanimation}" IsChecked="{Binding Model.Data.Style.IsAnimation,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
 
 
-                        <CheckBox Content="{DynamicResource LangEarlypopupforbreaktime}" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" />
+                        <CheckBox Content="{DynamicResource Lang_Earlypopupforbreaktime}" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" />
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--预提醒配置-->
                             <StackPanel Margin="30,0,0,0">
                                 <!--预提醒提示音-->
-                                <CheckBox Content="{DynamicResource LangPopupsound}" IsChecked="{Binding Model.Data.Style.IsPreAlertSound}" Cursor="Hand" Margin="0,0,0,0"/>
+                                <CheckBox Content="{DynamicResource Lang_Popupsound}" IsChecked="{Binding Model.Data.Style.IsPreAlertSound}" Cursor="Hand" Margin="0,0,0,0"/>
                                 <!--预提醒提前时间-->
                                 <Grid Margin="0,10,0,0">
                                     <Grid.ColumnDefinitions>
@@ -339,7 +339,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Top" Text="{DynamicResource LangLangPopupleadtime}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Top" Text="{DynamicResource Lang_Popupleadtime}"></TextBlock>
 
                                     <Grid Grid.Column="1">
                                         <Grid.ColumnDefinitions>
@@ -349,7 +349,7 @@
                                         <Slider Grid.Column="0" Maximum="60" Minimum="3" SmallChange="1" Value="{Binding Model.Data.Style.PreAlertTime}" />
                                         <TextBlock Grid.Column="2" Margin="10,0,0,0">
                                             <Run Text="{Binding Model.Data.Style.PreAlertTime}"/>
-                                            <Run Text="{DynamicResource LangLangSeconds}"/>
+                                            <Run Text="{DynamicResource Lang_Seconds}"/>
                                         </TextBlock>
                                     </Grid>
                                 </Grid>
@@ -359,7 +359,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangDefaultactionafterthepopup}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Defaultactionafterthepopup}"></TextBlock>
                                     <ComboBox 
                              Grid.Column="1" 
                                   ItemsSource="{Binding Model.PreAlertActions}"
@@ -378,9 +378,9 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangIcon}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Icon}"></TextBlock>
 
-                                    <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Style.PreAlertIcon}" Width="auto" Placeholder="{DynamicResource LangLeaveblankfordefault}"
+                                    <ui:Project1UIInput Grid.Column="1"  TextWrapping="NoWrap" Text="{Binding Model.Data.Style.PreAlertIcon}" Width="auto" Placeholder="{DynamicResource Lang_Leaveblankfordefault}"
                                             Type="FileSelect"
                                             ExtNames=".jpg|*.jpg|.png|*.png"/>
                                 </Grid>
@@ -390,7 +390,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangTitle}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Title}"></TextBlock>
 
                                     <ui:Project1UIInput
                                 Text="{Binding Model.Data.Style.PreAlertTitle}"
@@ -407,7 +407,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangSubtitle}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Subtitle}"></TextBlock>
 
                                     <ui:Project1UIInput
                                 Text="{Binding Model.Data.Style.PreAlertSubtitle}"
@@ -424,7 +424,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Top" Text="{DynamicResource LangLangContent}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Top" Text="{DynamicResource Lang_Content}"></TextBlock>
                                     <StackPanel Grid.Column="1">
                                         <ui:Project1UIInput
                                 AcceptsReturn="True"
@@ -434,7 +434,7 @@
                                 Type="Text"
                                 Height="40"
                                 VerticalContentAlignment="Top"/>
-                                        <TextBlock Text="{DynamicResource LangLangVariablesdescription}" Foreground="#FF838383" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{DynamicResource Lang_Variablesdescription}" Foreground="#FF838383" TextWrapping="Wrap"/>
                                     </StackPanel>
 
 
@@ -444,7 +444,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="{DynamicResource LangHotkeys}">
+            <TabItem Header="{DynamicResource Lang_Hotkeys}">
                 <StackPanel Margin="10">
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -457,25 +457,25 @@
                         </Grid.RowDefinitions>
                         <!--进入休息-->
                         <TextBlock Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangStartthebreak}"></TextBlock>
-                        <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.Reset,Mode=TwoWay}" Placeholder="{DynamicResource LangPleasepressakey}"/>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Startthebreak}"></TextBlock>
+                        <ui:Project1UIKeyboardInput Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.Reset,Mode=TwoWay}" Placeholder="{DynamicResource Lang_Pleasepressakey}"/>
                         <!--跳过休息-->
                         <TextBlock 
                             Grid.Row="1"
                             Grid.Column="0"
-                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource LangLangSkipthebreak}"></TextBlock>
+                                   Margin="0,0,10,0" VerticalAlignment="Center" Text="{DynamicResource Lang_Skipthebreak}"></TextBlock>
                         <ui:Project1UIKeyboardInput 
                             Grid.Row="1"
-                            Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.NoReset,Mode=TwoWay}" Placeholder="{DynamicResource LangPleasepressakey}"/>
+                            Grid.Column="1" Width="auto" KeyText="{Binding Model.Data.KeyboardShortcuts.NoReset,Mode=TwoWay}" Placeholder="{DynamicResource Lang_Pleasepressakey}"/>
                     </Grid>
 
                 </StackPanel>
             </TabItem>
-            <TabItem Header="{DynamicResource LangBehaviors}">
+            <TabItem Header="{DynamicResource Lang_Behaviors}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <CheckBox Content="{DynamicResource LangDonotdisturbwhenrunningfullscreenapplications}"  IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,10,0,0"/>
-                        <CheckBox Content="{DynamicResource LangDonotdisturbwhenfollowingprocessesarerunning}" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
+                        <CheckBox Content="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"  IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,10,0,0"/>
+                        <CheckBox Content="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
@@ -489,7 +489,7 @@
                                 <ui:Project1UIInput
                                     Name="breakProcessTextbox"
                                 Width="auto"
-                                Placeholder="{DynamicResource LangProcessname}"
+                                Placeholder="{DynamicResource Lang_Processname}"
                                 Type="Text"
                                     MinHeight="23"
                                 VerticalContentAlignment="Center"/>
@@ -497,7 +497,7 @@
                                 Grid.Column="1"
             Command="{Binding addBreackProcessCommand}"
                                     CommandParameter="{Binding ElementName=breakProcessTextbox,Path=Text}"
-            Content="{DynamicResource LangAdd}"
+            Content="{DynamicResource Lang_Add}"
             MinHeight="23"
             MinWidth="85"
                                     VerticalAlignment="Center"
@@ -515,7 +515,7 @@
 
                                 <ListView.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="移除所选项"  Command="{Binding removeBreackProcessCommand}"/>
+                                        <MenuItem Header="{DynamicResource Lang_Remove}"  Command="{Binding removeBreackProcessCommand}"/>
                                     </ContextMenu>
                                 </ListView.ContextMenu>
 
@@ -524,7 +524,7 @@
                                         <GridView.Columns>
                                             <GridViewColumn Width="{Binding ElementName=breakProcessListView,Path=ActualWidth}">
                                                 <GridViewColumn.Header>
-                                                    <TextBlock Text="{DynamicResource LangLangProcessname}" HorizontalAlignment="Left" Width="{Binding ElementName=breakProcessListView,Path=ActualWidth}"/>
+                                                    <TextBlock Text="{DynamicResource Lang_Processname}" HorizontalAlignment="Left" Width="{Binding ElementName=breakProcessListView,Path=ActualWidth}"/>
                                                 </GridViewColumn.Header>
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate>
@@ -541,22 +541,22 @@
                                 </ListView.View>
                             </ListView>
                         </Grid>
-                        <CheckBox Content="{DynamicResource LangBreakscannotbeskipped}"  IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}" Cursor="Hand" Margin="0,10,0,0"/>
+                        <CheckBox Content="{DynamicResource Lang_Breakscannotbeskipped}"  IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}" Cursor="Hand" Margin="0,10,0,0"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="{DynamicResource LangAbout}">
+            <TabItem Header="{DynamicResource Lang_About}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
                         <Image Source="/ProjectEye;component/Resources/sunglasses.ico" Height="30" HorizontalAlignment="Left"  Margin="0,10,0,0"/>
                         <TextBlock TextWrapping="Wrap" Text="Project Eye"
                                Margin="0,10,0,0"/>
-                        <TextBlock TextWrapping="Wrap" Text="{DynamicResource LangLangAprogramwhichprotectsyoureyesbehindthescenes}"
+                        <TextBlock TextWrapping="Wrap" Text="{DynamicResource Lang_Aprogramwhichprotectsyoureyesbehindthescenes}"
                                Margin="0,10,0,0"/>
                         <TextBlock TextWrapping="Wrap"
-                               Margin="0,10,0,0"><Run Text="{DynamicResource LangLangVersion}"/> <Hyperlink Command="{Binding openurlCommand}"
-                                      CommandParameter="{Binding Model.VersionLink}" ><Run Text="{Binding Model.Version}"/></Hyperlink> <Hyperlink Command="{Binding updateCommand}"><Run Text="{DynamicResource LangLangCheckforupdates}"/></Hyperlink></TextBlock>
+                               Margin="0,10,0,0"><Run Text="{DynamicResource Lang_Version}"/> <Hyperlink Command="{Binding openurlCommand}"
+                                      CommandParameter="{Binding Model.VersionLink}" ><Run Text="{Binding Model.Version}"/></Hyperlink> <Hyperlink Command="{Binding updateCommand}"><Run Text="{DynamicResource Lang_Checkforupdates}"/></Hyperlink></TextBlock>
 
                         <!--<Grid>
                             <Grid.ColumnDefinitions>
@@ -572,7 +572,7 @@
                             <TextBlock 
                                 Grid.Row="0"
                                 Grid.Column="0" 
-                                Text="{DynamicResource LangLangHelp}"
+                                Text="{DynamicResource Lang_Help}"
                                 Margin="0,0,10,0"
                                 VerticalAlignment="Center"
                                 />
@@ -587,19 +587,24 @@
                                 />
                         </Grid>-->
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                        <Run Text="{DynamicResource LangLangHelp}"/> <Hyperlink  Command="{Binding openurlCommand}"
+                        <Hyperlink Command="{Binding openWindowCommand}" CommandParameter="ContributorsWindow">
+                            <Run Text="{DynamicResource Lang_Contributors}"/>
+                        </Hyperlink>
+                        </TextBlock>
+                        <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                        <Run Text="{DynamicResource Lang_Help}"/> <Hyperlink  Command="{Binding openurlCommand}"
                                       CommandParameter="https://littlepanda.gitbook.io/project-eye/">https://littlepanda.gitbook.io/project-eye</Hyperlink>
                         </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                         <Run Text="{DynamicResource LangLangSource}"/> <Hyperlink Command="{Binding openurlCommand}"
+                         <Run Text="{DynamicResource Lang_Source}"/> <Hyperlink Command="{Binding openurlCommand}"
                                       CommandParameter="https://github.com/Planshit/ProjectEye">https://github.com/Planshit/ProjectEye</Hyperlink>
                         </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                         <Run Text="{DynamicResource LangLangFeedback}"/> <Hyperlink  Command="{Binding openurlCommand}"
+                         <Run Text="{DynamicResource Lang_Feedback}"/> <Hyperlink  Command="{Binding openurlCommand}"
                                       CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
                         <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
-                         <Run Text="{DynamicResource LangLangDevelopers}"/> <Hyperlink  Command="{Binding openurlCommand}"
+                         <Run Text="{DynamicResource Lang_Developers}"/> <Hyperlink  Command="{Binding openurlCommand}"
                                       CommandParameter="http://thelittlepandaisbehind.com">http://thelittlepandaisbehind.com</Hyperlink>
                         </TextBlock>
                     </StackPanel>
@@ -611,7 +616,7 @@
             VerticalAlignment="Bottom">
             <ui:Project1UIButton 
             Command="{Binding inkCommand}"
-            Content="{DynamicResource LangCreateashortcutondesktop}"
+            Content="{DynamicResource Lang_Createashortcutondesktop}"
             MinHeight="23"
             MinWidth="85"
                 Width="auto"
@@ -625,7 +630,7 @@
                 Margin="10,0,0,0"/>-->
             <ui:Project1UIButton 
             Command="{Binding applyCommand}"
-            Content="{DynamicResource LangApply}"
+            Content="{DynamicResource Lang_Apply}"
             MinHeight="23"
             MinWidth="75"
                 Margin="10,0,0,0"

@@ -211,7 +211,7 @@
                                     </Border.Effect>
                                     <Grid>
                                             <TextBlock>
-                                                <Run Text="平均 "/>
+                                                <Run Text="{DynamicResource Lang_Average}"/>
                                                 <Run Text="{TemplateBinding AverageText}"/>
                                             </TextBlock>
                                             <Path 

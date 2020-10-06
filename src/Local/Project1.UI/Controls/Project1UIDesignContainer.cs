@@ -107,25 +107,25 @@ namespace Project1.UI.Controls
             var menu = new ContextMenu();
             var itemRemove = new MenuItem();
             var controlPoint = item.RenderTransform as TranslateTransform;
-            itemRemove.Header = $"{Application.Current.Resources["LangDelete"]}";
+            itemRemove.Header = $"{Application.Current.Resources["Lang_Delete"]}";
             itemRemove.Click += (s, e) =>
             {
                 Children.Remove(item);
             };
             var itemHcenter = new MenuItem();
-            itemHcenter.Header = $"{Application.Current.Resources["LangHorizontalCenter"]}";
+            itemHcenter.Header = $"{Application.Current.Resources["Lang_HorizontalCenter"]}";
             itemHcenter.Click += (s, e) =>
             {
                 controlPoint.X = this.ActualWidth / 2 - item.ActualWidth / 2;
             };
             var itemVcenter = new MenuItem();
-            itemVcenter.Header = $"{Application.Current.Resources["LangVerticalCenter"]}";
+            itemVcenter.Header = $"{Application.Current.Resources["Lang_VerticalCenter"]}";
             itemVcenter.Click += (s, e) =>
             {
                 controlPoint.Y = this.ActualHeight / 2 - item.ActualHeight / 2;
             };
             var itemAtt = new MenuItem();
-            itemAtt.Header = $"{Application.Current.Resources["LangAttribute"]}";
+            itemAtt.Header = $"{Application.Current.Resources["Lang_Attribute"]}";
             itemAtt.Click += (s, e) =>
             {
                 item.OpenAttPopup();
@@ -145,10 +145,10 @@ namespace Project1.UI.Controls
         {
             var menu = new ContextMenu();
             var itemAdd = new MenuItem();
-            itemAdd.Header = $"{Application.Current.Resources["LangAddElement"]}";
+            itemAdd.Header = $"{Application.Current.Resources["Lang_AddElement"]}";
             //图片
             var itemAddImage = new MenuItem();
-            itemAddImage.Header = $"{Application.Current.Resources["LangImage"]}";
+            itemAddImage.Header = $"{Application.Current.Resources["Lang_Image"]}";
             itemAddImage.Click += (s, e) =>
             {
                 var item = new Project1UIDesignItem();
@@ -164,12 +164,12 @@ namespace Project1.UI.Controls
             };
             //按钮
             var itemAddButton = new MenuItem();
-            itemAddButton.Header = $"{Application.Current.Resources["LangButton"]}";
+            itemAddButton.Header = $"{Application.Current.Resources["Lang_Button"]}";
             itemAddButton.Click += (s, e) =>
             {
                 var item = new Project1UIDesignItem();
                 var data = item.DataContext as DesignItemModel;
-                data.ButtonText = $"{Application.Current.Resources["LangButton"]}";
+                data.ButtonText = $"{Application.Current.Resources["Lang_Button"]}";
                 data.Width = 100;
                 data.Height = 25;
                 var element = new Project1UIButton();
@@ -180,12 +180,12 @@ namespace Project1.UI.Controls
             };
             //文本
             var itemAddText = new MenuItem();
-            itemAddText.Header = $"{Application.Current.Resources["LangText"]}";
+            itemAddText.Header = $"{Application.Current.Resources["Lang_Text"]}";
             itemAddText.Click += (s, e) =>
             {
                 var item = new Project1UIDesignItem();
                 var data = item.DataContext as DesignItemModel;
-                data.Text = $"{Application.Current.Resources["LangText"]}";
+                data.Text = $"{Application.Current.Resources["Lang_Text"]}";
                 data.Width = 100;
                 data.Height = 25;
                 var element = new TextBlock();
@@ -196,7 +196,7 @@ namespace Project1.UI.Controls
             };
             //属性编辑
             var itemAttr = new MenuItem();
-            itemAttr.Header = $"{Application.Current.Resources["LangAttribute"]}";
+            itemAttr.Header = $"{Application.Current.Resources["Lang_Attribute"]}";
             itemAttr.Click += (s, e) =>
             {
                 isContextMenuOpen = true;
@@ -248,7 +248,7 @@ namespace Project1.UI.Controls
             });
             grid.Children.Add(new TextBlock()
             {
-                Text = $"{Application.Current.Resources["LangWindowAttribute"]}",
+                Text = $"{Application.Current.Resources["Lang_WindowAttribute"]}",
                 FontWeight = FontWeights.Bold,
                 VerticalAlignment = VerticalAlignment.Center
             });
@@ -273,7 +273,7 @@ namespace Project1.UI.Controls
             });
             //添加透明度属性
             var opacityName = new TextBlock();
-            opacityName.Text = $"{Application.Current.Resources["LangOpacity"]}";
+            opacityName.Text = $"{Application.Current.Resources["Lang_Opacity"]}";
             opacityName.VerticalAlignment = VerticalAlignment.Center;
             var opacityTextBox = new Project1UIInput();
             opacityTextBox.Height = 25;
@@ -294,7 +294,7 @@ namespace Project1.UI.Controls
             stackPanelGrid.Children.Add(opacityTextBox);
             //添加背景颜色属性
             var backgroundName = new TextBlock();
-            backgroundName.Text = $"{Application.Current.Resources["LangBackgroundColor"]}";
+            backgroundName.Text = $"{Application.Current.Resources["Lang_BackgroundColor"]}";
             backgroundName.Margin = new Thickness(0, 10, 0, 0);
             backgroundName.VerticalAlignment = VerticalAlignment.Center;
             backgroundName.SetValue(Grid.RowProperty, 1);

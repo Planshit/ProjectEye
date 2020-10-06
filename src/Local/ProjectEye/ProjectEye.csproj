@@ -151,12 +151,16 @@
     <Compile Include="ViewModels\Command.cs" />
     <Compile Include="ViewModels\EyesTestViewModel.cs" />
     <Compile Include="ViewModels\IViewModel.cs" />
+    <Compile Include="ViewModels\ContributorsViewModel.cs" />
     <Compile Include="ViewModels\TipViewDesignViewModel.cs" />
     <Compile Include="ViewModels\UpdateViewModel.cs" />
     <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="ViewModels\StatisticViewModel.cs" />
     <Compile Include="ViewModels\TipViewModel.cs" />
     <Compile Include="ViewModels\ViewModelEventHandler.cs" />
+    <Compile Include="Views\ContributorsWindow.xaml.cs">
+      <DependentUpon>ContributorsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EyesTestWindow.xaml.cs">
       <DependentUpon>EyesTestWindow.xaml</DependentUpon>
     </Compile>
@@ -342,6 +346,10 @@
     <Page Include="Resources\Themes\Blue\Window.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ContributorsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EyesTestWindow.xaml">
       <SubType>Designer</SubType>

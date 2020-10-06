@@ -5,6 +5,7 @@ using ProjectEye.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace ProjectEye.ViewModels
 {
@@ -121,7 +122,7 @@ namespace ProjectEye.ViewModels
                 MonthWorkData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
-                    PopupText = (isSelected ? "今日 " : "") + "{value} 小时",
+                    PopupText = (isSelected ? $"{Application.Current.Resources["Lang_today"]} " : "") + "{value} " + Application.Current.Resources["Lang_Hours_n"],
                     Tag = data.Date.Day.ToString(),
                     Value = data.WorkingTime
                 });
@@ -129,7 +130,7 @@ namespace ProjectEye.ViewModels
                 MonthRestData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
-                    PopupText = (isSelected ? "今日 " : "") + "{value} 分钟",
+                    PopupText = (isSelected ? $"{Application.Current.Resources["Lang_today"]} " : "") + "{value} " + Application.Current.Resources["Lang_Minutes_n"],
                     Tag = data.Date.Day.ToString(),
                     Value = data.ResetTime
                 });
@@ -137,7 +138,7 @@ namespace ProjectEye.ViewModels
                 MonthSkipData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
-                    PopupText = (isSelected ? "今日 " : "") + "{value} 次",
+                    PopupText = (isSelected ? $"{Application.Current.Resources["Lang_today"]} " : "") + "{value} " + Application.Current.Resources["Lang_x_n"],
                     Tag = data.Date.Day.ToString(),
                     Value = data.SkipCount
                 });
@@ -210,17 +211,21 @@ namespace ProjectEye.ViewModels
             var tomatoWeekData = tomato.GetData(weekStartDate, weekEndDate);
             Data.TomatoWeekCount = tomatoWeekData.Count > 0 ? tomatoWeekData.Sum(m => m.TomatoCount) : 0;
 
-            string[] weekText = { "日", "一", "二", "三", "四", "五", "六" };
+            //string[] weekText = { "日", "一", "二", "三", "四", "五", "六" };
+            string[] weekText = { $"{Application.Current.Resources["Lang_sun"]}", $"{Application.Current.Resources["Lang_mon"]}", $"{Application.Current.Resources["Lang_tues"]}", $"{Application.Current.Resources["Lang_wed"]}", $"{Application.Current.Resources["Lang_thur"]}", $"{Application.Current.Resources["Lang_fri"]}", $"{Application.Current.Resources["Lang_sat"]}" };
+
             foreach (var data in WeekData)
             {
                 bool isSelected = DateTime.Now.Date == data.Date.Date;
                 string weekStr = weekText[(int)data.Date.DayOfWeek];
 
-                string addStr = isSelected ? "今日 " : data.Date.Month + "月" + data.Date.Day + "日 ";
+                //string addStr = isSelected ? "今日 " : data.Date.Month + "月" + data.Date.Day + "日 ";
+                string addStr = isSelected ? $"{Application.Current.Resources["Lang_today"]} " : data.Date.Month + $"{Application.Current.Resources["Lang_xmonth"]}" + data.Date.Day + $"{Application.Current.Resources["Lang_xday"]} ";
+
                 WeekWorkData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
-                    PopupText = addStr + "{value} 小时",
+                    PopupText = addStr + "{value} " + Application.Current.Resources["Lang_Hours_n"],
                     Tag = weekStr,
                     Value = data.WorkingTime
                 });
@@ -228,7 +233,7 @@ namespace ProjectEye.ViewModels
                 WeekRestData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
-                    PopupText = addStr + "{value} 分钟",
+                    PopupText = addStr + "{value} " + Application.Current.Resources["Lang_Minutes_n"],
                     Tag = weekStr,
                     Value = data.ResetTime
                 });
@@ -236,7 +241,7 @@ namespace ProjectEye.ViewModels
                 WeekSkipData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
-                    PopupText = addStr + "{value} 次",
+                    PopupText = addStr + "{value} " + Application.Current.Resources["Lang_x_n"],
                     Tag = weekStr,
                     Value = data.SkipCount
                 });
@@ -247,11 +252,11 @@ namespace ProjectEye.ViewModels
                 bool isSelected = DateTime.Now.Date == data.Date.Date;
                 string weekStr = weekText[(int)data.Date.DayOfWeek];
 
-                string addStr = isSelected ? "今日 " : data.Date.Month + "月" + data.Date.Day + "日 ";
+                string addStr = isSelected ? $"{Application.Current.Resources["Lang_today"]} " : data.Date.Month + $"{Application.Current.Resources["Lang_xmonth"]}" + data.Date.Day + $"{Application.Current.Resources["Lang_xday"]} ";
                 tomatoData.Add(new ChartDataModel()
                 {
                     IsSelected = isSelected,
-                    PopupText = addStr + "{value} 个",
+                    PopupText = addStr + "{value}",
                     Tag = weekStr,
                     Value = data.TomatoCount
                 });
@@ -280,7 +285,7 @@ namespace ProjectEye.ViewModels
             //Data.WeekRest = Data.WeekRest - todayData.ResetTime;
             //Data.WeekSkip = Data.WeekSkip - todayData.SkipCount;
 
-            Data.WorkAnalysis = "截至目前，一切正常。工作时间的统计方式是Project Eye运行时且没有进入离开或睡眠状态的总时长。";
+            Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
             //本周平均每天工作时间
             double weekWorkAverage = weekNum > 0 ? Data.WeekWork / weekNum : 0;
 
@@ -312,37 +317,13 @@ namespace ProjectEye.ViewModels
 
                 if (x >= l7)
                 {
-                    Data.WorkAnalysis = "危险！截至目前，您本周使用电脑的时间已经超过人体负荷，请务必停止这样的工作状态。";
-                }
-                else if (x >= l6)
-                {
-                    Data.WorkAnalysis = "非常忙！截至目前，您本周使用电脑的时间几乎高于正常水平一倍！除了需要注意您的眼睛状况外还应该保护生活质量。";
-                }
-                else if (x >= l5)
-                {
-                    Data.WorkAnalysis = "很忙！截至目前，您本周使用电脑的时间过长，容易导致近视或近视加重。";
+                    Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Overload"]}";
                 }
                 else if (x >= l4)
                 {
-                    Data.WorkAnalysis = "较忙！截至目前，您本周使用电脑的时间略高于正常水平，请注意休息！";
-                }
-                else if (x >= l3)
-                {
-                    Data.WorkAnalysis = "正常！截至目前，您本周使用电脑的时间处于普通水平。";
-                }
-                else if (x >= l2)
-                {
-                    Data.WorkAnalysis = "很健康！截至目前，您本周使用电脑的时间非常少！";
-                }
-                else
-                {
-                    Data.WorkAnalysis = "截至目前，非常健康！";
+                    Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Busy"]}";
                 }
 
-                //if (worklifep > 0)
-                //{
-                //    Data.WorkAnalysis += $"平均每天占用了正常生活时间的{worklifep}%。";
-                //}
 
 
 
@@ -350,7 +331,7 @@ namespace ProjectEye.ViewModels
 
             }
 
-            Data.RestAnalysis = weekWorkAverage > 3 ? ":( 危险，您目前处于长时间过劳用眼。" : "正常，保持视力健康的前提是劳逸结合，记得准时根据Project Eye的提示休息。";
+            Data.RestAnalysis = weekWorkAverage > 3 ? $"{Application.Current.Resources["Lang_Exhausted"]}" : $"{Application.Current.Resources["Lang_Normal"]}";
             //休息时间
             if (Data.WeekRest > 0 && weekWorkAverage > 0)
             {
@@ -362,14 +343,14 @@ namespace ProjectEye.ViewModels
                 bool isReached = dayRestM >= optionDayRestM;
                 //百分比
                 //double reachedTTTP = Math.Round(dayRestM / optionDayRestM * 100, 0);
-                Data.RestAnalysis = isReached ? $"非常棒！您已达成根据您设置的每{config.options.General.WarnTime}分钟休息{config.options.General.RestTime}秒的规则，继续保持。" : $"请注意休息，根据您的设置，每日应该至少放松眼睛{optionDayRestM}分钟。";
+                Data.RestAnalysis = isReached ? $"{Application.Current.Resources["Lang_Goodjob"]}" : $"{Application.Current.Resources["Lang_Haveagoodrest"]}";
                 //if (reachedTTTP < 100)
                 //{
                 //    Data.RestAnalysis += $"根据20-20-20规则来看，您只达到了{reachedTTTP}%。";
                 //}
             }
 
-            Data.SkipAnalysis = "一切正常！继续保持。";
+            Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
             //跳过次数
             if (weekWorkAverage >= 1 && Data.WeekSkip > 0)
             {
@@ -383,15 +364,16 @@ namespace ProjectEye.ViewModels
                 double skipP = Math.Round(daySkipCount / optionRecommendDayRestNum * 100, 0);
                 if (daySkipCount > optionRecommendDayRestNum)
                 {
-                    Data.SkipAnalysis = "过于频繁，请注意，过多的跳过休息可能会使您的视力下降，记得遵守规则。";
+                    Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Toooften"]}";
                 }
                 else if (skipP < 10)
                 {
-                    Data.SkipAnalysis = "正常，保持现状或减少跳过次数！";
+                    Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Keepnow"]}";
                 }
                 else
                 {
-                    Data.SkipAnalysis = $"较为频繁，请减少跳过次数！您已接近建议的跳过次数{skipP}%，根据设置以及本周的工作时间，建议您每天的跳过次数应不超过{optionRecommendDayRestNum}次。";
+                    //Data.SkipAnalysis = $"较为频繁，请减少跳过次数！您已接近建议的跳过次数{skipP}%，根据设置以及本周的工作时间，建议您每天的跳过次数应不超过{optionRecommendDayRestNum}次。";
+                    Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Toooften"]}";
                 }
             }
 
@@ -402,12 +384,12 @@ namespace ProjectEye.ViewModels
             Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
             dlg.FileName = "Project Eye " + Data.Year + Data.Month;
             dlg.DefaultExt = ".jpg";
-            dlg.Filter = "图片 (.jpg)|*.jpg";
+            dlg.Filter = "(.jpg)|*.jpg";
             Nullable<bool> result = dlg.ShowDialog();
             if (result == true)
             {
                 new DataReportImageHelper(
-               "Project Eye - " + Data.Year + "年" + Data.Month + "月",
+               "Project Eye - " + Data.Year + " / " + Data.Month,
               dlg.FileName,
               Data.MonthWorkData,
               Data.LastMonthWork,

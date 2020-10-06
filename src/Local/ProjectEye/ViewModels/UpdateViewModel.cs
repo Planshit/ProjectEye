@@ -139,27 +139,27 @@ namespace ProjectEye.ViewModels
             downloader.ErrorEvent += Downloader_ErrorEvent; ;
 
             downloader.Start();
-            Tip = $"{Application.Current.Resources["LangRequestingdownloadsources"]}...";
+            Tip = $"{Application.Current.Resources["Lang_Requestingdownloadsources"]}...";
             PlayProcess = true;
             UpVisibility = Visibility.Collapsed;
         }
 
         private void Downloader_ErrorEvent(object sender, object value)
         {
-            Tip = $"{Application.Current.Resources["LangErroroccurredduringdownload"]}，{value}";
+            Tip = $"{Application.Current.Resources["Lang_Erroroccurredduringdownload"]}，{value}";
             UpVisibility = Visibility.Visible;
         }
 
         private void Downloader_CompleteEvent(object sender, object value)
         {
-            Tip = $"{Application.Current.Resources["LangUpdatepackagehasbeendownloaded"]}!";
+            Tip = $"{Application.Current.Resources["Lang_Updatepackagehasbeendownloaded"]}!";
 
             InstallVisibility = Visibility.Visible;
         }
 
         private void Downloader_ProcessUpdateEvent(object sender, object value)
         {
-            Tip = $"{Application.Current.Resources["LangDownloadingupdatepackage"]} {value} %";
+            Tip = $"{Application.Current.Resources["Lang_Downloadingupdatepackage"]} {value} %";
         }
         private void openurlCommand_action(object obj)
         {
@@ -173,22 +173,22 @@ namespace ProjectEye.ViewModels
         private void Updater_RequestErrorEvent(object sender, object value)
         {
             PlayProcess = false;
-            Tip = $"{Application.Current.Resources["LangUpdategeterror"]}";
-            Modal($"{Application.Current.Resources["LangUpdategeterror"]}");
+            Tip = $"{Application.Current.Resources["Lang_Updategeterror"]}";
+            Modal($"{Application.Current.Resources["Lang_Updategeterror"]}");
         }
 
         private void Updater_RequestCompleteEvent(object sender, object value)
         {
             bool isCanUpdate = githubRelease.IsCanUpdate();
             PlayProcess = false;
-            Tip = isCanUpdate ? $"{Application.Current.Resources["LangUpdateisavailable"]}" : $"{Application.Current.Resources["LangNoupdateisavailable"]}";
+            Tip = isCanUpdate ? $"{Application.Current.Resources["Lang_Updateisavailable"]}" : $"{Application.Current.Resources["Lang_Noupdateisavailable"]}";
             UpVisibility = isCanUpdate ? Visibility.Visible : Visibility.Hidden;
 
             if (isCanUpdate)
             {
 
                 //string preText = githubRelease.Info.IsPre ? " [预览版本]" : " [正式版]";
-                VersionInfo = $"{Application.Current.Resources["LangVersion"]}: " + githubRelease.Info.Version + "\r\n\r\n" + githubRelease.Info.Title;
+                VersionInfo = $"{Application.Current.Resources["Lang_Version"]}: " + githubRelease.Info.Version + "\r\n\r\n" + githubRelease.Info.Title;
                 VersionUrl = githubRelease.Info.HtmlUrl;
                 OpenUrlVisibility = Visibility.Visible;
             }

@@ -52,6 +52,7 @@ namespace ProjectEye.Core.Service
         private readonly CacheService cache;
         private readonly StatisticService statistic;
         private readonly ThemeService theme;
+        private readonly SystemResourcesService systemResources;
         #endregion
 
         #region win32
@@ -87,19 +88,25 @@ namespace ProjectEye.Core.Service
         /// 计时器启动时发生
         /// </summary>
         public event MainEventHandler OnStart;
+        /// <summary>
+        /// 加载语言完成时发生
+        /// </summary>
+        public event MainEventHandler OnLoadedLanguage;
         #endregion
         public MainService(App app,
             ScreenService screen,
             ConfigService config,
             CacheService cache,
             StatisticService statistic,
-            ThemeService theme)
+            ThemeService theme,
+            SystemResourcesService systemResources)
         {
             this.screen = screen;
             this.config = config;
             this.cache = cache;
             this.statistic = statistic;
             this.theme = theme;
+            this.systemResources = systemResources;
 
             app.Exit += new ExitEventHandler(app_Exit);
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
@@ -161,8 +168,7 @@ namespace ProjectEye.Core.Service
 
 
             //加载语言
-            var language = new ResourceDictionary { Source = new Uri($"/ProjectEye;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
-            System.Windows.Application.Current.Resources.MergedDictionaries.Add(language);
+            HandleLanguageChanged();
         }
         #endregion
 
@@ -177,6 +183,8 @@ namespace ProjectEye.Core.Service
                 mds.Remove(loadedLanguage);
             }
             mds.Add(language);
+            systemResources.Init();
+            OnLoadedLanguage?.Invoke(this, 0);
         }
 
         private void Config_Changed(object sender, EventArgs e)

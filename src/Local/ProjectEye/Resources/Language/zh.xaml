@@ -1,141 +1,196 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-    <sys:String x:Key="LangStatistics">数据统计</sys:String>
-    <sys:String x:Key="LangSettings">选项</sys:String>
-    <sys:String x:Key="LangSuspendnow">暂不提醒</sys:String>
-    <sys:String x:Key="LangOnehours">1小时</sys:String>
-    <sys:String x:Key="LangTwohours">2小时</sys:String>
-    <sys:String x:Key="LangSuspenduntilnextstartup">直到下次启动</sys:String>
-    <sys:String x:Key="LangDisabled">禁用</sys:String>
-    <sys:String x:Key="LangQuit">退出</sys:String>
+    <sys:String x:Key="Lang_Statistics">数据统计</sys:String>
+    <sys:String x:Key="Lang_Settings">选项</sys:String>
+    <sys:String x:Key="Lang_Suspendnow">暂不提醒</sys:String>
+    <sys:String x:Key="Lang_Onehours">1小时</sys:String>
+    <sys:String x:Key="Lang_Twohours">2小时</sys:String>
+    <sys:String x:Key="Lang_Suspenduntilnextstartup">直到下次启动</sys:String>
+    <sys:String x:Key="Lang_Disabled">禁用</sys:String>
+    <sys:String x:Key="Lang_Quit">退出</sys:String>
 
-    <sys:String x:Key="LangGeneral">常规</sys:String>
-    <sys:String x:Key="LangNotificationinterval">提醒间隔</sys:String>
-    <sys:String x:Key="LangBreaktimelength">休息时长</sys:String>
-    <sys:String x:Key="LangAutostartatboot">开机启动</sys:String>
-    <sys:String x:Key="LangSoundforbreakend">休息结束提示音</sys:String>
-    <sys:String x:Key="LangStatisticsanalysis">数据建议</sys:String>
-    <sys:String x:Key="LangLeaveblankfordefault">留空时使用系统默认</sys:String>
-    <sys:String x:Key="LangPreview">预览</sys:String>
-    <sys:String x:Key="LangMinutes">分钟</sys:String>
-    <sys:String x:Key="LangSeconds">秒</sys:String>
-
-
-    <sys:String x:Key="LangTomatoTimer">番茄时钟</sys:String>
-    <sys:String x:Key="LangWork">工作时长</sys:String>
-    <sys:String x:Key="LangShortbreak">短休息</sys:String>
-    <sys:String x:Key="LangLongbreak">长休息</sys:String>
-    <sys:String x:Key="LangSoundforworksstart">工作开始提示音</sys:String>
-    <sys:String x:Key="LangSoundforworksend">工作结束提示音</sys:String>
-
-    <sys:String x:Key="LangDisplay">显示</sys:String>
-    <sys:String x:Key="LangLanguage">语言（Language）</sys:String>
-    <sys:String x:Key="LangTheme">主题</sys:String>
-    <sys:String x:Key="LangDefault">默认</sys:String>
-    <sys:String x:Key="LangDark">深色</sys:String>
-    <sys:String x:Key="LangSwitchtodarkthemeautomatically">自动切换深色主题</sys:String>
-    <sys:String x:Key="LangSpecifythetime">指定时间范围</sys:String>
-    <sys:String x:Key="LangShowbuttonsinfullscreennotification">全屏提示时显示操作按钮</sys:String>
-    <sys:String x:Key="LangEnablemousepassthroughduringfullscreennotification">全屏提示时鼠标可穿透操作</sys:String>
-    <sys:String x:Key="LangEnableanimation">启用动画效果</sys:String>
-    <sys:String x:Key="LangFullscreennotificationanimation">全屏提示窗口动画</sys:String>
-    <sys:String x:Key="LangZoomfrombottom-rightcorner">从右下角缩放</sys:String>
-    <sys:String x:Key="LangFadeinandfadeout">渐出渐隐</sys:String>
-    <sys:String x:Key="LangFullscreennotificationappearance">全屏提示界面</sys:String>
-    <sys:String x:Key="LangCustomize">自定义</sys:String>
-    <sys:String x:Key="LangEarlypopupforbreaktime">休息预提醒弹窗</sys:String>
-    <sys:String x:Key="LangPopupleadtime">预提醒提前时间</sys:String>
-    <sys:String x:Key="LangDefaultactionafterthepopup">预提醒弹窗的默认动作</sys:String>
-    <sys:String x:Key="LangStartthebreak">进入休息</sys:String>
-    <sys:String x:Key="LangSkipthebreak">跳过休息</sys:String>
-    <sys:String x:Key="LangPopupsound">预提醒提示音</sys:String>
-    <sys:String x:Key="LangIcon">图标</sys:String>
-    <sys:String x:Key="LangTitle">主标题</sys:String>
-    <sys:String x:Key="LangSubtitle">副标题</sys:String>
-    <sys:String x:Key="LangContent">内容</sys:String>
-    <sys:String x:Key="LangBreaktimeisstartingsoon">即将休息</sys:String>
-    <sys:String x:Key="LangAreyouready">准备好了吗？</sys:String>
-    <sys:String x:Key="LangVariablesdescription">变量：{t}休息剩余秒数，{twt}今日用眼总时长，{trt}今日休息总时长，{tsc}今日跳过次数</sys:String>
+    <sys:String x:Key="Lang_General">常规</sys:String>
+    <sys:String x:Key="Lang_Notificationinterval">提醒间隔</sys:String>
+    <sys:String x:Key="Lang_Breaktimelength">休息时长</sys:String>
+    <sys:String x:Key="Lang_Autostartatboot">开机启动</sys:String>
+    <sys:String x:Key="Lang_Soundforbreakend">休息结束提示音</sys:String>
+    <sys:String x:Key="Lang_Statisticsanalysis">数据建议</sys:String>
+    <sys:String x:Key="Lang_Leaveblankfordefault">留空时使用系统默认</sys:String>
+    <sys:String x:Key="Lang_Preview">预览</sys:String>
+    <sys:String x:Key="Lang_Hours">小时</sys:String>
+    <sys:String x:Key="Lang_Minutes">分钟</sys:String>
+    <sys:String x:Key="Lang_Seconds">秒</sys:String>
+    <sys:String x:Key="Lang_Hours_n">小时</sys:String>
+    <sys:String x:Key="Lang_Minutes_n">分钟</sys:String>
+    <sys:String x:Key="Lang_Seconds_n">秒</sys:String>
+    <sys:String x:Key="Lang_x_n">次</sys:String>
 
 
-    <sys:String x:Key="LangHotkeys">快捷键</sys:String>
-    <sys:String x:Key="LangPleasepressakey">请按下按键</sys:String>
+    <sys:String x:Key="Lang_TomatoTimer">番茄时钟</sys:String>
+    <sys:String x:Key="Lang_Work">工作时长</sys:String>
+    <sys:String x:Key="Lang_Shortbreak">短休息</sys:String>
+    <sys:String x:Key="Lang_Longbreak">长休息</sys:String>
+    <sys:String x:Key="Lang_Soundforworksstart">工作开始提示音</sys:String>
+    <sys:String x:Key="Lang_Soundforworksend">工作结束提示音</sys:String>
+
+    <sys:String x:Key="Lang_Display">显示</sys:String>
+    <sys:String x:Key="Lang_Language">语言（Language）</sys:String>
+    <sys:String x:Key="Lang_Theme">主题</sys:String>
+    <sys:String x:Key="Lang_Default">默认</sys:String>
+    <sys:String x:Key="Lang_Dark">深色</sys:String>
+    <sys:String x:Key="Lang_Switchtodarkthemeautomatically">自动切换深色主题</sys:String>
+    <sys:String x:Key="Lang_Specifythetime">指定时间范围</sys:String>
+    <sys:String x:Key="Lang_Showbuttonsinfullscreennotification">全屏提示时显示操作按钮</sys:String>
+    <sys:String x:Key="Lang_Enablemousepassthroughduringfullscreennotification">全屏提示时鼠标可穿透操作</sys:String>
+    <sys:String x:Key="Lang_Enableanimation">启用动画效果</sys:String>
+    <sys:String x:Key="Lang_Fullscreennotificationanimation">全屏提示窗口动画</sys:String>
+    <sys:String x:Key="Lang_Zoomfrombottom-rightcorner">从右下角缩放</sys:String>
+    <sys:String x:Key="Lang_Fadeinandfadeout">渐出渐隐</sys:String>
+    <sys:String x:Key="Lang_Fullscreennotificationappearance">全屏提示界面</sys:String>
+    <sys:String x:Key="Lang_Customize">自定义</sys:String>
+    <sys:String x:Key="Lang_Earlypopupforbreaktime">休息预提醒弹窗</sys:String>
+    <sys:String x:Key="Lang_Popupleadtime">预提醒提前时间</sys:String>
+    <sys:String x:Key="Lang_Defaultactionafterthepopup">预提醒弹窗的默认动作</sys:String>
+    <sys:String x:Key="Lang_Startthebreak">进入休息</sys:String>
+    <sys:String x:Key="Lang_Skipthebreak">跳过休息</sys:String>
+    <sys:String x:Key="Lang_Popupsound">预提醒提示音</sys:String>
+    <sys:String x:Key="Lang_Icon">图标</sys:String>
+    <sys:String x:Key="Lang_Title">主标题</sys:String>
+    <sys:String x:Key="Lang_Subtitle">副标题</sys:String>
+    <sys:String x:Key="Lang_Content">内容</sys:String>
+    <sys:String x:Key="Lang_Breaktimeisstartingsoon">即将休息</sys:String>
+    <sys:String x:Key="Lang_Areyouready">准备好了吗？</sys:String>
+    <sys:String x:Key="Lang_Variablesdescription">变量：{t}休息剩余秒数，{twt}今日用眼总时长，{trt}今日休息总时长，{tsc}今日跳过次数</sys:String>
 
 
-    <sys:String x:Key="LangBehaviors">行为</sys:String>
-    <sys:String x:Key="LangDonotdisturbwhenrunningfullscreenapplications">运行全屏应用软件时不要打搅我</sys:String>
-    <sys:String x:Key="LangDonotdisturbwhenfollowingprocessesarerunning">以下进程运行时不要打搅我</sys:String>
-    <sys:String x:Key="LangPleaseentertheprocessname">请输入进程名称</sys:String>
-    <sys:String x:Key="LangAdd">添加</sys:String>
-    <sys:String x:Key="LangProcessname">进程名称</sys:String>
-    <sys:String x:Key="LangBreakscannotbeskipped">禁止跳过休息</sys:String>
+    <sys:String x:Key="Lang_Hotkeys">快捷键</sys:String>
+    <sys:String x:Key="Lang_Pleasepressakey">请按下按键</sys:String>
 
 
-    <sys:String x:Key="LangAbout">关于</sys:String>
-    <sys:String x:Key="LangVersion">版本号</sys:String>
-    <sys:String x:Key="LangCheckforupdates">检查更新</sys:String>
-    <sys:String x:Key="LangAprogramwhichprotectsyoureyesbehindthescenes">一个默默在暗中保护你眼睛的软件</sys:String>
-    <sys:String x:Key="LangHelp">帮助</sys:String>
-    <sys:String x:Key="LangSource">开源</sys:String>
-    <sys:String x:Key="LangFeedback">反馈</sys:String>
-    <sys:String x:Key="LangDevelopers">开发者</sys:String>
-    <sys:String x:Key="LangContributors">贡献者</sys:String>
-
-    <sys:String x:Key="LangCreateashortcutondesktop">创建桌面图标</sys:String>
-    <sys:String x:Key="LangApply">应用</sys:String>
+    <sys:String x:Key="Lang_Behaviors">行为</sys:String>
+    <sys:String x:Key="Lang_Donotdisturbwhenrunningfullscreenapplications">运行全屏应用软件时不要打搅我</sys:String>
+    <sys:String x:Key="Lang_Donotdisturbwhenfollowingprocessesarerunning">以下进程运行时不要打搅我</sys:String>
+    <sys:String x:Key="Lang_Pleaseentertheprocessname">请输入进程名称</sys:String>
+    <sys:String x:Key="Lang_Add">添加</sys:String>
+    <sys:String x:Key="Lang_Processname">进程名称</sys:String>
+    <sys:String x:Key="Lang_Breakscannotbeskipped">禁止跳过休息</sys:String>
 
 
-    <!--<sys:String x:Key="LangWeek">本周</sys:String>-->
-    <sys:String x:Key="LangBreak">休息</sys:String>
-    <sys:String x:Key="LangSkip">跳过</sys:String>
-    <sys:String x:Key="LangAverage">平均</sys:String>
-    <sys:String x:Key="LangNochange">无变化</sys:String>
-    <sys:String x:Key="LangThisweek">本周</sys:String>
-    <sys:String x:Key="LangLastweek">上周</sys:String>
+    <sys:String x:Key="Lang_About">关于</sys:String>
+    <sys:String x:Key="Lang_Version">版本号</sys:String>
+    <sys:String x:Key="Lang_Checkforupdates">检查更新</sys:String>
+    <sys:String x:Key="Lang_Aprogramwhichprotectsyoureyesbehindthescenes">一个默默在暗中保护你眼睛的软件</sys:String>
+    <sys:String x:Key="Lang_Help">帮助</sys:String>
+    <sys:String x:Key="Lang_Source">开源</sys:String>
+    <sys:String x:Key="Lang_Feedback">反馈</sys:String>
+    <sys:String x:Key="Lang_Developers">开发者</sys:String>
+    <sys:String x:Key="Lang_Contributors">贡献者</sys:String>
 
-    <sys:String x:Key="LangMonthlyview">月份视图</sys:String>
-    <sys:String x:Key="LangMonthly">月份</sys:String>
-    <sys:String x:Key="LangTomato">番茄</sys:String>
-    <sys:String x:Key="LangTomatodescription">每完成一组（4次）工作可获得一个番茄</sys:String>
+    <sys:String x:Key="Lang_Createashortcutondesktop">创建桌面图标</sys:String>
+    <sys:String x:Key="Lang_Apply">应用</sys:String>
 
 
-    <sys:String x:Key="LangUpdateprogram">升级程序</sys:String>
-    <sys:String x:Key="LangUpdateisavailable">有可用的更新</sys:String>
-    <sys:String x:Key="LangDownloadupdate">下载更新</sys:String>
-    <sys:String x:Key="LangNoupdateisavailable">当前没有可用的更新</sys:String>
-    <sys:String x:Key="LangInstallupdate">安装更新</sys:String>
-    <sys:String x:Key="LangViewinwebbrowser">在浏览器中查看</sys:String>
-    <sys:String x:Key="LangViewwhatsnewintheupdate">查看版本更新内容</sys:String>
-    <sys:String x:Key="LangRequestingdownloadsources">正在请求下载资源</sys:String>
-    <sys:String x:Key="LangErroroccurredduringdownload">下载时发生异常</sys:String>
-    <sys:String x:Key="LangUpdatepackagehasbeendownloaded">更新包已下载完成</sys:String>
-    <sys:String x:Key="LangDownloadingupdatepackage">正在下载更新包</sys:String>
-    <sys:String x:Key="LangUpdategeterror">无法获取版本信息，请尝试重启应用程序或稍后再试</sys:String>
+    <!--<sys:String x:Key="Lang_Week">本周</sys:String>-->
+    <sys:String x:Key="Lang_Break">休息</sys:String>
+    <sys:String x:Key="Lang_Skip">跳过</sys:String>
+    <sys:String x:Key="Lang_Average">平均</sys:String>
+    <sys:String x:Key="Lang_Nochange">无变化</sys:String>
+    <sys:String x:Key="Lang_Thisweek">本周</sys:String>
+    <sys:String x:Key="Lang_Lastweek">上周</sys:String>
 
-    <sys:String x:Key="LangText">文本</sys:String>
-    <sys:String x:Key="LangImage">图片</sys:String>
-    <sys:String x:Key="LangButton">按钮</sys:String>
-    <sys:String x:Key="LangAddElement">添加元素</sys:String>
-    <sys:String x:Key="LangAttribute">属性</sys:String>
-    <sys:String x:Key="LangSave">保存</sys:String>
+    <sys:String x:Key="Lang_Monthlyview">月份视图</sys:String>
+    <sys:String x:Key="Lang_Year">年份</sys:String>
+    <sys:String x:Key="Lang_Monthly">月份</sys:String>
+    <sys:String x:Key="Lang_Tomato">番茄</sys:String>
+    <sys:String x:Key="Lang_Tomatodescription">每完成一组（4次）工作可获得一个番茄</sys:String>
 
-    <sys:String x:Key="LangWindowAttribute">窗口属性</sys:String>
-    <sys:String x:Key="LangOpacity">透明度</sys:String>
-    <sys:String x:Key="LangBackgroundColor">背景颜色</sys:String>
 
-    <sys:String x:Key="LangDelete">删除</sys:String>
-    <sys:String x:Key="LangHorizontalCenter">水平居中</sys:String>
-    <sys:String x:Key="LangVerticalCenter">垂直居中</sys:String>
+    <sys:String x:Key="Lang_Updateprogram">升级程序</sys:String>
+    <sys:String x:Key="Lang_Updateisavailable">有可用的更新</sys:String>
+    <sys:String x:Key="Lang_Downloadupdate">下载更新</sys:String>
+    <sys:String x:Key="Lang_Noupdateisavailable">当前没有可用的更新</sys:String>
+    <sys:String x:Key="Lang_Installupdate">安装更新</sys:String>
+    <sys:String x:Key="Lang_Viewinwebbrowser">在浏览器中查看</sys:String>
+    <sys:String x:Key="Lang_Viewwhatsnewintheupdate">查看版本更新内容</sys:String>
+    <sys:String x:Key="Lang_Requestingdownloadsources">正在请求下载资源</sys:String>
+    <sys:String x:Key="Lang_Erroroccurredduringdownload">下载时发生异常</sys:String>
+    <sys:String x:Key="Lang_Updatepackagehasbeendownloaded">更新包已下载完成</sys:String>
+    <sys:String x:Key="Lang_Downloadingupdatepackage">正在下载更新包</sys:String>
+    <sys:String x:Key="Lang_Updategeterror">无法获取版本信息，请尝试重启应用程序或稍后再试</sys:String>
 
-    <sys:String x:Key="LangType">类型</sys:String>
-    <sys:String x:Key="LangWidth">宽</sys:String>
-    <sys:String x:Key="LangHeight">高</sys:String>
-    <sys:String x:Key="LangFontSize">文字大小</sys:String>
-    <sys:String x:Key="LangFontColor">文字颜色</sys:String>
-    <sys:String x:Key="LangFontBold">文字加粗</sys:String>
-    <sys:String x:Key="LangAlignment">对齐方式</sys:String>
-    <sys:String x:Key="LangStyle">样式</sys:String>
-    <sys:String x:Key="LangCommand">命令</sys:String>
+    <sys:String x:Key="Lang_Text">文本</sys:String>
+    <sys:String x:Key="Lang_Image">图片</sys:String>
+    <sys:String x:Key="Lang_Button">按钮</sys:String>
+    <sys:String x:Key="Lang_AddElement">添加元素</sys:String>
+    <sys:String x:Key="Lang_Attribute">属性</sys:String>
+    <sys:String x:Key="Lang_Save">保存</sys:String>
+
+    <sys:String x:Key="Lang_WindowAttribute">窗口属性</sys:String>
+    <sys:String x:Key="Lang_Opacity">透明度</sys:String>
+    <sys:String x:Key="Lang_BackgroundColor">背景颜色</sys:String>
+
+    <sys:String x:Key="Lang_Delete">删除</sys:String>
+    <sys:String x:Key="Lang_HorizontalCenter">水平居中</sys:String>
+    <sys:String x:Key="Lang_VerticalCenter">垂直居中</sys:String>
+
+    <sys:String x:Key="Lang_Type">类型</sys:String>
+    <sys:String x:Key="Lang_Width">宽</sys:String>
+    <sys:String x:Key="Lang_Height">高</sys:String>
+    <sys:String x:Key="Lang_FontSize">文字大小</sys:String>
+    <sys:String x:Key="Lang_FontColor">文字颜色</sys:String>
+    <sys:String x:Key="Lang_FontBold">文字加粗</sys:String>
+    <sys:String x:Key="Lang_Alignment">对齐方式</sys:String>
+    <sys:String x:Key="Lang_Style">样式</sys:String>
+    <sys:String x:Key="Lang_Command">命令</sys:String>
+
+    <sys:String x:Key="Lang_TimeconsumingOperation">正在执行一些耗时操作，请稍后...</sys:String>
+    <sys:String x:Key="Lang_Reminderisoff">提醒已关闭</sys:String>
+    <sys:String x:Key="Lang_Thenextbreak">距离下一次休息</sys:String>
+    <sys:String x:Key="Lang_Optionupdated">选项已更新</sys:String>
+
+    <sys:String x:Key="Lang_Success">成功</sys:String>
+    <sys:String x:Key="Lang_Failed">失败</sys:String>
+    <sys:String x:Key="Lang_Remove">移除</sys:String>
+    <sys:String x:Key="Lang_Emptytheinput">清空输入</sys:String>
+    <sys:String x:Key="Lang_Selectfolder">选择文件夹</sys:String>
+    <sys:String x:Key="Lang_Selectfile">选择文件</sys:String>
+    <sys:String x:Key="Lang_None">无</sys:String>
+    <sys:String x:Key="Lang_StatisticsWeekHoursTip">本周 {b} 小时，上周 {a} 小时 {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsXhours">{value} 小时</sys:String>
+    <sys:String x:Key="Lang_StatisticsWeekMinutesTip">本周 {b} 分钟，上周 {a} 分钟 {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsXminutes">{value} 分钟</sys:String>
+    <sys:String x:Key="Lang_StatisticsWeekXTip">本周 {b} 次，上周 {a} 次 {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsX">{value} 次</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyHoursTip">本月 {b} 小时，上月 {a} 小时 {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyMinutesTip">本月 {b} 分钟，上月 {a} 分钟 {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyXTip">本月 {b} 次，上月 {a} 次 {diffvalue}</sys:String>
+
+    <sys:String x:Key="Lang_mon">一</sys:String>
+    <sys:String x:Key="Lang_tues">二</sys:String>
+    <sys:String x:Key="Lang_wed">三</sys:String>
+    <sys:String x:Key="Lang_thur">四</sys:String>
+    <sys:String x:Key="Lang_fri">五</sys:String>
+    <sys:String x:Key="Lang_sat">六</sys:String>
+    <sys:String x:Key="Lang_sun">日</sys:String>
+
+    <sys:String x:Key="Lang_today">今日</sys:String>
+    <sys:String x:Key="Lang_xmonth">月</sys:String>
+    <sys:String x:Key="Lang_xday">日</sys:String>
+
+    <sys:String x:Key="Lang_Close">关闭</sys:String>
+    <sys:String x:Key="Lang_Minimize">最小化</sys:String>
+    <sys:String x:Key="Lang_Maximize">最大化</sys:String>
+    <sys:String x:Key="Lang_Restore">还原</sys:String>
+
+    <sys:String x:Key="Lang_Normal">正常</sys:String>
+    <sys:String x:Key="Lang_Busy">忙碌</sys:String>
+    <sys:String x:Key="Lang_Overload">超负荷</sys:String>
+    <sys:String x:Key="Lang_Exhausted">疲劳</sys:String>
+    <sys:String x:Key="Lang_Goodjob">非常棒！已达成目标</sys:String>
+    <sys:String x:Key="Lang_Toooften">过于频繁</sys:String>
+    <sys:String x:Key="Lang_Keepnow">保持现状</sys:String>
+    <sys:String x:Key="Lang_Haveagoodrest">注意休息</sys:String>
+    <sys:String x:Key="Lang_Translators">翻译</sys:String>
 
 </ResourceDictionary>
