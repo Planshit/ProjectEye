@@ -76,8 +76,8 @@
                                                 <!--LOGO区域-->
 
                                                 <StackPanel Margin="10">
-                                                    <TextBlock Text="Project Eye" Foreground="#737373"/>
-                                                    <TextBlock Text="{TemplateBinding Title}" FontWeight="Normal" FontSize="22" Margin="0,5,0,0" Foreground="#d9d9d9"/>
+                                                    <TextBlock Text="Project Eye" Foreground="#737373" IsHitTestVisible="False"/>
+                                                    <TextBlock Text="{TemplateBinding Title}" FontWeight="Normal" FontSize="22" Margin="0,5,0,0" Foreground="#d9d9d9" IsHitTestVisible="False"/>
                                                 </StackPanel>
                                                 <!--<Image Width="16" Height="16" Source="{TemplateBinding Icon}"
                                                    HorizontalAlignment="Center"
