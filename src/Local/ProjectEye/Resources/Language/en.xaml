@@ -187,4 +187,17 @@
     <sys:String x:Key="Lang_Haveagoodrest">Have a good rest</sys:String>
     <sys:String x:Key="Lang_Translators">Translators</sys:String>
 
+    <sys:String x:Key="Lang_Workingtime">Working time</sys:String>
+    <sys:String x:Key="Lang_Breakingtime">Rest time</sys:String>
+    <sys:String x:Key="Lang_Great">Great</sys:String>
+    <sys:String x:Key="Lang_Getatomato">Get a tomato!</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip1">You have finished a goal,please rest {x} minutes,i will remind you next working time.</sys:String>
+    <sys:String x:Key="Lang_Yes">Yes</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip2">The work is done,please rest {x} minutes,i will remind you next working time.</sys:String>
+    <sys:String x:Key="Lang_Time">Time</sys:String>
+    <sys:String x:Key="Lang_TomatoStart">Ready</sys:String>
+    <sys:String x:Key="Lang_TomatoEnd">End</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip3">Ready go,focus on your job,i will remind you at the end,are you ready?</sys:String>
+    <sys:String x:Key="Lang_Remainingtime">Remaining time</sys:String>
+
 </ResourceDictionary>

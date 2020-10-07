@@ -230,10 +230,10 @@ namespace Project1.UI.Controls
             popupText = popupText.Replace("{a}", $"{DataA.ToString()}");
             popupText = popupText.Replace("{b}", $"{DataB.ToString()}");
 
-            string diffvalueText = DiffValue > 0 ? $"+{DiffValue.ToString()}%" : DiffValue == 0 ? "无变化" : $"{DiffValue.ToString()}%";
+            string diffvalueText = DiffValue > 0 ? $"+{DiffValue.ToString()}%" : DiffValue == 0 ? $"{Application.Current.Resources["Lang_Nochange"]}" : $"{DiffValue.ToString()}%";
             if (DataA == DataB)
             {
-                diffvalueText = "无变化";
+                diffvalueText = $"{Application.Current.Resources["Lang_Nochange"]}";
             }
             popupText = popupText.Replace("{diffvalue}", diffvalueText);
             PopupTextBlock.Text = popupText;

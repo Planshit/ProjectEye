@@ -193,4 +193,18 @@
     <sys:String x:Key="Lang_Haveagoodrest">注意休息</sys:String>
     <sys:String x:Key="Lang_Translators">翻译</sys:String>
 
+    <sys:String x:Key="Lang_Workingtime">工作时间</sys:String>
+    <sys:String x:Key="Lang_Breakingtime">休息时间</sys:String>
+    <sys:String x:Key="Lang_Great">太棒了</sys:String>
+    <sys:String x:Key="Lang_Getatomato">获得一个番茄！</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip1">完成了一组工作，请休息{x}分钟，我会在下一次工作开始时提醒你。</sys:String>
+    <sys:String x:Key="Lang_Yes">好的</sys:String>
+    <sys:String x:Key="Lang_Time">时间</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip2">已结束本次工作，请休息{x}分钟，我会在下一次工作开始时再次提醒你。</sys:String>
+    <sys:String x:Key="Lang_TomatoStart">准备就绪</sys:String>
+    <sys:String x:Key="Lang_TomatoEnd">结束</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip3">准备开始，请保持专注工作，我会在结束时提醒你，准备好了吗？</sys:String>
+    <sys:String x:Key="Lang_Remainingtime">剩余时间</sys:String>
+
+
 </ResourceDictionary>

@@ -485,6 +485,8 @@
   <ItemGroup>
     <Resource Include="Resources\desktop-computer.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\conference_presentation__monochromatic.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
