@@ -1,10 +1,6 @@
 ﻿using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectEye.ViewModels
 {
@@ -36,7 +32,7 @@ namespace ProjectEye.ViewModels
 
         private void SaveCommand_Action(object obj)
         {
-            
+
         }
 
         private void EndCommand_Action(object obj)

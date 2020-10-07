@@ -69,7 +69,7 @@
 
                             <Button
                                 x:Name="ClearButton"
-                                ToolTip="清空输入"
+                                ToolTip="{DynamicResource Lang_Emptytheinput}"
                                 Visibility="Collapsed"
                                 Grid.Column="3"
                                 Focusable="False"
@@ -97,7 +97,7 @@
                                        />
                             <!--文件夹选择打开按钮-->
                             <Button
-                                ToolTip="选择文件夹"
+                                ToolTip="{DynamicResource Lang_Selectfolder}"
                                 x:Name="FolderButton"
                                 Visibility="Collapsed"
                               
@@ -167,11 +167,11 @@
                             
                         </Trigger>
                         <Trigger Property="Type" Value="FileSelect">
-                            <Setter TargetName="FolderButton" Property="ToolTip" Value="选择文件" />
+                            <Setter TargetName="FolderButton" Property="ToolTip" Value="{DynamicResource Lang_Selectfile}" />
                             <Setter TargetName="FolderButton" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="Type" Value="FolderSelect">
-                            <Setter TargetName="FolderButton" Property="ToolTip" Value="选择文件夹" />
+                            <Setter TargetName="FolderButton" Property="ToolTip" Value="{DynamicResource Lang_Selectfolder}" />
                             <Setter TargetName="FolderButton" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <!--图标位置判断-->

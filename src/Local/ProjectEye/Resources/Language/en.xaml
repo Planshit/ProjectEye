@@ -1,0 +1,203 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="Lang_Statistics">Statistics</sys:String>
+    <sys:String x:Key="Lang_Settings">Settings</sys:String>
+    <sys:String x:Key="Lang_Suspendnow">Suspend now</sys:String>
+    <sys:String x:Key="Lang_Onehours">1h</sys:String>
+    <sys:String x:Key="Lang_Twohours">2h</sys:String>
+    <sys:String x:Key="Lang_Suspenduntilnextstartup">Suspend until next startup</sys:String>
+    <sys:String x:Key="Lang_Disabled">Disabled</sys:String>
+    <sys:String x:Key="Lang_Quit">Quit</sys:String>
+
+    <sys:String x:Key="Lang_General">General</sys:String>
+    <sys:String x:Key="Lang_Notificationinterval">Notification interval</sys:String>
+    <sys:String x:Key="Lang_Breaktimelength">Break time length</sys:String>
+    <sys:String x:Key="Lang_Autostartatboot">Auto start at boot</sys:String>
+    <sys:String x:Key="Lang_Soundforbreakend">Sound for break's end</sys:String>
+    <sys:String x:Key="Lang_Statisticsanalysis">Statistics analysis</sys:String>
+    <sys:String x:Key="Lang_Leaveblankfordefault">Leave blank for default</sys:String>
+    <sys:String x:Key="Lang_Preview">Preview</sys:String>
+    <sys:String x:Key="Lang_Hours">Hours</sys:String>
+    <sys:String x:Key="Lang_Minutes">Minutes</sys:String>
+    <sys:String x:Key="Lang_Seconds">Seconds</sys:String>
+    <sys:String x:Key="Lang_Hours_n">h</sys:String>
+    <sys:String x:Key="Lang_Minutes_n">m</sys:String>
+    <sys:String x:Key="Lang_Seconds_n">s</sys:String>
+    <sys:String x:Key="Lang_x_n"></sys:String>
+
+    <sys:String x:Key="Lang_TomatoTimer">Tomato Timer</sys:String>
+    <sys:String x:Key="Lang_Work">Work</sys:String>
+    <sys:String x:Key="Lang_Shortbreak">Short break</sys:String>
+    <sys:String x:Key="Lang_Longbreak">Long break</sys:String>
+    <sys:String x:Key="Lang_Soundforworksstart">Sound for work's start</sys:String>
+    <sys:String x:Key="Lang_Soundforworksend">Sound for work's end</sys:String>
+
+    <sys:String x:Key="Lang_Display">Display</sys:String>
+    <sys:String x:Key="Lang_Language">Language(语言)</sys:String>
+    <sys:String x:Key="Lang_Theme">Theme</sys:String>
+    <sys:String x:Key="Lang_Default">Default</sys:String>
+    <sys:String x:Key="Lang_Dark">Dark</sys:String>
+    <sys:String x:Key="Lang_Switchtodarkthemeautomatically">Switch to dark theme automatically</sys:String>
+    <sys:String x:Key="Lang_Specifythetime">Specify the time</sys:String>
+    <sys:String x:Key="Lang_Showbuttonsinfullscreennotification">Show buttons in fullscreen notification</sys:String>
+    <sys:String x:Key="Lang_Enablemousepassthroughduringfullscreennotification">Enable mouse passthrough during fullscreen notification</sys:String>
+    <sys:String x:Key="Lang_Enableanimation">Enable animation</sys:String>
+    <sys:String x:Key="Lang_Fullscreennotificationanimation">Fullscreen notification animation</sys:String>
+    <sys:String x:Key="Lang_Zoomfrombottom-rightcorner">Zoom from bottom-right corner</sys:String>
+    <sys:String x:Key="Lang_Fadeinandfadeout">Fade in and fade out</sys:String>
+    <sys:String x:Key="Lang_Fullscreennotificationappearance">Fullscreen notification appearance</sys:String>
+    <sys:String x:Key="Lang_Customize">Customize</sys:String>
+    <sys:String x:Key="Lang_Earlypopupforbreaktime">Early popup for break time</sys:String>
+    <sys:String x:Key="Lang_Popupleadtime">Popup lead time</sys:String>
+    <sys:String x:Key="Lang_Defaultactionafterthepopup">Default action after the popup</sys:String>
+    <sys:String x:Key="Lang_Startthebreak">Start the break</sys:String>
+    <sys:String x:Key="Lang_Skipthebreak">Skip the break</sys:String>
+    <sys:String x:Key="Lang_Popupsound">Popup sound</sys:String>
+    <sys:String x:Key="Lang_Icon">Icon</sys:String>
+    <sys:String x:Key="Lang_Title">Title</sys:String>
+    <sys:String x:Key="Lang_Subtitle">Subtitle</sys:String>
+    <sys:String x:Key="Lang_Content">Content</sys:String>
+    <sys:String x:Key="Lang_Breaktimeisstartingsoon">Break time is starting soon</sys:String>
+    <sys:String x:Key="Lang_Areyouready">Are your ready?</sys:String>
+    <sys:String x:Key="Lang_Variablesdescription">Variables: {t}-countdown,{twt}-today's total work time,{trt}-today's total break time,{tsc}-today's skip count</sys:String>
+
+    <sys:String x:Key="Lang_Hotkeys">Hotkeys</sys:String>
+    <sys:String x:Key="Lang_Pleasepressakey">Please press a key</sys:String>
+
+
+    <sys:String x:Key="Lang_Behaviors">Behaviors</sys:String>
+    <sys:String x:Key="Lang_Donotdisturbwhenrunningfullscreenapplications">Do not disturb when running fullscreen applications</sys:String>
+    <sys:String x:Key="Lang_Donotdisturbwhenfollowingprocessesarerunning">Do not disturb when following processes are running</sys:String>
+    <sys:String x:Key="Lang_Pleaseentertheprocessname">Please enter the process name</sys:String>
+    <sys:String x:Key="Lang_Add">Add</sys:String>
+    <sys:String x:Key="Lang_Processname">Process name</sys:String>
+    <sys:String x:Key="Lang_Breakscannotbeskipped">Breaks can not be skipped</sys:String>
+
+
+    <sys:String x:Key="Lang_About">About</sys:String>
+    <sys:String x:Key="Lang_Version">Version</sys:String>
+    <sys:String x:Key="Lang_Checkforupdates">Check for updates</sys:String>
+    <sys:String x:Key="Lang_Aprogramwhichprotectsyoureyesbehindthescenes">A program which protects your eyes behind the scenes</sys:String>
+    <sys:String x:Key="Lang_Help">Help</sys:String>
+    <sys:String x:Key="Lang_Source">Source</sys:String>
+    <sys:String x:Key="Lang_Feedback">Feedback</sys:String>
+    <sys:String x:Key="Lang_Developers">Developers</sys:String>
+    <sys:String x:Key="Lang_Contributors">Contributors</sys:String>
+
+    <sys:String x:Key="Lang_Createashortcutondesktop">Create a shortcut on desktop</sys:String>
+    <sys:String x:Key="Lang_Apply">Apply</sys:String>
+
+    <sys:String x:Key="Lang_Break">Break</sys:String>
+    <sys:String x:Key="Lang_Skip">Skip</sys:String>
+    <sys:String x:Key="Lang_Average">Average</sys:String>
+    <sys:String x:Key="Lang_Nochange">No change</sys:String>
+    <sys:String x:Key="Lang_Thisweek">This week</sys:String>
+    <sys:String x:Key="Lang_Lastweek">Last week</sys:String>
+
+    <sys:String x:Key="Lang_Monthlyview">Monthly view</sys:String>
+    <sys:String x:Key="Lang_Year">Year</sys:String>
+    <sys:String x:Key="Lang_Monthly">Monthly</sys:String>
+    <sys:String x:Key="Lang_Tomato">Tomato</sys:String>
+    <sys:String x:Key="Lang_Tomatodescription">Earn one tomato for completing a round of the timer (4 sections of work).</sys:String>
+
+    <sys:String x:Key="Lang_Updateprogram">Update program</sys:String>
+    <sys:String x:Key="Lang_Updateisavailable">Update is available</sys:String>
+    <sys:String x:Key="Lang_Downloadupdate">Download update</sys:String>
+    <sys:String x:Key="Lang_Noupdateisavailable">No update is available</sys:String>
+    <sys:String x:Key="Lang_Installupdate">Install update</sys:String>
+    <sys:String x:Key="Lang_Viewinwebbrowser">View in web browser</sys:String>
+    <sys:String x:Key="Lang_Viewwhatsnewintheupdate">View what's new in the update</sys:String>
+    <sys:String x:Key="Lang_Requestingdownloadsources">Requesting download sources</sys:String>
+    <sys:String x:Key="Lang_Erroroccurredduringdownload">Error occurred during download</sys:String>
+    <sys:String x:Key="Lang_Updatepackagehasbeendownloaded">Update package has been downloaded</sys:String>
+    <sys:String x:Key="Lang_Downloadingupdatepackage">Downloading update package</sys:String>
+    <sys:String x:Key="Lang_Updategeterror">Unable to fetch version information. Please restart the program or retry later.</sys:String>
+
+    <sys:String x:Key="Lang_Text">Text</sys:String>
+    <sys:String x:Key="Lang_Image">Image</sys:String>
+    <sys:String x:Key="Lang_Button">Button</sys:String>
+    <sys:String x:Key="Lang_AddElement">Add Element</sys:String>
+    <sys:String x:Key="Lang_Attribute">Attribute</sys:String>
+    <sys:String x:Key="Lang_Save">Save</sys:String>
+
+    <sys:String x:Key="Lang_WindowAttribute">Window Attribute</sys:String>
+    <sys:String x:Key="Lang_Opacity">Opacity</sys:String>
+    <sys:String x:Key="Lang_BackgroundColor">Background</sys:String>
+
+    <sys:String x:Key="Lang_Delete">Delete</sys:String>
+    <sys:String x:Key="Lang_HorizontalCenter">Horizontal Center</sys:String>
+    <sys:String x:Key="Lang_VerticalCenter">Vertical Center</sys:String>
+
+    <sys:String x:Key="Lang_Type">Type</sys:String>
+    <sys:String x:Key="Lang_Width">Width</sys:String>
+    <sys:String x:Key="Lang_Height">Height</sys:String>
+    <sys:String x:Key="Lang_FontSize">Font Size</sys:String>
+    <sys:String x:Key="Lang_FontColor">Font Color</sys:String>
+    <sys:String x:Key="Lang_FontBold">Font Bold</sys:String>
+    <sys:String x:Key="Lang_Alignment">Alignment</sys:String>
+    <sys:String x:Key="Lang_Style">Style</sys:String>
+    <sys:String x:Key="Lang_Command">Command</sys:String>
+
+    <sys:String x:Key="Lang_TimeconsumingOperation">Time-consuming operation...</sys:String>
+    <sys:String x:Key="Lang_Reminderisoff">Reminder is off</sys:String>
+    <sys:String x:Key="Lang_Thenextbreak">The next break</sys:String>
+    <sys:String x:Key="Lang_Optionupdated">Option updated</sys:String>
+
+    <sys:String x:Key="Lang_Success">Success</sys:String>
+    <sys:String x:Key="Lang_Failed">Failed</sys:String>
+    <sys:String x:Key="Lang_Remove">Remove</sys:String>
+    <sys:String x:Key="Lang_Emptytheinput">Empty the input</sys:String>
+    <sys:String x:Key="Lang_Selectfolder">Select folder</sys:String>
+    <sys:String x:Key="Lang_Selectfile">Select file</sys:String>
+    <sys:String x:Key="Lang_None">None</sys:String>
+    <sys:String x:Key="Lang_StatisticsWeekHoursTip">This week {b} h,last week {a} h {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsXhours">{value} h</sys:String>
+    <sys:String x:Key="Lang_StatisticsWeekMinutesTip">This week {b} m,last week {a} m {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsXminutes">{value} m</sys:String>
+    <sys:String x:Key="Lang_StatisticsWeekXTip">This week {b},last week {a} {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsX">{value}</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyHoursTip">This month {b} h,last month {a} h {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyMinutesTip">This month {b} m,last month {a} m {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyXTip">This month {b},last month {a} {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_mon">Mon</sys:String>
+    <sys:String x:Key="Lang_tues">Tues</sys:String>
+    <sys:String x:Key="Lang_wed">Wed</sys:String>
+    <sys:String x:Key="Lang_thur">Thur</sys:String>
+    <sys:String x:Key="Lang_fri">Fri</sys:String>
+    <sys:String x:Key="Lang_sat">Sat</sys:String>
+    <sys:String x:Key="Lang_sun">Sun</sys:String>
+
+    <sys:String x:Key="Lang_today">Today</sys:String>
+    <sys:String x:Key="Lang_xmonth">/</sys:String>
+    <sys:String x:Key="Lang_xday"></sys:String>
+
+    <sys:String x:Key="Lang_Close">Close</sys:String>
+    <sys:String x:Key="Lang_Minimize">Minimize</sys:String>
+    <sys:String x:Key="Lang_Maximize">Maximize</sys:String>
+    <sys:String x:Key="Lang_Restore">Restore</sys:String>
+
+    <sys:String x:Key="Lang_Normal">Normal</sys:String>
+    <sys:String x:Key="Lang_Busy">Busy</sys:String>
+    <sys:String x:Key="Lang_Overload">Overload</sys:String>
+    <sys:String x:Key="Lang_Exhausted">Exhausted</sys:String>
+    <sys:String x:Key="Lang_Goodjob">Good job!You have finished!</sys:String>
+    <sys:String x:Key="Lang_Toooften">Too often</sys:String>
+    <sys:String x:Key="Lang_Keepnow">Keep now</sys:String>
+    <sys:String x:Key="Lang_Haveagoodrest">Have a good rest</sys:String>
+    <sys:String x:Key="Lang_Translators">Translators</sys:String>
+
+    <sys:String x:Key="Lang_Workingtime">Working time</sys:String>
+    <sys:String x:Key="Lang_Breakingtime">Rest time</sys:String>
+    <sys:String x:Key="Lang_Great">Great</sys:String>
+    <sys:String x:Key="Lang_Getatomato">Get a tomato!</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip1">You have finished a goal,please rest {x} minutes,i will remind you next working time.</sys:String>
+    <sys:String x:Key="Lang_Yes">Yes</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip2">The work is done,please rest {x} minutes,i will remind you next working time.</sys:String>
+    <sys:String x:Key="Lang_Time">Time</sys:String>
+    <sys:String x:Key="Lang_TomatoStart">Ready</sys:String>
+    <sys:String x:Key="Lang_TomatoEnd">End</sys:String>
+    <sys:String x:Key="Lang_TomatoWorkfinishTip3">Ready go,focus on your job,i will remind you at the end,are you ready?</sys:String>
+    <sys:String x:Key="Lang_Remainingtime">Remaining time</sys:String>
+
+</ResourceDictionary>

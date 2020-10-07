@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectEye.Core.Enums
+﻿namespace ProjectEye.Core.Enums
 {
     public enum SoundType
     {

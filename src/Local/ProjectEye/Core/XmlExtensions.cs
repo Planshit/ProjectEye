@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -24,7 +20,7 @@ namespace ProjectEye.Core
                 XmlReader xmlReader = XmlReader.Create(file);
                 if (serializer.CanDeserialize(xmlReader))
                 {
-                    var des= serializer.Deserialize(xmlReader);
+                    var des = serializer.Deserialize(xmlReader);
                     xmlReader.Dispose();
                     return des;
                 }
@@ -34,7 +30,7 @@ namespace ProjectEye.Core
                     return null;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LogHelper.Warning(e.ToString());
                 return null;
@@ -56,7 +52,7 @@ namespace ProjectEye.Core
                 writer.Close();
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 LogHelper.Warning(e.ToString());
                 return false;

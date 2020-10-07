@@ -41,14 +41,14 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid>
                                         <StackPanel>
-                                            <TextBlock Text="年份" FontWeight="Bold" FontSize="14"/>
+                                            <TextBlock Text="{DynamicResource Lang_Year}" FontWeight="Bold" FontSize="14"/>
                                             <controls:ItemList x:Name="YearsList" Margin="0,5,0,0"/>
                                         </StackPanel>
 
                                     </Grid>
                                     <Grid Grid.Column="1">
                                         <StackPanel>
-                                            <TextBlock Text="月份" FontWeight="Bold" FontSize="14"/>
+                                            <TextBlock Text="{DynamicResource Lang_Monthly}" FontWeight="Bold" FontSize="14"/>
                                             <controls:ItemList x:Name="MonthsList" Margin="0,5,0,0"/>
                                         </StackPanel>
 
@@ -77,7 +77,7 @@
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEE93;" VerticalAlignment="Center"  FontSize="14" TextAlignment="Center" Foreground="#37363d"/>
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#37363d">
-                                <Run Text="{TemplateBinding SelectedYear,Converter={StaticResource StringConverter}}"/><Run Text="年"/> <Run Text="{TemplateBinding SelectedMonth,Converter={StaticResource StringConverter}}"/><Run Text="月"/>
+                                <Run Text="{TemplateBinding SelectedYear,Converter={StaticResource StringConverter}}"/> <Run Text="/"/> <Run Text="{TemplateBinding SelectedMonth,Converter={StaticResource StringConverter}}"/>
                                 </TextBlock>
                             </StackPanel>
 

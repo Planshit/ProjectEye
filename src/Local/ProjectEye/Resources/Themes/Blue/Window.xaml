@@ -76,8 +76,8 @@
                                                 <!--LOGO区域-->
 
                                                 <StackPanel Margin="10">
-                                                    <TextBlock Text="Project Eye" Foreground="#737373"/>
-                                                    <TextBlock Text="{TemplateBinding Title}" FontWeight="Normal" FontSize="22" Margin="0,5,0,0"/>
+                                                    <TextBlock Text="Project Eye" Foreground="#737373"  IsHitTestVisible="False"/>
+                                                    <TextBlock Text="{TemplateBinding Title}" FontWeight="Normal" FontSize="22" Margin="0,5,0,0" IsHitTestVisible="False"/>
                                                 </StackPanel>
                                                 <!--<Image Width="16" Height="16" Source="{TemplateBinding Icon}"
                                                    HorizontalAlignment="Center"
@@ -107,7 +107,7 @@
                                                 <StackPanel Orientation="Horizontal">
                                                     <!--最小化-->
                                                     <Button
-                                                    ToolTip="最小化"
+                                                    ToolTip="{DynamicResource Lang_Minimize}"
                                                     Width="34"
                                                     Height="26"
                                                     Style="{DynamicResource WindowSystemButton}"
@@ -117,7 +117,7 @@
                                                     />
                                                     <!--最大化-->
                                                     <Button
-                                                    ToolTip="最大化"
+                                                    ToolTip="{DynamicResource Lang_Maximize}"
                                                     x:Name="MaximizeButton"
                                                     Width="34"
                                                     Height="26"
@@ -127,7 +127,7 @@
                                                     Visibility="{TemplateBinding MaximizeVisibility}"/>
                                                     <!--还原-->
                                                     <Button
-                                                    ToolTip="向下还原"
+                                                    ToolTip="{DynamicResource Lang_Restore}"
                                                     x:Name="RestoreButton"
                                                     Width="34"
                                                     Height="26"
@@ -137,7 +137,7 @@
                                                     Command="{x:Static cmd:Project1UIWindowCommands.RestoreWindowCommand}"/>
                                                     <!--关闭-->
                                                     <Button
-                                                    ToolTip="关闭"
+                                                    ToolTip="{DynamicResource Lang_Close}"
                                                     Width="34"
                                                     Height="26"
                                                     Style="{DynamicResource WindowSystemButton}"

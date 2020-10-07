@@ -4,13 +4,9 @@ using ProjectEye.Core.Net;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProjectEye.ViewModels
@@ -143,27 +139,27 @@ namespace ProjectEye.ViewModels
             downloader.ErrorEvent += Downloader_ErrorEvent; ;
 
             downloader.Start();
-            Tip = "正在请求下载资源...";
+            Tip = $"{Application.Current.Resources["Lang_Requestingdownloadsources"]}...";
             PlayProcess = true;
             UpVisibility = Visibility.Collapsed;
         }
 
         private void Downloader_ErrorEvent(object sender, object value)
         {
-            Tip = $"下载时发生异常，{value}";
+            Tip = $"{Application.Current.Resources["Lang_Erroroccurredduringdownload"]}，{value}";
             UpVisibility = Visibility.Visible;
         }
 
         private void Downloader_CompleteEvent(object sender, object value)
         {
-            Tip = $"更新包下载已完成！";
+            Tip = $"{Application.Current.Resources["Lang_Updatepackagehasbeendownloaded"]}!";
 
             InstallVisibility = Visibility.Visible;
         }
 
         private void Downloader_ProcessUpdateEvent(object sender, object value)
         {
-            Tip = $"正在下载更新包 {value} %";
+            Tip = $"{Application.Current.Resources["Lang_Downloadingupdatepackage"]} {value} %";
         }
         private void openurlCommand_action(object obj)
         {
@@ -177,22 +173,22 @@ namespace ProjectEye.ViewModels
         private void Updater_RequestErrorEvent(object sender, object value)
         {
             PlayProcess = false;
-            Tip = "无法获取版本信息，请重试或检查网络";
-            Modal("无法获取到版本信息，请尝试重启应用程序后再试！");
+            Tip = $"{Application.Current.Resources["Lang_Updategeterror"]}";
+            Modal($"{Application.Current.Resources["Lang_Updategeterror"]}");
         }
 
         private void Updater_RequestCompleteEvent(object sender, object value)
         {
             bool isCanUpdate = githubRelease.IsCanUpdate();
             PlayProcess = false;
-            Tip = isCanUpdate ? "有新版本可以更新！" : "当前已是最新版本！";
+            Tip = isCanUpdate ? $"{Application.Current.Resources["Lang_Updateisavailable"]}" : $"{Application.Current.Resources["Lang_Noupdateisavailable"]}";
             UpVisibility = isCanUpdate ? Visibility.Visible : Visibility.Hidden;
 
             if (isCanUpdate)
             {
 
                 //string preText = githubRelease.Info.IsPre ? " [预览版本]" : " [正式版]";
-                VersionInfo = "版本号：" + githubRelease.Info.Version + "\r\n\r\n" + githubRelease.Info.Title;
+                VersionInfo = $"{Application.Current.Resources["Lang_Version"]}: " + githubRelease.Info.Version + "\r\n\r\n" + githubRelease.Info.Title;
                 VersionUrl = githubRelease.Info.HtmlUrl;
                 OpenUrlVisibility = Visibility.Visible;
             }

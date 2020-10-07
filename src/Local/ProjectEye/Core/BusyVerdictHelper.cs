@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace ProjectEye.Core
 {
@@ -23,7 +18,7 @@ namespace ProjectEye.Core
         {
             Process[] processes = Process.GetProcesses();
             //processes.Where(m => m.ProcessName)
-            
+
             return false;
         }
 

@@ -2,14 +2,8 @@
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace ProjectEye.ViewModels
@@ -48,6 +42,8 @@ namespace ProjectEye.ViewModels
             Model.Themes = systemResources.Themes;
             Model.Animations = systemResources.Animations;
             Model.PreAlertActions = systemResources.PreAlertActions;
+            Model.Languages = systemResources.Languages;
+
             string[] version = Assembly.GetExecutingAssembly().GetName().Version.ToString().Split('.');
             Model.Version = version[0] + "." + version[1] + "." + version[2];
 
@@ -99,7 +95,7 @@ namespace ProjectEye.ViewModels
             string process = obj.ToString();
             if (process == string.Empty)
             {
-                Modal("请输入进程名称");
+                Modal($"{Application.Current.Resources["Lang_Pleaseentertheprocessname"]}");
             }
             else if (Model.Data.Behavior.BreakProgressList.Contains(process))
             {
@@ -154,23 +150,22 @@ namespace ProjectEye.ViewModels
             if (!string.IsNullOrEmpty(path))
             {
                 bool resultTest = sound.Test(path);
-                Modal(resultTest ? "自定义音效已被正确加载" : "自定义音效不能被加载");
+                Modal(resultTest ? $"{Application.Current.Resources["Lang_Success"]}" : $"{Application.Current.Resources["Lang_Failed"]}");
             }
             else
             {
                 sound.Play();
-                Modal("当前播放的是默认提示音");
+                Modal("Ding!");
             }
         }
         private void inkCommand_action(object obj)
         {
 
-            string msg = "创建桌面快捷方式失败！";
+            string msg = $"{Application.Current.Resources["Lang_Failed"]}";
             if (ShortcutHelper.CreateDesktopShortcut())
             {
-                msg = "创建桌面快捷方式成功！";
+                msg = $"{Application.Current.Resources["Lang_Success"]}";
             }
-            //MessageBox.Show(msg, "提示");
             Modal(msg);
         }
 
@@ -185,16 +180,16 @@ namespace ProjectEye.ViewModels
             theme.HandleDarkMode();
             if (config.Save())
             {
-                msg = "选项已更新";
+                msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
                 //处理开机启动
                 if (!ShortcutHelper.SetStartup(config.options.General.Startup))
                 {
-                    msg = "选项已更新，但是 “开机启动选项” 可能未生效。";
+                    msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
                 }
                 //处理休息间隔调整
                 if (mainService.SetWarnTime(config.options.General.WarnTime))
                 {
-                    msg = "选项已更新，提醒计时已重启。";
+                    msg = $"{Application.Current.Resources["Lang_Optionupdated"]}";
                 }
                 //处理主题切换
                 theme.SetTheme(config.options.Style.Theme.ThemeName);

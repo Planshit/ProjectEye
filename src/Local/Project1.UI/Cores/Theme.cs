@@ -96,7 +96,7 @@ namespace Project1.UI.Cores
             {
                 UIDefaultSetting.DefaultThemeName = name;
 
-                
+
 
                 var configDict = GetResourceDictionary($"{UIDefaultSetting.DefaultThemeFullPath}/Config.xaml");
                 var controlDict = GetResourceDictionary($"{UIDefaultSetting.DefaultThemeFullPath}/Style.xaml");
@@ -105,7 +105,18 @@ namespace Project1.UI.Cores
                 Debug.WriteLine("themeName:" + themename + "/" + name);
                 if (themename != null && themename.ToString() != name || themename == null)
                 {
-                    MergedDictionaries.Clear();
+                    //MergedDictionaries.Clear();
+                    //清除旧主题
+                    var mds = System.Windows.Application.Current.Resources.MergedDictionaries;
+                    var oldStyles = mds.Where(m => m.Source.OriginalString.Contains(themename.ToString())).ToList();
+                    if (oldStyles != null)
+                    {
+                        foreach (var oldStyle in oldStyles)
+                        {
+                            mds.Remove(oldStyle);
+                        }
+                    }
+
                     MergedDictionaries.Add(configDict);
                     MergedDictionaries.Add(controlDict);
                     Debug.WriteLine("已加载主题：" + name);

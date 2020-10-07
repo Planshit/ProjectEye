@@ -1,19 +1,7 @@
 ﻿using ProjectEye.Core;
-using ProjectEye.Core.Models.Options;
 using ProjectEye.Core.Service;
-using ProjectEye.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Navigation;
 
 namespace ProjectEye
 {

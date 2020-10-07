@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ProjectEye.Models
 {
@@ -39,7 +34,7 @@ namespace ProjectEye.Models
             set { InstallVisibility_ = value; OnPropertyChanged(); }
         }
 
-        private string Tip_ = "正在获取版本信息";
+        private string Tip_ = "Loading...";
         public string Tip
         {
             get { return Tip_; }

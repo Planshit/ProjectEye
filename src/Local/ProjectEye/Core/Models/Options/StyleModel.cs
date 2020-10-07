@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using static Project1.UI.Controls.Project1UIWindow;
+﻿using System.Xml.Serialization;
 
 namespace ProjectEye.Core.Models.Options
 {
@@ -96,5 +90,9 @@ namespace ProjectEye.Core.Models.Options
         /// </summary>
         public bool IsThruTipWindow { get; set; } = false;
 
+        /// <summary>
+        /// 语言
+        /// </summary>
+        public ComboxModel Language { get; set; } = new ComboxModel() { DisplayName = "中文", Value = "zh" };
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Project1.UI.Controls;
 using ProjectEye.Core.Models.Options;
-using ProjectEye.Core.Models.Statistic;
 using ProjectEye.Database;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace ProjectEye.Core.Service
@@ -28,6 +26,9 @@ namespace ProjectEye.Core.Service
         private Models.Statistic.TomatoModel tomatoDataToday;
         private int workCount = 0;
         private int restartCount = -1;
+
+        private Project1UIToast worktoast;
+        private Stopwatch timerWatcher;
         public TomatoService(
             ConfigService config,
             BackgroundWorkerService backgroundWorker,
@@ -38,6 +39,7 @@ namespace ProjectEye.Core.Service
             this.backgroundWorker = backgroundWorker;
             this.tray = tray;
             this.sound = sound;
+            timerWatcher = new Stopwatch();
         }
 
         #region init service
@@ -104,6 +106,10 @@ namespace ProjectEye.Core.Service
                 {
                     //关闭番茄
                     Close();
+                    if (worktoast != null)
+                    {
+                        worktoast.Hide();
+                    }
                 }
             }
         }
@@ -118,11 +124,12 @@ namespace ProjectEye.Core.Service
         {
             //工作时间已完成
 
-            string tip = $"已结束本次工作时间，请休息{config.options.Tomato.ShortRestMinutes}分钟，我会在下一次工作开始时再次提醒您。";
+            //string tip = $"已结束本次工作时间，请休息{config.options.Tomato.ShortRestMinutes}分钟，我会在下一次工作开始时再次提醒您。";
+            string tip = Application.Current.Resources["Lang_TomatoWorkfinishTip2"].ToString().Replace("{x}", config.options.Tomato.ShortRestMinutes.ToString());
             string subtitle = "";
             //停止工作
             workTimer.Stop();
-
+            timerWatcher.Stop();
             //计次
             workCount++;
             if (workCount == 4)
@@ -132,8 +139,11 @@ namespace ProjectEye.Core.Service
 #if DEBUG
                 restTimer.Interval = new TimeSpan(0, 0, 10);
 #endif
-                tip = $"获得一个番茄！完成了一组工作，请休息{config.options.Tomato.LongRestMinutes}分钟，我会在下一次工作开始时再次提醒您。";
-                subtitle = "太棒了！";
+                //tip = $"获得一个番茄！完成了一组工作，请休息{config.options.Tomato.LongRestMinutes}分钟，我会在下一次工作开始时再次提醒您。";
+                string tip1 = Application.Current.Resources["Lang_TomatoWorkfinishTip1"].ToString().Replace("{x}", config.options.Tomato.LongRestMinutes.ToString());
+                tip = $"{Application.Current.Resources["Lang_Getatomato"]}{tip1}";
+
+                subtitle = $"{Application.Current.Resources["Lang_Great"]}";
                 //数据记录
                 tomatoDataToday.TomatoCount++;
                 SaveData();
@@ -142,7 +152,8 @@ namespace ProjectEye.Core.Service
 
             //进入休息时间
             restTimer.Start();
-            Dialog("番茄提示", tip, subtitle);
+            timerWatcher.Restart();
+            Dialog($"{Application.Current.Resources["Lang_TomatoTimer"]}", tip, subtitle);
         }
         private void RestTimer_Tick(object sender, EventArgs e)
         {
@@ -156,12 +167,14 @@ namespace ProjectEye.Core.Service
                 if (workTimer.IsEnabled)
                 {
                     //工作中
-                    tray.SetText($"Project Tomato：[{(workCount + 1)}/4] 工作中");
+                    string timestr = string.Format("{0:F}", workTimer.Interval.TotalMinutes - timerWatcher.Elapsed.TotalMinutes);
+                    tray.SetText($"Project Tomato：[{(workCount + 1)}/4] {Application.Current.Resources["Lang_Workingtime"]}\r\n{Application.Current.Resources["Lang_Remainingtime"]}: {timestr} {Application.Current.Resources["Lang_Minutes"]}");
                 }
                 if (restTimer.IsEnabled)
                 {
                     //休息中
-                    tray.SetText($"Project Tomato：[{(workCount + 1)}/4] 休息中");
+                    string timestr = string.Format("{0:F}", restTimer.Interval.TotalMinutes - timerWatcher.Elapsed.TotalMinutes);
+                    tray.SetText($"Project Tomato：[{(workCount + 1)}/4] {Application.Current.Resources["Lang_Breakingtime"]}\r\n{Application.Current.Resources["Lang_Remainingtime"]}: {timestr} {Application.Current.Resources["Lang_Minutes"]}");
                 }
             }
         }
@@ -199,7 +212,7 @@ namespace ProjectEye.Core.Service
                 Debug.WriteLine("结束番茄时钟休息");
                 //停止休息计时
                 restTimer.Stop();
-
+                timerWatcher.Stop();
                 if (workCount == 4)
                 {
                     //重置工作计次
@@ -359,14 +372,14 @@ namespace ProjectEye.Core.Service
                 sound.Play(Enums.SoundType.TomatoWorkStartSound);
             }
             //通知弹窗
-            var worktoast = new Project1UIToast();
+            worktoast = new Project1UIToast();
             worktoast.SetIcon("pack://application:,,,/ProjectEye;component/Resources/tomato.ico");
             worktoast.OnButtonClick += Worktoast_OnButtonClick;
             worktoast.OnAutoHide += Worktoast_OnAutoHide;
-            worktoast.Alert("番茄提示", "准备进入工作时间，请保持专注，我会在结束时提醒您，准备好了吗？", $"时间{config.options.Tomato.WorkMinutes}分钟", 60,
+            worktoast.Alert($"{Application.Current.Resources["Lang_TomatoTimer"]}", $"{Application.Current.Resources["Lang_TomatoWorkfinishTip3"]}", $"{config.options.Tomato.WorkMinutes} {Application.Current.Resources["Lang_Minutes"]}", 60,
                 new string[] {
-                    "准备就绪",
-                    "结束"
+                    $"{Application.Current.Resources["Lang_TomatoStart"]}",
+                    $"{Application.Current.Resources["Lang_TomatoEnd"]}"
                 });
         }
 
@@ -378,9 +391,10 @@ namespace ProjectEye.Core.Service
 
         private void Worktoast_OnButtonClick(string name, Project1UIToast sender)
         {
-            if (name == "准备就绪")
+            if (name == $"{Application.Current.Resources["Lang_TomatoStart"]}")
             {
                 workTimer.Start();
+                timerWatcher.Restart();
             }
             else
             {
@@ -406,7 +420,7 @@ namespace ProjectEye.Core.Service
             toast.OnButtonClick += Toast_OnButtonClick;
             toast.Alert(title, content, subtitle, 30,
                 new string[] {
-                    "好的",
+                    $"{Application.Current.Resources["Lang_Yes"]}",
                 });
         }
 

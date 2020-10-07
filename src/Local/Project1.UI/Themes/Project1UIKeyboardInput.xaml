@@ -34,7 +34,7 @@
 
                             </Grid.ColumnDefinitions>
                             <Grid>
-                                <TextBlock x:Name="PTEXT" Text="请按下按键" HorizontalAlignment="Center" Visibility="Collapsed"
+                                <TextBlock x:Name="PTEXT" Text="{TemplateBinding Placeholder}" HorizontalAlignment="Center" Visibility="Collapsed"
                             VerticalAlignment="Center"
                             Foreground="{DynamicResource InputIconForeground}"/>
                                 <ContentPresenter HorizontalAlignment="Center"

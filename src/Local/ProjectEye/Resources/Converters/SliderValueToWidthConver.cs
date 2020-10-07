@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace ProjectEye.Resources.Converters
@@ -16,8 +11,8 @@ namespace ProjectEye.Resources.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            double sliderValue =(double)values[0];
-            double sliderMaxValue =(double)values[1];
+            double sliderValue = (double)values[0];
+            double sliderMaxValue = (double)values[1];
             double sliderWidth = (double)values[2];
             double result = 0;
             if (sliderWidth > 0)

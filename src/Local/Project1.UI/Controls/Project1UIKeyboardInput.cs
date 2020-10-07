@@ -15,6 +15,15 @@ namespace Project1.UI.Controls
 {
     public class Project1UIKeyboardInput : Control
     {
+        public string Placeholder
+        {
+            get { return (string)GetValue(PlaceholderProperty); }
+            set { SetValue(PlaceholderProperty, value); }
+        }
+
+        public static readonly DependencyProperty PlaceholderProperty =
+            DependencyProperty.Register("Placeholder", typeof(string), typeof(Project1UIKeyboardInput), new PropertyMetadata(""));
+
         public string KeyText
         {
             get { return (string)GetValue(KeyTextProperty); }

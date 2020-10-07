@@ -42,7 +42,7 @@
                                         <RowDefinition Height="30"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Text="属性编辑面板" FontWeight="Bold" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{DynamicResource Lang_Attribute}" FontWeight="Bold" VerticalAlignment="Center"/>
                                     <ScrollViewer Grid.Row="1" x:Name="ScrollViewer">
                                         <StackPanel>
                                             <Grid>
@@ -68,7 +68,7 @@
                                                     <RowDefinition Height="*"/>
 
                                                 </Grid.RowDefinitions>
-                                                <TextBlock Text="类型" VerticalAlignment="Center"/>
+                                                <TextBlock Text="{DynamicResource Lang_Type}" VerticalAlignment="Center"/>
                                                 <TextBlock 
                                                     Text="{TemplateBinding ItemTypeName}" 
                                                     Grid.Column="1"
@@ -76,7 +76,7 @@
                                                     VerticalAlignment="Center"
                                                     />
                                                 <!--尺寸宽高-->
-                                                <TextBlock Text="宽" VerticalAlignment="Center"
+                                                <TextBlock Text="{DynamicResource Lang_Width}" VerticalAlignment="Center"
                                                            Grid.Row="1" 
                                                             Margin="0,10,0,0"/>
                                                 <controls:Project1UIInput  
@@ -91,7 +91,7 @@
                                                     Minimum="1"
                                                     SmallChange="1"
                                                     />
-                                                <TextBlock Text="高" VerticalAlignment="Center"
+                                                <TextBlock Text="{DynamicResource Lang_Height}" VerticalAlignment="Center"
                                                            Grid.Row="2" 
                                                             Margin="0,10,0,0"/>
                                                 <controls:Project1UIInput  
@@ -108,7 +108,7 @@
                                                     />
                                                 <!--背景色-->
                                                 <TextBlock 
-                                                    Text="背景颜色"
+                                                    Text="{DynamicResource Lang_BackgroundColor}"
                                                     Grid.Row="3" 
                                                     VerticalAlignment="Center"
                                                     Margin="0,10,0,0"
@@ -143,7 +143,7 @@
                                                     Color="{Binding BorderColor,Mode=TwoWay}"/>
                                                 <!--文字-->
                                                 <TextBlock 
-                                                    Text="文字" 
+                                                    Text="{DynamicResource Lang_Content}" 
                                                     Grid.Row="5" 
                                                     VerticalAlignment="Top" 
                                                     Margin="0,10,0,0"
@@ -161,7 +161,7 @@
                                                     Visibility="{TemplateBinding TextInputVisibility}"
                                                     />
                                                 <!--透明度-->
-                                                <TextBlock Text="透明度" Grid.Row="6" VerticalAlignment="Top" Margin="0,10,0,0"/>
+                                                <TextBlock Text="{DynamicResource Lang_Opacity}" Grid.Row="6" VerticalAlignment="Top" Margin="0,10,0,0"/>
                                                 <controls:Project1UIInput  
                                                     Width="auto"
                                                     Height="25" 
@@ -176,13 +176,13 @@
                                                     />
                                                 <!--图片选择-->
                                                 <TextBlock 
-                                                    Text="图片" Grid.Row="7" 
+                                                    Text="{DynamicResource Lang_Image}" Grid.Row="7" 
                                                     VerticalAlignment="Top" 
                                                     Margin="0,10,0,0" 
                                                     Visibility="{TemplateBinding ImageInputVisibility}"/>
                                                 <controls:Project1UIInput 
                                                     Type="FileSelect"
-                                                    ExtNames="jpg图片|*.jpg|png透明图片|*.png"
+                                                    ExtNames="jpg|*.jpg|png|*.png"
                                                     x:Name="a123"
                                                     Width="auto"
                                                     Height="25" 
@@ -194,7 +194,7 @@
                                                     IsDisabledInput="True"
                                                     Placeholder="{Binding Image,Mode=TwoWay}"/>
                                                 <!--按钮类型属性-->
-                                                <TextBlock Text="按钮文本" Grid.Row="8" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                <TextBlock Text="{DynamicResource Lang_Content}" Grid.Row="8" VerticalAlignment="Top" Margin="0,10,0,0"
                                                            Visibility="{TemplateBinding ButtonVisibility}"/>
                                                 <controls:Project1UIInput  
                                                     Width="auto"
@@ -207,7 +207,7 @@
                                                     Text="{Binding ButtonText,Mode=TwoWay}"
                                                     />
                                                 <!--文字大小-->
-                                                <TextBlock Text="文本大小" Grid.Row="9" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                <TextBlock Text="{DynamicResource Lang_FontSize}" Grid.Row="9" VerticalAlignment="Top" Margin="0,10,0,0"
                                                            Visibility="{TemplateBinding FontSizeVisibility}"/>
                                                 <controls:Project1UIInput  
                                                     Width="auto"
@@ -223,7 +223,7 @@
                                                     SmallChange="1"
                                                     />
                                                 <!--文字色-->
-                                                <TextBlock Text="文本颜色" 
+                                                <TextBlock Text="{DynamicResource Lang_FontColor}" 
                                                            Grid.Row="10" 
                                                            VerticalAlignment="Center" 
                                                            Margin="0,10,0,0"
@@ -239,7 +239,7 @@
                                                     Visibility="{TemplateBinding TextColorVisibility}"
                                                     Color="{Binding TextColor,Mode=TwoWay}"/>
                                                 <!--文字加粗-->
-                                                <TextBlock Text="文本加粗" 
+                                                <TextBlock Text="{DynamicResource Lang_FontBold}" 
                                                            Grid.Row="11" 
                                                            VerticalAlignment="Center" 
                                                            Margin="0,10,0,0"
@@ -254,7 +254,7 @@
                                                     Margin="0,10,0,0"
                                                     Visibility="{TemplateBinding FontSizeVisibility}"
                                                     IsChecked="{Binding IsFontBold,Mode=TwoWay}"/>
-                                                <TextBlock Text="按钮样式" Grid.Row="12" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                <TextBlock Text="{DynamicResource Lang_Style}" Grid.Row="12" VerticalAlignment="Top" Margin="0,10,0,0"
                                                            Visibility="{TemplateBinding ButtonVisibility}"/>
                                                 <controls:Project1UIInput  
                                                     Width="auto"
@@ -267,7 +267,7 @@
                                                     Text="{Binding ButtonStyleName,Mode=TwoWay}"
                                                     />
                                                 <!--按钮命令-->
-                                                <TextBlock Text="执行命令" Grid.Row="13" VerticalAlignment="Top" Margin="0,10,0,0"
+                                                <TextBlock Text="{DynamicResource Lang_Command}" Grid.Row="13" VerticalAlignment="Top" Margin="0,10,0,0"
                                                            Visibility="{TemplateBinding ButtonVisibility}"/>
                                                 <controls:Project1UIInput  
                                                     Width="auto"
@@ -280,7 +280,7 @@
                                                     Text="{Binding Command,Mode=TwoWay}"
                                                     />
                                                 <!--文字对齐-->
-                                                <TextBlock Text="对齐方式" Grid.Row="14" VerticalAlignment="Center" Margin="0,10,0,0"
+                                                <TextBlock Text="{DynamicResource Lang_Alignment}" Grid.Row="14" VerticalAlignment="Center" Margin="0,10,0,0"
                                                            Visibility="{TemplateBinding TextColorVisibility}"/>
                                                 <ComboBox 
                                                     Width="auto"

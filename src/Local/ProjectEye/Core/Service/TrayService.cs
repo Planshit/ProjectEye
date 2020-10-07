@@ -1,13 +1,8 @@
 ﻿using ProjectEye.Core.Models.Options;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Resources;
 using System.Windows.Threading;
 
@@ -69,11 +64,17 @@ namespace ProjectEye.Core.Service
             this.theme.OnChangedTheme += Theme_OnChangedTheme;
             app.Exit += new ExitEventHandler(app_Exit);
             mainService.OnLeaveEvent += MainService_OnLeaveEvent;
-            mainService.OnStart += MainService_OnStart; ;
+            mainService.OnStart += MainService_OnStart;
+            mainService.OnLoadedLanguage += MainService_OnLoadedLanguage;
             backgroundWorker.DoWork += BackgroundWorker_DoWork;
             backgroundWorker.OnCompleted += BackgroundWorker_OnCompleted;
 
             notifyIcon = new System.Windows.Forms.NotifyIcon();
+        }
+
+        private void MainService_OnLoadedLanguage(object service, int msg)
+        {
+            CreateTrayMenu();
         }
 
         //主题更改时
@@ -143,27 +144,27 @@ namespace ProjectEye.Core.Service
             if (mainService.IsWorkTimerRun() && !backgroundWorker.IsBusy)
             {
                 double restCT = mainService.GetRestCountdownMinutes();
-                string restStr = Math.Round(restCT, 1) + "分钟";
+                string restStr = Math.Round(restCT, 1) + $"{Application.Current.Resources["Lang_Minutes_n"]}";
                 if (restCT < 1)
                 {
-                    restStr = Math.Round((restCT * 60), 0).ToString() + "秒";
+                    restStr = Math.Round((restCT * 60), 0).ToString() + $"{Application.Current.Resources["Lang_Seconds_n"]}";
                 }
                 if (restCT > 60)
                 {
                     restCT = Math.Round(restCT / 60, 1);
 
-                    restStr = $"{restCT.ToString()}小时";
+                    restStr = $"{restCT.ToString()}{Application.Current.Resources["Lang_Hours_n"]}";
                     if (restCT.ToString().IndexOf(".") != -1)
                     {
-                        restStr = $"{restCT.ToString().Split('.')[0]}小时{restCT.ToString().Split('.')[1]}分钟";
+                        restStr = $"{restCT.ToString().Split('.')[0]}{Application.Current.Resources["Lang_Hours_n"]} {restCT.ToString().Split('.')[1]}{Application.Current.Resources["Lang_Minutes_n"]}";
                     }
                 }
 
-                notifyIcon.Text = "Project Eye\r\n距离下一次休息：" + restStr;
+                notifyIcon.Text = $"Project Eye\r\n{Application.Current.Resources["Lang_Thenextbreak"]}: " + restStr;
             }
             else if (config.options.General.Noreset)
             {
-                notifyIcon.Text = "Project Eye：暂不提醒已开启";
+                notifyIcon.Text = $"Project Eye: {Application.Current.Resources["Lang_Reminderisoff"]}";
             }
             else if (!backgroundWorker.IsBusy)
             {
@@ -176,7 +177,7 @@ namespace ProjectEye.Core.Service
         private void BackgroundWorker_DoWork()
         {
             UpdateIcon("overheated", false);
-            notifyIcon.Text = "Project Eye：当前后台正在执行一些任务，请稍后。";
+            notifyIcon.Text = $"Project Eye: {Application.Current.Resources["Lang_TimeconsumingOperation"]}";
         }
         //后台工作任务运行结束时
         private void BackgroundWorker_OnCompleted()
@@ -213,7 +214,7 @@ namespace ProjectEye.Core.Service
         private void config_Changed(object sender, EventArgs e)
         {
             menuItem_NoReset.IsChecked = config.options.General.Noreset;
-            menuItem_Sound.IsChecked = config.options.General.Sound;
+            //menuItem_Sound.IsChecked = config.options.General.Sound;
             menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
 
 
@@ -305,29 +306,30 @@ namespace ProjectEye.Core.Service
             };
             //托盘菜单项
             menuItem_Statistic = new MenuItem();
-            menuItem_Statistic.Header = "查看数据统计";
+            //menuItem_Statistic.Header = "查看数据统计";
+            menuItem_Statistic.Header = Application.Current.Resources["Lang_Statistics"];
             menuItem_Statistic.Visibility = config.options.General.Data ? Visibility.Visible : Visibility.Collapsed;
             menuItem_Statistic.Click += menuItem_Statistic_Click;
 
             menuItem_Options = new MenuItem();
-            menuItem_Options.Header = "选项";
+            menuItem_Options.Header = Application.Current.Resources["Lang_Settings"];
             menuItem_Options.Click += menuItem_Options_Click;
 
 
             menuItem_NoReset = new MenuItem();
-            menuItem_NoReset.Header = "暂不提醒";
+            menuItem_NoReset.Header = Application.Current.Resources["Lang_Suspendnow"];
 
             menuItem_NoReset_OneHour = new MenuItem();
-            menuItem_NoReset_OneHour.Header = "1小时";
+            menuItem_NoReset_OneHour.Header = Application.Current.Resources["Lang_Onehours"];
             menuItem_NoReset_OneHour.Click += MenuItem_NoReset_OneHour_Click;
             menuItem_NoReset_TwoHour = new MenuItem();
-            menuItem_NoReset_TwoHour.Header = "2小时";
+            menuItem_NoReset_TwoHour.Header = Application.Current.Resources["Lang_Twohours"];
             menuItem_NoReset_TwoHour.Click += MenuItem_NoReset_TwoHour_Click;
             menuItem_NoReset_Forver = new MenuItem();
-            menuItem_NoReset_Forver.Header = "直到下次启动";
+            menuItem_NoReset_Forver.Header = Application.Current.Resources["Lang_Suspenduntilnextstartup"];
             menuItem_NoReset_Forver.Click += MenuItem_NoReset_Forver_Click;
             menuItem_NoReset_Off = new MenuItem();
-            menuItem_NoReset_Off.Header = "关闭";
+            menuItem_NoReset_Off.Header = Application.Current.Resources["Lang_Disabled"];
             menuItem_NoReset_Off.IsChecked = true;
             menuItem_NoReset_Off.Click += MenuItem_NoReset_Off_Click;
 
@@ -336,13 +338,13 @@ namespace ProjectEye.Core.Service
             menuItem_NoReset.Items.Add(menuItem_NoReset_Forver);
             menuItem_NoReset.Items.Add(menuItem_NoReset_Off);
 
-            menuItem_Sound = new MenuItem();
-            menuItem_Sound.Header = "提示音";
-            menuItem_Sound.IsChecked = config.options.General.Sound;
-            menuItem_Sound.Click += menuItem_Sound_Click;
+            //menuItem_Sound = new MenuItem();
+            //menuItem_Sound.Header = "提示音";
+            //menuItem_Sound.IsChecked = config.options.General.Sound;
+            //menuItem_Sound.Click += menuItem_Sound_Click;
 
             menuItem_Quit = new MenuItem();
-            menuItem_Quit.Header = "退出";
+            menuItem_Quit.Header = Application.Current.Resources["Lang_Quit"]; ;
             menuItem_Quit.Click += menuItem_Exit_Click;
 
             //添加托盘菜单项
@@ -350,7 +352,7 @@ namespace ProjectEye.Core.Service
             contextMenu.Items.Add(menuItem_Options);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_NoReset);
-            contextMenu.Items.Add(menuItem_Sound);
+            //contextMenu.Items.Add(menuItem_Sound);
             contextMenu.Items.Add(new Separator());
             contextMenu.Items.Add(menuItem_Quit);
 

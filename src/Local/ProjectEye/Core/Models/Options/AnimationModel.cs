@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Project1.UI.Controls.Project1UIWindow;
+﻿using static Project1.UI.Controls.Project1UIWindow;
 
 namespace ProjectEye.Core.Models.Options
 {

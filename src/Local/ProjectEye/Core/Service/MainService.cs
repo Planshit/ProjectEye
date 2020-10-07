@@ -1,17 +1,9 @@
 ﻿using Microsoft.Win32;
-using Project1.UI.Controls;
 using ProjectEye.Core.Models.Options;
-using ProjectEye.ViewModels;
-using ProjectEye.Views;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Interop;
 using System.Windows.Threading;
 
 namespace ProjectEye.Core.Service
@@ -60,6 +52,7 @@ namespace ProjectEye.Core.Service
         private readonly CacheService cache;
         private readonly StatisticService statistic;
         private readonly ThemeService theme;
+        private readonly SystemResourcesService systemResources;
         #endregion
 
         #region win32
@@ -95,19 +88,25 @@ namespace ProjectEye.Core.Service
         /// 计时器启动时发生
         /// </summary>
         public event MainEventHandler OnStart;
+        /// <summary>
+        /// 加载语言完成时发生
+        /// </summary>
+        public event MainEventHandler OnLoadedLanguage;
         #endregion
         public MainService(App app,
             ScreenService screen,
             ConfigService config,
             CacheService cache,
             StatisticService statistic,
-            ThemeService theme)
+            ThemeService theme,
+            SystemResourcesService systemResources)
         {
             this.screen = screen;
             this.config = config;
             this.cache = cache;
             this.statistic = statistic;
             this.theme = theme;
+            this.systemResources = systemResources;
 
             app.Exit += new ExitEventHandler(app_Exit);
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
@@ -166,8 +165,27 @@ namespace ProjectEye.Core.Service
             Start();
 
             config.Changed += Config_Changed;
+
+
+            //加载语言
+            HandleLanguageChanged();
         }
         #endregion
+
+        private void HandleLanguageChanged()
+        {
+            var language = new ResourceDictionary { Source = new Uri($"/ProjectEye;component/Resources/Language/{config.options.Style.Language.Value}.xaml", UriKind.RelativeOrAbsolute) };
+
+            var mds = System.Windows.Application.Current.Resources.MergedDictionaries;
+            var loadedLanguage = mds.Where(m => m.Source.OriginalString.Contains("Language")).FirstOrDefault();
+            if (loadedLanguage != null)
+            {
+                mds.Remove(loadedLanguage);
+            }
+            mds.Add(language);
+            systemResources.Init();
+            OnLoadedLanguage?.Invoke(this, 0);
+        }
 
         private void Config_Changed(object sender, EventArgs e)
         {
@@ -192,6 +210,7 @@ namespace ProjectEye.Core.Service
                     Debug.WriteLine("番茄模式已关闭，恢复计时休息提醒模式");
                 }
             }
+            HandleLanguageChanged();
         }
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
