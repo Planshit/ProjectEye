@@ -40,5 +40,3 @@ Runtime: [.NET Framework 4.5+](https://dotnet.microsoft.com/download/dotnet-fram
 ## 其他
 
 [帮助文档](https://littlepanda.gitbook.io/project-eye/)
-
-[开发者](http://thelittlepandaisbehind.com/about.html)
