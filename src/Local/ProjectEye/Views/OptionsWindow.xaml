@@ -603,10 +603,10 @@
                          <Run Text="{DynamicResource Lang_Feedback}"/> <Hyperlink  Command="{Binding openurlCommand}"
                                       CommandParameter="https://github.com/Planshit/ProjectEye/issues">https://github.com/Planshit/ProjectEye/issues</Hyperlink>
                         </TextBlock>
-                        <TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
+                        <!--<TextBlock TextWrapping="Wrap" Margin="0,10,0,0">
                          <Run Text="{DynamicResource Lang_Developers}"/> <Hyperlink  Command="{Binding openurlCommand}"
                                       CommandParameter="http://thelittlepandaisbehind.com">http://thelittlepandaisbehind.com</Hyperlink>
-                        </TextBlock>
+                        </TextBlock>-->
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

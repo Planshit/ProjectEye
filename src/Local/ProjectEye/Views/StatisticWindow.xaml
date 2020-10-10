@@ -341,7 +341,7 @@
                                     </Grid>
                                 </Border>
 
-                                <TextBlock Text="番茄工作法（Pomodoro Technique）是一种时间管理法，在1980年代由Francesco Cirillo创立。该方法使用一个定时器来分割出一个一般为25分钟的工作时间和5分钟的休息时间，而那些时间段被称为pomodoros，为意大利语单词 pomodoro（中文：番茄）之复数。" TextWrapping="Wrap" Margin="0,20,0,0" />
+                                <TextBlock Text="{DynamicResource Lang_Tomatodescription2}" TextWrapping="Wrap" Margin="0,20,0,0" />
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>

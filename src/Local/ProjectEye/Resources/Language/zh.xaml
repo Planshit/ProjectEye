@@ -205,6 +205,7 @@
     <sys:String x:Key="Lang_TomatoEnd">结束</sys:String>
     <sys:String x:Key="Lang_TomatoWorkfinishTip3">准备开始，请保持专注工作，我会在结束时提醒你，准备好了吗？</sys:String>
     <sys:String x:Key="Lang_Remainingtime">剩余时间</sys:String>
+    <sys:String x:Key="Lang_Tomatodescription2">番茄工作法（Pomodoro Technique）是一种时间管理法，在1980年代由Francesco Cirillo创立。该方法使用一个定时器来分割出一个一般为25分钟的工作时间和5分钟的休息时间，而那些时间段被称为pomodoros，为意大利语单词 pomodoro（中文：番茄）之复数。</sys:String>
 
 
 </ResourceDictionary>
