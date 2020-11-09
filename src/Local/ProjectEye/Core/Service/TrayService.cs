@@ -160,15 +160,15 @@ namespace ProjectEye.Core.Service
                     }
                 }
 
-                notifyIcon.Text = $"Project Eye\r\n{Application.Current.Resources["Lang_Thenextbreak"]}: " + restStr;
+                SetText($"Project Eye\r\n{Application.Current.Resources["Lang_Thenextbreak"]}: " + restStr);
             }
             else if (config.options.General.Noreset)
             {
-                notifyIcon.Text = $"Project Eye: {Application.Current.Resources["Lang_Reminderisoff"]}";
+                SetText($"Project Eye: {Application.Current.Resources["Lang_Reminderisoff"]}");
             }
             else if (!backgroundWorker.IsBusy)
             {
-                notifyIcon.Text = "Project Eye";
+                SetText("Project Eye");
             }
             MouseMoveTrayIcon?.Invoke(sender, e);
         }
@@ -177,12 +177,12 @@ namespace ProjectEye.Core.Service
         private void BackgroundWorker_DoWork()
         {
             UpdateIcon("overheated", false);
-            notifyIcon.Text = $"Project Eye: {Application.Current.Resources["Lang_TimeconsumingOperation"]}";
+            SetText($"Project Eye: {Application.Current.Resources["Lang_TimeconsumingOperation"]}");
         }
         //后台工作任务运行结束时
         private void BackgroundWorker_OnCompleted()
         {
-            notifyIcon.Text = "Project Eye";
+            SetText("Project Eye");
             UpdateIcon();
         }
 
@@ -440,7 +440,7 @@ namespace ProjectEye.Core.Service
         /// <param name="text"></param>
         public void SetText(string text)
         {
-            notifyIcon.Text = text;
+            notifyIcon.Text = text.Length > 63 ? text.Substring(0, 63) : text;
         }
         #endregion
     }

@@ -168,13 +168,13 @@ namespace ProjectEye.Core.Service
                 {
                     //工作中
                     string timestr = string.Format("{0:F}", workTimer.Interval.TotalMinutes - timerWatcher.Elapsed.TotalMinutes);
-                    tray.SetText($"Project Tomato：[{(workCount + 1)}/4] {Application.Current.Resources["Lang_Workingtime"]}\r\n{Application.Current.Resources["Lang_Remainingtime"]}: {timestr} {Application.Current.Resources["Lang_Minutes"]}");
+                    tray.SetText($"Tomato：[{(workCount + 1)}/4] {Application.Current.Resources["Lang_Workingtime"]}\r\n{Application.Current.Resources["Lang_Remainingtime"]}: {timestr} {Application.Current.Resources["Lang_Minutes"]}");
                 }
                 if (restTimer.IsEnabled)
                 {
                     //休息中
                     string timestr = string.Format("{0:F}", restTimer.Interval.TotalMinutes - timerWatcher.Elapsed.TotalMinutes);
-                    tray.SetText($"Project Tomato：[{(workCount + 1)}/4] {Application.Current.Resources["Lang_Breakingtime"]}\r\n{Application.Current.Resources["Lang_Remainingtime"]}: {timestr} {Application.Current.Resources["Lang_Minutes"]}");
+                    tray.SetText($"Tomato：[{(workCount + 1)}/4] {Application.Current.Resources["Lang_Breakingtime"]}\r\n{Application.Current.Resources["Lang_Remainingtime"]}: {timestr} {Application.Current.Resources["Lang_Minutes"]}");
                 }
             }
         }
