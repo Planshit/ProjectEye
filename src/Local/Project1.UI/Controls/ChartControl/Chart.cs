@@ -421,9 +421,7 @@ namespace Project1.UI.Controls.ChartControl
         {
             DefaultStyleKey = typeof(Chart);
             storyboard = new Storyboard();
-            storyboard.Duration = TimeSpan.FromSeconds(1);
             scrollStoryboard = new Storyboard();
-            //scrollStoryboard.Duration = TimeSpan.FromSeconds(1);
             scrollStoryboard.Completed += (e, c) =>
             {
                 //容器滚动动画结束
@@ -541,10 +539,13 @@ namespace Project1.UI.Controls.ChartControl
                 };
             }
             MouseLeave += Chart_MouseLeave;
-            Render();
-            //Loaded += Chart_Loaded;
+            Loaded += Chart_Loaded;
         }
 
+        private void Chart_Loaded(object sender, RoutedEventArgs e)
+        {
+            Render();
+        }
 
         private void Render()
         {
@@ -709,6 +710,9 @@ namespace Project1.UI.Controls.ChartControl
             Storyboard.SetTarget(averageLabelValueAnimation, this);
             Storyboard.SetTargetProperty(averageLabelValueAnimation, new PropertyPath(AverageProperty));
 
+            averageAnimation.Duration= new Duration(TimeSpan.FromSeconds(.8));
+            averageLabelAnimation.Duration = new Duration(TimeSpan.FromSeconds(.8));
+            averageLabelValueAnimation.Duration = new Duration(TimeSpan.FromSeconds(.8));
 
             storyboard.Children.Add(averageAnimation);
             storyboard.Children.Add(averageLabelAnimation);
