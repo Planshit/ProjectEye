@@ -182,7 +182,7 @@
                                                     Visibility="{TemplateBinding ImageInputVisibility}"/>
                                                 <controls:Project1UIInput 
                                                     Type="FileSelect"
-                                                    ExtNames="jpg|*.jpg|png|*.png"
+                                                    ExtNames="jpg|*.jpg|png|*.png|gif|*.gif"
                                                     x:Name="a123"
                                                     Width="auto"
                                                     Height="25" 

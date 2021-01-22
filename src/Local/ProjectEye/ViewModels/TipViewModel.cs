@@ -14,6 +14,8 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using WpfAnimatedGif;
 
 namespace ProjectEye.ViewModels
 {
@@ -183,17 +185,41 @@ namespace ProjectEye.ViewModels
                         imageElement.Height = element.Height;
                         imageElement.Opacity = element.Opacity;
                         imageElement.Stretch = Stretch.Fill;
+
+
                         try
                         {
-                            //imageElement.Source = new BitmapImage(new Uri(element.Image, UriKind.RelativeOrAbsolute));
-                            imageElement.Source = BitmapImager.Load(element.Image);
-
+                            var image = new BitmapImage();
+                            image.BeginInit();
+                            image.UriSource = new Uri(element.Image, UriKind.RelativeOrAbsolute);
+                            image.EndInit();
+                            ImageBehavior.SetAnimatedSource(imageElement, image);
                         }
                         catch
                         {
                             imageElement.Source = BitmapImager.Load("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
-                            //imageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
+
                         }
+
+                        //var imageElement = new Image();
+                        //imageElement.HorizontalAlignment = HorizontalAlignment.Left;
+                        //imageElement.VerticalAlignment = VerticalAlignment.Top;
+                        //imageElement.RenderTransform = ttf;
+                        //imageElement.Width = element.Width;
+                        //imageElement.Height = element.Height;
+                        //imageElement.Opacity = element.Opacity;
+                        //imageElement.Stretch = Stretch.Fill;
+                        //try
+                        //{
+                        //    //imageElement.Source = new BitmapImage(new Uri(element.Image, UriKind.RelativeOrAbsolute));
+                        //    imageElement.Source = BitmapImager.Load(element.Image);
+
+                        //}
+                        //catch
+                        //{
+                        //    imageElement.Source = BitmapImager.Load("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png");
+                        //    //imageElement.Source = new BitmapImage(new Uri("pack://application:,,,/Project1.UI;component/Assets/Images/sunglasses.png", UriKind.RelativeOrAbsolute));
+                        //}
                         container.Children.Add(imageElement);
                         break;
                 }
