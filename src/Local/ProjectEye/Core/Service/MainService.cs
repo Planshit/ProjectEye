@@ -594,7 +594,10 @@ namespace ProjectEye.Core.Service
                 if (config.options.Behavior.IsFullScreenBreak)
                 {
                     var info = Win32APIHelper.GetFocusWindowInfo();
-                    return info.IsFullScreen;
+                    if (info.IsFullScreen)
+                    {
+                        return true;
+                    }
                 }
 
                 //1.进程跳过判断
