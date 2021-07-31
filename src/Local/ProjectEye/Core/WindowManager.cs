@@ -327,13 +327,13 @@ namespace ProjectEye.Core
         }
         public static Size GetSize(System.Windows.Forms.Screen screen)
         {
-            uint xDpi, yDpi;
-            screen.GetDpi(DpiType.Effective, out xDpi, out yDpi);
+            //uint xDpi, yDpi;
+            ScreenExtensions.Dpi dpi = screen.GetDpi(DpiType.Effective);
             var size = new Size();
-            size.Width = screen.Bounds.Width / (xDpi / 96.0);
-            size.Height = screen.Bounds.Height / (yDpi / 96.0);
-            size.XDPI = xDpi;
-            size.YDPI = yDpi;
+            size.Width = screen.Bounds.Width / (dpi.x / 96.0);
+            size.Height = screen.Bounds.Height / (dpi.y / 96.0);
+            size.XDPI = dpi.x;
+            size.YDPI = dpi.y;
             return size;
         }
         #endregion
@@ -346,9 +346,9 @@ namespace ProjectEye.Core
         }
         public static double ToDips(System.Windows.Forms.Screen screen, double value, DpiDirection dpiDirection = DpiDirection.X)
         {
-            uint xDpi, yDpi;
-            screen.GetDpi(DpiType.Effective, out xDpi, out yDpi);
-            return value / (dpiDirection == DpiDirection.X ? xDpi : yDpi / 96.0);
+            ScreenExtensions.Dpi dpi = screen.GetDpi(DpiType.Effective);
+
+            return value / (dpiDirection == DpiDirection.X ? dpi.x : dpi.y / 96.0);
         }
 
         public static double ToDips(double value, uint dpi)
