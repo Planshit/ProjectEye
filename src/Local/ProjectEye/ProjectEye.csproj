@@ -499,5 +499,29 @@
   <ItemGroup>
     <Resource Include="Resources\conference_presentation__monochromatic.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\red-tomato-1.ico" />
+    <Resource Include="Resources\red-tomato-10.ico" />
+    <Resource Include="Resources\red-tomato-2.ico" />
+    <Resource Include="Resources\red-tomato-3.ico" />
+    <Resource Include="Resources\red-tomato-4.ico" />
+    <Resource Include="Resources\red-tomato-5.ico" />
+    <Resource Include="Resources\red-tomato-6.ico" />
+    <Resource Include="Resources\red-tomato-7.ico" />
+    <Resource Include="Resources\red-tomato-8.ico" />
+    <Resource Include="Resources\red-tomato-9.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\green-tomato-1.ico" />
+    <Resource Include="Resources\green-tomato-10.ico" />
+    <Resource Include="Resources\green-tomato-2.ico" />
+    <Resource Include="Resources\green-tomato-3.ico" />
+    <Resource Include="Resources\green-tomato-4.ico" />
+    <Resource Include="Resources\green-tomato-5.ico" />
+    <Resource Include="Resources\green-tomato-6.ico" />
+    <Resource Include="Resources\green-tomato-7.ico" />
+    <Resource Include="Resources\green-tomato-8.ico" />
+    <Resource Include="Resources\green-tomato-9.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

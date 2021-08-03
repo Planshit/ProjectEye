@@ -33,6 +33,9 @@ namespace ProjectEye.Core.Models.Options
         /// 工作结束提示音路径
         /// </summary>
         public string WorkEndSoundPath { get; set; } = "";
-
+        /// <summary>
+        /// 是否开启交互模式
+        /// </summary>
+        public bool IsEnabledInteractiveModel { get; set; } = false;
     }
 }

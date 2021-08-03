@@ -22,10 +22,12 @@ namespace ProjectEye.Core.Service
 
         private DispatcherTimer workTimer;
         private DispatcherTimer restTimer;
+        private DispatcherTimer icorefreshTimer;
 
         private Models.Statistic.TomatoModel tomatoDataToday;
         private int workCount = 0;
         private int restartCount = -1;
+        private int refreshTick = 1;
 
         private Project1UIToast worktoast;
         private Stopwatch timerWatcher;
@@ -67,12 +69,17 @@ namespace ProjectEye.Core.Service
             restTimer.Tick += RestTimer_Tick; ;
             restTimer.Interval = new TimeSpan(0, config.options.Tomato.ShortRestMinutes, 0);
 
+            icorefreshTimer = new DispatcherTimer();
+            icorefreshTimer.Tick += icorefreshTimer_Tick; ;
+
             /****调试模式代码****/
 #if DEBUG
             workTimer.Interval = new TimeSpan(0, 0, 25);
             restTimer.Interval = new TimeSpan(0, 0, 5);
 #endif
         }
+
+
 
 
 
@@ -153,7 +160,21 @@ namespace ProjectEye.Core.Service
             //进入休息时间
             restTimer.Start();
             timerWatcher.Restart();
-            Dialog($"{Application.Current.Resources["Lang_TomatoTimer"]}", tip, subtitle);
+
+            //  启动图标更新
+            tray.UpdateIcon("green-tomato-1");
+            icorefreshTimer.Interval = new TimeSpan(0, 0, (int)restTimer.Interval.TotalMinutes * 60 / 10);
+            icorefreshTimer.Start();
+
+
+            if (config.options.Tomato.IsEnabledInteractiveModel)
+            {
+                Dialog($"{Application.Current.Resources["Lang_TomatoTimer"]}", tip, subtitle);
+            }
+            else
+            {
+                tray.BalloonTipIcon($"Tomato：{workCount}/4", tip);
+            }
         }
         private void RestTimer_Tick(object sender, EventArgs e)
         {
@@ -179,6 +200,22 @@ namespace ProjectEye.Core.Service
             }
         }
 
+        private void icorefreshTimer_Tick(object sender, EventArgs e)
+        {
+            refreshTick++;
+            if (refreshTick >= 10)
+            {
+                icorefreshTimer.Stop();
+                refreshTick = 1;
+            }
+            else
+            {
+                //  更新图标
+                tray.UpdateIcon((restTimer.IsEnabled ? "green-tomato-" + refreshTick : "red-tomato-" + (10 - refreshTick)));
+            }
+
+        }
+
         #endregion
 
         #region function
@@ -186,7 +223,28 @@ namespace ProjectEye.Core.Service
         #region 启动番茄时钟
         public void Start()
         {
-            WorkDialog();
+            workTimer.Interval = new TimeSpan(0, config.options.Tomato.WorkMinutes, 0);
+            restTimer.Interval = new TimeSpan(0, config.options.Tomato.ShortRestMinutes, 0);
+
+            //播放提示音
+            if (config.options.Tomato.IsWorkStartSound)
+            {
+                sound.Play(Enums.SoundType.TomatoWorkStartSound);
+            }
+
+            //  交互模式
+            if (config.options.Tomato.IsEnabledInteractiveModel)
+            {
+                WorkDialog();
+            }
+            else
+            {
+                workTimer.Start();
+                timerWatcher.Restart();
+                tray.UpdateIcon("red-tomato-10");
+                icorefreshTimer.Interval = new TimeSpan(0, 0, config.options.Tomato.WorkMinutes * 60 / 10);
+                icorefreshTimer.Start();
+            }
         }
         #endregion
 
@@ -195,8 +253,10 @@ namespace ProjectEye.Core.Service
         {
             workCount = 0;
             restartCount++;
+            refreshTick = 1;
             workTimer.Stop();
             restTimer.Stop();
+            icorefreshTimer.Stop();
             config.SaveOldOptions();
             config.options.General.IsTomatoMode = false;
             config.OnChanged();
@@ -227,7 +287,7 @@ namespace ProjectEye.Core.Service
                 }
 
                 //继续
-                WorkDialog();
+                Start();
             }
         }
         #endregion
@@ -366,11 +426,7 @@ namespace ProjectEye.Core.Service
         //工作提醒
         private void WorkDialog()
         {
-            //播放提示音
-            if (config.options.Tomato.IsWorkStartSound)
-            {
-                sound.Play(Enums.SoundType.TomatoWorkStartSound);
-            }
+
             //通知弹窗
             worktoast = new Project1UIToast();
             worktoast.SetIcon("pack://application:,,,/ProjectEye;component/Resources/tomato.ico");
@@ -395,6 +451,9 @@ namespace ProjectEye.Core.Service
             {
                 workTimer.Start();
                 timerWatcher.Restart();
+                tray.UpdateIcon("red-tomato-10");
+                icorefreshTimer.Interval = new TimeSpan(0, 0, config.options.Tomato.WorkMinutes * 60 / 10);
+                icorefreshTimer.Start();
             }
             else
             {
@@ -430,6 +489,8 @@ namespace ProjectEye.Core.Service
         }
 
         #endregion
+
+
         #endregion
     }
 }

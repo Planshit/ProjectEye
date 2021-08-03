@@ -127,13 +127,8 @@ namespace ProjectEye.Core.Service
             notifyIcon.MouseMove += NotifyIcon_MouseMove;
             notifyIcon.MouseClick += notifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
-            //在win10中将显示通知
-            //notifyIcon.BalloonTipTitle = "test";
-            //notifyIcon.BalloonTipText = "content";
-            //notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            //notifyIcon.ShowBalloonTip(3000);
-            noresetTimer = new DispatcherTimer();
 
+            noresetTimer = new DispatcherTimer();
 
         }
         #endregion
@@ -361,7 +356,7 @@ namespace ProjectEye.Core.Service
         {
             notifyIcon.Visible = false;
         }
-        private void UpdateIcon(string name = "", bool save = true)
+        public void UpdateIcon(string name = "", bool save = true)
         {
             name = name == "" ? lastIcon : name;
             if (name == "")
@@ -441,6 +436,17 @@ namespace ProjectEye.Core.Service
         public void SetText(string text)
         {
             notifyIcon.Text = text.Length > 63 ? text.Substring(0, 63) : text;
+        }
+
+        /// <summary>
+        /// 显示气泡或通知（在windows7上是任务栏气泡，win10上是系统通知）
+        /// </summary>
+        public void BalloonTipIcon(string title, string content, System.Windows.Forms.ToolTipIcon icon = System.Windows.Forms.ToolTipIcon.None)
+        {
+            notifyIcon.BalloonTipTitle = title;
+            notifyIcon.BalloonTipText = content;
+            notifyIcon.BalloonTipIcon = icon;
+            notifyIcon.ShowBalloonTip(5000);
         }
         #endregion
     }
