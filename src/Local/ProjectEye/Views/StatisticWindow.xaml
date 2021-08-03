@@ -14,6 +14,56 @@
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource FontBrush}"/>
         </Style>
+        <Style TargetType="Border" x:Key="DataCard">
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,20,0,0"/>
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Grid>
+                            <TextBlock Text="123"/>
+                            <!--<ContentPresenter 
+                                        
+                                        x:Name="IconContent"
+                                        Grid.Column="1"
+                               
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />-->
+                        </Grid>
+                        
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Resources>
+                <DropShadowEffect x:Key="CardShadow" BlurRadius="12" Direction="0" ShadowDepth="0" Opacity=".3" RenderingBias="Performance" ></DropShadowEffect>
+
+            </Style.Resources>
+            
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="Opacity" To="1" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.EnterActions>
+                    <MultiTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard FillBehavior="Stop">
+                                <ColorAnimation Duration="0:0:0.3"
+                    Storyboard.TargetProperty="Background.Color" To="#008" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.ExitActions>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
     </ui:Project1UIWindow.Resources>
     <ui:Project1UIWindow.ExtElement>
         <ui:Project1UIModal ClickClose="False" Duration="0" Show="{Binding Data.IsShowOnboarding,Mode=TwoWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
@@ -97,10 +147,7 @@
                         <ScrollViewer>
                             <StackPanel >
                                 <!--工作-->
-                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
-                                    <Border.Background>
-                                        <SolidColorBrush Color="#4f6bed" Opacity=".05"/>
-                                    </Border.Background>
+                                <ui:ContentCard Padding="20"  Margin="0" Background="#F2F2F9">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -133,12 +180,9 @@
 
                                         </Grid>
                                     </Grid>
-                                </Border>
+                                </ui:ContentCard>
                                 <!--休息-->
-                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
-                                    <Border.Background>
-                                        <SolidColorBrush Color="#82D29A" Opacity=".05"/>
-                                    </Border.Background>
+                                <ui:ContentCard Padding="20"  Margin="0" Background="#F9FDFA">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -170,19 +214,18 @@
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
-                                </Border>
+                                </ui:ContentCard>
                                 <!--跳过-->
-                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
-                                    <Border.Background>
-                                        <SolidColorBrush Color="#F94520" Opacity=".05"/>
-                                    </Border.Background>
-                                    <Grid>
+                                <ui:ContentCard Padding="20"  Margin="0" Background="#fef5f4">
+                                    
+                                        <Grid >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
 
                                         </Grid.ColumnDefinitions>
-                                        <Grid Width="350" HorizontalAlignment="Left">
+                                       
+                                        <Grid Width="350" HorizontalAlignment="Left" >
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="230"/>
@@ -207,8 +250,9 @@
                                             </StackPanel>
 
                                         </Grid>
-                                    </Grid>
-                                </Border>
+                                    </Grid> 
+                                    
+                                </ui:ContentCard>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
@@ -222,22 +266,22 @@
                         <ColumnDefinition Width="741*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.Background>
-                        <ImageBrush ImageSource="/ProjectEye;component/Resources/conference_presentation__monochromatic.png" Stretch="Uniform" Opacity=".04"/>
+                        <ImageBrush ImageSource="/ProjectEye;component/Resources/conference_presentation__monochromatic.png" Stretch="Uniform" Opacity=".02"/>
                     </Grid.Background>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="0,7">
+                    <Grid Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="0,7">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="{DynamicResource Lang_Monthly}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>
-                        <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <!--<TextBlock Text="{DynamicResource Lang_Monthly}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>-->
+                        <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" />
                     </Grid>
                     <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
-                        <Grid>
+                        <Grid Margin="18">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="80"/>
                                 <RowDefinition Height="350"/>
@@ -303,7 +347,7 @@
                             <StackPanel >
 
                                 <!--获得番茄-->
-                                <Border Padding="10" CornerRadius="4" Margin="0,20,0,0">
+                                <Border Padding="16" CornerRadius="6" Margin="0,20,0,0">
                                     <Border.Background>
                                         <SolidColorBrush Color="#f03a17" Opacity=".05"/>
                                     </Border.Background>

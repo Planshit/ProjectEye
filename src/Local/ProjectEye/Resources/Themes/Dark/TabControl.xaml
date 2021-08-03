@@ -13,7 +13,7 @@
     </Style>
     <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#e9e9e9"/>
     <SolidColorBrush x:Key="ItemHoverBackground" Color="{DynamicResource ThemeColor}" Opacity=".5"/>
-
+    <DropShadowEffect x:Key="ItemShadow" BlurRadius="12" Direction="0" ShadowDepth="0" Opacity=".3" RenderingBias="Performance" ></DropShadowEffect>
     <Style TargetType="{x:Type TabItem}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource TabItemFocusVisual}"/>
         <!--<Setter Property="Foreground" Value="#666"/>-->
@@ -25,6 +25,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <!--<Setter Property="Cursor" Value="Hand"/>-->
+        <Setter Property="Opacity" Value=".6"/>
 
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -32,8 +33,10 @@
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Grid SnapsToDevicePixels="true">
 
-                        <Border x:Name="Bd" CornerRadius="0"  BorderBrush="Transparent" BorderThickness="0,0,0,2" Margin="0" Padding="10,0,10,5">
-
+                        <Border x:Name="Bd" CornerRadius="6" RenderTransformOrigin="0.5,0.5" BorderBrush="Transparent" BorderThickness="0,0,0,2" Margin="0" Padding="14,5">
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
+                            </Border.RenderTransform>
                             <StackPanel Orientation="Horizontal">
                                 <ContentPresenter Cursor="Hand" x:Name="Content" ContentSource="Header" TextBlock.FontSize="14" TextBlock.Foreground="#323130" TextBlock.FontWeight="Normal" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 
@@ -52,8 +55,30 @@
                             <Setter Property="TextBlock.Foreground" Value="{DynamicResource ThemeBrush}" TargetName="Content"/>
                             <Setter Property="TextBlock.FontWeight" Value="Bold" TargetName="Content"/>
 
+                            <Setter Property="Background" TargetName="Bd" Value="#1c1c1e"/>
 
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{DynamicResource ThemeBrush}"/>
+                            <Setter Property="Effect" TargetName="Bd" Value="{StaticResource ItemShadow}"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="#1c1c1e"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                  To="1" Duration="0:0:.3" />
+                                        <DoubleAnimation Storyboard.TargetName="Bd" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)"
+                  To="1.1" Duration="0:0:.15" AutoReverse="True"/>
+                                        <DoubleAnimation Storyboard.TargetName="Bd" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)"
+                  To="1.1" Duration="0:0:.15" AutoReverse="True"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                  To="0.6" Duration="0:0:.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                             <!--<Setter Property="BorderThickness" TargetName="Bd" Value="1,1,1,0"/>-->
                             <!--<Setter Property="Background" TargetName="Bd" Value="red"/>-->
                         </Trigger>
@@ -163,8 +188,8 @@
                             <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
-                        <Border Grid.Column="0" Grid.Row="0" Margin="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" BorderBrush="#3d3d40" BorderThickness="0,0,0,1">
-                            <TabPanel x:Name="HeaderPanel" IsItemsHost="true" >
+                        <Border Grid.Column="0" Grid.Row="0" Margin="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" BorderBrush="#3d3d40" BorderThickness="0,0,0,0">
+                            <TabPanel x:Name="HeaderPanel" IsItemsHost="true" Margin="10">
                             </TabPanel>
                         </Border>
 

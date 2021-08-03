@@ -29,6 +29,7 @@
         <ResourceDictionary Source="DatePicker/ItemList.xaml" />
         <ResourceDictionary Source="Chart/Chart.xaml" />
         <ResourceDictionary Source="Chart/ChartItem.xaml" />
+        <ResourceDictionary Source="ContentCard.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

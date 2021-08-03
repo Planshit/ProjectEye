@@ -130,6 +130,9 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Padding="{TemplateBinding Padding}"
                         >
+                        <Border.Effect>
+                            <DropShadowEffect x:Name="Shadow" BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
+                        </Border.Effect>
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="#2f2e41"/>
                         </TextBlock.Foreground>
@@ -185,6 +188,29 @@
 
 
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To=".2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To="0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -227,7 +253,7 @@
                             <SolidColorBrush x:Name="ButtonBackground" Color="{DynamicResource ThemeColor}" Opacity="1"/>
                         </Border.Background>
                         <Border.Effect>
-                            <DropShadowEffect x:Name="ButtonEffect" Direction="270" ShadowDepth="4" BlurRadius="10.8" Opacity="0"/>
+                            <DropShadowEffect x:Name="Shadow" BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
                         </Border.Effect>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -274,6 +300,29 @@
                         </Grid>
 
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To=".2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.EnterActions>
+                            <MultiTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To="0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </MultiTrigger.ExitActions>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

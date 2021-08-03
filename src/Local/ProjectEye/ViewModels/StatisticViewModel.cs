@@ -270,11 +270,11 @@ namespace ProjectEye.ViewModels
 
         private void Analysis()
         {
-            if (!config.options.General.IsWeekDataAnalysis)
-            {
-                //关闭了数据建议
-                return;
-            }
+            //if (!config.options.General.IsWeekDataAnalysis)
+            //{
+            //    //关闭了数据建议
+            //    return;
+            //}
             //本周天数
             //int weekNum = (int)DateTime.Now.DayOfWeek;
             int weekNum = Data.WeekTrueWorkDays;

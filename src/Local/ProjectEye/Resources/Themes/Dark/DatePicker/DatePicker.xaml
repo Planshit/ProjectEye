@@ -5,12 +5,12 @@
                     >
     <converter:StringConverter x:Key="StringConverter"/>
     <Style TargetType="{x:Type controls:DatePicker}">
-        <Setter Property="Background" Value="#d9d9d9" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="#707070" />
         <Setter Property="Width" Value="130" />
         <Setter Property="Height" Value="36" />
 
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
@@ -76,8 +76,9 @@
                         Background="{TemplateBinding Background}"
                             CornerRadius="18">
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEE93;" VerticalAlignment="Center"  FontSize="14" TextAlignment="Center" Foreground="#37363d"/>
-                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#37363d">
+                                <TextBlock FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEE93;" VerticalAlignment="Center"  FontSize="14" TextAlignment="Center" Foreground="#ffffff"/>
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#ffffff" Text="{DynamicResource Lang_Monthly}"/>
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#ffffff">
                                 <Run Text="{TemplateBinding SelectedYear,Converter={StaticResource StringConverter}}"/> <Run Text="/"/> <Run Text="{TemplateBinding SelectedMonth,Converter={StaticResource StringConverter}}"/>
                                 </TextBlock>
                             </StackPanel>

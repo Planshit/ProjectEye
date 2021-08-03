@@ -72,7 +72,7 @@
     <!--按钮默认边框-->
     <Thickness x:Key="ButtonThickness">1</Thickness>
     <!--按钮默认圆角幅度-->
-    <CornerRadius x:Key="ButtonCornerRadius">1</CornerRadius>
+    <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius>
 
 
     <!--按钮经过背景颜色-->
@@ -116,7 +116,7 @@
     <!--按钮默认边框-->
     <Thickness x:Key="BasicButtonThickness">1</Thickness>
     <!--按钮默认圆角幅度-->
-    <CornerRadius x:Key="BasicButtonCornerRadius">1</CornerRadius>
+    <CornerRadius x:Key="BasicButtonCornerRadius">6</CornerRadius>
 
 
     <!--按钮经过颜色-->

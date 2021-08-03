@@ -22,6 +22,7 @@
         <ResourceDictionary Source="ListBox.xaml" />
         <ResourceDictionary Source="TabControl.xaml" />
         <ResourceDictionary Source="Slider.xaml" />
+        <ResourceDictionary Source="ContentCard.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

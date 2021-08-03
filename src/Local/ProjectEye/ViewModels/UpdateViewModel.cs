@@ -155,6 +155,7 @@ namespace ProjectEye.ViewModels
             Tip = $"{Application.Current.Resources["Lang_Updatepackagehasbeendownloaded"]}!";
 
             InstallVisibility = Visibility.Visible;
+            PlayProcess = false;
         }
 
         private void Downloader_ProcessUpdateEvent(object sender, object value)

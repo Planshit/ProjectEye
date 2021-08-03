@@ -168,7 +168,7 @@
                 <ControlTemplate TargetType="ListView">
                     <!--整体背景和外边框-->
                     <Border Name="Border"
-                BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{DynamicResource ControlBorderBrush}" Background="{TemplateBinding Background}">
+                BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{DynamicResource ControlBorderBrush}" Background="{TemplateBinding Background}" CornerRadius="6">
 
                         <ScrollViewer Style="{DynamicResource
                         {x:Static GridView.GridViewScrollViewerStyleKey}}">

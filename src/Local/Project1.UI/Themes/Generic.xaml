@@ -25,6 +25,8 @@
         <ResourceDictionary Source="/Project1.UI;component/Themes/DatePicker/DatePicker.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/DatePicker/ItemList.xaml"/>
         <ResourceDictionary Source="/Project1.UI;component/Themes/TimeBox.xaml"/>
+        <ResourceDictionary Source="/Project1.UI;component/Themes/ContentCard.xaml"/>
+
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

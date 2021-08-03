@@ -25,13 +25,17 @@ namespace ProjectEyeBug
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            if (
+#if !DEBUG
+                if (
                 e.Args.Length == 0 ||
                 IsRuned()
                 )
             {
                 Shutdown();
             }
+
+#endif
+
         }
         #region 获取当前程序是否已运行
         /// <summary>

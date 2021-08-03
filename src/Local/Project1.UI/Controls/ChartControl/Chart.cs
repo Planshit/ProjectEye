@@ -637,8 +637,8 @@ namespace Project1.UI.Controls.ChartControl
                 Y = -averageLabelY
             };
             //AverageLabel.Text = TickText.Replace("{value}", Math.Round(averageValue, 1).ToString());
-
-            BottomValueBorder.Margin = new Thickness(0, 0, 0, bottomTickMargin - BottomValueBorder.ActualHeight / 2 - BottomTick.Height / 2);
+            double bottomTickHeight = (BottomTick.Height == double.NaN ? 2 : BottomTick.Height);
+            BottomValueBorder.Margin = new Thickness(0, 0, 0, bottomTickMargin - BottomValueBorder.ActualHeight / 2 - bottomTickHeight / 2);
             BottomValueLabel.Text = TickText.Replace("{value}", bottomValue.ToString());
 
         }

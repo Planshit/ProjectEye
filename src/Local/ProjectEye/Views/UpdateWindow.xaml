@@ -50,13 +50,14 @@
             </Grid>
             <ui:Project1UIProcessBar 
             Margin="10"
+                PointRadius="10"
             Grid.Row="1" Width="auto" IsPlay="{Binding PlayProcess}" PointColor="{DynamicResource ThemeBrush}"/>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Grid.Row="2" Margin="10,0">
                 <ui:Project1UIButton Width="auto" Padding="10,0" Content="{DynamicResource Lang_Downloadupdate}" Visibility="{Binding UpVisibility}" Command="{Binding updateCommand}"/>
                 <ui:Project1UIButton Width="auto" Padding="10,0" Content="{DynamicResource Lang_Installupdate}" Visibility="{Binding InstallVisibility}" Command="{Binding installCommand}"/>
             </StackPanel>
         </Grid>
-        <Image x:Name="img" Source="/ProjectEye;component/Resources/gear_2699.png" Panel.ZIndex="-1" Width="80" Height="80" Opacity=".5" RenderTransformOrigin="0.5,0.5">
+        <Image HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="50" x:Name="img" Source="/ProjectEye;component/Resources/gear_2699.png" Panel.ZIndex="-1" Width="80" Height="80" Opacity=".5" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="0"/>

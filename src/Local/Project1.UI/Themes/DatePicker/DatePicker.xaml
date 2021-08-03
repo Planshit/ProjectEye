@@ -7,10 +7,10 @@
     <Style TargetType="{x:Type controls:DatePicker}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="#ccc" />
-        <Setter Property="Width" Value="130" />
-        <Setter Property="Height" Value="36" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Height" Value="26" />
 
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
@@ -30,9 +30,10 @@
                                 BorderThickness="1"
                                 Padding="10"
                                 Margin="15"
+                                CornerRadius="6"
                                 >
                                 <Border.Effect>
-                                    <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
+                                    <DropShadowEffect BlurRadius="10" Opacity="0.2"  ShadowDepth="1"/>
                                 </Border.Effect>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -73,9 +74,15 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}"
-                            CornerRadius="18">
+                            CornerRadius="6">
+                            <!--<Border.Effect>
+                                <DropShadowEffect  BlurRadius="10" Direction="0" ShadowDepth="0" Opacity=".2" RenderingBias="Performance" ></DropShadowEffect>
+                            </Border.Effect>-->
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock FontFamily="/Project1.UI;component/Assets/IconFonts/#Fabric External MDL2 Assets" Text="&#xEE93;" VerticalAlignment="Center"  FontSize="14" TextAlignment="Center" Foreground="#37363d"/>
+                                
+                                <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#37363d" Text="{DynamicResource Lang_Monthly}"/>
+                                
                                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Grid.Column="1" Foreground="#37363d">
                                 <Run Text="{TemplateBinding SelectedYear,Converter={StaticResource StringConverter}}"/> <Run Text="/"/> <Run Text="{TemplateBinding SelectedMonth,Converter={StaticResource StringConverter}}"/>
                                 </TextBlock>

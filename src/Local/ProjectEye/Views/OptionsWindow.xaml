@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProjectEye.Views"
         xmlns:ui="clr-namespace:Project1.UI.Controls;assembly=Project1.UI"
         mc:Ignorable="d"
-        Title="{DynamicResource Lang_Settings}" Height="360" Width="500"
+        Title="{DynamicResource Lang_Settings}" Height="400" Width="580"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="/ProjectEye;component/Resources/sunglasses.ico">
     <ui:Project1UIWindow.Resources>
         <Style TargetType="TextBlock">
@@ -113,8 +113,8 @@
                         <!--<CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>-->
                         <CheckBox Content="{DynamicResource Lang_Statistics}" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
                               />
-                        <CheckBox Content="{DynamicResource Lang_Statisticsanalysis}" IsChecked="{Binding Model.Data.General.IsWeekDataAnalysis}" Margin="0,10,0,0" Cursor="Hand"
-                              />
+                        <!--<CheckBox Content="{DynamicResource Lang_Statisticsanalysis}" IsChecked="{Binding Model.Data.General.IsWeekDataAnalysis}" Margin="0,10,0,0" Cursor="Hand"
+                              />-->
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -183,7 +183,8 @@
                                 <Run Text="{DynamicResource Lang_Minutes}"/>
                             </TextBlock>
                         </Grid>
-
+                        <!--是否启用交互模式-->
+                        <CheckBox Content="{DynamicResource Lang_Soundforworksstart}" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,10,0,0" Cursor="Hand"/>
 
                         <!--提示音-->
                         <CheckBox Content="{DynamicResource Lang_Soundforworksstart}" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,10,0,0" Cursor="Hand"/>
@@ -613,27 +614,24 @@
         </TabControl>
         <StackPanel Orientation="Horizontal"
                      HorizontalAlignment="Right"
-            VerticalAlignment="Bottom">
+            VerticalAlignment="Bottom"
+                    Margin="10">
             <ui:Project1UIButton 
             Command="{Binding inkCommand}"
             Content="{DynamicResource Lang_Createashortcutondesktop}"
-            MinHeight="23"
-            MinWidth="85"
+            Padding="10,6"
                 Width="auto"
-                Padding="10,0"
+                Height="auto"
                 Style="{DynamicResource basic}"/>
-            <!--<Button 
-            Command="{Binding applyCommand}"
-            Content="应用"
-            MinHeight="23"
-            MinWidth="75"
-                Margin="10,0,0,0"/>-->
+          
             <ui:Project1UIButton 
             Command="{Binding applyCommand}"
             Content="{DynamicResource Lang_Apply}"
-            MinHeight="23"
-            MinWidth="75"
+          Padding="10,6"
+                Width="auto"
+                Height="auto"
                 Margin="10,0,0,0"
+                MinWidth="80"
                 Icon="Null"/>
         </StackPanel>
 

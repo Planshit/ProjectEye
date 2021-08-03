@@ -31,6 +31,11 @@ namespace ProjectEyeBug
             Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/releases"));
         }
 
+        private void bugreportbtn_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://github.com/Planshit/ProjectEye/issues/new"));
+        }
+
         private void Project1UIButton_Click_1(object sender, RoutedEventArgs e)
         {
             string upexePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
@@ -44,6 +49,12 @@ namespace ProjectEyeBug
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "Log");
             Process.Start(logPath);
+        }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Clipboard.SetText("heis@thelittlepandaisbehind.com");
+            MessageBox.Show("邮箱已复制");
         }
     }
 }

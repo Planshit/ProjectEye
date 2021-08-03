@@ -50,7 +50,7 @@
     <!--窗口边框颜色-->
     <SolidColorBrush x:Key="WindowBorderBrush" Color="#707070" />
     <!--窗口背景颜色-->
-    <SolidColorBrush x:Key="WindowBackground" Color="#1A1B1C" />
+    <SolidColorBrush x:Key="WindowBackground" Color="#000" />
     <!--窗口边框-->
     <Thickness x:Key="WindowBorderThickness">1</Thickness>
     <!--窗口标题栏高度-->
@@ -67,7 +67,7 @@
     <!--按钮默认边框-->
     <Thickness x:Key="ButtonThickness">1</Thickness>
     <!--按钮默认圆角幅度-->
-    <CornerRadius x:Key="ButtonCornerRadius">1</CornerRadius>
+    <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius>
 
 
     <!--按钮经过背景颜色-->
@@ -111,7 +111,7 @@
     <!--按钮默认边框-->
     <Thickness x:Key="BasicButtonThickness">0</Thickness>
     <!--按钮默认圆角幅度-->
-    <CornerRadius x:Key="BasicButtonCornerRadius">1</CornerRadius>
+    <CornerRadius x:Key="BasicButtonCornerRadius">6</CornerRadius>
 
 
     <!--按钮经过颜色-->
