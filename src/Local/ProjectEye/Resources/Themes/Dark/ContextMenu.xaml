@@ -9,8 +9,13 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
-
-                    <Border x:Name="Border"
+                    <Grid>
+                        <Border Margin="13" Background="{DynamicResource WindowBackground}" CornerRadius="2">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Direction="0"  BlurRadius="15" Opacity=".3" />
+                            </Border.Effect>
+                        </Border>
+                        <Border x:Name="Border"
                                 Background="{DynamicResource WindowBackground}"
                                 BorderBrush="{DynamicResource WindowBorderBrush}"
                                 BorderThickness="1"
@@ -18,15 +23,13 @@
                                 Margin="10"
                                 CornerRadius="2"
                                 >
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="11" Opacity="0.2" Direction="218" RenderingBias="Quality" ShadowDepth="1"/>
-                        </Border.Effect>
-                        <ScrollViewer Focusable="false" Padding="0">
+                            <ScrollViewer Focusable="false" Padding="0">
 
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 
-                        </ScrollViewer>
-                    </Border>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

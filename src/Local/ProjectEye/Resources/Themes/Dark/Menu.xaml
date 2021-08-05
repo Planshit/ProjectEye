@@ -296,7 +296,13 @@
              AllowsTransparency="True"
              Focusable="False"
              PopupAnimation="Fade">
-                    <Border x:Name="SubmenuBorder"
+                    <Grid>
+                        <Border Margin="13" Background="{DynamicResource WindowBackground}" CornerRadius="2">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Direction="0"  BlurRadius="15" Opacity=".3" />
+                            </Border.Effect>
+                        </Border>
+                        <Border x:Name="SubmenuBorder"
                 SnapsToDevicePixels="True"
                 Background="{DynamicResource WindowBackground}"
                                 CornerRadius="0"
@@ -304,15 +310,13 @@
                                 BorderBrush="{DynamicResource WindowBorderBrush}"
                                 
                                 Margin="10">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="11" Opacity="0.2" Direction="218" RenderingBias="Quality" ShadowDepth="1"/>
-                        </Border.Effect>
-                        <ScrollViewer CanContentScroll="True"
+                            <ScrollViewer CanContentScroll="True"
                        >
-                            <StackPanel IsItemsHost="True"
+                                <StackPanel IsItemsHost="True"
                         KeyboardNavigation.DirectionalNavigation="Cycle" />
-                        </ScrollViewer>
-                    </Border>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
                 </Popup>
             </Grid>
         </Border>
