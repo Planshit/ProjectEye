@@ -36,7 +36,8 @@ namespace Project1.UI.Controls
             /// <summary>
             /// 渐隐渐出动画
             /// </summary>
-            Opacity
+            Opacity,
+            Cool
         }
         #region 1.依赖属性
 
@@ -399,7 +400,6 @@ namespace Project1.UI.Controls
                     ScaleX = 1,
                     ScaleY = 1
                 };
-
                 (RenderTransform as TransformGroup).Children.Add(translateTF);
                 (RenderTransform as TransformGroup).Children.Add(scaleTF);
             }
@@ -470,6 +470,132 @@ namespace Project1.UI.Controls
                 Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(OpacityProperty));
                 openWindowStoryboard.Children.Add(opacityAnimation);
             }
+            else if (WindowAnimationType == AnimationType.Cool)
+            {
+                //RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+
+                //  保存布局
+                var ui = Content as Grid;
+                Content = null;
+                //  创建新的容器
+                var container = new Grid();
+                container.RenderTransform = new TransformGroup();
+                container.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+
+                (container.RenderTransform as TransformGroup).Children.Add(new ScaleTransform()
+                {
+                    ScaleX = 1,
+                    ScaleY = 1
+                });
+                container.Children.Add(ui);
+                Content = container;
+
+                //Opacity = 1;
+
+                var icon = new System.Windows.Controls.Image();
+                icon.Source = BitmapImager.Load($"pack://application:,,,/ProjectEye;component/Resources/sunglasses.ico");
+                icon.HorizontalAlignment = HorizontalAlignment.Left;
+                icon.VerticalAlignment = VerticalAlignment.Top;
+                icon.RenderTransform = new TransformGroup();
+                icon.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+                var scaleTF = new ScaleTransform()
+                {
+                    ScaleX = 1,
+                    ScaleY = 1
+                };
+                var ttf = new TranslateTransform()
+                {
+                    X = ScreenArea.Width / 2 - 150,
+                    Y = -300
+                };
+                (icon.RenderTransform as TransformGroup).Children.Add(scaleTF);
+                (icon.RenderTransform as TransformGroup).Children.Add(ttf);
+                icon.IsHitTestVisible = false;
+                icon.Width = 300;
+                icon.Height = 300;
+                container.Children.Add(icon);
+
+
+
+
+                //位移动画
+                var easingFunction = new BackEase() { EasingMode = EasingMode.EaseInOut };
+
+                DoubleAnimation translateYAnimation = new DoubleAnimation();
+                translateYAnimation.From =  - 300;
+                translateYAnimation.To = ScreenArea.Height / 2 - 150;
+                translateYAnimation.Duration = TimeSpan.FromSeconds(1);
+                translateYAnimation.EasingFunction = easingFunction;
+                //translateYAnimation.AutoReverse = true;
+                Storyboard.SetTarget(translateYAnimation, icon);
+                Storyboard.SetTargetProperty(translateYAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[1].(TranslateTransform.Y)"));
+
+                //  logo放大缩小动画
+                DoubleAnimationUsingKeyFrames scaleAnimation = new DoubleAnimationUsingKeyFrames();
+                scaleAnimation.KeyFrames.Add(
+              new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
+                scaleAnimation.KeyFrames.Add(
+               new LinearDoubleKeyFrame(2, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.8))));
+                scaleAnimation.KeyFrames.Add(
+               new LinearDoubleKeyFrame(15, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1))));
+
+                Storyboard.SetTarget(scaleAnimation, icon);
+                DoubleAnimationUsingKeyFrames scaleAnimation2 = new DoubleAnimationUsingKeyFrames();
+                scaleAnimation2.KeyFrames.Add(
+             new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
+                scaleAnimation2.KeyFrames.Add(
+              new LinearDoubleKeyFrame(2, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.8))));
+                scaleAnimation2.KeyFrames.Add(
+               new LinearDoubleKeyFrame(15, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1))));
+
+                Storyboard.SetTarget(scaleAnimation, icon);
+                Storyboard.SetTarget(scaleAnimation2, icon);
+
+                Storyboard.SetTargetProperty(scaleAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
+                Storyboard.SetTargetProperty(scaleAnimation2, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
+
+                //  logo透明动画
+
+                DoubleAnimationUsingKeyFrames iconOpacityAnimation = new DoubleAnimationUsingKeyFrames();
+                iconOpacityAnimation.KeyFrames.Add(
+               new LinearDoubleKeyFrame(.8, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.8))));
+                iconOpacityAnimation.KeyFrames.Add(
+               new LinearDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.2))));
+                Storyboard.SetTarget(iconOpacityAnimation, icon);
+                Storyboard.SetTargetProperty(iconOpacityAnimation, new PropertyPath(OpacityProperty));
+
+
+                //  ui透明动画
+                DoubleAnimation opacityAnimation2 = new DoubleAnimation();
+                opacityAnimation2.From = 0;
+
+                opacityAnimation2.To = 1;
+                opacityAnimation2.Duration = TimeSpan.FromSeconds(1.5);
+                opacityAnimation2.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut };
+                Storyboard.SetTarget(opacityAnimation2, ui);
+                Storyboard.SetTargetProperty(opacityAnimation2, new PropertyPath(OpacityProperty));
+
+
+
+
+
+                //  窗口透明动画
+                DoubleAnimation windowOpacityAnimation = new DoubleAnimation();
+                windowOpacityAnimation.From = 0;
+                windowOpacityAnimation.To = 1;
+                windowOpacityAnimation.Duration = TimeSpan.FromSeconds(1.5);
+                windowOpacityAnimation.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut };
+                Storyboard.SetTarget(windowOpacityAnimation, this);
+                Storyboard.SetTargetProperty(windowOpacityAnimation, new PropertyPath(OpacityProperty));
+
+                openWindowStoryboard.Children.Add(translateYAnimation);
+
+                openWindowStoryboard.Children.Add(opacityAnimation2);
+                openWindowStoryboard.Children.Add(iconOpacityAnimation);
+                openWindowStoryboard.Children.Add(scaleAnimation);
+                openWindowStoryboard.Children.Add(scaleAnimation2);
+                openWindowStoryboard.Children.Add(windowOpacityAnimation);
+            }
         }
 
         private void CreateWindowCloseAnimation()
@@ -529,6 +655,51 @@ namespace Project1.UI.Controls
                 Storyboard.SetTarget(opacityAnimation, this);
                 Storyboard.SetTargetProperty(opacityAnimation, new PropertyPath(OpacityProperty));
                 closeWindowStoryboard.Children.Add(opacityAnimation);
+            }
+            else if (WindowAnimationType == AnimationType.Cool)
+            {
+
+                var container = Content as Grid;
+                
+                DoubleAnimationUsingKeyFrames scaleAnimation = new DoubleAnimationUsingKeyFrames();
+                scaleAnimation.AutoReverse = true;
+                scaleAnimation.KeyFrames.Add(
+              new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
+                scaleAnimation.KeyFrames.Add(
+               new LinearDoubleKeyFrame(5, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.5))));
+                scaleAnimation.KeyFrames.Add(
+               new LinearDoubleKeyFrame(18, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.6))));
+
+                DoubleAnimationUsingKeyFrames scaleAnimation2 = new DoubleAnimationUsingKeyFrames();
+                scaleAnimation2.AutoReverse = true;
+                scaleAnimation2.KeyFrames.Add(
+              new LinearDoubleKeyFrame(1, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0))));
+                scaleAnimation2.KeyFrames.Add(
+              new LinearDoubleKeyFrame(5, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.5))));
+                scaleAnimation2.KeyFrames.Add(
+               new LinearDoubleKeyFrame(18, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(.6))));
+
+
+                Storyboard.SetTarget(scaleAnimation, container);
+                Storyboard.SetTarget(scaleAnimation2, container);
+
+                Storyboard.SetTargetProperty(scaleAnimation, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
+                Storyboard.SetTargetProperty(scaleAnimation2, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
+
+                DoubleAnimation opacityAnimation2 = new DoubleAnimation();
+                opacityAnimation2.From = 1;
+
+                opacityAnimation2.To = 0;
+                opacityAnimation2.Duration = TimeSpan.FromSeconds(.8);
+                opacityAnimation2.EasingFunction = new CubicEase() { EasingMode = EasingMode.EaseInOut };
+                Storyboard.SetTarget(opacityAnimation2, this);
+                Storyboard.SetTargetProperty(opacityAnimation2, new PropertyPath(OpacityProperty));
+
+                closeWindowStoryboard.Children.Add(scaleAnimation);
+                closeWindowStoryboard.Children.Add(scaleAnimation2);
+                closeWindowStoryboard.Children.Add(opacityAnimation2);
+
+
             }
         }
 
@@ -672,15 +843,16 @@ namespace Project1.UI.Controls
                         break;
                     case AnimationType.RightBottomScale:
                     case AnimationType.Opacity:
+                    case AnimationType.Cool:
                         closeWindowStoryboard.Completed += (e, c) =>
                         {
                             Opacity = 0;
                             CompletedAction(completedAction);
                             OnWHide?.Invoke(this, null);
-
                         };
                         closeWindowStoryboard.Begin();
                         break;
+
                 }
             }
             else
@@ -713,6 +885,7 @@ namespace Project1.UI.Controls
                 switch (WindowAnimationType)
                 {
                     case AnimationType.RightBottomScale:
+                    case AnimationType.Cool:
                         Opacity = 1;
                         openWindowStoryboard.Begin();
                         break;

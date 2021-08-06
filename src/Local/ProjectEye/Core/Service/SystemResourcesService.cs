@@ -60,6 +60,12 @@ namespace ProjectEye.Core.Service
                 AnimationType = Project1.UI.Controls.Project1UIWindow.AnimationType.Opacity,
                 DisplayName = $"{Application.Current.Resources["Lang_Fadeinandfadeout"]}"
             });
+            Animations.Add(new AnimationModel()
+            {
+                ID = 3,
+                AnimationType = Project1.UI.Controls.Project1UIWindow.AnimationType.Cool,
+                DisplayName = $"Cool"
+            });
             //语言
             Languages.Add(new ComboxModel()
             {
