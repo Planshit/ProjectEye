@@ -589,12 +589,13 @@ namespace Project1.UI.Controls.ChartControl
             {
                 averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
             }
-            AverageVisibility = averageValue > 0 ? Visibility.Visible : Visibility.Hidden;
+            AverageVisibility = averageValue >= 1 ? Visibility.Visible : Visibility.Hidden;
             if (averageValue > MaxValue)
             {
                 //如果平均值超过了最大值时需要调整最大值
                 MaxValue = Math.Round(averageValue / 1.5, MidpointRounding.AwayFromZero) * 2;
             }
+            averageValue = averageValue >= 1 ? averageValue : 0;
         }
         #region 渲染刻度
         /// <summary>
@@ -710,7 +711,7 @@ namespace Project1.UI.Controls.ChartControl
             Storyboard.SetTarget(averageLabelValueAnimation, this);
             Storyboard.SetTargetProperty(averageLabelValueAnimation, new PropertyPath(AverageProperty));
 
-            averageAnimation.Duration= new Duration(TimeSpan.FromSeconds(.8));
+            averageAnimation.Duration = new Duration(TimeSpan.FromSeconds(.8));
             averageLabelAnimation.Duration = new Duration(TimeSpan.FromSeconds(.8));
             averageLabelValueAnimation.Duration = new Duration(TimeSpan.FromSeconds(.8));
 
