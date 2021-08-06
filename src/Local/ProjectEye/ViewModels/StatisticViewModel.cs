@@ -45,6 +45,7 @@ namespace ProjectEye.ViewModels
             Data.MonthRestData = new List<ChartDataModel>();
             Data.MonthWorkData = new List<ChartDataModel>();
             Data.MonthSkipData = new List<ChartDataModel>();
+            Data.MonthTomatoData = new List<ChartDataModel>();
 
             Data.WeekRestData = new List<ChartDataModel>();
             Data.WeekWorkData = new List<ChartDataModel>();
@@ -92,6 +93,7 @@ namespace ProjectEye.ViewModels
             var MonthWorkData = new List<ChartDataModel>();
             var MonthRestData = new List<ChartDataModel>();
             var MonthSkipData = new List<ChartDataModel>();
+            var MonthTomatoData = new List<ChartDataModel>();
 
             //计算上个月的数据
             int lastYear = Data.Year;
@@ -109,6 +111,9 @@ namespace ProjectEye.ViewModels
             Data.LastMonthWork = lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.WorkingTime) : 0;
             Data.LastMonthRest = lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.ResetTime) : 0;
             Data.LastMonthSkip = lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.SkipCount) : 0;
+
+            var lastTomatoData = tomato.GetData(lastYear, lastMonth);
+            Data.LastMonthTomato = lastTomatoData.Count > 0 ? lastTomatoData.Sum(m => m.TomatoCount) : 0;
 
             //计算本月的数据
             var monthData = statistic.GetData(Data.Year, Data.Month);
@@ -146,6 +151,22 @@ namespace ProjectEye.ViewModels
             Data.MonthRestData = MonthRestData;
             Data.MonthSkipData = MonthSkipData;
             Data.MonthWorkData = MonthWorkData;
+
+            //  番茄时钟数据
+            var monthTomatoData = tomato.GetData(Data.Year, Data.Month);
+            foreach (var data in monthTomatoData)
+            {
+                bool isSelected = DateTime.Now.Date == data.Date.Date;
+                MonthTomatoData.Add(new ChartDataModel()
+                {
+                    IsSelected = isSelected,
+                    PopupText = (isSelected ? $"{Application.Current.Resources["Lang_today"]} " : "") + "{value} ",
+                    Tag = data.Date.Day.ToString(),
+                    Value = data.TomatoCount
+                });
+            }
+            Data.MonthTomatoData = MonthTomatoData;
+            Data.MonthTomato = monthTomatoData.Count > 0 ? monthTomatoData.Sum(m => m.TomatoCount) : 0;
 
         }
 

@@ -395,7 +395,31 @@ namespace ProjectEye.Core.Service
             return result;
         }
         #endregion
-
+        #region 获取某月的数据
+        /// <summary>
+        /// 获取某月的数据
+        /// </summary>
+        /// <param name="year">年</param>
+        /// <param name="month">月</param>
+        /// <returns></returns>
+        public List<Models.Statistic.TomatoModel> GetData(int year = 0, int month = 0)
+        {
+            var result = new List<Models.Statistic.TomatoModel>();
+            if (year == 0)
+            {
+                year = DateTime.Now.Year;
+            }
+            if (month == 0)
+            {
+                month = DateTime.Now.Month;
+            }
+            using (var db = new StatisticContext())
+            {
+                result = db.Tomatos.Where(m => m.Date.Year == year && m.Date.Month == month).OrderBy(m => m.Date).ToList();
+            }
+            return result;
+        }
+        #endregion
         #region 数据持久化
         /// <summary>
         /// 数据持久化

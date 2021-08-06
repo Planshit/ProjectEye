@@ -25,6 +25,7 @@
     <sys:String x:Key="Lang_Minutes_n">分钟</sys:String>
     <sys:String x:Key="Lang_Seconds_n">秒</sys:String>
     <sys:String x:Key="Lang_x_n">次</sys:String>
+    <sys:String x:Key="Lang_number">{value} 个</sys:String>
 
 
     <sys:String x:Key="Lang_TomatoTimer">番茄时钟</sys:String>
@@ -165,6 +166,7 @@
     <sys:String x:Key="Lang_StatisticsMonthlyHoursTip">本月 {b} 小时，上月 {a} 小时 {diffvalue}</sys:String>
     <sys:String x:Key="Lang_StatisticsMonthlyMinutesTip">本月 {b} 分钟，上月 {a} 分钟 {diffvalue}</sys:String>
     <sys:String x:Key="Lang_StatisticsMonthlyXTip">本月 {b} 次，上月 {a} 次 {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyNumberTip">本月 {b} 个，上月 {a} 个 {diffvalue}</sys:String>
 
     <sys:String x:Key="Lang_mon">一</sys:String>
     <sys:String x:Key="Lang_tues">二</sys:String>

@@ -283,11 +283,13 @@
                     <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
                         <Grid Margin="18">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="80"/>
+                                <RowDefinition Height="90"/>
                                 <RowDefinition Height="350"/>
-                                <RowDefinition Height="80"/>
+                                <RowDefinition Height="90"/>
                                 <RowDefinition Height="350"/>
-                                <RowDefinition Height="80"/>
+                                <RowDefinition Height="90"/>
+                                <RowDefinition Height="350"/>
+                                <RowDefinition Height="90"/>
                                 <RowDefinition Height="350"/>
                             </Grid.RowDefinitions>
                             <!--工作-->
@@ -330,6 +332,18 @@
                                 </Grid>
                             </StackPanel>
                             <chart:Chart Grid.Row="5" Data="{Binding Data.MonthSkipData}" TickText="{DynamicResource Lang_StatisticsX}" TickLabelWidth="70" ItemColor="#F94520"  Background="Transparent" IsAnimation="{Binding Data.IsAnimation}"/>
+
+                            <!--番茄-->
+                            <StackPanel Grid.Row="6"  VerticalAlignment="Bottom" >
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/ProjectEye;component/Resources/tomato.ico" Width="22"/>
+                                    <TextBlock Text="{DynamicResource Lang_Tomato}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#f03a17"/>
+                                </StackPanel>
+                                <Grid Margin="0,10,0,0">
+                                    <ui:CompareView DataA="{Binding Data.LastMonthTomato}" DataB="{Binding Data.MonthTomato}" PopupText="{DynamicResource Lang_StatisticsMonthlyNumberTip}"/>
+                                </Grid>
+                            </StackPanel>
+                            <chart:Chart Grid.Row="7" Data="{Binding Data.MonthTomatoData}" TickText="{DynamicResource Lang_number}" TickLabelWidth="70" ItemColor="#f03a17"  Background="Transparent" IsAnimation="{Binding Data.IsAnimation}"/>
                         </Grid>
                     </ScrollViewer>
 

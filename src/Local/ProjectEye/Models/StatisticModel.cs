@@ -85,6 +85,11 @@ namespace ProjectEye.Models
         /// 月份跳过统计数据
         /// </summary>
         public List<ChartDataModel> MonthSkipData { get { return MonthSkipData_; } set { MonthSkipData_ = value; OnPropertyChanged(); } }
+        private List<ChartDataModel> MonthTomatoData_;
+        /// <summary>
+        /// 月份番茄数据
+        /// </summary>
+        public List<ChartDataModel> MonthTomatoData { get { return MonthTomatoData_; } set { MonthTomatoData_ = value; OnPropertyChanged(); } }
 
         #region 本周数据
         private List<ChartDataModel> WeekWorkData_;
@@ -147,6 +152,19 @@ namespace ProjectEye.Models
                 OnPropertyChanged();
             }
         }
+        private int MonthTomato_;
+        public int MonthTomato
+        {
+            get
+            {
+                return MonthTomato_;
+            }
+            set
+            {
+                MonthTomato_ = value;
+                OnPropertyChanged();
+            }
+        }
         #endregion
 
         #region 上月数据总和
@@ -186,6 +204,19 @@ namespace ProjectEye.Models
             set
             {
                 LastMonthSkip_ = value;
+                OnPropertyChanged();
+            }
+        }
+        private int LastMonthTomato_;
+        public int LastMonthTomato
+        {
+            get
+            {
+                return LastMonthTomato_;
+            }
+            set
+            {
+                LastMonthTomato_ = value;
                 OnPropertyChanged();
             }
         }

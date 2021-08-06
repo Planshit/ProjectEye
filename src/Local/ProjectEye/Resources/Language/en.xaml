@@ -25,6 +25,7 @@
     <sys:String x:Key="Lang_Minutes_n">m</sys:String>
     <sys:String x:Key="Lang_Seconds_n">s</sys:String>
     <sys:String x:Key="Lang_x_n"></sys:String>
+    <sys:String x:Key="Lang_number">{value}</sys:String>
 
     <sys:String x:Key="Lang_TomatoTimer">Tomato Timer</sys:String>
     <sys:String x:Key="Lang_Work">Work</sys:String>
@@ -160,6 +161,8 @@
     <sys:String x:Key="Lang_StatisticsMonthlyHoursTip">This month {b} h,last month {a} h {diffvalue}</sys:String>
     <sys:String x:Key="Lang_StatisticsMonthlyMinutesTip">This month {b} m,last month {a} m {diffvalue}</sys:String>
     <sys:String x:Key="Lang_StatisticsMonthlyXTip">This month {b},last month {a} {diffvalue}</sys:String>
+    <sys:String x:Key="Lang_StatisticsMonthlyNumberTip">This month {b},last month {a}  {diffvalue}</sys:String>
+
     <sys:String x:Key="Lang_mon">Mon</sys:String>
     <sys:String x:Key="Lang_tues">Tues</sys:String>
     <sys:String x:Key="Lang_wed">Wed</sys:String>
