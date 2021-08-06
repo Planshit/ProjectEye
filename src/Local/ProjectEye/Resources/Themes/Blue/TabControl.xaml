@@ -33,11 +33,11 @@
                     <Grid SnapsToDevicePixels="true">
 
                         <Border x:Name="Bd" CornerRadius="6" RenderTransformOrigin="0.5,0.5" BorderBrush="Transparent" BorderThickness="0,0,0,2" Margin="0" Padding="14,5">
-                            
+
                             <Border.RenderTransform>
                                 <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
                             </Border.RenderTransform>
-                           
+
                             <StackPanel Orientation="Horizontal">
                                 <ContentPresenter Cursor="Hand" x:Name="Content" ContentSource="Header" TextBlock.FontSize="14" TextBlock.Foreground="#323130" TextBlock.FontWeight="Normal" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 
@@ -45,7 +45,7 @@
 
 
                         </Border>
-                        
+
                     </Grid>
 
                     <ControlTemplate.Triggers>
@@ -204,18 +204,39 @@
                         </Border>
 
                         <!--tab选项卡内容区域-->
-                        <Border x:Name="ContentPanel"  BorderThickness="1" Grid.Row="1" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local" Margin="0,0,0,0" Cursor="Arrow">
-
+                        <Border x:Name="ContentPanel"  BorderThickness="1" Grid.Row="1" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" RenderTransformOrigin=".5,.5" KeyboardNavigation.TabNavigation="Local" Margin="0,0,0,0" Cursor="Arrow">
+                            <Border.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Border.RenderTransform>
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
 
-                        <!--<EventTrigger RoutedEvent="Loaded">
-                                <BeginStoryboard Storyboard="{StaticResource Storyboardload}">
+                        <EventTrigger RoutedEvent="SelectionChanged">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard >
+                                        <DoubleAnimation Storyboard.TargetName="ContentPanel" Storyboard.TargetProperty="Opacity" Duration="00:00:.5" From="0" To="1" >
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <!--<DoubleAnimation Storyboard.TargetName="ContentPanel" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" Duration="00:00:.5" From="6" To="1" >
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                        <DoubleAnimation Storyboard.TargetName="ContentPanel" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" Duration="00:00:.5" From="6" To="1" >
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut" />
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>-->
+                                    </Storyboard>
                                 </BeginStoryboard>
-                            </EventTrigger>-->
+                            </EventTrigger.Actions>
+                        </EventTrigger>
 
                         <Trigger Property="TabStripPlacement" Value="Bottom">
                             <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="1"/>
