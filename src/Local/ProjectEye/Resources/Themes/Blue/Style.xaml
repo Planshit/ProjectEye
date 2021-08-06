@@ -23,6 +23,7 @@
         <ResourceDictionary Source="TabControl.xaml" />
         <ResourceDictionary Source="Slider.xaml" />
         <ResourceDictionary Source="ContentCard.xaml" />
+        <ResourceDictionary Source="Toggle.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

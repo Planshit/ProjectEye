@@ -25,7 +25,6 @@
         <!--<Setter Property="BorderBrush" Value="{StaticResource TabControlNormalBorderBrush}"/>-->
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="Cursor" Value="Hand"/>
 
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -34,10 +33,11 @@
                     <Grid SnapsToDevicePixels="true">
 
                         <Border x:Name="Bd" CornerRadius="6" RenderTransformOrigin="0.5,0.5" BorderBrush="Transparent" BorderThickness="0,0,0,2" Margin="0" Padding="14,5">
+                            
                             <Border.RenderTransform>
                                 <ScaleTransform ScaleX="1" ScaleY="1"></ScaleTransform>
                             </Border.RenderTransform>
-
+                           
                             <StackPanel Orientation="Horizontal">
                                 <ContentPresenter Cursor="Hand" x:Name="Content" ContentSource="Header" TextBlock.FontSize="14" TextBlock.Foreground="#323130" TextBlock.FontWeight="Normal" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
 
@@ -45,10 +45,14 @@
 
 
                         </Border>
+                        
                     </Grid>
 
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Bd" Value="#f3f2f1"/>
 
+                        </Trigger>
                         <Trigger Property="IsSelected" Value="false">
                             <Setter Property="TextBlock.Foreground" Value="#323130" TargetName="Content"/>
                             <Setter Property="BorderBrush" TargetName="Bd" Value="{x:Null}"/>
@@ -200,7 +204,7 @@
                         </Border>
 
                         <!--tab选项卡内容区域-->
-                        <Border x:Name="ContentPanel"  BorderThickness="1" Grid.Row="1" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local" Margin="0,0,0,0">
+                        <Border x:Name="ContentPanel"  BorderThickness="1" Grid.Row="1" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local" Margin="0,0,0,0" Cursor="Arrow">
 
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 

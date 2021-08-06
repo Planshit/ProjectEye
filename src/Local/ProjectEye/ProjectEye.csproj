@@ -146,6 +146,7 @@
     <Compile Include="Models\StatisticModel.cs" />
     <Compile Include="Models\TipModel.cs" />
     <Compile Include="Models\UINotifyPropertyChanged.cs" />
+    <Compile Include="Resources\Converters\NumberToStringConver.cs" />
     <Compile Include="Resources\Converters\SliderValueToWidthConver.cs" />
     <Compile Include="ViewModels\AsyncCommand.cs" />
     <Compile Include="ViewModels\Command.cs" />
@@ -196,6 +197,10 @@
       <SubType>Designer</SubType>
     </Resource>
     <Page Include="Resources\Themes\Blue\ContentCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\Blue\Toggle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -280,6 +285,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Themes\Dark\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Themes\Dark\Toggle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -235,7 +235,7 @@
                 Value="{DynamicResource InputForeground}"/>
         <Setter Property="MinHeight"
           Value="28" />
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="Padding" Value="7,3,8,3"/>
@@ -252,7 +252,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
                         </Grid.ColumnDefinitions>
-                        <Popup Name="PART_Popup"
+                        <Popup x:Name="PART_Popup"
                                AllowsTransparency="true"
                                Grid.ColumnSpan="2"
                                Placement="Bottom"
@@ -300,13 +300,18 @@
 
                         </ToggleButton>
 
-                        <Path Name="Arrow"
+                        <Path x:Name="Arrow"
                               Grid.ColumnSpan="2"
                               Margin="3,1,8,0"
-                              Fill="{TemplateBinding Foreground}"
+                              Fill="#605e5c"
                               Data="{DynamicResource DownArrowGeometry}"
                               HorizontalAlignment="Right"
-                              VerticalAlignment="Center" IsHitTestVisible="False"/>
+                              VerticalAlignment="Center" IsHitTestVisible="False"
+                              RenderTransformOrigin=".5,.5">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </Path.RenderTransform>
+                        </Path>
 
                         <ContentPresenter IsHitTestVisible="false"
                                           Margin="{TemplateBinding Padding}"
@@ -320,6 +325,42 @@
 
                     </Grid>
                     <ControlTemplate.Triggers>
+                        <Trigger SourceName="PART_Popup" Property="IsOpen" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="(Path.RenderTransform).(RotateTransform.Angle)" Storyboard.TargetName="Arrow" To="180" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="(Path.RenderTransform).(RotateTransform.Angle)" Storyboard.TargetName="Arrow" To="0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <!--<DataTrigger Binding="{Binding ElementName=PART_Popup,Path=IsOpen}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="(Path.RenderTransform).(RotateTransform.Angle)" Storyboard.TargetName="Arrow" To="180" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.15"
+                    Storyboard.TargetProperty="(Path.RenderTransform).(RotateTransform.Angle)" Storyboard.TargetName="Arrow" To="0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>-->
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="DropDownBorder" Property="Height" Value="95"/>
                         </Trigger>

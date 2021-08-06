@@ -19,7 +19,7 @@
     <!--按钮文字颜色-->
     <Color x:Key="ButtonColor">white</Color>
     <!--控件边框颜色-->
-    <Color x:Key="ControlBorderColor">#ABADB3</Color>
+    <Color x:Key="ControlBorderColor">#c8c6c4</Color>
     <!--控件图标颜色-->
     <Color x:Key="ControlIconColor">#777777</Color>
     <!--禁用颜色-->
@@ -70,7 +70,7 @@
     <!--按钮默认边框颜色-->
     <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource ThemeColor}"/>
     <!--按钮默认边框-->
-    <Thickness x:Key="ButtonThickness">1</Thickness>
+    <Thickness x:Key="ButtonThickness">2</Thickness>
     <!--按钮默认圆角幅度-->
     <CornerRadius x:Key="ButtonCornerRadius">6</CornerRadius>
 
@@ -90,7 +90,7 @@
     <!--默认边框颜色-->
     <SolidColorBrush x:Key="InputBorderBrush" Color="{StaticResource ControlBorderColor}"/>
     <!--默认边框-->
-    <Thickness x:Key="InputThickness">1</Thickness>
+    <Thickness x:Key="InputThickness">2</Thickness>
 
     <!--鼠标滑入边框颜色-->
     <SolidColorBrush x:Key="InputEnterBorderBrush" Color="{StaticResource ThemeColor}" Opacity=".5"/>
@@ -112,9 +112,9 @@
     <!--按钮默认字体颜色-->
     <SolidColorBrush x:Key="BasicButtonForeground" Color="#323130"/>
     <!--按钮默认边框颜色-->
-    <SolidColorBrush x:Key="BasicButtonBorderBrush" Color="#8a8886"/>
+    <SolidColorBrush x:Key="BasicButtonBorderBrush" Color="#c8c6c4"/>
     <!--按钮默认边框-->
-    <Thickness x:Key="BasicButtonThickness">1</Thickness>
+    <Thickness x:Key="BasicButtonThickness">2</Thickness>
     <!--按钮默认圆角幅度-->
     <CornerRadius x:Key="BasicButtonCornerRadius">6</CornerRadius>
 

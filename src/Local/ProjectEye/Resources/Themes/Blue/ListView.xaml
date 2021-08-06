@@ -162,7 +162,7 @@
           Value="true" />
         <Setter Property="VerticalContentAlignment"
           Value="Center" />
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListView">
@@ -223,8 +223,8 @@
                                                 Storyboard.TargetProperty="(Panel.Background).
                     (SolidColorBrush.Color)">
                                             <!--listbox item鼠标经过颜色-->
-                                            <EasingColorKeyFrame KeyTime="0"
-                                         Value="#dadada" />
+                                            <EasingColorKeyFrame KeyTime="0:0:.2"
+                                         Value="#f5f5f5" />
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

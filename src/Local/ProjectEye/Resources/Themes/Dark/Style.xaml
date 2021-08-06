@@ -30,6 +30,7 @@
         <ResourceDictionary Source="Chart/Chart.xaml" />
         <ResourceDictionary Source="Chart/ChartItem.xaml" />
         <ResourceDictionary Source="ContentCard.xaml" />
+        <ResourceDictionary Source="Toggle.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

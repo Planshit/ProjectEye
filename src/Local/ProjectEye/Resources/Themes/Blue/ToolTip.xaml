@@ -24,7 +24,7 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 Padding="{TemplateBinding Padding}"
-                                CornerRadius="2"
+                                CornerRadius="6"
                                 Margin="5">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="5" Opacity="0.3"  ShadowDepth="0"/>

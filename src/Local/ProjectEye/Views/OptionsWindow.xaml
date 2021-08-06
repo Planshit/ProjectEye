@@ -34,31 +34,34 @@
     </ui:Project1UIWindow.ExtElement>
     <Grid Margin="5">
 
-        <TabControl Margin="0,0,0,33">
+        <TabControl Margin="0,0,0,50">
             <TabItem Header="{DynamicResource Lang_General}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <Grid Margin="0,10,0,0">
-                            <Grid.ColumnDefinitions>
+                        
+                        <!--<Grid Margin="0,10,0,0">-->
+                            <!--<Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="10*"/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="80"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="30"/>
-                            </Grid.RowDefinitions>
+                            </Grid.RowDefinitions>-->
                             <!--提醒间隔-->
-                            <TextBlock 
+                            <!--<StackPanel>
+                                <TextBlock 
                                 Grid.Row="0"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
                                    VerticalAlignment="Center" Text="{DynamicResource Lang_Notificationinterval}"></TextBlock>
-                            <Slider 
+
+                                <Slider 
                                 Grid.Row="0"
                                 VerticalAlignment="Center"
                                 Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" />
-                            <TextBlock 
+                                <TextBlock 
                                 Grid.Row="0"
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"
@@ -66,19 +69,36 @@
                                    VerticalAlignment="Center">
                                 <Run Text="{Binding Model.Data.General.WarnTime}"/>
                                 <Run Text="{DynamicResource Lang_Minutes}"/>
-                            </TextBlock>
+                                </TextBlock>
+                            </StackPanel>-->
+                        
+                            <Slider 
+                            Margin="0,0,0,0"
+                                Grid.Row="0"
+                                VerticalAlignment="Center"
+                                    Tag="{DynamicResource Lang_Notificationinterval}"
+                                Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.WarnTime}" ToolTip="{DynamicResource Lang_Minutes}" />
+                        
+                      
+                        <!--<StackPanel>-->
 
-                            <!--休息时长-->
-                            <TextBlock 
+                                <!--休息时长-->
+                            <Slider 
+                                Margin="0,20,0,0"
+                                Grid.Row="1"
+                                Tag="{DynamicResource Lang_Breaktimelength}"
+                                VerticalAlignment="Center"
+                                Grid.Column="1" Maximum="300" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.RestTime}" ToolTip="{DynamicResource Lang_Seconds}"/>
+                            <!--<TextBlock 
                                 Grid.Row="1"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
                                    VerticalAlignment="Center" Text="{DynamicResource Lang_Breaktimelength}"></TextBlock>
-                            <Slider 
+                                <Slider 
                                 Grid.Row="1"
                                 VerticalAlignment="Center"
                                 Grid.Column="1" Maximum="300" Minimum="1" SmallChange="1" Value="{Binding Model.Data.General.RestTime}" />
-                            <TextBlock 
+                                <TextBlock 
                                 Grid.Row="1"
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"
@@ -86,12 +106,14 @@
                                    VerticalAlignment="Center">
                                 <Run Text="{Binding Model.Data.General.RestTime}"/>
                                 <Run Text="{DynamicResource Lang_Seconds}"/>
-                            </TextBlock>
-                        </Grid>
-
-                        <CheckBox Content="{DynamicResource Lang_Autostartatboot}" IsChecked="{Binding Model.Data.General.Startup}" Cursor="Hand" Margin="0,10,0,0"/>
-                        <CheckBox Content="{DynamicResource Lang_Soundforbreakend}" IsChecked="{Binding Model.Data.General.Sound}" Margin="0,10,0,0" Cursor="Hand"/>
-                        <Grid Margin="0,10,0,0">
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>-->
+                        <ui:Toggle Text="{DynamicResource Lang_Statistics}" IsChecked="{Binding Model.Data.General.Data}" Margin="0,20,0,0" Cursor="Hand"
+                              />
+                        <ui:Toggle Text="{DynamicResource Lang_Autostartatboot}" IsChecked="{Binding Model.Data.General.Startup}" Cursor="Hand" Margin="0,20,0,0"/>
+                        <ui:Toggle Text="{DynamicResource Lang_Soundforbreakend}" IsChecked="{Binding Model.Data.General.Sound}" Margin="0,20,0,0" Cursor="Hand"/>
+                        <Grid Margin="0,20,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -111,8 +133,7 @@
                                              Style="{DynamicResource basic}"/>
                         </Grid>
                         <!--<CheckBox Content="离开监听" IsChecked="{Binding Model.Data.General.LeaveListener}" Margin="0,10,0,0" Cursor="Hand" ToolTip="如果你离开了电脑我会停止计时直到你回来，且不需要你进行任何操作哦！"/>-->
-                        <CheckBox Content="{DynamicResource Lang_Statistics}" IsChecked="{Binding Model.Data.General.Data}" Margin="0,10,0,0" Cursor="Hand"
-                              />
+                        
                         <!--<CheckBox Content="{DynamicResource Lang_Statisticsanalysis}" IsChecked="{Binding Model.Data.General.IsWeekDataAnalysis}" Margin="0,10,0,0" Cursor="Hand"
                               />-->
                     </StackPanel>
@@ -121,7 +142,7 @@
             <TabItem Header="{DynamicResource Lang_TomatoTimer}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <Grid Margin="0,10,0,0">
+                        <!--<Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="10*"/>
@@ -131,10 +152,12 @@
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="30"/>
-                            </Grid.RowDefinitions>
+                            </Grid.RowDefinitions>-->
 
                             <!--工作时长-->
-                            <TextBlock Grid.Column="0"
+                        <Slider Tag="{DynamicResource Lang_Work}"  Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.WorkMinutes}" ToolTip="{DynamicResource Lang_Minutes}"/>
+
+                        <!--<TextBlock Grid.Column="0"
                                    Margin="0,0,10,0"
                                    VerticalAlignment="Center" Text="{DynamicResource Lang_Work}"></TextBlock>
                             <Slider Grid.Column="1" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.WorkMinutes}"/>
@@ -145,9 +168,11 @@
                                 Margin="10,0,0,0">
                                 <Run Text="{Binding Model.Data.Tomato.WorkMinutes}"/>
                                 <Run Text="{DynamicResource Lang_Minutes}"/>
-                            </TextBlock>
+                            </TextBlock>-->
                             <!--短休息-->
-                            <TextBlock 
+                        <Slider Margin="0,20,0,0"
+                                Tag="{DynamicResource Lang_Shortbreak}" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.ShortRestMinutes}" ToolTip="{DynamicResource Lang_Minutes}"/>
+                        <!--<TextBlock 
                                 Grid.Row="1"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
@@ -163,9 +188,11 @@
                                 Margin="10,0,0,0">
                                 <Run Text="{Binding Model.Data.Tomato.ShortRestMinutes}"/>
                                 <Run Text="{DynamicResource Lang_Minutes}"/>
-                            </TextBlock>
+                            </TextBlock>-->
                             <!--长休息-->
-                            <TextBlock 
+                        <Slider Margin="0,20,0,0"
+                                Tag="{DynamicResource Lang_Longbreak}" Maximum="420" Minimum="1" SmallChange="1" Value="{Binding Model.Data.Tomato.LongRestMinutes}" ToolTip="{DynamicResource Lang_Minutes}"/>
+                            <!--<TextBlock 
                                 Grid.Row="2"
                                 Grid.Column="0"
                                    Margin="0,0,10,0"
@@ -181,13 +208,13 @@
                                 Margin="10,0,0,0">
                                 <Run Text="{Binding Model.Data.Tomato.LongRestMinutes}"/>
                                 <Run Text="{DynamicResource Lang_Minutes}"/>
-                            </TextBlock>
-                        </Grid>
+                            </TextBlock>-->
+                        <!--</Grid>-->
                         <!--是否启用交互模式-->
-                        <CheckBox Content="{DynamicResource Lang_Tomato_IsEnabledInteractiveModel}" IsChecked="{Binding Model.Data.Tomato.IsEnabledInteractiveModel}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <ui:Toggle Text="{DynamicResource Lang_Tomato_IsEnabledInteractiveModel}" IsChecked="{Binding Model.Data.Tomato.IsEnabledInteractiveModel}" Margin="0,20,0,0" Cursor="Hand"/>
 
                         <!--提示音-->
-                        <CheckBox Content="{DynamicResource Lang_Soundforworksstart}" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <ui:Toggle Text="{DynamicResource Lang_Soundforworksstart}" IsChecked="{Binding Model.Data.Tomato.IsWorkStartSound}" Margin="0,20,0,0" Cursor="Hand"/>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -208,7 +235,7 @@
                                                  CommandParameter="2"
                                              Style="{DynamicResource basic}"/>
                         </Grid>
-                        <CheckBox Content="{DynamicResource Lang_Soundforworksend}" IsChecked="{Binding Model.Data.Tomato.IsWorkEndSound}" Margin="0,10,0,0" Cursor="Hand"/>
+                        <ui:Toggle Text="{DynamicResource Lang_Soundforworksend}" IsChecked="{Binding Model.Data.Tomato.IsWorkEndSound}" Margin="0,20,0,0" Cursor="Hand"/>
                         <Grid Margin="0,10,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -308,7 +335,7 @@
                                              Style="{DynamicResource basic}"/>
                         </Grid>
 
-                        <CheckBox Content="{DynamicResource Lang_Switchtodarkthemeautomatically}" IsChecked="{Binding Model.IsAutoDark}" Cursor="Hand" Margin="0,10,0,0" />
+                        <ui:Toggle Text="{DynamicResource Lang_Switchtodarkthemeautomatically}" IsChecked="{Binding Model.IsAutoDark}" Cursor="Hand" Margin="0,10,0,0" />
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.AutoDarkConfigVisibility}">
                             <!--自动切换深色模式配置-->
                             <StackPanel Margin="30,0,0,0">
@@ -321,13 +348,13 @@
                             </StackPanel>
                         </Grid>
 
-                        <CheckBox Content="{DynamicResource Lang_Showbuttonsinfullscreennotification}" IsChecked="{Binding Model.IsTipAsk,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
-                        <CheckBox IsEnabled="{Binding Model.IsThruTipWindowEnabled}" Content="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}" IsChecked="{Binding Model.Data.Style.IsThruTipWindow,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
+                        <ui:Toggle Text="{DynamicResource Lang_Showbuttonsinfullscreennotification}" IsChecked="{Binding Model.IsTipAsk,Mode=TwoWay}" Cursor="Hand" Margin="0,20,0,0" />
+                        <ui:Toggle IsEnabled="{Binding Model.IsThruTipWindowEnabled}" Text="{DynamicResource Lang_Enablemousepassthroughduringfullscreennotification}" IsChecked="{Binding Model.Data.Style.IsThruTipWindow,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
 
-                        <CheckBox Content="{DynamicResource Lang_Enableanimation}" IsChecked="{Binding Model.Data.Style.IsAnimation,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
+                        <ui:Toggle Text="{DynamicResource Lang_Enableanimation}" IsChecked="{Binding Model.Data.Style.IsAnimation,Mode=TwoWay}" Cursor="Hand" Margin="0,20,0,0" />
 
 
-                        <CheckBox Content="{DynamicResource Lang_Earlypopupforbreaktime}" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,10,0,0" />
+                        <ui:Toggle Text="{DynamicResource Lang_Earlypopupforbreaktime}" IsChecked="{Binding Model.IsPreAlert}" Cursor="Hand" Margin="0,20,0,0" />
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.PreAlertConfigVisibility}">
                             <!--预提醒配置-->
                             <StackPanel Margin="30,0,0,0">
@@ -347,11 +374,11 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <Slider Grid.Column="0" Maximum="60" Minimum="3" SmallChange="1" Value="{Binding Model.Data.Style.PreAlertTime}" />
-                                        <TextBlock Grid.Column="2" Margin="10,0,0,0">
+                                        <Slider Grid.Column="0" Maximum="60" Minimum="3" SmallChange="1" Value="{Binding Model.Data.Style.PreAlertTime}" ToolTip="{DynamicResource Lang_Seconds}"/>
+                                        <!--<TextBlock Grid.Column="2" Margin="10,0,0,0">
                                             <Run Text="{Binding Model.Data.Style.PreAlertTime}"/>
                                             <Run Text="{DynamicResource Lang_Seconds}"/>
-                                        </TextBlock>
+                                        </TextBlock>-->
                                     </Grid>
                                 </Grid>
                                 <Grid Margin="0,10,0,0">
@@ -475,8 +502,9 @@
             <TabItem Header="{DynamicResource Lang_Behaviors}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <CheckBox Content="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"  IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,10,0,0"/>
-                        <CheckBox Content="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,10,0,0" />
+                        <ui:Toggle Text="{DynamicResource Lang_Breakscannotbeskipped}"  IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}" Cursor="Hand" Margin="0,10,0,0"/>
+                        <ui:Toggle Text="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"  IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,20,0,0"/>
+                        <ui:Toggle Text="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,20,0,0" />
                         <Grid Margin="0,10,0,0" Visibility="{Binding Model.BreakProgressListVisibility}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
@@ -542,7 +570,7 @@
                                 </ListView.View>
                             </ListView>
                         </Grid>
-                        <CheckBox Content="{DynamicResource Lang_Breakscannotbeskipped}"  IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}" Cursor="Hand" Margin="0,10,0,0"/>
+                        
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -550,11 +578,36 @@
             <TabItem Header="{DynamicResource Lang_About}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
-                        <Image Source="/ProjectEye;component/Resources/sunglasses.ico" Height="30" HorizontalAlignment="Left"  Margin="0,10,0,0"/>
+                        <Image RenderTransformOrigin="0.5,0.5" Source="/ProjectEye;component/Resources/sunglasses.ico" Height="30" HorizontalAlignment="Left"  Margin="0,10,0,0">
+                            <Image.RenderTransform>
+                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                            </Image.RenderTransform>
+                            <Image.Triggers>
+                                <EventTrigger RoutedEvent="MouseDown">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)">
+                                                <EasingDoubleKeyFrame KeyTime="0:0:.1" Value="1.5"  />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:.4" Value="1"  />
+
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)">
+                                              
+                                                <EasingDoubleKeyFrame KeyTime="0:0:.1" Value="1.5" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:.4" Value="1"  />
+                                                
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <!--<DoubleAnimation  Duration="0:0:.3" To="1.5" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" AutoReverse="True"/>
+                                            <DoubleAnimation Duration="0:0:.3" To="1.5" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleY)" AutoReverse="True"/>-->
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Image.Triggers>
+                        </Image>
                         <TextBlock TextWrapping="Wrap" Text="Project Eye"
-                               Margin="0,10,0,0"/>
+                               Margin="0,10,0,0" FontWeight="Bold"/>
                         <TextBlock TextWrapping="Wrap" Text="{DynamicResource Lang_Aprogramwhichprotectsyoureyesbehindthescenes}"
-                               Margin="0,10,0,0"/>
+                               Margin="0,10,0,0" Opacity=".5"/>
                         <TextBlock TextWrapping="Wrap"
                                Margin="0,10,0,0"><Run Text="{DynamicResource Lang_Version}"/> <Hyperlink Command="{Binding openurlCommand}"
                                       CommandParameter="{Binding Model.VersionLink}" ><Run Text="{Binding Model.Version}"/></Hyperlink> <Hyperlink Command="{Binding updateCommand}"><Run Text="{DynamicResource Lang_Checkforupdates}"/></Hyperlink></TextBlock>

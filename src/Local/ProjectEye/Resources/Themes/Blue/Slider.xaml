@@ -83,6 +83,7 @@
     </Style>
 
     <!--Template when the orientation of the Slider is Horizontal.-->
+    <c:NumberToStringConver x:Key="nts"/>
     <ControlTemplate x:Key="HorizontalSlider"
                  TargetType="{x:Type Slider}">
         <ControlTemplate.Resources>
@@ -111,14 +112,24 @@
             <!--滑块最大值-->
             <TextBlock x:Name="SliderWidth" Width="{Binding RelativeSource={RelativeSource Self},
                    Path=Parent.ActualWidth}" Visibility="Collapsed"/>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                <TextBlock Text="{TemplateBinding Tag}" VerticalAlignment="Center"/>
+                <Border Margin="10,0,0,0" Background="#f5f5f5" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="2" Padding="4">
+                    <TextBlock x:Name="ValueBlock" RenderTransformOrigin="0.5,0.5" Text="{TemplateBinding Value,Converter={StaticResource nts}}" Foreground="#605e5c">
+                        <TextBlock.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Border>
+            </StackPanel>
             <Border x:Name="TrackBackground"
             Margin="0"
-            CornerRadius="2"
-            Height="4"
+            CornerRadius="7"
+            Height="14"
             Grid.Row="1"
             BorderThickness="0"
-            Background="#c8c6c4">
-                <Rectangle x:Name="Active" Fill="#605e5c" HorizontalAlignment="Left" RadiusX="2" RadiusY="2">
+            Background="#f5f5f5">
+                <Rectangle x:Name="Active" Fill="#c8c6c4" HorizontalAlignment="Left" RadiusX="6" RadiusY="6" Margin="2">
                     <Rectangle.Width>
                         <MultiBinding Converter="{StaticResource SliderValueToWidthConver}">
                             <Binding ElementName="SliderValue" Path="Width"/>
@@ -129,8 +140,9 @@
 
                 </Rectangle>
             </Border>
+
             <Track Grid.Row="1"
-           x:Name="PART_Track">
+           x:Name="PART_Track" Cursor="SizeAll">
                 <Track.DecreaseRepeatButton>
                     <RepeatButton Style="{StaticResource SliderButtonStyle}"
                       Command="Slider.DecreaseLarge" />
@@ -143,6 +155,7 @@
                       Command="Slider.IncreaseLarge" />
                 </Track.IncreaseRepeatButton>
             </Track>
+
             <TickBar x:Name="BottomTick"
              SnapsToDevicePixels="True"
              Grid.Row="2"
@@ -150,14 +163,18 @@
              Placement="Bottom"
              Height="1"
              Visibility="Collapsed" />
+
+
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualStateGroup.Transitions>
                         <VisualTransition GeneratedDuration="0:0:0.2" />
-                        <VisualTransition GeneratedDuration="0"
+                        <VisualTransition GeneratedDuration="0:0:1"
                                   To="Pressed" />
                     </VisualStateGroup.Transitions>
                     <VisualState x:Name="Normal" />
+                    <!--<VisualState x:Name="Focused" />-->
+                    
                     <VisualState x:Name="MouseOver">
                         <Storyboard>
                             <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Active">
@@ -170,7 +187,7 @@
                             </ColorAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
-
+                    
                 </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
         </Grid>
@@ -204,6 +221,9 @@
           Value="true" />
         <Setter Property="OverridesDefaultStyle"
           Value="true" />
+        <Setter Property="Cursor" Value="Arrow"/>
+        <Setter Property="IsMoveToPointEnabled" Value="True"/>
+
         <Style.Triggers>
             <Trigger Property="Orientation"
              Value="Horizontal">

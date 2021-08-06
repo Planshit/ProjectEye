@@ -346,7 +346,7 @@ namespace Project1.UI.Controls.ChartControl
                 brush.EndPoint = new Point(0.5, 1);
                 brush.GradientStops.Add(new GradientStop()
                 {
-                    Color = Project1UIColor.BrushToColor(ItemColor, .8),
+                    Color = Project1UIColor.BrushToColor(ItemColor, .5),
                     Offset = 0
                 });
 

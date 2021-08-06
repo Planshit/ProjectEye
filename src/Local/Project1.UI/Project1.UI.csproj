@@ -89,6 +89,7 @@
     <Compile Include="Controls\Commands\Project1UIWindowCommands.cs" />
     <Compile Include="Controls\Icon.cs" />
     <Compile Include="Controls\ToastManager.cs" />
+    <Compile Include="Controls\Toggle.cs" />
     <Compile Include="Cores\BitmapImager.cs" />
     <Compile Include="Cores\UIDefaultSetting.cs" />
     <Compile Include="Cores\Theme.cs" />
@@ -304,6 +305,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\Project1UIWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Toggle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
