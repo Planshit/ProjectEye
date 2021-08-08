@@ -201,7 +201,7 @@
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="SelectionChanged">
+                        <!--<EventTrigger RoutedEvent="SelectionChanged">
                             <EventTrigger.Actions>
                                 <BeginStoryboard>
                                     <Storyboard >
@@ -210,7 +210,7 @@
                                                 <CubicEase EasingMode="EaseInOut" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
-                                        <!--<DoubleAnimation Storyboard.TargetName="ContentPanel" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" Duration="00:00:.5" From="6" To="1" >
+                                        --><!--<DoubleAnimation Storyboard.TargetName="ContentPanel" Storyboard.TargetProperty="(RenderTransform).(ScaleTransform.ScaleX)" Duration="00:00:.5" From="6" To="1" >
                                             <DoubleAnimation.EasingFunction>
                                                 <CubicEase EasingMode="EaseInOut" />
                                             </DoubleAnimation.EasingFunction>
@@ -219,11 +219,11 @@
                                             <DoubleAnimation.EasingFunction>
                                                 <CubicEase EasingMode="EaseInOut" />
                                             </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>-->
+                                        </DoubleAnimation>--><!--
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger.Actions>
-                        </EventTrigger>
+                        </EventTrigger>-->
                         <!--<EventTrigger RoutedEvent="Loaded">
                                 <BeginStoryboard Storyboard="{StaticResource Storyboardload}">
                                 </BeginStoryboard>
