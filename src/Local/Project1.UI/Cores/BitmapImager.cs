@@ -29,6 +29,10 @@ namespace Project1.UI.Cores
             }
             else
             {
+                if (!File.Exists(filePath))
+                {
+                    return null;
+                }
                 byte[] imageData;
                 using (var fileStream = new FileStream(@filePath, FileMode.Open, FileAccess.Read))
 
