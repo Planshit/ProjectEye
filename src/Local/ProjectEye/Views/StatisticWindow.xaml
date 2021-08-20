@@ -174,7 +174,7 @@
                                         </Grid>
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel>
-                                                <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/web_developer.png"  HorizontalAlignment="Center"/>
+                                                <Image MaxWidth="300" Source="{Binding Data.WorktimeImageSource}"  HorizontalAlignment="Center"/>
                                                 <TextBlock  HorizontalAlignment="Center" Text="{Binding Data.WorkAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
                                             </StackPanel>
 
@@ -209,7 +209,7 @@
                                         </Grid>
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel>
-                                                <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/coffee_lover.png" />
+                                                <Image MaxWidth="300" Source="{Binding Data.ResttimeImageSource}" />
                                                 <TextBlock  HorizontalAlignment="Center" Text="{Binding  Data.RestAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
                                             </StackPanel>
                                         </Grid>
@@ -245,7 +245,7 @@
                                         </Grid>
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel>
-                                                <Image Width="150" Height="150" Source="/ProjectEye;component/Resources/office_work_.png" />
+                                                <Image MaxWidth="300" Source="{Binding Data.SkipImageSource}" />
                                                 <TextBlock  HorizontalAlignment="Center" Text="{Binding Data.SkipAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
                                             </StackPanel>
 

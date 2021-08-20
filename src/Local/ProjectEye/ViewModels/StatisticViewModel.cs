@@ -1,4 +1,5 @@
 ﻿using Project1.UI.Controls.ChartControl.Models;
+using Project1.UI.Cores;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
 using ProjectEye.Models;
@@ -61,9 +62,20 @@ namespace ProjectEye.ViewModels
             HandleMonthData();
             HandleWeekData();
             Analysis();
+            LoadImages();
         }
 
+        private void LoadImages()
+        {
+            string worktimeimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowWorkTimeImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/web_developer.png" : config.options.Style.DataWindowWorkTimeImagePath;
+            string resttimeimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowRestTimeImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/coffee_lover.png" : config.options.Style.DataWindowRestTimeImagePath;
+            string skipimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowSkipImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/office_work_.png" : config.options.Style.DataWindowSkipImagePath;
 
+            Data.WorktimeImageSource = BitmapImager.Load(worktimeimgpath);
+            Data.ResttimeImageSource= BitmapImager.Load(resttimeimgpath);
+            Data.SkipImageSource = BitmapImager.Load(skipimgpath);
+
+        }
 
         private void MigrateCheck()
         {

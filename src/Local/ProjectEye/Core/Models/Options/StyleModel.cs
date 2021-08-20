@@ -94,5 +94,17 @@ namespace ProjectEye.Core.Models.Options
         /// 语言
         /// </summary>
         public ComboxModel Language { get; set; } = new ComboxModel() { DisplayName = "中文", Value = "zh" };
+        /// <summary>
+        /// 数据统计窗口工作时间占位图路径
+        /// </summary>
+        public string DataWindowWorkTimeImagePath { get; set; }
+        /// <summary>
+        /// 数据统计窗口休息时间占位图路径
+        /// </summary>
+        public string DataWindowRestTimeImagePath { get; set; }
+        /// <summary>
+        /// 数据统计窗口跳过次数占位图路径
+        /// </summary>
+        public string DataWindowSkipImagePath { get; set; }
     }
 }

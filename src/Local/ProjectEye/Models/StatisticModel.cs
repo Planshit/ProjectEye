@@ -1,5 +1,6 @@
 ﻿using Project1.UI.Controls.ChartControl.Models;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace ProjectEye.Models
 {
@@ -410,6 +411,47 @@ namespace ProjectEye.Models
             }
         }
         #endregion
+        #endregion
+
+        #region 窗口占位图片
+        private ImageSource WorktimeImageSource_;
+        public ImageSource WorktimeImageSource
+        {
+            get
+            {
+                return WorktimeImageSource_;
+            }
+            set
+            {
+                WorktimeImageSource_ = value;
+            }
+        }
+
+        private ImageSource ResttimeImageSource_;
+        public ImageSource ResttimeImageSource
+        {
+            get
+            {
+                return ResttimeImageSource_;
+            }
+            set
+            {
+                ResttimeImageSource_ = value;
+            }
+        }
+        private ImageSource SkipImageSource_;
+        public ImageSource SkipImageSource
+        {
+            get
+            {
+                return SkipImageSource_;
+            }
+            set
+            {
+                SkipImageSource_ = value;
+            }
+        }
+
         #endregion
     }
 }
