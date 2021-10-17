@@ -288,6 +288,7 @@ namespace Project1.UI.Controls.ChartControl
 
                 if (newData != null)
                 {
+                    chart.isRendered = false;
                     chart.Render();
                 }
             }
@@ -296,6 +297,7 @@ namespace Project1.UI.Controls.ChartControl
                 var newValue = (double)e.NewValue;
                 if (newValue > 0 && newValue != (double)e.OldValue)
                 {
+                    chart.isRendered = false;
                     chart.Render();
                 }
             }
@@ -407,6 +409,11 @@ namespace Project1.UI.Controls.ChartControl
         /// 是否已渲染过界面
         /// </summary>
         private bool isRendered = false;
+
+        /// <summary>
+        /// 计算后的最大y值
+        /// </summary>
+        private double maxValue = 0;
         #endregion
 
         #region 事件
@@ -580,13 +587,13 @@ namespace Project1.UI.Controls.ChartControl
         {
             //计算最大值
             //如果设置了固定的最大值则使用，否则查找数据中的最大值
-            MaxValue = MaxValue > 0 ? MaxValue : Data.Count() > 0 ? Data.Max(m => m.Value) : 0;
+            maxValue = MaxValue > 0 ? MaxValue : Data.Count() > 0 ? Data.Max(m => m.Value) : 0;
             //不允许最大值小于10，否则效果不好看
-            if (MaxValue < 10)
+            if (maxValue < 10)
             {
-                MaxValue = 10;
+                maxValue = 10;
             }
-            MaxValue = Math.Round(MaxValue / 2, MidpointRounding.AwayFromZero) * 2 + 2;
+            maxValue = Math.Round(maxValue / 2, MidpointRounding.AwayFromZero) * 2 + 2;
 
 
             //计算平均值
@@ -599,10 +606,10 @@ namespace Project1.UI.Controls.ChartControl
                 averageValue = Data.Count() > 0 ? Data.Average(m => m.Value) : 0;
             }
             AverageVisibility = averageValue >= 1 ? Visibility.Visible : Visibility.Hidden;
-            if (averageValue > MaxValue)
+            if (averageValue > maxValue)
             {
                 //如果平均值超过了最大值时需要调整最大值
-                MaxValue = Math.Round(averageValue / 1.5, MidpointRounding.AwayFromZero) * 2;
+                maxValue = Math.Round(averageValue / 1.5, MidpointRounding.AwayFromZero) * 2;
             }
             averageValue = averageValue >= 1 ? averageValue : 0;
         }
@@ -612,7 +619,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         private void RenderTick()
         {
-            if (Data == null || MaxValue <= 0)
+            if (Data == null || maxValue <= 0)
             {
                 return;
             }
@@ -623,13 +630,13 @@ namespace Project1.UI.Controls.ChartControl
 
             double bottomValue = Data.Count() > 0 ? Data.Where(m => m.Value >= 0).Min(m => m.Value) : 0;
 
-            averageTickY = (averageValue / MaxValue) * itemTrueHeight + 30 - AverageTick.ActualHeight / 2;
+            averageTickY = (averageValue / maxValue) * itemTrueHeight + 30 - AverageTick.ActualHeight / 2;
 
             //最终显示的平均值需要处理小数点，仅保留一位
             averageValue = Math.Round(averageValue, 1);
             Average = averageValue;
 
-            double bottomTickMargin = (bottomValue / MaxValue) * itemTrueHeight + 30;
+            double bottomTickMargin = (bottomValue / maxValue) * itemTrueHeight + 30;
             TranslateTransform averageTransform = new TranslateTransform()
             {
                 Y = -averageTickY
@@ -639,7 +646,7 @@ namespace Project1.UI.Controls.ChartControl
             BottomTick.Margin = new Thickness(0, 0, 0, bottomTickMargin);
 
             //刻度标注
-            MaxValueLabel.Text = TickText.Replace("{value}", MaxValue.ToString());
+            MaxValueLabel.Text = TickText.Replace("{value}", maxValue.ToString());
             averageLabelY = averageTickY - AverageLabel.ActualHeight - AverageTick.ActualHeight / 2;
             //AverageBorder.Margin = new Thickness(0, 0, 0, averageTickMargin - AverageBorder.ActualHeight / 2 - AverageTick.Height / 2);
             AverageBorder.RenderTransform = new TranslateTransform()
@@ -668,7 +675,7 @@ namespace Project1.UI.Controls.ChartControl
             for (int i = 0; i < Data.Count(); i++)
             {
                 ChartDataModel data = Data.ElementAt(i);
-                ChartItem item = GetCreateItem(data, MaxValue);
+                ChartItem item = GetCreateItem(data, maxValue);
                 if (i > 0)
                 {
                     //添加间距
