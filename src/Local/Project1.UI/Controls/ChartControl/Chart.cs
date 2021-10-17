@@ -402,6 +402,11 @@ namespace Project1.UI.Controls.ChartControl
         private bool isScrollAnimationActive = false;
 
         private Popup Popup;
+
+        /// <summary>
+        /// 是否已渲染过界面
+        /// </summary>
+        private bool isRendered = false;
         #endregion
 
         #region 事件
@@ -553,12 +558,16 @@ namespace Project1.UI.Controls.ChartControl
             {
                 return;
             }
-            ItemContainer.Children.Clear();
-            Calculate();
-            RenderItems();
-            RenderTick();
-            InitAnimation();
-            InitScrollAnimation();
+            if (!isRendered)
+            {
+                ItemContainer.Children.Clear();
+                Calculate();
+                RenderItems();
+                RenderTick();
+                InitAnimation();
+                InitScrollAnimation();
+                isRendered = true;
+            }
             if (IsAnimation)
             {
                 storyboard.Begin();
