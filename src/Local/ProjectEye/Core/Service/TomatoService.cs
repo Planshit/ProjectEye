@@ -151,7 +151,19 @@ namespace ProjectEye.Core.Service
                 tip = $"{Application.Current.Resources["Lang_Getatomato"]}{tip1}";
 
                 subtitle = $"{Application.Current.Resources["Lang_Great"]}";
+                
                 //数据记录
+
+                //  判断时间更新
+                if (tomatoDataToday.Date != DateTime.Now.Date)
+                {
+                    //  先保存未更新日期的数据
+                    SaveData();
+
+                    //  更新日期
+                    tomatoDataToday = FindCreateTodayData();
+                }
+
                 tomatoDataToday.TomatoCount++;
                 SaveData();
             }
