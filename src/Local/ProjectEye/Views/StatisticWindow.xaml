@@ -31,7 +31,7 @@
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />-->
                         </Grid>
-                        
+
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -39,7 +39,7 @@
                 <DropShadowEffect x:Key="CardShadow" BlurRadius="12" Direction="0" ShadowDepth="0" Opacity=".3" RenderingBias="Performance" ></DropShadowEffect>
 
             </Style.Resources>
-            
+
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
@@ -217,14 +217,14 @@
                                 </ui:ContentCard>
                                 <!--跳过-->
                                 <ui:ContentCard Padding="20"  Margin="0" Background="#fef5f4">
-                                    
-                                        <Grid >
+
+                                    <Grid >
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
 
                                         </Grid.ColumnDefinitions>
-                                       
+
                                         <Grid Width="350" HorizontalAlignment="Left" >
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
@@ -250,8 +250,8 @@
                                             </StackPanel>
 
                                         </Grid>
-                                    </Grid> 
-                                    
+                                    </Grid>
+
                                 </ui:ContentCard>
                             </StackPanel>
                         </ScrollViewer>
@@ -272,13 +272,24 @@
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.ColumnSpan="2" Margin="0,7">
+                    <Grid Grid.Row="0" VerticalAlignment="Center"  Grid.ColumnSpan="2" Margin="0,7">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <!--<TextBlock Text="{DynamicResource Lang_Monthly}" FontSize="22" FontWeight="Bold" VerticalAlignment="Center"/>-->
-                        <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                        <date:DatePicker SelectedYear="{Binding Data.Year,Mode=TwoWay}" SelectedMonth="{Binding Data.Month,Mode=TwoWay}" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <ui:Project1UIButton 
+            Command="{Binding exportDataCommand}"
+            Content="{DynamicResource Lang_ExportMonthData}"
+                            Icon="Export"
+                            Padding="10,6"
+                            Grid.Column="1"
+                            Margin="0,0,10,0"
+                Width="auto"
+                            HorizontalAlignment="Right"
+                Height="auto"
+                Style="{DynamicResource basic}"/>
                     </Grid>
                     <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
                         <Grid Margin="18">

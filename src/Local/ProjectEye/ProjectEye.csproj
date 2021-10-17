@@ -470,6 +470,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Npoi.Mapper">
+      <Version>3.5.1</Version>
+    </PackageReference>
     <PackageReference Include="SQLite.CodeFirst">
       <Version>1.5.3.29</Version>
     </PackageReference>

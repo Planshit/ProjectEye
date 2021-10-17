@@ -1,4 +1,5 @@
-﻿using Project1.UI.Controls.ChartControl.Models;
+﻿using Npoi.Mapper;
+using Project1.UI.Controls.ChartControl.Models;
 using Project1.UI.Cores;
 using ProjectEye.Core;
 using ProjectEye.Core.Service;
@@ -26,6 +27,8 @@ namespace ProjectEye.ViewModels
 
         public Command CloseOnboardingCommand { get; set; }
         public Command GenerateMonthlyDataImgCommand { get; set; }
+        public Command exportDataCommand { get; set; }
+
 
         public StatisticViewModel(
             StatisticService statistic,
@@ -40,6 +43,8 @@ namespace ProjectEye.ViewModels
 
             CloseOnboardingCommand = new Command(new Action<object>(OnCloseOnboardingCommand));
             GenerateMonthlyDataImgCommand = new Command(new Action<object>(OnGenerateMonthlyDataImgCommand));
+            exportDataCommand = new Command(new Action<object>(OnExportDataCommand));
+
             Data = new StatisticModel();
             Data.Year = DateTime.Now.Year;
             Data.Month = DateTime.Now.Month;
@@ -65,6 +70,8 @@ namespace ProjectEye.ViewModels
             LoadImages();
         }
 
+
+
         private void LoadImages()
         {
             string worktimeimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowWorkTimeImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/web_developer.png" : config.options.Style.DataWindowWorkTimeImagePath;
@@ -72,7 +79,7 @@ namespace ProjectEye.ViewModels
             string skipimgpath = string.IsNullOrEmpty(config.options.Style.DataWindowSkipImagePath) ? "pack://application:,,,/ProjectEye;component/Resources/office_work_.png" : config.options.Style.DataWindowSkipImagePath;
 
             Data.WorktimeImageSource = BitmapImager.Load(worktimeimgpath);
-            Data.ResttimeImageSource= BitmapImager.Load(resttimeimgpath);
+            Data.ResttimeImageSource = BitmapImager.Load(resttimeimgpath);
             Data.SkipImageSource = BitmapImager.Load(skipimgpath);
 
         }
@@ -427,6 +434,42 @@ namespace ProjectEye.ViewModels
               Data.MonthWorkData,
               Data.LastMonthWork,
               Data.MonthWork).Generate();
+            }
+        }
+        public struct XlsxData
+        {
+
+        }
+        private void OnExportDataCommand(object obj)
+        {
+            try
+            {
+                Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                dlg.FileName = "Project Eye statistic data " + Data.Year + Data.Month;
+                dlg.DefaultExt = ".xlsx";
+                dlg.Filter = "(.xlsx)|*.xlsx";
+                Nullable<bool> result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    //  获取选择月份的数据
+                    var monthData = statistic.GetData(Data.Year, Data.Month);
+
+                    //  重新构建友好结构
+
+                    var mapper = new Mapper();
+                    mapper
+                        .Map<Core.Models.Statistic.StatisticModel>("Date 日期", o => o.Date)
+                        .Map<Core.Models.Statistic.StatisticModel>("Work(hours) 工作（小时）", o => o.WorkingTime)
+                        .Map<Core.Models.Statistic.StatisticModel>("Rest(minutes) 休息（分钟）", o => o.ResetTime)
+                        .Map<Core.Models.Statistic.StatisticModel>("Skip 跳过（次）", o => o.SkipCount)
+                        .Ignore<Core.Models.Statistic.StatisticModel>(o => o.ID)
+                        .Save(dlg.FileName, monthData, $"{Data.Year}{Data.Month}", overwrite: true);
+                }
+            }
+            catch (Exception e)
+            {
+                LogHelper.Error(e.Message);
+                MessageBox.Show("导出数据失败，了解详情请查看错误日志");
             }
         }
     }

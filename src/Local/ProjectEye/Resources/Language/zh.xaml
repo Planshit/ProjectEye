@@ -214,5 +214,6 @@
     <sys:String x:Key="Lang_DataWindowRestTimeImagePath">休息时间占位图片</sys:String>
     <sys:String x:Key="Lang_DataWindowSkipImagePath">跳过次数占位图片</sys:String>
     <sys:String x:Key="Lang_StatisticsWindow">数据统计窗口</sys:String>
+    <sys:String x:Key="Lang_ExportMonthData">导出本月数据</sys:String>
 
 </ResourceDictionary>
