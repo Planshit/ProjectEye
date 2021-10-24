@@ -500,6 +500,8 @@ namespace ProjectEye.Core.Service
                 //显示提示窗口时停止计时
                 work_timer.Stop();
                 workTimerStopwatch.Stop();
+
+                window.Focus();
             }
             else
             {
