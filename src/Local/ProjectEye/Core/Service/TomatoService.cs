@@ -19,6 +19,7 @@ namespace ProjectEye.Core.Service
         private readonly BackgroundWorkerService backgroundWorker;
         private readonly TrayService tray;
         private readonly SoundService sound;
+        private readonly MainService main;
 
         private DispatcherTimer workTimer;
         private DispatcherTimer restTimer;
@@ -35,12 +36,15 @@ namespace ProjectEye.Core.Service
             ConfigService config,
             BackgroundWorkerService backgroundWorker,
             TrayService tray,
-            SoundService sound)
+            SoundService sound,
+            MainService main)
         {
             this.config = config;
             this.backgroundWorker = backgroundWorker;
             this.tray = tray;
             this.sound = sound;
+            this.main = main;
+
             timerWatcher = new Stopwatch();
         }
 
@@ -77,7 +81,11 @@ namespace ProjectEye.Core.Service
             workTimer.Interval = new TimeSpan(0, 0, 25);
             restTimer.Interval = new TimeSpan(0, 0, 5);
 #endif
+
+            main.OnLeaveEvent += Main_OnLeaveEvent  ;
         }
+
+
 
 
 
@@ -90,6 +98,11 @@ namespace ProjectEye.Core.Service
         #endregion
 
         #region event
+        private void Main_OnLeaveEvent(object service, int msg)
+        {
+            //关闭番茄
+            Close();
+        }
         private void Config_Changed(object sender, EventArgs e)
         {
             var oldOptions = sender as OptionsModel;
@@ -151,7 +164,7 @@ namespace ProjectEye.Core.Service
                 tip = $"{Application.Current.Resources["Lang_Getatomato"]}{tip1}";
 
                 subtitle = $"{Application.Current.Resources["Lang_Great"]}";
-                
+
                 //数据记录
 
                 //  判断时间更新
