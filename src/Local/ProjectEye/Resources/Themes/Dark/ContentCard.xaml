@@ -32,7 +32,7 @@
                                 <ScaleTransform x:Name="Scale" ScaleX="0.99" ScaleY="0.99"/>
                             </Border.RenderTransform>
                             <Border.Effect>
-                                <DropShadowEffect x:Name="Shadow" BlurRadius="30" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
+                                <DropShadowEffect x:Name="Shadow" BlurRadius="30" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" Color="{DynamicResource ThemeColor}" ></DropShadowEffect>
                             </Border.Effect>
                             <ContentPresenter 
                             RecognizesAccessKey="True" Margin="0" 
@@ -52,7 +52,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Duration="0:0:0.15"
-                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To=".1" />
+                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To=".3" />
                                         <DoubleAnimation Duration="0:0:0.15"
                     Storyboard.TargetProperty="ScaleX" Storyboard.TargetName="Scale" To="1" />
                                         <DoubleAnimation Duration="0:0:0.15"
