@@ -633,7 +633,8 @@ namespace Project1.UI.Controls.ChartControl
             averageTickY = (averageValue / maxValue) * itemTrueHeight + 30 - AverageTick.ActualHeight / 2;
 
             //最终显示的平均值需要处理小数点，仅保留一位
-            averageValue = Math.Round(averageValue, 1);
+            averageValue = double.Parse(string.Format("{0:N1}", averageValue));
+
             Average = averageValue;
 
             double bottomTickMargin = (bottomValue / maxValue) * itemTrueHeight + 30;
