@@ -208,7 +208,7 @@
                                     </Border.Effect>
                                     <Grid>
                                             <TextBlock>
-                                                <Run Text="平均 "/>
+                                                <Run Text="{DynamicResource Lang_Average}"/>
                                                 <Run Text="{TemplateBinding AverageText}"/>
                                             </TextBlock>
                                             <Path 
@@ -230,13 +230,14 @@
                                 x:Name="AverageTick"
                                 Background="Transparent"
                                 BorderThickness="2"
+                                Visibility="{TemplateBinding AverageVisibility}"
                                 Panel.ZIndex="3"
                                 VerticalAlignment="Bottom"
                                 CornerRadius="2"
                                 Cursor="Hand"
                                 >
                                 <Border.BorderBrush>
-                                    <SolidColorBrush Color="Transparent" Opacity=".2"/>
+                                    <SolidColorBrush Color="Transparent" Opacity=".6"/>
                                 </Border.BorderBrush>
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
@@ -278,14 +279,94 @@
                             </Border>
 
                             <!--底部刻度-->
-                            <Rectangle 
-                           x:Name="BottomTick"
+                                <Popup
+                            x:Name="BottomPopup"
+                            Placement="Top"
+                                PlacementTarget="{Binding ElementName=BottomTick}"
+                            AllowsTransparency="True"
+                            HorizontalOffset="-10"
+                                VerticalOffset="-10"
+                            >
+                                    <Border
+                                 Background="{DynamicResource WindowBackground}"
+                                BorderBrush="{DynamicResource WindowBorderBrush}"
+                                BorderThickness="1"
+                                Padding="10"
+                                Margin="15"
+                                >
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="5" Opacity="0.2"  ShadowDepth="1"/>
+                                        </Border.Effect>
+                                        <Grid>
+                                            <TextBlock>
+                                                <Run Text="{DynamicResource Lang_Minimum}"/>
+                                                <Run Text="{TemplateBinding MinimumText}"/>
+                                            </TextBlock>
+                                            <Path 
+                      Width="15"
+                      Height="15"
+                      SnapsToDevicePixels="False"
+                      Data="M 0 0 L 7.5 7.5 L 15 0" Fill="{DynamicResource WindowBackground}"
+                                        Stroke="{DynamicResource WindowBorderBrush}"
+                                        StrokeThickness="1"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Left"
+                                        Margin="-5,0,0,-25"
+                                        />
+                                        </Grid>
+
+                                    </Border>
+                                </Popup>
+                                <Border
+                                x:Name="BottomTick"
+                                Background="Transparent"
+                                BorderThickness="2"
+                                Panel.ZIndex="1"
+                                VerticalAlignment="Bottom"
+                                CornerRadius="2"
+                                Cursor="Hand"
+                                >
+                                    <Border.BorderBrush>
+                                        <SolidColorBrush Color="Transparent" Opacity=".6"/>
+                                    </Border.BorderBrush>
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="BottomTickMouseEnter">
+
+                                                <Storyboard>
+                                                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                Storyboard.TargetName="BottomTick">
+                                                        <EasingColorKeyFrame KeyTime="0"
+                                         Value="#4f6bed" />
+                                                    </ColorAnimationUsingKeyFrames>
+
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState Name="BottomTickMouseLeave" />
+                                            <VisualStateGroup.Transitions>
+
+
+                                                <VisualTransition To="BottomTickMouseEnter" GeneratedDuration="00:00:00.5">
+                                                    <VisualTransition.GeneratedEasingFunction>
+                                                        <ExponentialEase EasingMode="EaseOut" Exponent="10"/>
+                                                    </VisualTransition.GeneratedEasingFunction>
+                                                </VisualTransition>
+
+                                            </VisualStateGroup.Transitions>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+
+                                    <Rectangle 
                             Height="2"
                             Fill="#f3f2f1"
-                            VerticalAlignment="Bottom"
-                            Panel.ZIndex="1"
-                            />
-                            <ScrollViewer
+                            RadiusX="2"
+                                     RadiusY="2"
+                            >
+
+                                    </Rectangle>
+
+                                </Border>
+                                <ScrollViewer
                                 x:Name="ItemsScrollViewer"
                                 HorizontalScrollBarVisibility="Auto"
                                 OverridesDefaultStyle="True"

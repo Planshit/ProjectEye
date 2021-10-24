@@ -278,6 +278,23 @@ namespace Project1.UI.Controls.ChartControl
 
 
         #endregion
+        #region 最低值文本
+        /// <summary>
+        /// 最低值文本
+        /// </summary>
+        public string MinimumText
+        {
+            get { return (string)GetValue(MinimumTextProperty); }
+            set { SetValue(MinimumTextProperty, value); }
+        }
+        public static readonly DependencyProperty MinimumTextProperty =
+            DependencyProperty.Register("MinimumText",
+                typeof(string),
+                typeof(Chart),
+                new PropertyMetadata(""));
+
+
+        #endregion
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var chart = (d as Chart);
@@ -341,7 +358,7 @@ namespace Project1.UI.Controls.ChartControl
         /// <summary>
         /// 底部刻度
         /// </summary>
-        private Rectangle BottomTick;
+        private Border BottomTick;
         /// <summary>
         /// 最大值标注
         /// </summary>
@@ -403,7 +420,7 @@ namespace Project1.UI.Controls.ChartControl
         /// </summary>
         private bool isScrollAnimationActive = false;
 
-        private Popup Popup;
+        private Popup Popup, BottomPopup;
 
         /// <summary>
         /// 是否已渲染过界面
@@ -507,7 +524,7 @@ namespace Project1.UI.Controls.ChartControl
             ItemContainer = GetTemplateChild("Container") as StackPanel;
             MainContainer = GetTemplateChild("MainContainer") as Grid;
             AverageTick = GetTemplateChild("AverageTick") as Border;
-            BottomTick = GetTemplateChild("BottomTick") as Rectangle;
+            BottomTick = GetTemplateChild("BottomTick") as Border;
             MaxValueLabel = GetTemplateChild("MaxValueLabel") as TextBlock;
             AverageBorder = GetTemplateChild("AverageBorder") as Border;
             AverageLabel = GetTemplateChild("AverageLabel") as TextBlock;
@@ -517,6 +534,7 @@ namespace Project1.UI.Controls.ChartControl
             ScrollLeftButton = GetTemplateChild("ScrollLeftButton") as Button;
             ScrollRightButton = GetTemplateChild("ScrollRightButton") as Button;
             Popup = GetTemplateChild("Popup") as Popup;
+            BottomPopup = GetTemplateChild("BottomPopup") as Popup;
 
 
             if (ScrollLeftButton != null)
@@ -547,6 +565,22 @@ namespace Project1.UI.Controls.ChartControl
                     if (!Popup.IsFocused)
                     {
                         Popup.IsOpen = false;
+                    }
+                };
+            }
+            if (BottomTick != null)
+            {
+                BottomTick.MouseEnter += (s, c) =>
+                {
+                    VisualStateManager.GoToElementState(BottomTick, "BottomTickMouseEnter", true);
+                    BottomPopup.IsOpen = true;
+                };
+                BottomTick.MouseLeave += (s, c) =>
+                {
+                    VisualStateManager.GoToElementState(BottomTick, "BottomTickMouseLeave", true);
+                    if (!BottomPopup.IsFocused)
+                    {
+                        BottomPopup.IsOpen = false;
                     }
                 };
             }
@@ -638,13 +672,20 @@ namespace Project1.UI.Controls.ChartControl
             Average = averageValue;
 
             double bottomTickMargin = (bottomValue / maxValue) * itemTrueHeight + 30;
+
+            double bottomTickY = bottomTickMargin - BottomTick.ActualHeight / 2;
             TranslateTransform averageTransform = new TranslateTransform()
             {
                 Y = -averageTickY
             };
             AverageTick.RenderTransform = averageTransform;
             //AverageTick.Margin = new Thickness(0, 0, 0, averageTickMargin);
-            BottomTick.Margin = new Thickness(0, 0, 0, bottomTickMargin);
+            //BottomTick.Margin = new Thickness(0, 0, 0, bottomTickMargin);
+            TranslateTransform bottomTickTransform = new TranslateTransform()
+            {
+                Y = -bottomTickY
+            };
+            BottomTick.RenderTransform = bottomTickTransform;
 
             //刻度标注
             MaxValueLabel.Text = TickText.Replace("{value}", maxValue.ToString());
@@ -655,9 +696,11 @@ namespace Project1.UI.Controls.ChartControl
                 Y = -averageLabelY
             };
             //AverageLabel.Text = TickText.Replace("{value}", Math.Round(averageValue, 1).ToString());
-            double bottomTickHeight = (BottomTick.Height == double.NaN ? 2 : BottomTick.Height);
+            double bottomTickHeight = double.IsNaN(BottomTick.Height) ? 2 : BottomTick.Height;
             BottomValueBorder.Margin = new Thickness(0, 0, 0, bottomTickMargin - BottomValueBorder.ActualHeight / 2 - bottomTickHeight / 2);
             BottomValueLabel.Text = TickText.Replace("{value}", bottomValue.ToString());
+
+            MinimumText = bottomValue.ToString();
 
         }
         #endregion
