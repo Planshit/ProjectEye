@@ -6,6 +6,7 @@ using ProjectEye.Core.Service;
 using ProjectEye.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
@@ -28,6 +29,7 @@ namespace ProjectEye.ViewModels
         public Command CloseOnboardingCommand { get; set; }
         public Command GenerateMonthlyDataImgCommand { get; set; }
         public Command exportDataCommand { get; set; }
+        public Command openURLCommand { get; set; }
 
 
         public StatisticViewModel(
@@ -44,6 +46,7 @@ namespace ProjectEye.ViewModels
             CloseOnboardingCommand = new Command(new Action<object>(OnCloseOnboardingCommand));
             GenerateMonthlyDataImgCommand = new Command(new Action<object>(OnGenerateMonthlyDataImgCommand));
             exportDataCommand = new Command(new Action<object>(OnExportDataCommand));
+            openURLCommand = new Command(new Action<object>(OnOpenURLCommand));
 
             Data = new StatisticModel();
             Data.Year = DateTime.Now.Year;
@@ -92,6 +95,10 @@ namespace ProjectEye.ViewModels
         {
             Data.IsShowOnboarding = false;
             statistic.MigrateDone();
+        }
+        private void OnOpenURLCommand(object obj)
+        {
+            Process.Start(new ProcessStartInfo(obj.ToString()));
         }
 
         private void Data_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -310,110 +317,99 @@ namespace ProjectEye.ViewModels
 
         private void Analysis()
         {
-            //if (!config.options.General.IsWeekDataAnalysis)
-            //{
-            //    //关闭了数据建议
-            //    return;
-            //}
-            //本周天数
-            //int weekNum = (int)DateTime.Now.DayOfWeek;
-            int weekNum = Data.WeekTrueWorkDays;
-            //int weekNum = Data.WeekTrueWorkDays > 1 ? Data.WeekTrueWorkDays - 1 : Data.WeekTrueWorkDays;
-            ////减去今日的数据
-            //var todayData = statistic.GetTodayData();
-            //Data.WeekWork = Data.WeekWork - todayData.WorkingTime;
-            //Data.WeekRest = Data.WeekRest - todayData.ResetTime;
-            //Data.WeekSkip = Data.WeekSkip - todayData.SkipCount;
 
-            Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
-            //本周平均每天工作时间
+            //  本周已过天数
+            //int weekNum = Data.WeekTrueWorkDays;
+            int weekNum = (int)DateTime.Now.DayOfWeek;
+            if (weekNum == 0)
+            {
+                weekNum = 7;
+            }
+
+            //本周平均工作时间
             double weekWorkAverage = weekNum > 0 ? Data.WeekWork / weekNum : 0;
 
             //工作时间
-            if (weekWorkAverage >= 3)
+            if (weekWorkAverage <= 8)
             {
-
-                //误差值
-                double errValue = 0;
-                //工作占用了生活时间的百分比
-                double worklifep = Math.Round((11 - (24 - 6 - weekWorkAverage)) / 11 * 100, 0);
-                //质量值，越小越好
-                double x = weekWorkAverage / 24 - errValue;
-
-                //非常健康
-                //double l1 = (double)3 / 24;
-                //很健康
-                double l2 = (double)5 / 24;
-                //普通正常人
-                double l3 = (double)7 / 24;
-                //较忙
-                double l4 = (double)9 / 24;
-                //很忙
-                double l5 = (double)11 / 24;
-                //非常忙
-                double l6 = (double)13 / 24;
-                //危险
-                double l7 = (double)15 / 24;
-
-                if (x >= l7)
-                {
-                    Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Overload"]}";
-                }
-                else if (x >= l4)
-                {
-                    Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Busy"]}";
-                }
-
-
-
-
-
+                //  正常
+                Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
+                Data.WeekWorkLevel = 0;
+            }
+            else if (weekWorkAverage > 8 && weekWorkAverage < 10)
+            {
+                //  较长
+                Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Busy"]}";
+                Data.WeekWorkLevel = 1;
 
             }
-
-            Data.RestAnalysis = weekWorkAverage > 3 ? $"{Application.Current.Resources["Lang_Exhausted"]}" : $"{Application.Current.Resources["Lang_Normal"]}";
-            //休息时间
-            if (Data.WeekRest > 0 && weekWorkAverage > 0)
+            else
             {
-                //根据选项设置每日应休息时间（分钟)
-                double optionDayRestM = (int)((weekWorkAverage * 60) / config.options.General.WarnTime * config.options.General.RestTime / 60);
-                //本周的平均每日休息时间（分钟）
-                double dayRestM = Data.WeekRest / weekNum;
-                //是否达成目标
-                bool isReached = dayRestM >= optionDayRestM;
-                //百分比
-                //double reachedTTTP = Math.Round(dayRestM / optionDayRestM * 100, 0);
-                Data.RestAnalysis = isReached ? $"{Application.Current.Resources["Lang_Goodjob"]}" : $"{Application.Current.Resources["Lang_Haveagoodrest"]}";
-                //if (reachedTTTP < 100)
-                //{
-                //    Data.RestAnalysis += $"根据20-20-20规则来看，您只达到了{reachedTTTP}%。";
-                //}
+                //  超负荷工作
+                Data.WorkAnalysis = $"{Application.Current.Resources["Lang_Overload"]}";
+                Data.WeekWorkLevel = 2;
             }
 
-            Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
-            //跳过次数
-            if (weekWorkAverage >= 1 && Data.WeekSkip > 0)
+
+            //  休息时间
+            if (weekWorkAverage <= 0)
             {
-                //根据设置每天应该休息的次数
-                double optionDayRestNum = (weekWorkAverage * 60) / config.options.General.WarnTime;
-                //根据设置每天建议休息至少一半的次数
-                double optionRecommendDayRestNum = optionDayRestNum / 2;
-                //当前每天跳过次数
-                double daySkipCount = Data.WeekSkip / Data.WeekTrueWorkDays;
-                //跳过的次数基于建议的百分比
-                double skipP = Math.Round(daySkipCount / optionRecommendDayRestNum * 100, 0);
-                if (daySkipCount > optionRecommendDayRestNum)
+                Data.RestAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
+                Data.WeekRestLevel = 0;
+            }
+            else
+            {
+                //  按照20-20-20规则为基准每1小时至少休息1分钟
+                double avgRest = Data.WeekRest / Data.WeekWork;
+
+                if (avgRest >= 1)
                 {
-                    Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Toooften"]}";
+                    //  达成目标
+                    Data.RestAnalysis = $"{Application.Current.Resources["Lang_Goodjob"]}";
+                    Data.WeekRestLevel = 3;
                 }
-                else if (skipP < 10)
+                else if (avgRest >= 0.8)
                 {
-                    Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Keepnow"]}";
+                    //  较少
+                    Data.RestAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
+                    Data.WeekRestLevel = 0;
+                }
+                else if (avgRest >= 0.6)
+                {
+                    //  注意休息
+                    Data.RestAnalysis = $"{Application.Current.Resources["Lang_Haveagoodrest"]}";
+                    Data.WeekRestLevel = 1;
                 }
                 else
                 {
-                    //Data.SkipAnalysis = $"较为频繁，请减少跳过次数！您已接近建议的跳过次数{skipP}%，根据设置以及本周的工作时间，建议您每天的跳过次数应不超过{optionRecommendDayRestNum}次。";
+                    //  疲劳
+                    Data.RestAnalysis = $"{Application.Current.Resources["Lang_Exhausted"]}";
+                    Data.WeekRestLevel = 2;
+                }
+            }
+
+            //  跳过次数，每1小时建议有3次休息
+
+            if (weekWorkAverage <= 0 || Data.WeekSkip <= 0)
+            {
+                //  保持现状
+                Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Keepnow"]}";
+                Data.WeekSkipLevel = 2;
+            }
+            else
+            {
+                double skipRate = Data.WeekSkip / (Data.WeekWork * 3 / 2);
+                if (skipRate >= 0.45)
+                {
+                    //  过于频繁
                     Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Toooften"]}";
+                    Data.WeekSkipLevel = 1;
+                }
+                else
+                {
+                    //  较少
+                    Data.SkipAnalysis = $"{Application.Current.Resources["Lang_Normal"]}";
+                    Data.WeekSkipLevel = 0;
                 }
             }
 

@@ -332,4 +332,28 @@
 
     <Style x:Key="tip_yes" BasedOn="{StaticResource default}" TargetType="{x:Type controls:Project1UIButton}"></Style>
     <Style x:Key="tip_no" BasedOn="{StaticResource basic}" TargetType="{x:Type controls:Project1UIButton}"></Style>
+
+
+    <Style x:Key="CustomButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border 
+                        Background="{TemplateBinding Background}"
+                                        SnapsToDevicePixels="true">
+                        <ContentPresenter Name="Presenter" Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

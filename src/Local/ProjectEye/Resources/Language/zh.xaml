@@ -185,9 +185,9 @@
     <sys:String x:Key="Lang_Maximize">最大化</sys:String>
     <sys:String x:Key="Lang_Restore">还原</sys:String>
 
-    <sys:String x:Key="Lang_Normal">正常</sys:String>
-    <sys:String x:Key="Lang_Busy">忙碌</sys:String>
-    <sys:String x:Key="Lang_Overload">超负荷</sys:String>
+    <sys:String x:Key="Lang_Normal">较少</sys:String>
+    <sys:String x:Key="Lang_Busy">较长！</sys:String>
+    <sys:String x:Key="Lang_Overload">超负荷！！！</sys:String>
     <sys:String x:Key="Lang_Exhausted">疲劳</sys:String>
     <sys:String x:Key="Lang_Goodjob">非常棒！已达成目标</sys:String>
     <sys:String x:Key="Lang_Toooften">过于频繁</sys:String>
@@ -216,5 +216,6 @@
     <sys:String x:Key="Lang_StatisticsWindow">数据统计窗口</sys:String>
     <sys:String x:Key="Lang_ExportMonthData">导出本月数据</sys:String>
     <sys:String x:Key="Lang_Minimum">最低</sys:String>
+    <sys:String x:Key="Lang_Learnmore">了解更多</sys:String>
 
 </ResourceDictionary>

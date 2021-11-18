@@ -65,6 +65,7 @@
             </Style.Triggers>
         </Style>
     </ui:Project1UIWindow.Resources>
+
     <ui:Project1UIWindow.ExtElement>
         <ui:Project1UIModal ClickClose="False" Duration="0" Show="{Binding Data.IsShowOnboarding,Mode=TwoWay}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
             <Grid>
@@ -173,13 +174,50 @@
 
                                         </Grid>
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+
                                             <StackPanel>
                                                 <Image MaxWidth="300" Source="{Binding Data.WorktimeImageSource}"  HorizontalAlignment="Center"/>
-                                                <TextBlock  HorizontalAlignment="Center" Text="{Binding Data.WorkAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                                <ContentControl>
+                                                    <ContentControl.ContentTemplate>
+                                                        <DataTemplate>
+                                                            <Border x:Name="WorkLevelBorder" Width="auto" HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center"
+                                                        CornerRadius="5" DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=DataContext}">
+
+
+                                                                <StackPanel Orientation="Horizontal" Margin="10,5" VerticalAlignment="Center">
+
+                                                                    <ui:Icon x:Name="WorkLevelIcon" Unicode="&#xE74B;" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="{Binding ElementName=WeekWorkLevelText,Path=Foreground}"/>
+                                                                    <TextBlock x:Name="WeekWorkLevelText" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Data.WorkAnalysis}" TextWrapping="WrapWithOverflow" FontSize="14" Margin="5,0,0,0"/>
+                                                                    <TextBlock x:Name="WeekWorkLevel" Visibility="Collapsed" Text="{Binding Data.WeekWorkLevel}"/>
+                                                                </StackPanel>
+
+                                                            </Border>
+                                                            <DataTemplate.Triggers>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekWorkLevel,Path=Text}" Value="0">
+                                                                    <Setter TargetName="WorkLevelBorder" Property="Background" Value="#7FE3E3E3"/>
+                                                                    <Setter TargetName="WeekWorkLevelText" Property="Foreground" Value="#FF686868"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekWorkLevel,Path=Text}" Value="1">
+                                                                    <Setter TargetName="WorkLevelBorder" Property="Background" Value="#7FFFD413"/>
+                                                                    <Setter TargetName="WeekWorkLevelText" Property="Foreground" Value="#FFB99800"/>
+                                                                    <Setter TargetName="WorkLevelIcon" Property="Unicode" Value="&#xE74A;"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekWorkLevel,Path=Text}" Value="2">
+                                                                    <Setter TargetName="WorkLevelBorder" Property="Background" Value="#7FFF2E00"/>
+                                                                    <Setter TargetName="WeekWorkLevelText" Property="Foreground" Value="#FF9C0000"/>
+                                                                    <Setter TargetName="WorkLevelIcon" Property="Unicode" Value="&#xE8C9;"/>
+                                                                </DataTrigger>
+                                                            </DataTemplate.Triggers>
+                                                        </DataTemplate>
+                                                    </ContentControl.ContentTemplate>
+                                                </ContentControl>
                                             </StackPanel>
+
 
                                         </Grid>
                                     </Grid>
+
                                 </ui:ContentCard>
                                 <!--休息-->
                                 <ui:ContentCard Padding="20"  Margin="0" Background="#F9FDFA">
@@ -210,7 +248,47 @@
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel>
                                                 <Image MaxWidth="300" Source="{Binding Data.ResttimeImageSource}" />
-                                                <TextBlock  HorizontalAlignment="Center" Text="{Binding  Data.RestAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                                <ContentControl>
+                                                    <ContentControl.ContentTemplate>
+                                                        <DataTemplate>
+                                                            <Border x:Name="RestLevelBorder" Width="auto" HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center"
+                                                        CornerRadius="5" DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=DataContext}">
+
+
+                                                                <StackPanel Orientation="Horizontal" Margin="10,5" VerticalAlignment="Center">
+
+                                                                    <ui:Icon x:Name="RestLevelIcon" Unicode="&#xE74B;" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="{Binding ElementName=WeekRestLevelText,Path=Foreground}"/>
+                                                                    <TextBlock x:Name="WeekRestLevelText" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Data.RestAnalysis}" TextWrapping="WrapWithOverflow" FontSize="14" Margin="5,0,0,0"/>
+                                                                    <TextBlock x:Name="WeekRestLevel" Visibility="Collapsed" Text="{Binding Data.WeekRestLevel}"/>
+                                                                </StackPanel>
+
+                                                            </Border>
+                                                            <DataTemplate.Triggers>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekRestLevel,Path=Text}" Value="0">
+                                                                    <Setter TargetName="RestLevelBorder" Property="Background" Value="#7FE3E3E3"/>
+                                                                    <Setter TargetName="WeekRestLevelText" Property="Foreground" Value="#FF686868"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekRestLevel,Path=Text}" Value="1">
+                                                                    <Setter TargetName="RestLevelBorder" Property="Background" Value="#7FFFD413"/>
+                                                                    <Setter TargetName="WeekRestLevelText" Property="Foreground" Value="#FFB99800"/>
+                                                                    <Setter TargetName="RestLevelIcon" Property="Unicode" Value="&#xE74A;"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekRestLevel,Path=Text}" Value="2">
+                                                                    <Setter TargetName="RestLevelBorder" Property="Background" Value="#7FFF2E00"/>
+                                                                    <Setter TargetName="WeekRestLevelText" Property="Foreground" Value="#FF9C0000"/>
+                                                                    <Setter TargetName="RestLevelIcon" Property="Unicode" Value="&#xE8C9;"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekRestLevel,Path=Text}" Value="3">
+                                                                    <Setter TargetName="RestLevelBorder" Property="Background" Value="#7F6FE455"/>
+                                                                    <Setter TargetName="WeekRestLevelText" Property="Foreground" Value="#FF167616"/>
+                                                                    <Setter TargetName="RestLevelIcon" Property="Unicode" Value="&#xE8C9;"/>
+                                                                </DataTrigger>
+                                                            </DataTemplate.Triggers>
+                                                        </DataTemplate>
+                                                    </ContentControl.ContentTemplate>
+                                                </ContentControl>
+
                                             </StackPanel>
                                         </Grid>
                                     </Grid>
@@ -246,7 +324,42 @@
                                         <Grid Grid.Column="1" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <StackPanel>
                                                 <Image MaxWidth="300" Source="{Binding Data.SkipImageSource}" />
-                                                <TextBlock  HorizontalAlignment="Center" Text="{Binding Data.SkipAnalysis}" TextWrapping="WrapWithOverflow" Margin="0,20,0,0" FontSize="16"/>
+                                                <ContentControl>
+                                                    <ContentControl.ContentTemplate>
+                                                        <DataTemplate>
+                                                            <Border x:Name="SkipLevelBorder" Width="auto" HorizontalAlignment="Center" 
+                                                       VerticalAlignment="Center"
+                                                        CornerRadius="5" DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Window, AncestorLevel=1}, Path=DataContext}">
+
+
+                                                                <StackPanel Orientation="Horizontal" Margin="10,5" VerticalAlignment="Center">
+
+                                                                    <ui:Icon x:Name="SkipLevelIcon" Unicode="&#xE74B;" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="{Binding ElementName=WeekSkipLevelText,Path=Foreground}"/>
+                                                                    <TextBlock x:Name="WeekSkipLevelText" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding Data.SkipAnalysis}" TextWrapping="WrapWithOverflow" FontSize="14" Margin="5,0,0,0"/>
+                                                                    <TextBlock x:Name="WeekSkipLevel" Visibility="Collapsed" Text="{Binding Data.WeekSkipLevel}"/>
+                                                                </StackPanel>
+
+                                                            </Border>
+                                                            <DataTemplate.Triggers>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekSkipLevel,Path=Text}" Value="0">
+                                                                    <Setter TargetName="SkipLevelBorder" Property="Background" Value="#7FE3E3E3"/>
+                                                                    <Setter TargetName="WeekSkipLevelText" Property="Foreground" Value="#FF686868"/>
+                                                                </DataTrigger>
+
+                                                                <DataTrigger Binding="{Binding ElementName=WeekSkipLevel,Path=Text}" Value="1">
+                                                                    <Setter TargetName="SkipLevelBorder" Property="Background" Value="#7FFF2E00"/>
+                                                                    <Setter TargetName="WeekSkipLevelText" Property="Foreground" Value="#FF9C0000"/>
+                                                                    <Setter TargetName="SkipLevelIcon" Property="Unicode" Value="&#xE8C9;"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding ElementName=WeekSkipLevel,Path=Text}" Value="2">
+                                                                    <Setter TargetName="SkipLevelBorder" Property="Background" Value="#7F6FE455"/>
+                                                                    <Setter TargetName="WeekSkipLevelText" Property="Foreground" Value="#FF167616"/>
+                                                                    <Setter TargetName="SkipLevelIcon" Property="Unicode" Value="&#xE8E1;"/>
+                                                                </DataTrigger>
+                                                            </DataTemplate.Triggers>
+                                                        </DataTemplate>
+                                                    </ContentControl.ContentTemplate>
+                                                </ContentControl>
                                             </StackPanel>
 
                                         </Grid>
@@ -411,6 +524,14 @@
                                 </Border>
 
                                 <TextBlock Text="{DynamicResource Lang_Tomatodescription2}" TextWrapping="Wrap" Margin="0,20,0,0" />
+                                <Button Style="{DynamicResource CustomButton}" Command="{Binding openURLCommand}" CommandParameter="https://zh.wikipedia.org/wiki/%E7%95%AA%E8%8C%84%E5%B7%A5%E4%BD%9C%E6%B3%95" HorizontalAlignment="Left">
+                                    
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Cursor="Hand">
+                                                <ui:Icon Unicode="&#xE72A;" Foreground="#4f6bed"/>
+                                                <TextBlock Text="{DynamicResource Lang_Learnmore}" Padding="10" Foreground="#4f6bed"/>
+                                            </StackPanel>
+                                     
+                                </Button>
                             </StackPanel>
                         </ScrollViewer>
                     </Grid>
