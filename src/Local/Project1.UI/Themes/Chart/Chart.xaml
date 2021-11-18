@@ -184,7 +184,7 @@
                             <Rectangle 
                            x:Name="MaxTick"
                             Height="2"
-                            Fill="#f3f2f1"
+                            Fill="#dddddd"
                             Panel.ZIndex="1"
                             VerticalAlignment="Top"
                                 Margin="0,20,0,0"
@@ -361,7 +361,7 @@
 
                                     <Rectangle 
                             Height="2"
-                            Fill="#f3f2f1"
+                            Fill="#dddddd"
                             RadiusX="2"
                                      RadiusY="2"
                             >
