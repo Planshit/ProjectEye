@@ -453,5 +453,48 @@ namespace ProjectEye.Models
         }
 
         #endregion
+
+
+        #region 本周状态等级
+        private int WeekWorkLevel_;
+        public int WeekWorkLevel
+        {
+            get
+            {
+                return WeekWorkLevel_;
+            }
+            set
+            {
+                WeekWorkLevel_ = value;
+                OnPropertyChanged("WeekWorkLevel");
+            }
+        }
+        private int WeekRestLevel_;
+        public int WeekRestLevel
+        {
+            get
+            {
+                return WeekRestLevel_;
+            }
+            set
+            {
+                WeekRestLevel_ = value;
+                OnPropertyChanged("WeekRestLevel");
+            }
+        }
+        private int WeekSkipLevel_;
+        public int WeekSkipLevel
+        {
+            get
+            {
+                return WeekSkipLevel_;
+            }
+            set
+            {
+                WeekSkipLevel_ = value;
+                OnPropertyChanged("WeekSkipLevel");
+            }
+        }
+        #endregion
     }
 }
