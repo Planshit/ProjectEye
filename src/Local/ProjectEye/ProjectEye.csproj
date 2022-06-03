@@ -535,5 +535,15 @@
     <Resource Include="Resources\green-tomato-8.ico" />
     <Resource Include="Resources\green-tomato-9.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\rest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\break.png" />
+    <Resource Include="Resources\work.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\tomato.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

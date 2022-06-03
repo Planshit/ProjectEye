@@ -201,7 +201,7 @@ namespace ProjectEye.ViewModels
                         imageElement.Width = element.Width;
                         imageElement.Height = element.Height;
                         imageElement.Opacity = element.Opacity;
-                        imageElement.Stretch = Stretch.Fill;
+                        imageElement.Stretch = Stretch.UniformToFill;
 
 
                         try

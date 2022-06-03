@@ -148,7 +148,7 @@
                         <ScrollViewer>
                             <StackPanel >
                                 <!--工作-->
-                                <ui:ContentCard Padding="20"  Margin="0" Background="#F2F2F9">
+                                <ui:ContentCard Padding="30"  Margin="0" Background="#F2F2F9">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -163,7 +163,9 @@
                                             <!--工作-->
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
-                                                    <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                                    <Image Source="/Resources/work.png" Width="32" Height="32"/>
+
+                                                    <!--<ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>-->
                                                     <TextBlock Text="{DynamicResource Lang_Work}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">
@@ -220,7 +222,7 @@
 
                                 </ui:ContentCard>
                                 <!--休息-->
-                                <ui:ContentCard Padding="20"  Margin="0" Background="#F9FDFA">
+                                <ui:ContentCard Padding="30"  Margin="0" Background="#F9FDFA">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -235,7 +237,8 @@
                                             <!--休息-->
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal">
-                                                    <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#82D29A"/>
+                                                    <Image Source="/Resources/rest.png" Width="32" Height="32"/>
+                                                    <!--<ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#82D29A"/>-->
                                                     <TextBlock Text="{DynamicResource Lang_Break}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#82D29A"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">
@@ -294,7 +297,7 @@
                                     </Grid>
                                 </ui:ContentCard>
                                 <!--跳过-->
-                                <ui:ContentCard Padding="20"  Margin="0" Background="#fef5f4">
+                                <ui:ContentCard Padding="30"  Margin="0" Background="#ffe8e8">
 
                                     <Grid >
                                         <Grid.ColumnDefinitions>
@@ -311,7 +314,9 @@
                                             <!--跳过-->
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal">
-                                                    <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
+                                                    <Image Source="/Resources/break.png" Width="32" Height="32"/>
+
+                                                    <!--<ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>-->
                                                     <TextBlock Text="{DynamicResource Lang_Skip}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">
@@ -378,9 +383,9 @@
                         <ColumnDefinition Width="25*"/>
                         <ColumnDefinition Width="741*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid.Background>
+                    <!--<Grid.Background>
                         <ImageBrush ImageSource="/ProjectEye;component/Resources/conference_presentation__monochromatic.png" Stretch="Uniform" Opacity=".02"/>
-                    </Grid.Background>
+                    </Grid.Background>-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="*"/>
@@ -419,7 +424,9 @@
                             <!--工作-->
                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                    <ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
+                                    <Image Source="/Resources/work.png" Width="32" Height="32"/>
+
+                                    <!--<ui:Icon Unicode="&#xE977;" FontSize="24" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>-->
                                     <TextBlock Text="{DynamicResource Lang_Work}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource ThemeBrush}"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
@@ -437,7 +444,9 @@
                             <!--休息-->
                             <StackPanel Grid.Row="2"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
-                                    <ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#1CE072"/>
+                                    <Image Source="/Resources/rest.png" Width="32" Height="32"/>
+
+                                    <!--<ui:Icon Unicode="&#xF2FA;" FontSize="24" VerticalAlignment="Center" Foreground="#1CE072"/>-->
                                     <TextBlock Text="{DynamicResource Lang_Break}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#1CE072"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
@@ -448,7 +457,9 @@
                             <!--跳过-->
                             <StackPanel Grid.Row="4"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
-                                    <ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>
+                                    <Image Source="/Resources/break.png" Width="32" Height="32"/>
+
+                                    <!--<ui:Icon Unicode="&#xEE6E;" FontSize="24" VerticalAlignment="Center" Foreground="#F94520"/>-->
                                     <TextBlock Text="{DynamicResource Lang_Skip}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#F94520"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
@@ -460,7 +471,9 @@
                             <!--番茄-->
                             <StackPanel Grid.Row="6"  VerticalAlignment="Bottom" >
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/ProjectEye;component/Resources/tomato.ico" Width="22"/>
+                                    <Image Source="/Resources/tomato.png" Width="32" Height="32"/>
+
+                                    <!--<Image Source="/ProjectEye;component/Resources/tomato.ico" Width="22"/>-->
                                     <TextBlock Text="{DynamicResource Lang_Tomato}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#f03a17"/>
                                 </StackPanel>
                                 <Grid Margin="0,10,0,0">
@@ -503,7 +516,9 @@
                                             <!--tomato-->
                                             <StackPanel Grid.Row="0"  VerticalAlignment="Bottom" >
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Image Source="/ProjectEye;component/Resources/tomato.ico" Width="22"/>
+                                                    <Image Source="/Resources/tomato.png" Width="32" Height="32"/>
+
+                                                    <!--<Image Source="/ProjectEye;component/Resources/tomato.ico" Width="22"/>-->
                                                     <TextBlock Text="{DynamicResource Lang_Tomato}" FontSize="17" FontWeight="Bold" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#f03a17"/>
                                                 </StackPanel>
                                                 <Grid Margin="0,20,0,0">

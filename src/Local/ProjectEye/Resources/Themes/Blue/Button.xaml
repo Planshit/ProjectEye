@@ -122,7 +122,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Project1UIButton}">
-                    <Border
+                    <Border>
+                        <Border.Effect>
+                            <DropShadowEffect Color="#d8d2d2" BlurRadius="1" Direction="300" ShadowDepth="4" Opacity="0.2" RenderingBias="Performance" ></DropShadowEffect>
+                        </Border.Effect>
+                        <Border
                         x:Name="Border"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -130,63 +134,64 @@
                         CornerRadius="{TemplateBinding CornerRadius}"
                         Padding="{TemplateBinding Padding}"
                         >
-                        <Border.Effect>
-                            <DropShadowEffect x:Name="Shadow" BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
-                        </Border.Effect>
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="#2f2e41"/>
-                        </TextBlock.Foreground>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition GeneratedDuration="0:0:0.2" />
-                                    <VisualTransition GeneratedDuration="0"
+                            <Border.Effect>
+                                <DropShadowEffect x:Name="Shadow" BlurRadius="15" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
+                            </Border.Effect>
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="#2f2e41"/>
+                            </TextBlock.Foreground>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0:0:0.2" />
+                                        <VisualTransition GeneratedDuration="0"
                                   To="Pressed" />
-                                </VisualStateGroup.Transitions>
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                 Storyboard.TargetName="Border">
-                                            <EasingColorKeyFrame KeyTime="0"
+                                                <EasingColorKeyFrame KeyTime="0"
                                          Value="{DynamicResource BasicButtonHoverBackgroundColor}" />
-                                        </ColorAnimationUsingKeyFrames>
-                                        <!--<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Border">
+                                            </ColorAnimationUsingKeyFrames>
+                                            <!--<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Border">
                                             <EasingColorKeyFrame KeyTime="0"
                                          Value="#4F6BED" />
                                         </ColorAnimationUsingKeyFrames>-->
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
 
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
 
 
 
-                        <Grid
+                            <Grid
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                            
                                     >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
 
-                            </Grid.ColumnDefinitions>
+                                </Grid.ColumnDefinitions>
 
 
-                            <ContentPresenter 
+                                <ContentPresenter 
                                         
                                         x:Name="IconContent"
                                         Grid.Column="1"
                                
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                        </Grid>
+                            </Grid>
 
 
+                        </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -197,7 +202,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <DoubleAnimation Duration="0:0:0.15"
-                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To=".2" />
+                    Storyboard.TargetProperty="Opacity" Storyboard.TargetName="Shadow" To=".1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </MultiTrigger.EnterActions>
@@ -240,8 +245,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:Project1UIButton}">
-
-                    <Border
+                    <Border>
+                        <Border.Effect>
+                            <DropShadowEffect Color="#FF1B38BB" BlurRadius="1" Direction="300" ShadowDepth="4" Opacity="0.1" RenderingBias="Performance" ></DropShadowEffect>
+                        </Border.Effect>
+                        <Border
                         x:Name="Border"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
@@ -249,56 +257,57 @@
                         Padding="{TemplateBinding Padding}"
                         
                         >
-                        <Border.Background>
-                            <SolidColorBrush x:Name="ButtonBackground" Color="{DynamicResource ThemeColor}" Opacity="1"/>
-                        </Border.Background>
-                        <Border.Effect>
-                            <DropShadowEffect x:Name="Shadow" BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
-                        </Border.Effect>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualStateGroup.Transitions>
-                                    <VisualTransition GeneratedDuration="0:0:0.2" />
-                                    <VisualTransition GeneratedDuration="0"
+                            <Border.Background>
+                                <SolidColorBrush x:Name="ButtonBackground" Color="{DynamicResource ThemeColor}" Opacity="1"/>
+                            </Border.Background>
+                            <Border.Effect>
+                                <DropShadowEffect x:Name="Shadow" BlurRadius="10" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
+                            </Border.Effect>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0:0:0.2" />
+                                        <VisualTransition GeneratedDuration="0"
                                   To="Pressed" />
-                                </VisualStateGroup.Transitions>
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
                                                 Storyboard.TargetName="Border">
-                                            <EasingColorKeyFrame KeyTime="0"
+                                                <EasingColorKeyFrame KeyTime="0"
                                          Value="{DynamicResource HoverColor}" />
-                                        </ColorAnimationUsingKeyFrames>
+                                            </ColorAnimationUsingKeyFrames>
 
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
 
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
 
-                        <Grid
+                            <Grid
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
 
-                            </Grid.ColumnDefinitions>
+                                </Grid.ColumnDefinitions>
 
 
-                            <ContentPresenter 
+                                <ContentPresenter 
                                         
                                         x:Name="IconContent"
                                         Grid.Column="1"
                                
                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
-                        </Grid>
+                            </Grid>
 
+                        </Border>
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>

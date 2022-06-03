@@ -17,28 +17,32 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:ContentCard}">
                     <Grid>
-                       <Border
+                        <Border>
+                            <Border.Effect>
+                                <DropShadowEffect Color="#d8d2d2" BlurRadius="1" Direction="290" ShadowDepth="5" Opacity="0.05" RenderingBias="Performance" ></DropShadowEffect>
+                            </Border.Effect>
+                            <Border
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         Background="{TemplateBinding Background}"
                            Margin="15"
                            Padding="{TemplateBinding Padding}"
-                           CornerRadius="6"
+                           CornerRadius="20"
                            RenderTransformOrigin=".5,.5"
                            >
-                            <Border.RenderTransform>
-                                <ScaleTransform x:Name="Scale" ScaleX="0.99" ScaleY="0.99"/>
-                            </Border.RenderTransform>
-                            <Border.Effect>
-                                <DropShadowEffect x:Name="Shadow" BlurRadius="30" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
-                            </Border.Effect>
-                            <ContentPresenter 
+                                <Border.RenderTransform>
+                                    <ScaleTransform x:Name="Scale" ScaleX="0.99" ScaleY="0.99"/>
+                                </Border.RenderTransform>
+                                <Border.Effect>
+                                    <DropShadowEffect x:Name="Shadow" Color="#1e1e1e" BlurRadius="15" Direction="0" ShadowDepth="0" Opacity="0" RenderingBias="Performance" ></DropShadowEffect>
+                                </Border.Effect>
+                                <ContentPresenter 
                             RecognizesAccessKey="True" Margin="0" 
                                           SnapsToDevicePixels="True" 
                                           />
-                    </Border>
-                        
-                        
+                            </Border>
+                        </Border>
+
                     </Grid>
 
                     <ControlTemplate.Triggers>
