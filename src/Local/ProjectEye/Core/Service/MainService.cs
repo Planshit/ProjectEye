@@ -236,6 +236,12 @@ namespace ProjectEye.Core.Service
             WindowManager.Hide("TipWindow");
             //进入离开状态
             OnLeave();
+
+            //  统计休息时长
+            if (config.options.General.Data)
+            {
+                statistic.Add(StatisticType.ResetTime, config.options.General.RestTime);
+            }
         }
 
         private void back_timer_Tick(object sender, EventArgs e)
