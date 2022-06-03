@@ -522,6 +522,7 @@
             <TabItem Header="{DynamicResource Lang_Behaviors}">
                 <ScrollViewer>
                     <StackPanel Margin="10">
+                        <ui:Toggle Text="{DynamicResource Lang_HandleTimeoutAutoRest}" IsChecked="{Binding Model.Data.Behavior.IsHandleTimeoutRest}" Cursor="Hand" Margin="0,20,0,0" />
                         <ui:Toggle Text="{DynamicResource Lang_Breakscannotbeskipped}"  IsChecked="{Binding Model.Data.Behavior.IsDisabledSkip}" Cursor="Hand" Margin="0,10,0,0"/>
                         <ui:Toggle Text="{DynamicResource Lang_Donotdisturbwhenrunningfullscreenapplications}"  IsChecked="{Binding Model.Data.Behavior.IsFullScreenBreak}" Cursor="Hand" Margin="0,20,0,0"/>
                         <ui:Toggle Text="{DynamicResource Lang_Donotdisturbwhenfollowingprocessesarerunning}" IsChecked="{Binding Model.IsBreakProgressList,Mode=TwoWay}" Cursor="Hand" Margin="0,20,0,0" />

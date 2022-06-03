@@ -211,5 +211,6 @@
     <sys:String x:Key="Lang_ExportMonthData">Export month data</sys:String>
     <sys:String x:Key="Lang_Minimum">Minimum</sys:String>
     <sys:String x:Key="Lang_Learnmore">Learn more</sys:String>
+    <sys:String x:Key="Lang_HandleTimeoutAutoRest">Choose to rest while timeout</sys:String>
 
 </ResourceDictionary>

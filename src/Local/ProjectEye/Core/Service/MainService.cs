@@ -92,6 +92,10 @@ namespace ProjectEye.Core.Service
         /// 加载语言完成时发生
         /// </summary>
         public event MainEventHandler OnLoadedLanguage;
+        /// <summary>
+        /// 提示休息后超时未处理时发生
+        /// </summary>
+        public event MainEventHandler OnHandleTimeout;
         #endregion
         public MainService(App app,
             ScreenService screen,
@@ -232,16 +236,9 @@ namespace ProjectEye.Core.Service
             Debug.WriteLine("用户超过20秒未处理");
             //用户超过20秒未处理
             busy_timer.Stop();
-            //关闭窗口
-            WindowManager.Hide("TipWindow");
-            //进入离开状态
-            OnLeave();
 
-            //  统计休息时长
-            if (config.options.General.Data)
-            {
-                statistic.Add(StatisticType.ResetTime, config.options.General.RestTime);
-            }
+            OnHandleTimeout?.Invoke(this, 0);
+           
         }
 
         private void back_timer_Tick(object sender, EventArgs e)

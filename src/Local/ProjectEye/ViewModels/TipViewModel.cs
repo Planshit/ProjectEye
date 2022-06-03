@@ -74,8 +74,25 @@ namespace ProjectEye.ViewModels
             this.theme = theme;
             theme.OnChangedTheme += Theme_OnChangedTheme;
             ChangedEvent += TipViewModel_ChangedEvent;
+            main.OnHandleTimeout += Main_OnHandleTimeout;
             LoadConfig();
 
+        }
+
+        private void Main_OnHandleTimeout(object service, int msg)
+        {
+            if (config.options.Behavior.IsHandleTimeoutRest)
+            {
+                //  进入休息状态
+                resetCommand_action(null);
+            }
+            else
+            {
+                //关闭窗口
+                WindowManager.Hide("TipWindow");
+                //进入离开状态
+                main.OnLeave();
+            }
         }
 
         private void Theme_OnChangedTheme(string OldThemeName, string NewThemeName)

@@ -25,5 +25,10 @@ namespace ProjectEye.Core.Models.Options
         /// 是否禁用跳过休息（为true时将不允许跳过而是直接进入休息
         /// </summary>
         public bool IsDisabledSkip { get; set; } = false;
+        /// <summary>
+        /// 超时未选择时进入休息状态
+        /// </summary>
+        public bool IsHandleTimeoutRest { get; set; } = true;
+
     }
 }
