@@ -134,8 +134,8 @@ namespace ProjectEye.ViewModels
                 lastMonth -= 1;
             }
             var lastMonthData = statistic.GetData(lastYear, lastMonth);
-            Data.LastMonthWork = lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.WorkingTime) : 0;
-            Data.LastMonthRest = lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.ResetTime) : 0;
+            Data.LastMonthWork = NumberFromat(lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.WorkingTime) : 0);
+            Data.LastMonthRest = NumberFromat(lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.ResetTime) : 0);
             Data.LastMonthSkip = lastMonthData.Count > 0 ? lastMonthData.Sum(m => m.SkipCount) : 0;
 
             var lastTomatoData = tomato.GetData(lastYear, lastMonth);
@@ -143,8 +143,8 @@ namespace ProjectEye.ViewModels
 
             //计算本月的数据
             var monthData = statistic.GetData(Data.Year, Data.Month);
-            Data.MonthWork = monthData.Count > 0 ? monthData.Sum(m => m.WorkingTime) : 0;
-            Data.MonthRest = monthData.Count > 0 ? monthData.Sum(m => m.ResetTime) : 0;
+            Data.MonthWork = NumberFromat(monthData.Count > 0 ? monthData.Sum(m => m.WorkingTime) : 0);
+            Data.MonthRest = NumberFromat(monthData.Count > 0 ? monthData.Sum(m => m.ResetTime) : 0);
             Data.MonthSkip = monthData.Count > 0 ? monthData.Sum(m => m.SkipCount) : 0;
 
             foreach (var data in monthData)
@@ -155,7 +155,7 @@ namespace ProjectEye.ViewModels
                     IsSelected = isSelected,
                     PopupText = (isSelected ? $"{Application.Current.Resources["Lang_today"]} " : "") + "{value} " + Application.Current.Resources["Lang_Hours_n"],
                     Tag = data.Date.Day.ToString(),
-                    Value = data.WorkingTime
+                    Value = NumberFromat(data.WorkingTime)
                 });
 
                 MonthRestData.Add(new ChartDataModel()
@@ -163,7 +163,7 @@ namespace ProjectEye.ViewModels
                     IsSelected = isSelected,
                     PopupText = (isSelected ? $"{Application.Current.Resources["Lang_today"]} " : "") + "{value} " + Application.Current.Resources["Lang_Minutes_n"],
                     Tag = data.Date.Day.ToString(),
-                    Value = data.ResetTime
+                    Value = NumberFromat(data.ResetTime)
                 });
 
                 MonthSkipData.Add(new ChartDataModel()
@@ -225,8 +225,8 @@ namespace ProjectEye.ViewModels
                 lastWeekEndDate = lastWeekStartDate.Date.AddDays(6);
             }
             var lastWeekData = statistic.GetData(lastWeekStartDate, lastWeekEndDate);
-            Data.LastWeekWork = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.WorkingTime) : 0;
-            Data.LastWeekRest = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.ResetTime) : 0;
+            Data.LastWeekWork = NumberFromat(lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.WorkingTime) : 0);
+            Data.LastWeekRest = NumberFromat(lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.ResetTime) : 0);
             Data.LastWeekSkip = lastWeekData.Count > 0 ? lastWeekData.Sum(m => m.SkipCount) : 0;
 
             var lastTomatoData = tomato.GetData(lastWeekStartDate, lastWeekEndDate);
@@ -250,8 +250,8 @@ namespace ProjectEye.ViewModels
                 weekEndDate = weekStartDate.Date.AddDays(6);
             }
             var WeekData = statistic.GetData(weekStartDate, weekEndDate);
-            Data.WeekWork = WeekData.Count > 0 ? WeekData.Sum(m => m.WorkingTime) : 0;
-            Data.WeekRest = WeekData.Count > 0 ? WeekData.Sum(m => m.ResetTime) : 0;
+            Data.WeekWork = NumberFromat(WeekData.Count > 0 ? WeekData.Sum(m => m.WorkingTime) : 0);
+            Data.WeekRest = NumberFromat(WeekData.Count > 0 ? WeekData.Sum(m => m.ResetTime) : 0);
             Data.WeekSkip = WeekData.Count > 0 ? WeekData.Sum(m => m.SkipCount) : 0;
             Data.WeekTrueWorkDays = WeekData.Count > 0 ? WeekData.Where(m => m.WorkingTime > 0).Count() : 0;
 
@@ -274,7 +274,7 @@ namespace ProjectEye.ViewModels
                     IsSelected = isSelected,
                     PopupText = addStr + "{value} " + Application.Current.Resources["Lang_Hours_n"],
                     Tag = weekStr,
-                    Value = data.WorkingTime
+                    Value = NumberFromat(data.WorkingTime)
                 });
 
                 WeekRestData.Add(new ChartDataModel()
@@ -282,7 +282,7 @@ namespace ProjectEye.ViewModels
                     IsSelected = isSelected,
                     PopupText = addStr + "{value} " + Application.Current.Resources["Lang_Minutes_n"],
                     Tag = weekStr,
-                    Value = data.ResetTime
+                    Value = NumberFromat(data.ResetTime)
                 });
 
                 WeekSkipData.Add(new ChartDataModel()
@@ -467,6 +467,21 @@ namespace ProjectEye.ViewModels
                 LogHelper.Error(e.Message);
                 MessageBox.Show("导出数据失败，了解详情请查看错误日志");
             }
+        }
+
+        /// <summary>
+        /// 格式化数字
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+
+        private double NumberFromat(double value)
+        {
+            if ((int)value == value)
+            {
+                return value;
+            }
+            return double.Parse(value.ToString("f2"));
         }
     }
 }
