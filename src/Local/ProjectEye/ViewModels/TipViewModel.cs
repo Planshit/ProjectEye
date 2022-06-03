@@ -134,27 +134,34 @@ namespace ProjectEye.ViewModels
 
         private void UpdateVariable()
         {
-            COUNTDOWN = config.options.General.RestTime;
-            //提醒间隔变量
-            T = config.options.General.WarnTime.ToString();
-            //当前时间
-            TIME = DateTime.Now.ToString();
-            //年
-            Y = DateTime.Now.ToString("yyyy");
-            //月
-            M = DateTime.Now.ToString("MM");
-            //日
-            D = DateTime.Now.ToString("dd");
-            //时
-            H = DateTime.Now.ToString("HH");
-            //分
-            MINUTES = DateTime.Now.ToString("mm");
-            //今日用眼时长
-            TWT = statistic.GetTodayData().WorkingTime.ToString();
-            //今日休息时长
-            TRT = statistic.GetTodayData().ResetTime.ToString();
-            //今日跳过次数
-            TSC = statistic.GetTodayData().SkipCount.ToString();
+            try
+            {
+                COUNTDOWN = config.options.General.RestTime;
+                //提醒间隔变量
+                T = config.options.General.WarnTime.ToString();
+                //当前时间
+                TIME = DateTime.Now.ToString();
+                //年
+                Y = DateTime.Now.ToString("yyyy");
+                //月
+                M = DateTime.Now.ToString("MM");
+                //日
+                D = DateTime.Now.ToString("dd");
+                //时
+                H = DateTime.Now.ToString("HH");
+                //分
+                MINUTES = DateTime.Now.ToString("mm");
+                //今日用眼时长
+                TWT = statistic.GetTodayData().WorkingTime.ToString();
+                //今日休息时长
+                TRT = statistic.GetTodayData().ResetTime.ToString();
+                //今日跳过次数
+                TSC = statistic.GetTodayData().SkipCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error("UpdateVariable Fail,Exception message:" + ex.Message);
+            }
         }
         private void CreateUI()
         {
