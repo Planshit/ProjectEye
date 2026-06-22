@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
+
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+
+		<RootNamespace>Project1.UI</RootNamespace>
+		<AssemblyName>Project1.UI</AssemblyName>
+
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Runtime.Caching" Version="10.0.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Assets\IconFonts\SegMDL2.ttf" />
+		<Resource Include="Assets\IconFonts\FabExMDL2.3.36.ttf" />
+		<Resource Include="Assets\Themes\Pink\Resources\sakura.jpg" />
+		<Resource Include="Assets\Images\sunglasses.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+</Project>
